@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="24">
+        <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Archive" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Dictionary" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Document" Width="1.5" PointX="8.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.EmployeePermission" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Employee" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Experience" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.ExtensionExecution" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.History" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Holiday" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.LinkDocument" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.LinkUnit" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Log" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.PermissionKey" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.PermissionValue" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.PrismEnum" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.PrismReport" Width="1.5" PointX="16.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Report" Width="1.5" PointX="17.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Setting" Width="1.5" PointX="16.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Task" Width="1.5" PointX="12.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Template" Width="1.5" PointX="5.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.Unit" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.LinkDictionary" Width="1.5" PointX="16.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.AdministrativeDocument" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.ArchivView" Width="1.5" PointX="0.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.CitizenDocument" Width="1.5" PointX="2.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.CorrespondenceDocument" Width="1.5" PointX="21.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.IncomingDocument" Width="1.5" PointX="14.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.OutgoingDocument" Width="1.5" PointX="4.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.ProjectDocument" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
+        <AssociationConnector Association="ncelsModel.FK_AccessDocumentsObjectId_DocumentsId" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_AccessTasksObjectId_TasksId" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Activities_DocumentId_Documents" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Tasks_Activities" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Dictionaries_ParenId_Dictionaries" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Documents_Template" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Reports_DocumentId_Documents" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Tasks_Documents" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_Employees_Units" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_EmployeesPositionId_UnitsId" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_UnitsEmployeeId_EmployeesId" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_ReportsTaskId_TasksId" ManuallyRouted="false" />
+        <AssociationConnector Association="ncelsModel.FK_UnitsParentId_UnitsId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ncelsModel.Registery" Width="1.5" PointX="24.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.Change" Width="1.5" PointX="24.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.Composition" Width="1.5" PointX="24.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ncelsModel.Contract" Width="1.5" PointX="10.375" PointY="24.75" />
+        <EntityTypeShape EntityType="ncelsModel.Organization" Width="2.75" PointX="24" PointY="13.75" />
+        <EntityTypeShape EntityType="ncelsModel.Package" Width="1.5" PointX="19.375" PointY="24.75" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProject" Width="1.5" PointX="26.125" PointY="21.75" />
+        <EntityTypeShape EntityType="ncelsModel.RegisterProject" Width="1.5" PointX="26.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.OrganizationsView" Width="1.5" PointX="26.375" PointY="27.75" />
+        <EntityTypeShape EntityType="ncelsModel.RegisterProjectsView" Width="1.5" PointX="28.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectsView" Width="1.5" PointX="28.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ncelsModel.PricesView" Width="1.5" PointX="28.375" PointY="27.75" />
+        <EntityTypeShape EntityType="ncelsModel.ProjectsView" Width="1.5" PointX="23.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ncelsModel.PackagesView" Width="1.5" PointX="30.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.CompositionsView" Width="1.5" PointX="30.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.RegisterProjectJournal" Width="1.5" PointX="30.375" PointY="23.75" />
+        <EntityTypeShape EntityType="ncelsModel.ContractsView" Width="1.5" PointX="19.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ncelsModel.Ref_PurchasePrices" Width="1.5" PointX="32.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOff" Width="1.5" PointX="32.375" PointY="25.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOut" Width="1.5" PointX="32.375" PointY="32.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOutCount" Width="1.5" PointX="23.375" PointY="33.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOffView" Width="1.5" PointX="34.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcView" Width="1.5" PointX="34.375" PointY="19.75" />
+        <EntityTypeShape EntityType="ncelsModel.Installation" Width="1.5" PointX="10.375" PointY="35.75" />
+        <EntityTypeShape EntityType="ncelsModel.OrphanDrugsIcdDeseasesView" Width="1.5" PointX="34.375" PointY="9.75" />
+        <EntityTypeShape EntityType="ncelsModel.Ref_Limits" Width="1.5" PointX="36.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.PrtPrj" Width="1.5" PointX="36.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ncelsModel.PrtPrjsView" Width="1.5" PointX="36.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ncelsModel.PrtPrjsView2" Width="1.5" PointX="36.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcApplicationComment" Width="1.5" PointX="36.375" PointY="22.75" />
+        <EntityTypeShape EntityType="ncelsModel.PriceListExpertise" Width="1.5" PointX="36.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOutView" Width="1.5" PointX="36.375" PointY="26.75" />
+        <EntityTypeShape EntityType="ncelsModel.Ref_Knfs" Width="1.5" PointX="36.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ncelsModel.obk_currencies" Width="1.5" PointX="23.375" PointY="37.875" />
+        <EntityTypeShape EntityType="ncelsModel.obk_exchangerate" Width="1.5" PointX="25.625" PointY="38" />
+        <AssociationConnector Association="ncelsModel.FK_obk_exchangerate_obk_currencies" />
+        <EntityTypeShape EntityType="ncelsModel.Notification" Width="1.5" PointX="36.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ncelsModel.obk_product_cost" Width="1.5" PointX="38.625" PointY="38.75" />
+        <EntityTypeShape EntityType="ncelsModel.obk_products" Width="1.5" PointX="36.375" PointY="37.125" />
+        <AssociationConnector Association="ncelsModel.FK_product_cost_products" />
+        <EntityTypeShape EntityType="ncelsModel.Ref_MarketPrices" Width="1.5" PointX="38.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcIn" Width="1.5" PointX="38.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ncelsModel.Tmc" Width="1.5" PointX="38.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ncelsModel.ReesrtObk" Width="1.5" PointX="19.375" PointY="38.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcInView" Width="1.5" PointX="38.375" PointY="22.75" />
+        <EntityTypeShape EntityType="ncelsModel.RequestList" Width="1.5" PointX="7.375" PointY="37.75" />
+        <EntityTypeShape EntityType="ncelsModel.RegisterOrdererView" Width="1.5" PointX="32.375" PointY="37.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_mt_parts" Width="1.5" PointX="38.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.RequestListView" Width="1.5" PointX="38.375" PointY="29.75" />
+        <EntityTypeShape EntityType="ncelsModel.SignDocument" Width="1.5" PointX="40.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcReport" Width="1.5" PointX="40.375" PointY="1" />
+        <EntityTypeShape EntityType="ncelsModel.TmcReportTask" Width="1.5" PointX="42.625" PointY="1" />
+        <AssociationConnector Association="ncelsModel.FK_TmcReportTasks_TmcReports" />
+        <EntityTypeShape EntityType="ncelsModel.TmcReportsView" Width="3.75" PointX="40.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcReportData" Width="1.5" PointX="40.375" PointY="11.75" />
+        <AssociationConnector Association="ncelsModel.FK__Contracts_Employees" />
+        <AssociationConnector Association="ncelsModel.FK__Contracts_ContractAdditionTypeId_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK__Contracts_Contracts" />
+        <AssociationConnector Association="ncelsModel.FK__Contracts_DoverennostTypeDicId_Dictionaries" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOutCountView" Width="1.5" PointX="40.375" PointY="19.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_AccelerationType" Width="1.5" PointX="41.375" PointY="42.5" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_DrugType" Width="1.5" PointX="43.625" PointY="55.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_ManufactureType" Width="1.5" PointX="41.375" PointY="54.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_Origin" Width="1.5" PointX="43.625" PointY="59" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PeriodMeasure" Width="1.5" PointX="41.375" PointY="65.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PlantKind" Width="1.5" PointX="43.625" PointY="63" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_SaleType" Width="1.5" PointX="41.375" PointY="39.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_Status" Width="1.5" PointX="41.375" PointY="61.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_Type" Width="1.5" PointX="41.375" PointY="35.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_WrappingType" Width="1.5" PointX="46.625" PointY="34.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclaration" Width="1.5" PointX="43.625" PointY="41" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationCom" Width="1.5" PointX="45.875" PointY="75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationComRecord" Width="1.5" PointX="48.125" PointY="38.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationFieldHistory" Width="1.5" PointX="45.875" PointY="26.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationHistory" Width="1.5" PointX="48.875" PointY="26.625" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugExportTrade" Width="1.5" PointX="48.875" PointY="46.5" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugPatent" Width="1.5" PointX="45.875" PointY="72" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugSubstance" Width="1.5" PointX="45.875" PointY="50.125" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugType" Width="1.5" PointX="45.875" PointY="46.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugUseMethod" Width="1.5" PointX="45.875" PointY="43.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugWrapping" Width="1.5" PointX="48.875" PointY="41.875" />
+        <EntityTypeShape EntityType="ncelsModel.sr_atc_codes" Width="1.5" PointX="41.375" PointY="50.875" />
+        <EntityTypeShape EntityType="ncelsModel.sr_boxes" Width="1.5" PointX="46.625" PointY="56.125" />
+        <EntityTypeShape EntityType="ncelsModel.sr_categories" Width="1.5" PointX="41.375" PointY="69.875" />
+        <EntityTypeShape EntityType="ncelsModel.sr_countries" Width="1.5" PointX="46.625" PointY="59.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_dosage_forms" Width="1.5" PointX="25.375" PointY="40.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_drug_forms" Width="1.5" PointX="41.375" PointY="57.625" />
+        <EntityTypeShape EntityType="ncelsModel.sr_international_names" Width="1.5" PointX="41.375" PointY="32.625" />
+        <EntityTypeShape EntityType="ncelsModel.sr_measures" Width="1.5" PointX="41.375" PointY="46" />
+        <EntityTypeShape EntityType="ncelsModel.sr_substances" Width="1.5" PointX="43.625" PointY="69.375" />
+        <EntityTypeShape EntityType="ncelsModel.sr_use_methods" Width="1.5" PointX="43.625" PointY="37.75" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationComRecord_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationFieldHistory_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationHistory_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugType_EXP_DIC_DrugType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DIC_ManufactureType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_EXP_DIC_Origin" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DIC_PeriodMeasure" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_EXP_DIC_PlantKind" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DrugDeclaration1" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DIC_Status" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationHistory_Status" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DIC_Type" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugWrapping_EXP_DIC_WrappingType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DrugDeclaration2" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_EXP_DrugDeclaration3" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_sr_atc_codes" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_sr_drug_forms" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_sr_international_names" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_sr_measures" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_sr_measures1" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationCom_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationFieldHistory_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationHistory_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugExportTrade_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPatent_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugType_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugUseMethod_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclarationComRecord_EXP_DrugDeclarationCom" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugExportTrade_sr_countries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_sr_countries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_sr_measures" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_sr_substances" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugUseMethod_sr_use_methods" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugWrapping_sr_boxes" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugWrapping_sr_measures" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugWrapping_sr_measures1" />
+        <AssociationConnector Association="ncelsModel.FK_atc_codes_atc_codes" />
+        <AssociationConnector Association="ncelsModel.FK_boxes_boxes" />
+        <AssociationConnector Association="ncelsModel.FK_substances_categories" />
+        <AssociationConnector Association="ncelsModel.FK_dosage_forms_dosage_forms1" />
+        <EntityTypeShape EntityType="ncelsModel.sr_substance_types" Width="1.5" PointX="32.375" PointY="29.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_sr_substance_types" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationView" Width="1.5" PointX="27.375" PointY="40.75" />
+        <EntityTypeShape EntityType="ncelsModel.FileLink" Width="1.5" PointX="13" PointY="45.5" />
+        <AssociationConnector Association="ncelsModel.FK_FileLinksCategoryId_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_FileLinksParentId_FileLinks" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_DrugTypeKind" Width="1.5" PointX="43.625" PointY="33.625" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugOtherCountry" Width="1.5" PointX="48.875" PointY="51.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugProtectionDoc" Width="1.5" PointX="45.875" PointY="39.75" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugType_EXP_DIC_DrugTypeKind" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugOtherCountry_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugProtectionDoc_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugOtherCountry_sr_countries" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugOrganizations" Width="1.5" PointX="45.875" PointY="16.75" />
+        <AssociationConnector Association="ncelsModel.FK_Organizations_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugPrice" Width="1.5" PointX="45.875" PointY="30.625" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DirectionToPays" Width="1.75" PointX="19.375" PointY="44.75" />
+        <AssociationConnector Association="ncelsModel.EXP_DirectionToPays_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationDirectionToPayView" Width="1.5" PointX="42.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_PriceListDirectionToPayView" Width="1.5" PointX="42.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ncelsModel.ContractProcSetting" Width="1.5" PointX="40.375" PointY="29.75" />
+        <AssociationConnector Association="ncelsModel.FK_ContractProcSettings_ProcCenterHeadId_Employees_Id" />
+        <EntityTypeShape EntityType="ncelsModel.ContractAdditionJournal" Width="1.5" PointX="42.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ncelsModel.ContractJournal" Width="1.5" PointX="42.375" PointY="20.75" />
+        <AssociationConnector Association="ncelsModel.FK_ContractsHolderTypeId_DictionariesId" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_Tasks" Width="1.5" PointX="6.875" PointY="2.375" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Tasks_ExpTaskType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Tasks_StatusesDictionary" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Tasks_AuthorEmployee" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Tasks_ExecutorEmployee" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Tasks_EXP_Tasks" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_Activities" Width="1.875" PointX="5.75" PointY="9.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Activities_ExpActivityStatus" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Activities_ExpActivityType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Activities_ExpAgreedDocType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Activities_AuthorEmployee" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Tasks_EXP_Activities" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_AgreementProcSettings" Width="1.5" PointX="13" PointY="49.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_AgreementProcSettingsActivities" Width="1.5" PointX="30.25" PointY="43.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_AgreementProcSettingsTasks" Width="1.5" PointX="45.5" PointY="12.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettings_AgreedDocTypeId_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettingsActivities_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettingsTasks_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettingsTasks_ExecutorId_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettingsActivities_EXP_AgreementProcSettings" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettingsTasks_EXP_AgreementProcSettingsActivities" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_AgreementProcSettingsTasks_ParentTaskId_EXP_AgreementProcSettingsTasks" />
+        <EntityTypeShape EntityType="ncelsModel.ContractComment" Width="1.5" PointX="12.625" PointY="0.75" />
+        <AssociationConnector Association="ncelsModel.FK_ContractComments_AuthorId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_ContractComments_ContractId_Contracts_Id" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDosage" Width="1.5" PointX="51.875" PointY="47.375" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDosage_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrice_DrugDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugWrapping_DrugDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DirectionToPays_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DirectionToPays_Organizations" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DirectionToPays_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_EXPDrugDosage_measures" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DirectionToPaysView" Width="1.5" PointX="38.375" PointY="41.75" />
+        <EntityTypeShape EntityType="ncelsModel.FileLinkView" Width="1.5" PointX="32.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PrimaryMark" Width="1.5" PointX="49.625" PointY="34.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_RemarkType" Width="1.5" PointX="51.875" PointY="53" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugAppDosageRemark" Width="1.5" PointX="54.125" PointY="47.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugAppDosageResult" Width="1.5" PointX="57.125" PointY="47.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugPrimaryKind" Width="1.5" PointX="51.875" PointY="44.125" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_PrimaryKind_EXP_DIC_PrimaryMark" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugAppDosageRemark_RemarkType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugAppDosageResult_RemarkType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugAppDosageRemark_DrugDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugAppDosageResult_DrugDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_PrimaryKind_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register" Width="1.5" PointX="43.625" PointY="73.625" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_drugs" Width="1.5" PointX="49.625" PointY="55.375" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_register" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_atc_codes" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_categories" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_dosage_forms" />
+        <AssociationConnector Association="ncelsModel.FK_drug_forms_register" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_international_names" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_measures" />
+        <AssociationConnector Association="ncelsModel.FK_register_measures" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_ChangeType" Width="1.5" PointX="49.625" PointY="31.125" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugChangeType" Width="1.5" PointX="51.875" PointY="40.25" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugChangeType_EXP_DIC_ChangeType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugChangeType_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDeclaration_sr_dosage_forms" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_exp_Contracts" Width="1.5" PointX="11.375" PointY="41.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_DrugDosage" />
+        <EntityTypeShape EntityType="ncelsModel.RegisterOrderer2Views" Width="1.5" PointX="32.375" PointY="43.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_PriceListDrugTypeMapping" Width="1.5" PointX="42.375" PointY="29.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DirectionToPays_PriceList" Width="1.5" PointX="21.875" PointY="46.625" />
+        <EntityTypeShape EntityType="ncelsModel.sr_producers" Width="1.5" PointX="36.125" PointY="43.125" />
+        <AssociationConnector Association="ncelsModel.FK_r_mt_parts_r_producers" />
+        <EntityTypeShape EntityType="ncelsModel.SrProducerView" Width="1.5" PointX="32.375" PointY="43.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_PriceList" Width="1.5" PointX="21.875" PointY="51.375" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DirectionToPays_PriceList_EXP_DirectionToPays" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DirectionToPays_PriceList_EXP_PriceList" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_FileLinks_Employees" />
+        <EntityTypeShape EntityType="ncelsModel.FileLinksCategoryCom" Width="1.5" PointX="7.375" PointY="45.625" />
+        <EntityTypeShape EntityType="ncelsModel.FileLinksCategoryComRecord" Width="1.5" PointX="9.625" PointY="45.625" />
+        <AssociationConnector Association="ncelsModel.FK_FileLinksCategoryComRecord_FileLinksCategoryCom" />
+        <AssociationConnector Association="ncelsModel.FK_FileLinksCategoryComRecord_Employees" />
+        <EntityTypeShape EntityType="ncelsModel.ContractSignedData" Width="1.5" PointX="12.625" PointY="52" />
+        <AssociationConnector Association="ncelsModel.FK_ContractSignedDatas_Contracts" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDosage_EXP_SaleType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDosage_AppPeriodMixMeasure" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDosage_AppPeriodOpenMeasure" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDosage_BestBeforeMeasure" />
+        <AssociationConnector Association="ncelsModel.FK_Organizations_OriginalOrgId_Organizations" />
+        <EntityTypeShape EntityType="ncelsModel.DIC_Storages" Width="1.5" PointX="49.625" PointY="22" />
+        <AssociationConnector Association="ncelsModel.FK_DIC_Storages_Parent_Storage" />
+        <AssociationConnector Association="ncelsModel.FK_DIC_Storages_Units" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryNTD_EXP_DIC_TypeFileND" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryNTD_EXP_DIC_TypeND" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryNTD_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EmployeePermissionRole" Width="1.5" PointX="21.75" PointY="42.375" />
+        <EntityTypeShape EntityType="ncelsModel.PermissionRole" Width="1.5" PointX="0.75" PointY="45.375" />
+        <EntityTypeShape EntityType="ncelsModel.PermissionRoleKey" Width="1.5" PointX="45.75" PointY="1.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_NormDocFarm" Width="1.5" PointX="45.375" PointY="5" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstance_NormDocFarm" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_boxes" Width="1.5" PointX="48.875" PointY="66.5" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_substances" Width="1.5" PointX="51.875" PointY="57.375" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_use_methods" Width="1.5" PointX="54.875" PointY="51.75" />
+        <AssociationConnector Association="ncelsModel.FK_register_boxes_boxes" />
+        <AssociationConnector Association="ncelsModel.FK_drug_forms_register_boxes" />
+        <AssociationConnector Association="ncelsModel.FK_drug_forms_register_boxes1" />
+        <AssociationConnector Association="ncelsModel.FK_register_boxes_register" />
+        <AssociationConnector Association="ncelsModel.FK_register_substances_register" />
+        <AssociationConnector Association="ncelsModel.FK_register_use_methods_register_drugs" />
+        <AssociationConnector Association="ncelsModel.FK_r_register_substances_substance_types" />
+        <AssociationConnector Association="ncelsModel.FK_register_substances_substances" />
+        <AssociationConnector Association="ncelsModel.FK_r_register_use_methods_use_methods" />
+        <EntityTypeShape EntityType="ncelsModel.GridSetting" Width="1.5" PointX="45.375" PointY="9.125" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationRegisterView" Width="1.5" PointX="15.375" PointY="46.25" />
+        <AssociationConnector Association="ncelsModel.FK_GridSettings_Employees" />
+        <EntityTypeShape EntityType="ncelsModel.PriceRejectProject" Width="1.5" PointX="24.375" PointY="46.375" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectCom" Width="1.5" PointX="26.625" PointY="47" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectComRecord" Width="1.5" PointX="28.875" PointY="47" />
+        <AssociationConnector Association="ncelsModel.FK_PriceProjectCom_PriceProjects" />
+        <AssociationConnector Association="ncelsModel.FK_PriceProjectComRecord_PriceProjectCom" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectFieldHistory" Width="1.5" PointX="26.625" PointY="0.75" />
+        <AssociationConnector Association="ncelsModel.FK_PriceProjectComRecord_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_PriceProjectFieldHistory_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_PriceProjectFieldHistory_PriceProjects" />
+        <EntityTypeShape EntityType="ncelsModel.VisitEmployeeType" Width="1.5" PointX="49.625" PointY="8.375" />
+        <EntityTypeShape EntityType="ncelsModel.VisitEmployeeWorkingTime" Width="1.5" PointX="23.375" PointY="25.875" />
+        <EntityTypeShape EntityType="ncelsModel.Visit" Width="1.5" PointX="49.625" PointY="12" />
+        <EntityTypeShape EntityType="ncelsModel.VisitStatus" Width="1.5" PointX="47.375" PointY="80" />
+        <EntityTypeShape EntityType="ncelsModel.VisitType" Width="1.5" PointX="47.375" PointY="8.25" />
+        <AssociationConnector Association="ncelsModel.VisitEmployeeWorkingTimes_EmployeeId_fk" />
+        <AssociationConnector Association="ncelsModel.Visits_EmployeeId_fk" />
+        <AssociationConnector Association="ncelsModel.Visits_VisitorId_fk" />
+        <AssociationConnector Association="ncelsModel.VisitEmployeeTypes_VisitTypeId_fk" />
+        <AssociationConnector Association="ncelsModel.Visits_StatusId_fk" />
+        <AssociationConnector Association="ncelsModel.Visits_TypeId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.VisitsView" Width="1.5" PointX="0.75" PointY="47.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PrimaryOTD" Width="1.5" PointX="34.375" PointY="48.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugPrimaryRemark" Width="1.5" PointX="54.375" PointY="31.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryRemark_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DIC_PrimaryOTD_EXP_DIC_PrimaryOTD" />
+        <AssociationConnector Association="ncelsModel.FK_DrugEXP_PrimaryRemark_RemarkType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryRemark_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_TaskRegistryView" Width="1.5" PointX="48.375" PointY="1.5" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryFinalDocument_StatusId_Dictionaries" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_RegistrationExpSteps" Width="1.5" PointX="7.625" PointY="48.875" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_RegistrationTypes" Width="1.5" PointX="5.375" PointY="48.875" />
+        <AssociationConnector Association="ncelsModel.EXP_RegistrationExpSteps_fk2" />
+        <AssociationConnector Association="ncelsModel.EXP_RegistrationTypes_fk" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugPrimaryFinalDocument" Width="1.5" PointX="54.125" PointY="54.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryFinalDocument_DrugDosage" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionKind" Width="1.5" PointX="48.375" PointY="72.875" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionUnit" Width="1.5" PointX="52.875" PointY="11" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionUnitType" Width="1.5" PointX="50.625" PointY="6.25" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionsView" Width="1.5" PointX="5.375" PointY="50" />
+        <AssociationConnector Association="ncelsModel.CommissionUnits_EmployeeId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionUnits_UnitTypeId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_CorespondenceKind" Width="1.5" PointX="49.625" PointY="79.5" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_CorespondenceType" Width="1.5" PointX="49.625" PointY="76.125" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PrimaryFinalyDocResult" Width="1.5" PointX="51.875" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_Stage" Width="1.5" PointX="49.625" PointY="82.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugCorespondence" Width="1.5" PointX="51.875" PointY="23" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_StatusId_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_Matching" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_Signatory" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_Kind" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_Type" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugPrimaryFinalDocument_ResultId" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_Stage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugCorespondenceRemark" Width="1.5" PointX="54.125" PointY="27.75" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondenceRemark_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_DrugEXP_CorespondenceRemark_RemarkType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondenceRemark_Corespondence" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionQuestion" Width="1.5" PointX="52.875" PointY="14.875" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionQuestionType" Width="1.5" PointX="31.375" PointY="51" />
+        <AssociationConnector Association="ncelsModel.CommissionQuestions_TypeId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_StageResult" Width="1.5" PointX="52.625" PointY="69.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_StageStatus" Width="1.5" PointX="52.625" PointY="66.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertisePrimaryFinalDoc" Width="1.5" PointX="59.375" PointY="18.5" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStage" Width="1.5" PointX="54.875" PointY="43.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStageDosage" Width="1.5" PointX="57.125" PointY="21.5" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageDosage_FinalDocStatusId_Dictionaries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStage_StageId_EXP_DIC_Stage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStage_ResultId_EXP_DIC_StageResult" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageDosage_ResultId_EXP_DIC_StageResult" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStage_StatusId_EXP_DIC_StageStatus" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStage_DeclarationId_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageDosage_DosageId_EXP_DrugDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertisePrimaryFinalDoc_DosageStageId_EXP_ExpertiseStageDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStage_ParentId_EXP_ExpertiseStage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageDosage_StageId_EXP_ExpertiseStage" />
+        <AssociationConnector Association="ncelsModel.EXP_ExpertiseStageExecutors" />
+        <EntityTypeShape EntityType="ncelsModel.SrReestrView" Width="1.5" PointX="24.375" PointY="51.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_MaterialDirections" Width="4.125" PointX="64.375" PointY="35.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_MaterialDirections_Statuses" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_MaterialDirections_ExecutorEmp" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_MaterialDirections_SendEmp" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_MaterialDirections_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_MaterialDirectionsView" Width="1.5" PointX="26.375" PointY="50.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertisePharmaceuticalFinalDoc" Width="1.5" PointX="59.625" PointY="11" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertisePharmacologicalFinalDoc" Width="1.5" PointX="59.625" PointY="36.75" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertisePharmaceuticalFinalDoc_DosageStageId_EXP_ExpertiseStageDosage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertisePharmacologicalFinalDoc_DosageStageId_EXP_ExpertiseStageDosage" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStageRemark" Width="1.5" PointX="65.125" PointY="29.875" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageRemark_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_ExpertiseStageRemark_RemarkType" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageRemark_ExpertiseStage" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseSafetyreportFinalDoc" Width="1.5" PointX="59.375" PointY="7.5" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseSafetyreportFinalDoc_EXP_ExpertiseStageDosage" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionConclusionType" Width="1.5" PointX="50.625" PointY="4.125" />
+        <EntityTypeShape EntityType="ncelsModel.Commission" Width="1.5" PointX="50.625" PointY="17.125" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionType" Width="1.5" PointX="48.375" PointY="18.125" />
+        <AssociationConnector Association="ncelsModel.Commissions_KindId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionQuestions_CommissionId_fk" />
+        <AssociationConnector Association="ncelsModel.Commissions_TypeId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionUnits_CommissionId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProject_Ext" Width="1.5" PointX="28.375" PointY="50.875" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectArchiveView" Width="1.5" PointX="38.375" PointY="50.75" />
+        <AssociationConnector Association="ncelsModel.FileLinks_EXP_DIC_Sage_fk" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_AnalyseIndicator" Width="1.5" PointX="62.125" PointY="17.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugAnaliseIndicator" Width="1.5" PointX="64.375" PointY="19.75" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugAnaliseIndicator_EXP_DIC_AnalyseIndicator" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugAnaliseIndicator_EXP_ExpertiseStageDosage" />
+        <AssociationConnector Association="ncelsModel.EXP_DIC_ResultByStage" />
+        <EntityTypeShape EntityType="ncelsModel.PP_ProtocolComissionMembers" Width="1.5" PointX="55.625" PointY="10.625" />
+        <EntityTypeShape EntityType="ncelsModel.PP_ProtocolProductPrices" Width="1.5" PointX="55.625" PointY="3.375" />
+        <EntityTypeShape EntityType="ncelsModel.PP_Protocols" Width="1.5" PointX="53.375" PointY="2.875" />
+        <AssociationConnector Association="ncelsModel.FK_PP_ProtocolComissionMembers_Employee" />
+        <AssociationConnector Association="ncelsModel.FK_PP_ProtocolComissionMembers_Protocol" />
+        <AssociationConnector Association="ncelsModel.FK_PP_ProtocolProductPrices_Protocol" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStageDosageCommissionView" Width="1.5" PointX="9.375" PointY="53.375" />
+        <EntityTypeShape EntityType="ncelsModel.ActionLog" Width="1.5" PointX="3.375" PointY="45.75" />
+        <EntityTypeShape EntityType="ncelsModel.ActionLogsView" Width="1.5" PointX="33.375" PointY="52.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_producer_types" Width="1.5" PointX="52.625" PointY="73.875" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_producers" Width="1.5" PointX="54.875" PointY="62.25" />
+        <AssociationConnector Association="ncelsModel.FK_register_producers_countries" />
+        <AssociationConnector Association="ncelsModel.FK_register_producers_producer_types" />
+        <AssociationConnector Association="ncelsModel.FK_register_producers_producers" />
+        <AssociationConnector Association="ncelsModel.FK_register_producers_register" />
+        <EntityTypeShape EntityType="ncelsModel.DIC_FileLinkStatus" Width="1.5" PointX="0.75" PointY="54.75" />
+        <AssociationConnector Association="ncelsModel.FK_FileLinks_DIC_FileLinkStatus" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_CertificateOfCompletion" Width="3.625" PointX="64.875" PointY="41.375" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_CertificateOfCompletion_Statuses" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_CorespondenceSubject" Width="1.5" PointX="53.375" PointY="19" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugCorespondence_SubjectId_EXP_DIC_CorespondenceSubject" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_CertificateOfCompletion_CreatorEmployee" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_CertificateOfCompletion_EXP_DIC_Stage" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_CertificateOfCompletion_EXP_DrugDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_CertificateOfCompletionView" Width="2.25" PointX="32.125" PointY="58.375" />
+        <EntityTypeShape EntityType="ncelsModel.PP_ProtocolListView" Width="1.5" PointX="30.375" PointY="54.375" />
+        <EntityTypeShape EntityType="ncelsModel.UniqueIdentificator" Width="1.5" PointX="19.375" PointY="29" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugSubstanceManufacture" Width="1.5" PointX="56.875" PointY="56.5" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstanceManufacture_DrugSubstance" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugSubstanceManufacture_sr_countries" />
+        <EntityTypeShape EntityType="ncelsModel.Price" Width="1.5" PointX="35.375" PointY="53.625" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStageDosageResult" Width="1.5" PointX="59.375" PointY="45.25" />
+        <AssociationConnector Association="ncelsModel.EXP_ExpertiseStageDosageResult_CommissionId_fk" />
+        <AssociationConnector Association="ncelsModel.EXP_ExpertiseStageDosageResult_ResultId_fk" />
+        <AssociationConnector Association="ncelsModel.EXP_ExpertiseStageDosageResult_StageDosageId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageNeedCommission" Width="1.5" PointX="57.125" PointY="44.75" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDosageNeedCommission_DrugDosageId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDosageNeedCommission_StageId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.Exp_DrugDosageStageForAddView" Width="1.5" PointX="17.375" PointY="52.875" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosage" Width="1.5" PointX="64.625" PointY="25.625" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDeclarations_ConclusionTypeId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDeclarations_CommissionId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDosage_DrugDosageId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDosage_ExpertResultId_fk" />
+        <AssociationConnector Association="ncelsModel.CommissionDrugDosage_StageId_fk" />
+        <EntityTypeShape EntityType="ncelsModel.PP_ProcessingJournal" Width="1.5" PointX="5.9658798901205321" PointY="19.803905630392912" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_Materials" Width="4.375" PointX="69.625" PointY="15.375" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_DIC_Storages" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_ConcentrationUnit" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_ConcordanceStatement" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_Countries" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_DosageUnit" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_ExternalState" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_Statuses" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_StorageConditions" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_Types" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_Units" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_VolumeUnit" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_EXP_DrugDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_Organizations" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_Materials_sr_dosage_forms" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_DrugDosage_register" />
+        <EntityTypeShape EntityType="ncelsModel.RemarkType" Width="1.5" PointX="6.375" PointY="0.75" />
+        <AssociationConnector Association="ncelsModel.fk" />
+        <EntityTypeShape EntityType="ncelsModel.Exp_DrugDosageStageView" Width="1.5" PointX="3.375" PointY="54.75" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectsHistory" Width="1.5" PointX="28.375" PointY="0.75" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_PriceProjectsHistory_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_EXP_PriceProjectsHistory_EXP_PriceProjects" />
+        <EntityTypeShape EntityType="ncelsModel.PriceProjectJournal" Width="1.5" PointX="5.375" PointY="54.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_lims_ContractProducts" Width="1.5" PointX="30.875" PointY="18.625" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_lims_Contracts" Width="1.5" PointX="50.875" PointY="1.625" />
+        <EntityTypeShape EntityType="ncelsModel.RequestOrder" Width="1.5" PointX="5.375" PointY="67.875" />
+        <AssociationConnector Association="ncelsModel.FK_RequestList_RequestOrder" />
+        <EntityTypeShape EntityType="ncelsModel.RequestOrderListView" Width="1.5" PointX="11.625" PointY="54.75" />
+        <EntityTypeShape EntityType="ncelsModel.AvgExchangeRatesView" Width="1.5" PointX="53.875" PointY="7.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
