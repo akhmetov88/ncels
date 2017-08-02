@@ -14,6 +14,12 @@ namespace PW.Ncels.Database.DataModel
     
     public partial class obk_products
     {
+        public obk_products()
+        {
+            this.obk_appendix_series = new HashSet<obk_appendix_series>();
+            this.obk_certifications = new HashSet<obk_certifications>();
+        }
+    
         public long id { get; set; }
         public Nullable<long> application_id { get; set; }
         public string name { get; set; }
@@ -37,5 +43,7 @@ namespace PW.Ncels.Database.DataModel
         public Nullable<int> types_no_reg { get; set; }
     
         public virtual obk_product_cost obk_product_cost { get; set; }
+        public virtual ICollection<obk_appendix_series> obk_appendix_series { get; set; }
+        public virtual ICollection<obk_certifications> obk_certifications { get; set; }
     }
 }

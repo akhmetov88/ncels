@@ -33,5 +33,6 @@ namespace PW.Ncels.Database.DataModel
     
         public virtual ICollection<sr_register_mt_parts> sr_register_mt_parts { get; set; }
         public virtual ICollection<sr_register_producers> sr_register_producers { get; set; }
+        public virtual sr_form_types sr_form_types { get; set; }
     }
 }

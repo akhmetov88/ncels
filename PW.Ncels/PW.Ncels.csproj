@@ -70,9 +70,12 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+<<<<<<< HEAD
     <Reference Include="ManagedOpenSsl">
       <HintPath>..\lib\DigitalSign\ManagedOpenSsl.dll</HintPath>
     </Reference>
+=======
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -251,7 +254,10 @@
     <Compile Include="Controllers\ConclusionController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\SafetyAssessmentController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\TestDigitalSignController.cs" />
+=======
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Compile Include="Controllers\VisitController.cs" />
     <Compile Include="Controllers\DictionariesController.cs" />
     <Compile Include="Controllers\DrugDeclarationController.cs" />
@@ -274,7 +280,10 @@
     </Compile>
     <Compile Include="Helpers\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Helpers\DataTablesHelper.cs" />
+<<<<<<< HEAD
     <Compile Include="Helpers\DigitalSignHelper.cs" />
+=======
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Helpers\LogInfoAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -461,6 +470,10 @@
     <Content Include="Content\img\ncels.png" />
     <Content Include="Content\img\rating-star.png" />
     <Content Include="Content\img\spinner.gif" />
+<<<<<<< HEAD
+=======
+    <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Content Include="Content\templates\attachEdit.html" />
     <Content Include="Content\templates\attachEditSign.html" />
     <Content Include="Content\templates\attachRead.html" />
@@ -470,6 +483,36 @@
     <Content Include="Content\templates\RegisterReject.html" />
     <Content Include="Content\templates\rejectModalDIalog.html" />
     <Content Include="Content\templates\ResetPassword.html" />
+<<<<<<< HEAD
+=======
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -477,12 +520,62 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+<<<<<<< HEAD
     <Content Include="libeay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="OCSP_wr.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+=======
+    <Content Include="Scripts\i18n\grid.locale-ar.js" />
+    <Content Include="Scripts\i18n\grid.locale-bg.js" />
+    <Content Include="Scripts\i18n\grid.locale-bg1251.js" />
+    <Content Include="Scripts\i18n\grid.locale-cat.js" />
+    <Content Include="Scripts\i18n\grid.locale-cn.js" />
+    <Content Include="Scripts\i18n\grid.locale-cs.js" />
+    <Content Include="Scripts\i18n\grid.locale-da.js" />
+    <Content Include="Scripts\i18n\grid.locale-de.js" />
+    <Content Include="Scripts\i18n\grid.locale-dk.js" />
+    <Content Include="Scripts\i18n\grid.locale-el.js" />
+    <Content Include="Scripts\i18n\grid.locale-en.js" />
+    <Content Include="Scripts\i18n\grid.locale-es.js" />
+    <Content Include="Scripts\i18n\grid.locale-fa.js" />
+    <Content Include="Scripts\i18n\grid.locale-fi.js" />
+    <Content Include="Scripts\i18n\grid.locale-fr.js" />
+    <Content Include="Scripts\i18n\grid.locale-gl.js" />
+    <Content Include="Scripts\i18n\grid.locale-he.js" />
+    <Content Include="Scripts\i18n\grid.locale-hr.js" />
+    <Content Include="Scripts\i18n\grid.locale-hr1250.js" />
+    <Content Include="Scripts\i18n\grid.locale-hu.js" />
+    <Content Include="Scripts\i18n\grid.locale-id.js" />
+    <Content Include="Scripts\i18n\grid.locale-is.js" />
+    <Content Include="Scripts\i18n\grid.locale-it.js" />
+    <Content Include="Scripts\i18n\grid.locale-ja.js" />
+    <Content Include="Scripts\i18n\grid.locale-kr.js" />
+    <Content Include="Scripts\i18n\grid.locale-lt.js" />
+    <Content Include="Scripts\i18n\grid.locale-mne.js" />
+    <Content Include="Scripts\i18n\grid.locale-nl.js" />
+    <Content Include="Scripts\i18n\grid.locale-no.js" />
+    <Content Include="Scripts\i18n\grid.locale-pl.js" />
+    <Content Include="Scripts\i18n\grid.locale-pt-br.js" />
+    <Content Include="Scripts\i18n\grid.locale-pt.js" />
+    <Content Include="Scripts\i18n\grid.locale-ro.js" />
+    <Content Include="Scripts\i18n\grid.locale-ru.js" />
+    <Content Include="Scripts\i18n\grid.locale-sk.js" />
+    <Content Include="Scripts\i18n\grid.locale-sr-latin.js" />
+    <Content Include="Scripts\i18n\grid.locale-sr.js" />
+    <Content Include="Scripts\i18n\grid.locale-sv.js" />
+    <Content Include="Scripts\i18n\grid.locale-th.js" />
+    <Content Include="Scripts\i18n\grid.locale-tr.js" />
+    <Content Include="Scripts\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\i18n\grid.locale-vi.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jquery.jqGrid.src.js" />
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Content Include="Scripts\js\angular-translate\angular-translate.min.js" />
     <Content Include="Scripts\js\angular\angular-animate.js" />
     <Content Include="Scripts\js\angular\angular-animate.min.js" />
@@ -1897,9 +1990,12 @@
     <Content Include="Scripts\photon\crypto\jquery.serializejson.min.js" />
     <Content Include="Scripts\photon\crypto\loading.gif" />
     <Content Include="Scripts\js\price\sign-price.js" />
+<<<<<<< HEAD
     <Content Include="Scripts\photon\crypto\obk\obk_crypto_object.js" />
     <Content Include="Scripts\photon\crypto\obk\obk_crypto_object_ext.js" />
     <Content Include="Scripts\photon\crypto\obk\obk_eds.js" />
+=======
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Content Include="Scripts\photon\expert\calculationExpertCtrl.js" />
     <Content Include="Scripts\photon\expert\completenessExpertCtrl.js" />
     <Content Include="Scripts\photon\expert\conclusionExpertCtrl.js" />
@@ -1919,12 +2015,21 @@
     <Content Include="Scripts\photon\logon\loginCtrl.js" />
     <Content Include="Scripts\photon\logon\mainCtrl.js" />
     <Content Include="Scripts\photon\logon\registerEcpCtrl.js" />
+<<<<<<< HEAD
     <Content Include="ssleay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+=======
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1941,9 +2046,12 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+<<<<<<< HEAD
     <Content Include="xmlsec_wr.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+=======
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2200,9 +2308,39 @@
     <Content Include="Views\SafetyAssessment\Index.cshtml" />
     <Content Include="Views\SafetyAssessment\Create.cshtml" />
     <Content Include="Views\SafetyAssessment\RegisterSafetyAssessmentList.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\SafetyAssessment\AssessmentView.cshtml" />
     <Content Include="Views\TestDigitalSign\Index.cshtml" />
     <Content Include="Views\Home\OBK_SignView.cshtml" />
+=======
+    <Content Include="Views\SafetyAssessment\DeclarationView.cshtml" />
+    <Content Include="Views\SafetyAssessment\MainView.cshtml" />
+    <Content Include="Views\SafetyAssessment\RequestView.cshtml" />
+    <Content Include="Views\SafetyAssessment\AgreementView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ProductView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ProductSeriesView.cshtml" />
+    <None Include="Web.Debug.Alexandr.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Debug.Bob217.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Debug.Didar.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Debug.Evgeniy.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Debug.Kassymov.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Debug.Yelaman.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+>>>>>>> 97658f2a5a825e2c7df39e97af72530e2ff57d79
     <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

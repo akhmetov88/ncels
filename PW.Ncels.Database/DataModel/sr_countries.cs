@@ -21,6 +21,7 @@ namespace PW.Ncels.Database.DataModel
             this.EXP_DrugOtherCountry = new HashSet<EXP_DrugOtherCountry>();
             this.sr_register_producers = new HashSet<sr_register_producers>();
             this.EXP_DrugSubstanceManufacture = new HashSet<EXP_DrugSubstanceManufacture>();
+            this.sr_register_names = new HashSet<sr_register_names>();
         }
     
         public long id { get; set; }
@@ -43,5 +44,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<EXP_DrugOtherCountry> EXP_DrugOtherCountry { get; set; }
         public virtual ICollection<sr_register_producers> sr_register_producers { get; set; }
         public virtual ICollection<EXP_DrugSubstanceManufacture> EXP_DrugSubstanceManufacture { get; set; }
+        public virtual ICollection<sr_register_names> sr_register_names { get; set; }
     }
 }

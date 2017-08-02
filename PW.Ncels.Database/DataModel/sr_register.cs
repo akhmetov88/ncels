@@ -22,6 +22,8 @@ namespace PW.Ncels.Database.DataModel
             this.sr_register_substances = new HashSet<sr_register_substances>();
             this.sr_register_producers = new HashSet<sr_register_producers>();
             this.EXP_DrugDosage = new HashSet<EXP_DrugDosage>();
+            this.sr_register_names = new HashSet<sr_register_names>();
+            this.sr_register_instructions = new HashSet<sr_register_instructions>();
         }
     
         public int id { get; set; }
@@ -54,5 +56,10 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<sr_register_substances> sr_register_substances { get; set; }
         public virtual ICollection<sr_register_producers> sr_register_producers { get; set; }
         public virtual ICollection<EXP_DrugDosage> EXP_DrugDosage { get; set; }
+        public virtual sr_reg_actions sr_reg_actions { get; set; }
+        public virtual sr_reg_types sr_reg_types { get; set; }
+        public virtual sr_register_mt sr_register_mt { get; set; }
+        public virtual ICollection<sr_register_names> sr_register_names { get; set; }
+        public virtual ICollection<sr_register_instructions> sr_register_instructions { get; set; }
     }
 }
