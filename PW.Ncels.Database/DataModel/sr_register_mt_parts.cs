@@ -30,5 +30,6 @@ namespace PW.Ncels.Database.DataModel
         public string country_name_kz { get; set; }
     
         public virtual sr_producers sr_producers { get; set; }
+        public virtual sr_register_mt sr_register_mt { get; set; }
     }
 }

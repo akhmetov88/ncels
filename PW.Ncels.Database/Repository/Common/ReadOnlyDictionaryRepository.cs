@@ -82,6 +82,14 @@ namespace PW.Ncels.Database.Repository.Common
             return list;
         }
 
+        public List<BoolenGMPCheck> GetCertificateGMPCheck()
+        {
+            var list = new List<BoolenGMPCheck>();
+            list.Add(new BoolenGMPCheck { CertificateGMPCheck = false, NameRu = "Нет" });
+            list.Add(new BoolenGMPCheck { CertificateGMPCheck = true, NameRu = "Да" });
+            return list;
+        }
+
         /// <summary>
         /// Список "Производство"
         /// </summary>

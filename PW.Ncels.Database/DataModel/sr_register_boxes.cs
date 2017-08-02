@@ -34,5 +34,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<sr_drug_forms> sr_drug_forms { get; set; }
         public virtual ICollection<sr_drug_forms> sr_drug_forms1 { get; set; }
         public virtual sr_register sr_register { get; set; }
+        public virtual sr_register_boxes_rk_ls sr_register_boxes_rk_ls { get; set; }
     }
 }

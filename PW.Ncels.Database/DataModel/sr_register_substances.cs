@@ -28,5 +28,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual sr_register sr_register { get; set; }
         public virtual sr_substance_types sr_substance_types { get; set; }
         public virtual sr_substances sr_substances { get; set; }
+        public virtual sr_nd_types sr_nd_types { get; set; }
     }
 }

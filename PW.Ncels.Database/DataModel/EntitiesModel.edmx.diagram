@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="24">
+      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="67">
         <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
@@ -88,7 +88,7 @@
         <AssociationConnector Association="ncelsModel.FK_obk_exchangerate_obk_currencies" />
         <EntityTypeShape EntityType="ncelsModel.Notification" Width="1.5" PointX="36.375" PointY="31.75" />
         <EntityTypeShape EntityType="ncelsModel.obk_product_cost" Width="1.5" PointX="38.625" PointY="38.75" />
-        <EntityTypeShape EntityType="ncelsModel.obk_products" Width="1.5" PointX="36.375" PointY="37.125" />
+        <EntityTypeShape EntityType="ncelsModel.obk_products" Width="1.875" PointX="36.375" PointY="37.125" />
         <AssociationConnector Association="ncelsModel.FK_product_cost_products" />
         <EntityTypeShape EntityType="ncelsModel.Ref_MarketPrices" Width="1.5" PointX="38.375" PointY="5.75" />
         <EntityTypeShape EntityType="ncelsModel.TmcIn" Width="1.5" PointX="38.375" PointY="10.75" />
@@ -112,7 +112,7 @@
         <EntityTypeShape EntityType="ncelsModel.TmcOutCountView" Width="1.5" PointX="40.375" PointY="19.75" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_AccelerationType" Width="1.5" PointX="41.375" PointY="42.5" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_DrugType" Width="1.5" PointX="43.625" PointY="55.375" />
-        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_ManufactureType" Width="1.5" PointX="41.375" PointY="54.375" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DIC_ManufactureType" Width="1.5" PointX="40.75" PointY="54.25" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_Origin" Width="1.5" PointX="43.625" PointY="59" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PeriodMeasure" Width="1.5" PointX="41.375" PointY="65.375" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_PlantKind" Width="1.5" PointX="43.625" PointY="63" />
@@ -132,7 +132,7 @@
         <EntityTypeShape EntityType="ncelsModel.EXP_DrugUseMethod" Width="1.5" PointX="45.875" PointY="43.75" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DrugWrapping" Width="1.5" PointX="48.875" PointY="41.875" />
         <EntityTypeShape EntityType="ncelsModel.sr_atc_codes" Width="1.5" PointX="41.375" PointY="50.875" />
-        <EntityTypeShape EntityType="ncelsModel.sr_boxes" Width="1.5" PointX="46.625" PointY="56.125" />
+        <EntityTypeShape EntityType="ncelsModel.sr_boxes" Width="1.5" PointX="46.875" PointY="56.75" />
         <EntityTypeShape EntityType="ncelsModel.sr_categories" Width="1.5" PointX="41.375" PointY="69.875" />
         <EntityTypeShape EntityType="ncelsModel.sr_countries" Width="1.5" PointX="46.625" PointY="59.75" />
         <EntityTypeShape EntityType="ncelsModel.sr_dosage_forms" Width="1.5" PointX="25.375" PointY="40.75" />
@@ -382,7 +382,7 @@
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_StageResult" Width="1.5" PointX="52.625" PointY="69.75" />
         <EntityTypeShape EntityType="ncelsModel.EXP_DIC_StageStatus" Width="1.5" PointX="52.625" PointY="66.375" />
         <EntityTypeShape EntityType="ncelsModel.EXP_ExpertisePrimaryFinalDoc" Width="1.5" PointX="59.375" PointY="18.5" />
-        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStage" Width="1.5" PointX="54.875" PointY="43.25" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStage" Width="1.5" PointX="54.75" PointY="43.125" />
         <EntityTypeShape EntityType="ncelsModel.EXP_ExpertiseStageDosage" Width="1.5" PointX="57.125" PointY="21.5" />
         <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStageDosage_FinalDocStatusId_Dictionaries" />
         <AssociationConnector Association="ncelsModel.FK_EXP_ExpertiseStage_StageId_EXP_DIC_Stage" />
@@ -502,6 +502,211 @@
         <AssociationConnector Association="ncelsModel.FK_RequestList_RequestOrder" />
         <EntityTypeShape EntityType="ncelsModel.RequestOrderListView" Width="1.5" PointX="11.625" PointY="54.75" />
         <EntityTypeShape EntityType="ncelsModel.AvgExchangeRatesView" Width="1.5" PointX="53.875" PointY="7.75" />
+        <EntityTypeShape EntityType="ncelsModel.ActionLogPlace" Width="1.5" PointX="52.75" PointY="37.75" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_Applications" Width="1.5" PointX="19.75" PointY="67.875" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_Membership" Width="1.5" PointX="22" PointY="66.5" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_Paths" Width="1.5" PointX="22" PointY="72.625" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_PersonalizationAllUsers" Width="1.5" PointX="24.25" PointY="76" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="24.25" PointY="72.625" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_Profile" Width="1.5" PointX="26.5" PointY="68.875" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_Roles" Width="1.5" PointX="22" PointY="75.75" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_SchemaVersions" Width="1.5" PointX="54.75" PointY="22.75" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_Users" Width="1.5" PointX="24.25" PointY="68.375" />
+        <EntityTypeShape EntityType="ncelsModel.aspnet_WebEvent_Events" Width="1.5" PointX="54.75" PointY="37.75" />
+        <EntityTypeShape EntityType="ncelsModel.Comment" Width="1.5" PointX="55.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_act_Application" Width="1.5" PointX="19.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_lims_ApplicationEAdmissions" Width="1.5" PointX="21.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_lims_ApplicationEExploitation" Width="1.5" PointX="56.75" PointY="26.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_lims_ApplicationElements" Width="1.5" PointX="56.75" PointY="33.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_lims_Applications" Width="1.5" PointX="7.75" PointY="57.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ApplicationElements" Width="1.5" PointX="55.75" PointY="17.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ApplicationPaymentState" Width="1.5" PointX="56.75" PointY="38.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ApplicationRefuseState" Width="1.5" PointX="57.75" PointY="51.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_Applications" Width="1.5" PointX="0.75" PointY="58.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_PriceListElements" Width="1.5" PointX="58.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_trl_Application" Width="1.5" PointX="58.75" PointY="26.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_trl_ApplicationPaymentState" Width="1.5" PointX="58.75" PointY="31.75" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_trl_ApplicationRefuseState" Width="1.5" PointX="37.75" PointY="58.75" />
+        <EntityTypeShape EntityType="ncelsModel.LinkDicOrphanDrugsIcdDeseas" Width="1.5" PointX="55.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.obk_appendix" Width="1.5" PointX="41.25" PointY="84.375" />
+        <EntityTypeShape EntityType="ncelsModel.obk_appendix_series" Width="1.5" PointX="46.5" PointY="65.875" />
+        <EntityTypeShape EntityType="ncelsModel.obk_certification_copies" Width="1.5" PointX="41.25" PointY="80.875" />
+        <EntityTypeShape EntityType="ncelsModel.obk_certifications" Width="1.5" PointX="39" PointY="80.625" />
+        <EntityTypeShape EntityType="ncelsModel.Ref_Sources" Width="1.5" PointX="56.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ncelsModel.Request" Width="1.5" PointX="58.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_degree_risk_details" Width="1.5" PointX="50" PointY="98.875" />
+        <EntityTypeShape EntityType="ncelsModel.sr_degree_risks" Width="1.5" PointX="47.75" PointY="99" />
+        <EntityTypeShape EntityType="ncelsModel.sr_drug_types" Width="1.5" PointX="47.75" PointY="83" />
+        <EntityTypeShape EntityType="ncelsModel.sr_form_types" Width="1.5" PointX="34.25" PointY="65.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_instruction_types" Width="1.5" PointX="50" PointY="92.5" />
+        <EntityTypeShape EntityType="ncelsModel.sr_life_types" Width="1.5" PointX="47.75" PointY="85.875" />
+        <EntityTypeShape EntityType="ncelsModel.sr_mt_categories" Width="1.5" PointX="50" PointY="95.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_nd_names" Width="1.5" PointX="47.75" PointY="88.25" />
+        <EntityTypeShape EntityType="ncelsModel.sr_nd_types" Width="1.5" PointX="50" PointY="89.125" />
+        <EntityTypeShape EntityType="ncelsModel.sr_pharmacological_actions" Width="1.5" PointX="56" PointY="73.5" />
+        <EntityTypeShape EntityType="ncelsModel.sr_reg_actions" Width="1.5" PointX="41.75" PointY="77.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_reg_types" Width="1.5" PointX="41.75" PointY="75.25" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_boxes_rk_ls" Width="1.5" PointX="51.5" PointY="86.5" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_instructions" Width="1.5" PointX="52.25" PointY="77.25" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_instructions_files" Width="1.5" PointX="54.5" PointY="77.375" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_mt" Width="1.5" PointX="52.25" PointY="81.25" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_mt_kz" Width="1.5" PointX="54.5" PointY="82.375" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_names" Width="1.5" PointX="55.25" PointY="69.125" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_ordered" Width="1.5" PointX="28.75" PointY="59.75" />
+        <EntityTypeShape EntityType="ncelsModel.sr_register_pharmacological_actions" Width="1.5" PointX="58.25" PointY="59.75" />
+        <EntityTypeShape EntityType="ncelsModel.TempTmc" Width="1.5" PointX="59.75" PointY="49.75" />
+        <EntityTypeShape EntityType="ncelsModel.UpdateScript" Width="1.5" PointX="59.75" PointY="53.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_appendix_series_tracking" Width="1.5" PointX="60.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_appendix_tracking" Width="1.5" PointX="23.75" PointY="60.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_certification_copies_tracking" Width="1.5" PointX="60.75" PointY="24.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_certifications_tracking" Width="1.5" PointX="25.75" PointY="60.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_currencies_tracking" Width="1.5" PointX="60.75" PointY="29.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_product_cost_tracking" Width="1.5" PointX="60.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_obk_products_tracking" Width="1.5" PointX="61.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_schema_info" Width="1.5" PointX="17.75" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_scope_config" Width="1.5" PointX="61.75" PointY="20.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_scope_info" Width="1.5" PointX="37.75" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_atc_codes_tracking" Width="1.5" PointX="61.75" PointY="43.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_boxes_tracking" Width="1.5" PointX="61.75" PointY="48.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_categories_tracking" Width="1.5" PointX="60.75" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_countries_tracking" Width="1.5" PointX="62.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_degree_risk_details_tracking" Width="1.5" PointX="62.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_degree_risks_tracking" Width="1.5" PointX="62.75" PointY="29.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_dosage_forms_tracking" Width="1.5" PointX="62.75" PointY="53.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_drug_forms_tracking" Width="1.5" PointX="57.75" PointY="62.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_drug_types_tracking" Width="1.5" PointX="62.75" PointY="58.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_form_types_tracking" Width="1.5" PointX="63.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_instruction_types_tracking" Width="1.5" PointX="7.75" PointY="63.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_international_names_tracking" Width="1.5" PointX="9.75" PointY="63.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_life_types_tracking" Width="1.5" PointX="11.75" PointY="63.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_measures_tracking" Width="1.5" PointX="13.75" PointY="63.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_mt_categories_tracking" Width="1.5" PointX="63.75" PointY="46.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_nd_names_tracking" Width="1.5" PointX="62.75" PointY="63.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_nd_types_tracking" Width="1.5" PointX="64.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_pharmacological_actions_tracking" Width="1.5" PointX="64.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_producer_types_tracking" Width="1.5" PointX="15.75" PointY="64.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_producers_tracking" Width="1.5" PointX="64.75" PointY="51.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_reg_actions_tracking" Width="1.5" PointX="64.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_reg_types_tracking" Width="1.5" PointX="64.75" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_boxes_rk_ls_tracking" Width="1.5" PointX="65.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_boxes_tracking" Width="1.5" PointX="30.75" PointY="65.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_drugs_tracking" Width="1.5" PointX="36.75" PointY="65.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_instructions_files_tracking" Width="1.5" PointX="38.75" PointY="65.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_instructions_tracking" Width="1.5" PointX="65.75" PointY="46.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_mt_kz_tracking" Width="1.5" PointX="66.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_mt_parts_tracking" Width="1.5" PointX="66.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_mt_tracking" Width="1.5" PointX="66.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_names_tracking" Width="1.5" PointX="66.75" PointY="20.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_pharmacological_actions_tracking" Width="1.5" PointX="66.75" PointY="51.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_producers_tracking" Width="1.5" PointX="66.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_substances_tracking" Width="1.5" PointX="59.75" PointY="66.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_tracking" Width="1.5" PointX="66.75" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_register_use_methods_tracking" Width="1.5" PointX="64.75" PointY="66.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_substance_types_tracking" Width="1.5" PointX="66.75" PointY="66.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_substances_tracking" Width="1.5" PointX="2.75" PointY="67.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_fr_sr_use_methods_tracking" Width="1.5" PointX="67.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_act_Application_tracking" Width="1.5" PointX="67.75" PointY="27.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_exp_Contracts_tracking" Width="1.5" PointX="67.75" PointY="46.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_lims_ApplicationEAdmissions_tracking" Width="1.5" PointX="68.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_lims_ApplicationEExploitation_tracking" Width="1.5" PointX="7.75" PointY="68.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_lims_ApplicationElements_tracking" Width="1.5" PointX="9.75" PointY="68.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_lims_Applications_tracking" Width="1.5" PointX="68.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_lims_ContractProducts_tracking" Width="1.5" PointX="11.75" PointY="68.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_lims_Contracts_tracking" Width="1.5" PointX="32.75" PointY="68.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_primary_ApplicationElements_tracking" Width="1.5" PointX="68.75" PointY="51.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_primary_ApplicationPaymentState_tracking" Width="1.5" PointX="68.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_primary_ApplicationRefuseState_tracking" Width="1.5" PointX="68.75" PointY="61.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_primary_Applications_tracking" Width="1.5" PointX="61.75" PointY="68.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_primary_PriceListElements_tracking" Width="1.5" PointX="68.75" PointY="66.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_trl_Application_tracking" Width="1.5" PointX="69.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_trl_ApplicationPaymentState_tracking" Width="1.5" PointX="13.75" PointY="69.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_I1c_trl_ApplicationRefuseState_tracking" Width="1.5" PointX="15.75" PointY="69.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_schema_info" Width="1.5" PointX="19.75" PointY="62.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_scope_config" Width="1.5" PointX="24.75" PointY="65.75" />
+        <EntityTypeShape EntityType="ncelsModel.sync_1c_scope_info" Width="1.5" PointX="69.75" PointY="27.75" />
+        <EntityTypeShape EntityType="ncelsModel.DIC_IcdDeseases" Width="1.5" PointX="43.75" PointY="66.75" />
+        <EntityTypeShape EntityType="ncelsModel.DIC_OrphanDrugs" Width="1.5" PointX="67.75" PointY="32.75" />
+        <EntityTypeShape EntityType="ncelsModel.CategoriesView" Width="1.5" PointX="69.75" PointY="31.75" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageCount2View" Width="1.5" PointX="69.75" PointY="34.75" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageCount3View" Width="1.5" PointX="69.75" PointY="37.75" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageCount3WithoutRepeatView" Width="1.5" PointX="69.75" PointY="40.75" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageCount4View" Width="1.5" PointX="69.75" PointY="43.75" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageCount4WithoutRepeatView" Width="1.5" PointX="69.75" PointY="47.75" />
+        <EntityTypeShape EntityType="ncelsModel.CommissionDrugDosageCountView" Width="1.5" PointX="70.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_ActivityTaskActualView" Width="1.5" PointX="34.75" PointY="70.75" />
+        <EntityTypeShape EntityType="ncelsModel.Exp_DrugDeclarationChangeView" Width="1.5" PointX="70.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDeclarationPaysInfoView" Width="1.5" PointX="36.75" PointY="70.75" />
+        <EntityTypeShape EntityType="ncelsModel.Exp_DrugDosageStagePrevCommissionConcatinateView" Width="1.5" PointX="38.75" PointY="70.75" />
+        <EntityTypeShape EntityType="ncelsModel.Exp_DrugDosageStagePrevCommissionView" Width="1.5" PointX="70.75" PointY="50.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugDosageView" Width="1.5" PointX="70.75" PointY="53.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugSubstanceView" Width="1.5" PointX="70.75" PointY="56.75" />
+        <EntityTypeShape EntityType="ncelsModel.EXP_DrugTypeView" Width="1.5" PointX="70.75" PointY="59.75" />
+        <EntityTypeShape EntityType="ncelsModel.Lims_ActivityView" Width="1.5" PointX="70.75" PointY="62.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcCountStateView" Width="1.5" PointX="70.75" PointY="66.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcOffStateView" Width="1.5" PointX="70.75" PointY="70.75" />
+        <EntityTypeShape EntityType="ncelsModel.TmcReportDataSourceView" Width="1.5" PointX="71.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_Applications" Width="1.5" PointX="4.75" PointY="71.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_MembershipUsers" Width="1.5" PointX="17.75" PointY="71.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_Profiles" Width="1.5" PointX="71.75" PointY="27.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_Roles" Width="1.5" PointX="71.75" PointY="30.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_Users" Width="1.5" PointX="71.75" PointY="33.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_UsersInRoles" Width="1.5" PointX="71.75" PointY="37.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_WebPartState_Paths" Width="1.5" PointX="71.75" PointY="40.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_WebPartState_Shared" Width="1.5" PointX="71.75" PointY="43.75" />
+        <EntityTypeShape EntityType="ncelsModel.vw_aspnet_WebPartState_User" Width="1.5" PointX="71.75" PointY="46.75" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Me__Appli__405A880E" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Pa__Appli__4242D080" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Ro__Appli__4707859D" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Us__Appli__47FBA9D6" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Me__UserI__414EAC47" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Pe__PathI__4336F4B9" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Pe__PathI__442B18F2" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Pe__UserI__451F3D2B" />
+        <AssociationConnector Association="ncelsModel.FK__aspnet_Pr__UserI__46136164" />
+        <AssociationConnector Association="ncelsModel.FK_obk_appendix_certifications" />
+        <AssociationConnector Association="ncelsModel.FK_obk_appendix_series_appendix" />
+        <AssociationConnector Association="ncelsModel.FK_obk_appendix_series_products" />
+        <AssociationConnector Association="ncelsModel.FK_obk_certification_copies_certifications" />
+        <AssociationConnector Association="ncelsModel.FK__obk_certifications_products" />
+        <AssociationConnector Association="ncelsModel.FK_register_names_countries" />
+        <AssociationConnector Association="ncelsModel.FK_degree_risk_details_degree_risks" />
+        <AssociationConnector Association="ncelsModel.FK_register_mt_degree_risk_details" />
+        <AssociationConnector Association="ncelsModel.FK_register_mt_degree_risks" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_drug_types" />
+        <AssociationConnector Association="ncelsModel.FK_r_producers_form_types" />
+        <AssociationConnector Association="ncelsModel.FK_sr_register_instructions_sr_instruction_types" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_life_types" />
+        <AssociationConnector Association="ncelsModel.FK_mt_categories_mt_categories1" />
+        <AssociationConnector Association="ncelsModel.FK_register_mt_mt_categories" />
+        <AssociationConnector Association="ncelsModel.FK_register_drugs_nd_names" />
+        <AssociationConnector Association="ncelsModel.FK_r_register_substances_nd_types" />
+        <AssociationConnector Association="ncelsModel.FK_pharmacological_actions_pharmacological_actions1" />
+        <AssociationConnector Association="ncelsModel.FK_r_register_pharmacological_actions_pharmacological_actions" />
+        <AssociationConnector Association="ncelsModel.FK_register_reg_actions1" />
+        <AssociationConnector Association="ncelsModel.FK_register_reg_types" />
+        <AssociationConnector Association="ncelsModel.FK_register_mt_register1" />
+        <AssociationConnector Association="ncelsModel.FK_register_names_register" />
+        <AssociationConnector Association="ncelsModel.FK_sr_register_instructions_sr_register" />
+        <AssociationConnector Association="ncelsModel.FK_register_boxes_rk_ls_register_boxes" />
+        <AssociationConnector Association="ncelsModel.FK_register_pharmacological_actions_register_drugs" />
+        <AssociationConnector Association="ncelsModel.FK_sr_register_instructions_files_sr_register_instructions" />
+        <AssociationConnector Association="ncelsModel.FK_r_mt_parts_r_register_mt" />
+        <AssociationConnector Association="ncelsModel.FK_register_mt_kz_register_mt" />
+        <AssociationConnector Association="ncelsModel.aspnet_UsersInRoles" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclaration" Width="2.125" PointX="76.125" PointY="1" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Type" Width="1.5" PointX="80" PointY="1.125" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Contract" Width="1.5" PointX="78.75" PointY="6.375" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_Type_AssessmentDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_RS_Products" Width="2.375" PointX="85.25" PointY="4.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Procunts_Series" Width="2.625" PointX="88.75" PointY="1.625" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_RS_Products_Procunts_Series" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_RS_Products" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationFieldHistory" Width="1.5" PointX="76.125" PointY="8.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationView" Width="1.5" PointX="88.625" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Organization" Width="1.5" PointX="82.75" PointY="6.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Status" Width="1.5" PointX="82.5" PointY="1.125" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_Ref_Status" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_Procunts_Series" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

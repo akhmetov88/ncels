@@ -1,0 +1,509 @@
+﻿@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
+
+@{
+    var @startDate = "";
+    var @endDate = "";
+    var @declarant = "";
+    var @orgForm = "";
+    var @nameKz = "";
+    var @nameRu = "";
+    var @nameEn = "";
+    var @regNumber = "";
+    var @chiefLastName = "";
+    var @chiefFirstName = "";
+    var @chiefMiddleName = "";
+    var @chiefPosition = "";
+    var @addressFact = "";
+    var @addressLegal = "";
+    var @phone = "";
+    var @email = "";
+    var @bankBik = "";
+    var @bankSwift = "";
+    var @bankAccount = "";
+    var @bankName = "";
+}
+
+@{
+    Model.CertificateDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+}
+
+
+
+
+<div class="panel-body">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Данные по договору
+            </div>
+            <div class="panel-body">
+                <div class="row" style="margin-bottom: 10px">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+
+
+                            <div class="col-lg-6">
+                                <label for="name" class="col-lg-6" style="margin-top: 5px">Договор:</label>
+                                <div class="input-group">
+                                    @Html.DropDownList("ContractId", (IEnumerable<SelectListItem>)(ViewData["ContractList"]),
+                                        String.Empty,
+                                        new
+                                        {
+                                            @class = "form-control edit-control main-control"
+                                        })
+                                    <span class="input-group-addon">
+                                        <a class="commentDialog" href="#">
+                                            <i class="glyphicon glyphicon-info-sign"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label for="name" class="col-lg-6" style="margin-top: 5px">Дата начала:</label>
+                                <div class="input-group">
+                                    <input class="form-control edit-control main-control" type="text" readonly="readonly" id="startDate" value="@startDate">
+                                    @*@Html.TextBox(@startDate, new {@class = "form-control edit-control main-control date-control", placeholder = "Введите значение", id= "startDate" })*@
+                                    <span class="input-group-addon">
+                                        <a class="commentDialog" href="#">
+                                            <i class="glyphicon glyphicon-info-sign"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label for="name" class="col-lg-7" style="margin-top: 5px">Дата окончания:</label>
+                                <div class="input-group">
+                                    <input class="form-control edit-control main-control" type="text" readonly="readonly" id="endDate" value="@endDate">
+                                    @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control date-control", placeholder = "Введите значение"})*@
+                                    <span class="input-group-addon">
+                                        <a class="commentDialog" href="#">
+                                            <i class="glyphicon glyphicon-info-sign"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Заявитель:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="declarant" value="@declarant">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Организационная форма:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="orgForm" value="@orgForm">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Наименование на государственном языке*:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameKz" value="@nameKz">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Наименование на русском языке:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameRu" value="@nameRu">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Наименование на английском языке:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameEn" value="@nameEn">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Номер рег. удостоверения:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="regNumber" value="@regNumber">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label>Заявитель, в лице:</label>
+                <div class="form-group">
+                    <label>Фамилия руководителя*:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefLastName" value="@chiefLastName">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Имя руководителя*:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefFirstName" value="@chiefFirstName">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Отчество руководителя:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefMiddleName" value="@chiefMiddleName">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Должность руководителя*:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefPosition" value="@chiefPosition">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label>Адрес заявителя:</label>
+                <div class="form-group">
+                    <label>Страна:</label>
+                    <div class="input-group">
+                        @Html.DropDownList("CountryId", (IEnumerable<SelectListItem>)(ViewData["Counties"]), String.Empty, new { @class = "form-control edit-control", @readonly= "readonly" })
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Юридический адрес:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="addressLegal" value="@addressLegal">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Фактический адрес:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="addressFact" value="@addressFact">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Телефон:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="phone" value="@phone">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>e-mail:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="email" value="@email">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label>Банковские реквизиты:</label>
+                <div class="form-group">
+                    <label>Наименование банка:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankName" value="@bankName">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Расчетный счет:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankAccount" value="@bankAccount">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>БИК:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankBik" value="@bankBik">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Валюта:</label>
+                    <div class="input-group">
+                        @Html.DropDownList("CurrencyId", (IEnumerable<SelectListItem>)(ViewData["Courrency"]), String.Empty, new { @class = "form-control edit-control", @readonly = "readonly" })
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>SWIFT:</label>
+                    <div class="input-group">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankSwift" value="@bankSwift">
+                        @*@Html.TextBoxFor(model => model.CertificateGMP, new {@class = "form-control edit-control main-control"})*@
+                        <span class="input-group-addon">
+                            <a class="commentDialog" href="#">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-13">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-lg-4">
+                <label>Наличие сертификата GMP:</label>
+                <div class="input-group">
+                    @Html.DropDownList("CertificateGMPCheck", (IEnumerable<SelectListItem>)(ViewData["IsGMPList"]), String.Empty, new { @class = "form-control edit-control main-control" })
+                    <span class="input-group-addon">
+                        <a class="commentDialog" href="#">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Номер сертификата ISO/GMP*:</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.CertificateGMP, new { @class = "form-control edit-control main-control" })
+                    <span class="input-group-addon">
+                        <a class="commentDialog" href="#">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Срок действия:</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.CertificateDate, new {@class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
+                    <span class="input-group-addon">
+                        <a class="commentDialog" href="#">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    
+    $("#ContractId").change(function () {
+        var val = $(this).val();
+        if (val == null || val.length === 0) {
+            //перечислить поля
+            return;
+        } $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetContract")',
+            data: { 'id': val },
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if (data.isSuccess) {
+                    $("#startDate").val(data.startDate);
+                    $("#endDate").val(data.endDate);
+                    $("#declarant").val(data.declarant);
+                    $("#orgForm").val(data.orgForm);
+                    $("#nameKz").val(data.nameKz);
+                    $("#nameRu").val(data.nameRu);
+                    $("#nameEn").val(data.nameEn);
+                    $("#regNumber").val(data.regNumber);
+                    $("#chiefLastName").val(data.chiefLastName);
+                    $("#chiefFirstName").val(data.chiefFirstName);
+                    $("#chiefMiddleName").val(data.chiefMiddleName);
+                    $("#chiefPosition").val(data.chiefPosition);
+                    $("#addressFact").val(data.addressFact);
+                    $("#addressLegal").val(data.addressLegal);
+                    $("#phone").val(data.phone);
+                    $("#email").val(data.email);
+                    $("#bankBik").val(data.bankBik);
+                    $("#bankSwift").val(data.bankSwift);
+                    $("#bankAccount").val(data.bankAccount);
+                    $("#bankName").val(data.bankName);
+                } else {
+                    $("#startDate").val("");
+                    $("#endDate").val("");
+                    $("#declarant").val("");
+                    $("#orgForm").val("");
+                    $("#nameKz").val("");
+                    $("#nameRu").val("");
+                    $("#nameEn").val("");
+                    $("#regNumber").val("");
+                    $("#chiefLastName").val("");
+                    $("#chiefFirstName").val("");
+                    $("#chiefMiddleName").val("");
+                    $("#chiefPosition").val("");
+                    $("#addressFact").val("");
+                    $("#addressLegal").val("");
+                    $("#phone").val("");
+                    $("#email").val("");
+                    $("#bankBik").val("");
+                    $("#bankSwift").val("");
+                    $("#bankAccount").val("");
+                    $("#bankName").val("");
+                }
+            },
+            error: function () {
+                alert("Connection Failed. Please Try Again");
+            }
+        });
+    });
+
+    function setDateFormat(control) {
+        $(control).datepicker({
+            dateFormat: 'dd.mm.yy',
+            language: 'ru',
+            autoclose: true
+        });
+    }
+
+    $(document).ready(function () {
+        setDateFormat(".date-control");
+
+        $("#NameEn").keypress(function() {
+            var key = window.event.keyCode;
+            var allowed =
+                '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :;,.?!"£$%^&*()_+-*{}~<>&"\'';
+
+            return allowed.indexOf(String.fromCharCode(key)) != -1;
+        });
+        $(".main-control").change(function () {
+            var controlId = $(this).attr('id');
+            var type = "string";
+            if ($(this).attr('typeField') != null) {
+                type = $(this).attr('typeField');
+            }
+            var fieldDisplay = $(this).val();
+            var fieldValue = $(this).val();
+
+            if ($(this).is("select")) {
+                fieldDisplay = $(this).find('option:selected').text();
+            }
+            if ($(this).hasClass("chzn-select") && fieldValue != null && fieldValue.length > 0) {
+                fieldValue = fieldValue.join(',');
+            }
+            if ($(this).hasClass("select2-offscreen") && $(this).select2('data') != null) {
+                fieldDisplay = $(this).select2('data').text;
+            }
+            UpdateModel("main", null, null, controlId, fieldValue, type, fieldDisplay);
+        });
+    });
+</script>

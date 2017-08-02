@@ -17,6 +17,7 @@ namespace PW.Ncels.Database.DataModel
         public sr_register_drugs()
         {
             this.sr_register_use_methods = new HashSet<sr_register_use_methods>();
+            this.sr_register_pharmacological_actions = new HashSet<sr_register_pharmacological_actions>();
         }
     
         public int id { get; set; }
@@ -56,5 +57,9 @@ namespace PW.Ncels.Database.DataModel
         public virtual sr_international_names sr_international_names { get; set; }
         public virtual sr_measures sr_measures { get; set; }
         public virtual ICollection<sr_register_use_methods> sr_register_use_methods { get; set; }
+        public virtual sr_drug_types sr_drug_types { get; set; }
+        public virtual sr_life_types sr_life_types { get; set; }
+        public virtual sr_nd_names sr_nd_names { get; set; }
+        public virtual ICollection<sr_register_pharmacological_actions> sr_register_pharmacological_actions { get; set; }
     }
 }

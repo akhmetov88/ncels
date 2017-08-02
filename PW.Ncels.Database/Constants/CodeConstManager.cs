@@ -216,6 +216,8 @@ namespace PW.Ncels.Database.Constants
         public const string ATTACH_REMARK_FILE_CODE = "REMARK";
 
 
+
+
         #region Вид файлов
         public const string FILE_INSTRUCTION_CODE = "4"; //Инструкция
         public const string FILE_MAKET_CODE = "3"; //Макет
