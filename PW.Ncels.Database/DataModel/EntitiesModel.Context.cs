@@ -14,7 +14,7 @@ namespace PW.Ncels.Database.DataModel
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
-    using System.Data.Objects.DataClasses;
+    
     public partial class ncelsEntities : DbContext
     {
         public ncelsEntities()
