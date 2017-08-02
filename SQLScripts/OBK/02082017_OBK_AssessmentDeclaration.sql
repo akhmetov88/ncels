@@ -1,3 +1,36 @@
+IF OBJECT_ID(N'[dbo].[FK_OBK_AssessmentDeclaration_Procunts_Series]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OBK_Procunts_Series] DROP CONSTRAINT [FK_OBK_AssessmentDeclaration_Procunts_Series];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OBK_AssessmentDeclaration_RS_Products]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OBK_RS_Products] DROP CONSTRAINT [FK_OBK_AssessmentDeclaration_RS_Products];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OBK_RS_Products_Procunts_Series]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OBK_Procunts_Series] DROP CONSTRAINT [FK_OBK_RS_Products_Procunts_Series];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_AssessmentDeclaration]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_AssessmentDeclaration];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_AssessmentDeclarationFieldHistory]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_AssessmentDeclarationFieldHistory];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_Contract]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_Contract];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_Organization]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_Organization];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_Procunts_Series]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_Procunts_Series];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_Ref_Status]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_Ref_Status];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_Ref_Type]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_Ref_Type];
+GO
+IF OBJECT_ID(N'[dbo].[OBK_RS_Products]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OBK_RS_Products];
+GO
 -- Creating table 'OBK_AssessmentDeclaration'
 CREATE TABLE [dbo].[OBK_AssessmentDeclaration] (
     [Id] uniqueidentifier  NOT NULL,
@@ -28,7 +61,8 @@ CREATE TABLE [dbo].[OBK_AssessmentDeclaration] (
     [Number] nvarchar(500)  NULL,
     [SendDate] datetime  NULL,
     [ExecuterId] uniqueidentifier  NULL,
-    [IsDeleted] bit  NULL
+    [IsDeleted] bit  NULL,
+    [DesignDate] datetime  NULL
 );
 GO
 
@@ -81,7 +115,7 @@ CREATE TABLE [dbo].[OBK_Procunts_Series] (
     [SeriesEndDate] nvarchar(max)  NULL,
     [SeriesParty] nvarchar(max)  NULL,
     [OBK_RS_ProductsId] int  NOT NULL,
-    [OBK_AssessmentDeclarationId] uniqueidentifier  NOT NULL
+    [OBK_AssessmentDeclarationId] uniqueidentifier  NULL
 );
 GO
 
@@ -135,21 +169,6 @@ CREATE TABLE [dbo].[OBK_Ref_Status] (
     [DateEdit] datetime  NULL
 );
 GO
-
--- Creating table 'OBK_AssessmentDeclarationView'
-CREATE TABLE [dbo].[OBK_AssessmentDeclarationView] (
-    [Id] uniqueidentifier  NOT NULL,
-    [OwnerId] uniqueidentifier  NOT NULL,
-    [Type_Id] int  NOT NULL,
-    [StatusId] int  NOT NULL,
-    [Number] nvarchar(500)  NULL,
-    [SendDate] datetime  NULL,
-    [StausName] nvarchar(2000)  NULL,
-    [TypeName] nvarchar(max)  NOT NULL,
-    [IsDeleted] bit  NULL,
-    [SortDate] datetime  NOT NULL
-);
-GO
 -- Creating primary key on [Id] in table 'OBK_AssessmentDeclaration'
 ALTER TABLE [dbo].[OBK_AssessmentDeclaration]
 ADD CONSTRAINT [PK_OBK_AssessmentDeclaration]
@@ -196,12 +215,6 @@ GO
 ALTER TABLE [dbo].[OBK_Ref_Status]
 ADD CONSTRAINT [PK_OBK_Ref_Status]
     PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [OwnerId], [Type_Id], [StatusId], [TypeName], [Id], [SortDate] in table 'OBK_AssessmentDeclarationView'
-ALTER TABLE [dbo].[OBK_AssessmentDeclarationView]
-ADD CONSTRAINT [PK_OBK_AssessmentDeclarationView]
-    PRIMARY KEY CLUSTERED ([OwnerId], [Type_Id], [StatusId], [TypeName], [Id], [SortDate] ASC);
 GO
 -- Creating foreign key on [Type_Id] in table 'OBK_AssessmentDeclaration'
 ALTER TABLE [dbo].[OBK_AssessmentDeclaration]
