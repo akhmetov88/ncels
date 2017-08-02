@@ -112,7 +112,9 @@ namespace PW.Ncels {
                         "~/Scripts/photon/logon/*Ctrl.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/baseCtrl").Include(
-                        "~/Scripts/photon/base/*.js"));
+                        "~/Scripts/photon/base/*.js",
+                        "~/Scripts/photon/base/obk/*.js"
+                        ));
 
         }
     }

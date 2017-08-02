@@ -253,6 +253,7 @@
     <Compile Include="Controllers\CompositionController.cs" />
     <Compile Include="Controllers\ConclusionController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
+    <Compile Include="Controllers\OBKContractController.cs" />
     <Compile Include="Controllers\SafetyAssessmentController.cs" />
 <<<<<<< HEAD
     <Compile Include="Controllers\TestDigitalSignController.cs" />
@@ -1959,6 +1960,7 @@
     <Content Include="Scripts\js\ui-router\angular-ui-router.js" />
     <Content Include="Scripts\js\ui-router\angular-ui-router.min.js" />
     <Content Include="Scripts\photon\base\listSafetyDeclarationCtrl.js" />
+    <Content Include="Scripts\photon\base\obk\listObkContractCtrl.js" />
     <Content Include="Scripts\photon\base\visitCtrl.js" />
     <Content Include="Scripts\photon\base\correspondenceCtrl.js" />
     <Content Include="Scripts\photon\base\detailProjectCtrl.js" />
@@ -2312,6 +2314,8 @@
     <Content Include="Views\SafetyAssessment\AssessmentView.cshtml" />
     <Content Include="Views\TestDigitalSign\Index.cshtml" />
     <Content Include="Views\Home\OBK_SignView.cshtml" />
+    <Content Include="Views\OBKContract\Index.cshtml" />
+    <Content Include="Views\OBKContract\Contract.cshtml" />
 =======
     <Content Include="Views\SafetyAssessment\DeclarationView.cshtml" />
     <Content Include="Views\SafetyAssessment\MainView.cshtml" />
