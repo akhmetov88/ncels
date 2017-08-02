@@ -70,6 +70,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ManagedOpenSsl">
+      <HintPath>..\lib\DigitalSign\ManagedOpenSsl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -247,7 +250,9 @@
     <Compile Include="Controllers\CompositionController.cs" />
     <Compile Include="Controllers\ConclusionController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
+    <Compile Include="Controllers\OBKContractController.cs" />
     <Compile Include="Controllers\SafetyAssessmentController.cs" />
+    <Compile Include="Controllers\TestDigitalSignController.cs" />
     <Compile Include="Controllers\VisitController.cs" />
     <Compile Include="Controllers\DictionariesController.cs" />
     <Compile Include="Controllers\DrugDeclarationController.cs" />
@@ -270,6 +275,7 @@
     </Compile>
     <Compile Include="Helpers\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Helpers\DataTablesHelper.cs" />
+    <Compile Include="Helpers\DigitalSignHelper.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Helpers\LogInfoAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -498,6 +504,12 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libeay32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OCSP_wr.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
@@ -1930,6 +1942,7 @@
     <Content Include="Scripts\js\ui-router\angular-ui-router.js" />
     <Content Include="Scripts\js\ui-router\angular-ui-router.min.js" />
     <Content Include="Scripts\photon\base\listSafetyDeclarationCtrl.js" />
+    <Content Include="Scripts\photon\base\obk\listObkContractCtrl.js" />
     <Content Include="Scripts\photon\base\visitCtrl.js" />
     <Content Include="Scripts\photon\base\correspondenceCtrl.js" />
     <Content Include="Scripts\photon\base\detailProjectCtrl.js" />
@@ -1961,6 +1974,9 @@
     <Content Include="Scripts\photon\crypto\jquery.serializejson.min.js" />
     <Content Include="Scripts\photon\crypto\loading.gif" />
     <Content Include="Scripts\js\price\sign-price.js" />
+    <Content Include="Scripts\photon\crypto\obk\obk_crypto_object.js" />
+    <Content Include="Scripts\photon\crypto\obk\obk_crypto_object_ext.js" />
+    <Content Include="Scripts\photon\crypto\obk\obk_eds.js" />
     <Content Include="Scripts\photon\expert\calculationExpertCtrl.js" />
     <Content Include="Scripts\photon\expert\completenessExpertCtrl.js" />
     <Content Include="Scripts\photon\expert\conclusionExpertCtrl.js" />
@@ -1980,6 +1996,12 @@
     <Content Include="Scripts\photon\logon\loginCtrl.js" />
     <Content Include="Scripts\photon\logon\mainCtrl.js" />
     <Content Include="Scripts\photon\logon\registerEcpCtrl.js" />
+    <Content Include="ssleay32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2002,6 +2024,9 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="xmlsec_wr.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2258,6 +2283,11 @@
     <Content Include="Views\SafetyAssessment\Index.cshtml" />
     <Content Include="Views\SafetyAssessment\Create.cshtml" />
     <Content Include="Views\SafetyAssessment\RegisterSafetyAssessmentList.cshtml" />
+    <Content Include="Views\SafetyAssessment\AssessmentView.cshtml" />
+    <Content Include="Views\TestDigitalSign\Index.cshtml" />
+    <Content Include="Views\Home\OBK_SignView.cshtml" />
+    <Content Include="Views\OBKContract\Index.cshtml" />
+    <Content Include="Views\OBKContract\Contract.cshtml" />
     <Content Include="Views\SafetyAssessment\DeclarationView.cshtml" />
     <Content Include="Views\SafetyAssessment\MainView.cshtml" />
     <Content Include="Views\SafetyAssessment\RequestView.cshtml" />

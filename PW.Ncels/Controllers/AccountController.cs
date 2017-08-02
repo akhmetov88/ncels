@@ -496,5 +496,14 @@ namespace PW.Ncels.Controllers
              return View(model);
          }*/
 
+        public ActionResult GetLoginName()
+        {
+            return Json(User.Identity.Name, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDateTime()
+        {
+            return Json(DateTime.Now, JsonRequestBehavior.AllowGet);
+        }
     }
 }
