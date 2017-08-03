@@ -242,3 +242,11 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
+/PW.Ncels/Web.Release.config
+/PW.Ncels/Web.Test.config
+/PW.Ncels/Web.War.config
+/PW.Ncels/Web.config
+/PW.Prism/Web.config
+/PW.Prism/Web.Release.config
+/PW.Prism/Web.Test.config
+/PW.Prism/Web.War.config
