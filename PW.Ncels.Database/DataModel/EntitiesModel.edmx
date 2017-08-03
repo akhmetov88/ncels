@@ -2507,7 +2507,7 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="PaymentCheck" Type="bit" Nullable="false" />
           <Property Name="OwnerId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Type_Id" Type="int" Nullable="false" />
-          <Property Name="Contract_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Contract_Id" Type="uniqueidentifier" />
           <Property Name="CertificateDate" Type="datetime" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CertificateGMPCheck" Type="bit" />
@@ -2524,7 +2524,8 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="Number" Type="nvarchar" MaxLength="500" />
           <Property Name="SendDate" Type="datetime" />
           <Property Name="ExecuterId" Type="uniqueidentifier" />
-          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DesignDate" Type="datetime" />
         </EntityType>
         <EntityType Name="OBK_AssessmentDeclarationFieldHistory">
           <Key>
@@ -7069,7 +7070,9 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationView' does 
             <PropertyRef Name="Type_Id" />
             <PropertyRef Name="StatusId" />
             <PropertyRef Name="TypeName" />
+            <PropertyRef Name="CreatedDate" />
             <PropertyRef Name="SortDate" />
+            
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OwnerId" Type="uniqueidentifier" Nullable="false" />
@@ -7079,8 +7082,9 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationView' does 
           <Property Name="SendDate" Type="datetime" />
           <Property Name="StausName" Type="nvarchar" MaxLength="2000" />
           <Property Name="TypeName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="SortDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ncelsProd.dbo.OrganizationsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -19859,8 +19863,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
     [OBK_AssessmentDeclarationView].[SendDate] AS [SendDate], 
     [OBK_AssessmentDeclarationView].[StausName] AS [StausName], 
     [OBK_AssessmentDeclarationView].[TypeName] AS [TypeName], 
-    [OBK_AssessmentDeclarationView].[IsDeleted] AS [IsDeleted], 
-    [OBK_AssessmentDeclarationView].[SortDate] AS [SortDate]
+    [OBK_AssessmentDeclarationView].[CreatedDate] AS [CreatedDate], 
+    [OBK_AssessmentDeclarationView].[SortDate] AS [SortDate], 
+    [OBK_AssessmentDeclarationView].[IsDeleted] AS [IsDeleted]
     FROM [dbo].[OBK_AssessmentDeclarationView] AS [OBK_AssessmentDeclarationView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="OrganizationsView" EntityType="Self.OrganizationsView" store:Type="Views" store:Schema="dbo">
@@ -43604,7 +43609,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="PaymentCheck" Type="Boolean" Nullable="false" />
           <Property Name="OwnerId" Nullable="false" Type="Guid" />
           <Property Name="Type_Id" Type="Int32" Nullable="false" />
-          <Property Name="Contract_Id" Type="Guid" Nullable="false" />
+          <Property Name="Contract_Id" Type="Guid" />
           <Property Name="CertificateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="OBK_Ref_Type" Relationship="ncelsModel.FK_OBK_Ref_Type_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_Ref_Type" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
@@ -43624,8 +43629,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_Ref_Status" Relationship="ncelsModel.FK_OBK_AssessmentDeclaration_Ref_Status" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_Ref_Status" />
           <Property Name="SendDate" Type="DateTime" Precision="3" />
           <Property Name="ExecuterId" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="OBK_Procunts_Series" Relationship="ncelsModel.FK_OBK_AssessmentDeclaration_Procunts_Series" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_Procunts_Series" />
+          <Property Name="DesignDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="OBK_Ref_Type">
           <Key>
@@ -43698,7 +43704,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_RS_Products_Procunts_Series" FromRole="OBK_Procunts_Series" ToRole="OBK_RS_Products" />
           <Property Name="OBK_RS_ProductsId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OBK_AssessmentDeclaration" Relationship="ncelsModel.FK_OBK_AssessmentDeclaration_Procunts_Series" FromRole="OBK_Procunts_Series" ToRole="OBK_AssessmentDeclaration" />
-          <Property Name="OBK_AssessmentDeclarationId" Type="Guid" Nullable="false" />
+          <Property Name="OBK_AssessmentDeclarationId" Type="Guid" />
         </EntityType>
         <Association Name="FK_OBK_RS_Products_Procunts_Series">
           <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="1" />
@@ -43795,6 +43801,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="Id" />
             <PropertyRef Name="SortDate" />
+            <PropertyRef Name="CreatedDate" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="OwnerId" Type="Guid" Nullable="false" />
@@ -43804,11 +43811,12 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="SendDate" Type="DateTime" Precision="3" />
           <Property Name="StausName" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="SortDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_OBK_AssessmentDeclaration_Procunts_Series">
-          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="0..1" />
           <End Type="ncelsModel.OBK_Procunts_Series" Role="OBK_Procunts_Series" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OBK_AssessmentDeclaration">
@@ -54929,6 +54937,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_AssessmentDeclaration">
             <EntityTypeMapping TypeName="IsTypeOf(ncelsModel.OBK_AssessmentDeclaration)">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclaration">
+                <ScalarProperty Name="DesignDate" ColumnName="DesignDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ExecuterId" ColumnName="ExecuterId" />
                 <ScalarProperty Name="SendDate" ColumnName="SendDate" />
@@ -55075,6 +55084,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_AssessmentDeclarationView">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationView">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationView">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="SortDate" ColumnName="SortDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

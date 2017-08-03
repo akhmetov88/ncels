@@ -27,6 +27,9 @@ namespace PW.Ncels.Database.DataModel
 
         public string NameRu { get; set; }
 
+        public Guid? CountryId { get; set; }
+
+        public Guid? CurrencyId { get; set; }
         public List<OBK_Contract> ObkContracts { get; set; }
         public List<OBK_RS_Products> ObkRsProductses { get; set; }
         public List<OBK_Procunts_Series> ObkProcuntsSeries { get; set; }

@@ -2294,6 +2294,7 @@
     <Content Include="Views\SafetyAssessment\AgreementView.cshtml" />
     <Content Include="Views\SafetyAssessment\ProductView.cshtml" />
     <Content Include="Views\SafetyAssessment\ProductSeriesView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ShowDetails.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

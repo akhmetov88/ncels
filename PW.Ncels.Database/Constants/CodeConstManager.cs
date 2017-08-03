@@ -353,5 +353,41 @@ namespace PW.Ncels.Database.Constants
         public const string STATUS_FILE_CODE_FOR_REVISION = "FOR_REVISION";
 
         #endregion
+
+        #region ОБК
+
+        #region файлы заявления ОБК
+        /// <summary>
+        /// Серийная оценка безопасности и качества
+        /// </summary>
+        public const string ATTACH_SERIAL_SA_FILE_CODE = "OBK_SERIAL_SAFETY_ASSESSMENT";
+        /// <summary>
+        /// оценку безопасности и качества каждой серии(партии)
+        /// </summary>
+        public const string ATTACH_PARTY_SA_FILE_CODE = "OBK_PARTY_SAFETY_ASSESSMENT";
+        /// <summary>
+        /// оценку безопасности и качества путем декларирования
+        /// </summary>
+        public const string ATTACH_DECLARATION_SA_FILE_CODE = "OBK_DECLARATION_SAFETY_ASSESSMENT";
+        #endregion
+
+        #region заявление ОБК
+
+        /// <summary>
+        /// заявление на серийную оценку безопасности и качества
+        /// </summary>
+        public const string OBK_SA_SERIAL = "1";
+        /// <summary>
+        /// заявление на оценку безопасности и качества каждой серии(партии)
+        /// </summary>
+        public const string OBK_SA_PARTY = "2";
+        /// <summary>
+        /// заявление на оценку безопасности и качества путем декларирования
+        /// </summary>
+        public const string OBK_SA_DECLARATION = "3";
+
+        #endregion
+
+        #endregion
     }
 }

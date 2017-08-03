@@ -30,41 +30,29 @@ namespace PW.Ncels.Controllers
         /// подача заявления
         /// </summary>
         /// <returns></returns>
-        public ActionResult Create()
+        public ActionResult Create(string type)
         {
+
             var model = new OBK_AssessmentDeclaration
             {
                 Id = Guid.NewGuid(),
                 OwnerId = UserHelper.GetCurrentEmployee().Id,
                 StatusId = CodeConstManager.STATUS_DRAFT_ID,
                 ObkContracts = new List<OBK_Contract>(),
-                ObkRsProductses = new List<OBK_RS_Products>(),
-                //ObkProcuntsSeries = new List<OBK_Procunts_Series>()
+                ObkRsProductses = new List<OBK_RS_Products>()
             };
+
+            
+
             model.CertificateDate = null;
             model.CreatedDate = DateTime.Now;
 
-            //серия продуктов
-            //if (model.ObkProcuntsSeries.Count == 0) {
-            //    model.ObkProcuntsSeries.Add(new OBK_Procunts_Series());
-            //}
             //продукты
             if (model.ObkRsProductses.Count == 0) {
-                //model.ObkRsProductses.Add(new OBK_RS_Products());
                 model.ObkRsProductses = new List<OBK_RS_Products>() { new OBK_RS_Products()
                 {
                     Obk_Products_Series = new List<OBK_Procunts_Series>() { new OBK_Procunts_Series()}
                 }};
-            }
-
-            for (var i = 0; i < model.ObkRsProductses.Count; i++) {
-                if (model.ObkRsProductses[i].Obk_Products_Series != null)
-                {
-                    for (var j = 1; j < model.ObkRsProductses[i].OBK_Procunts_Series.Count; j++)
-                    {
-
-                    }
-                }
             }
 
             //договора
@@ -73,11 +61,20 @@ namespace PW.Ncels.Controllers
             }
 
             var safetyRepository = new SafetyAssessmentRepository(false);
+
+            if (type == CodeConstManager.OBK_SA_SERIAL) {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_SERIAL));
+            }
+            if (type == CodeConstManager.OBK_SA_PARTY) {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_PARTY));
+            }
+            if (type == CodeConstManager.OBK_SA_DECLARATION) {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_DECLARATION));
+            }
+
             ViewData["ContractList"] =
                 new SelectList(safetyRepository.GetActiveContractListWithInfo(model.OwnerId), "Id",
                     "ContractInfo", model.Contract_Id);
-
-            ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id);
 
             var repository = new ReadOnlyDictionaryRepository();
             //Наличие сертификата GMP
@@ -97,6 +94,7 @@ namespace PW.Ncels.Controllers
 
         public ActionResult Delete(string id)
         {
+            new SafetyAssessmentRepository().DeleteReport(id, UserHelper.GetCurrentEmployee().Id);
             return RedirectToAction("RegisterSafetyAssessmentList");
         }
 
@@ -104,6 +102,67 @@ namespace PW.Ncels.Controllers
         public ActionResult RegisterSafetyAssessmentList()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult ShowDetails(string id)
+        {
+          var model = GetSaDeclarationById(id);
+          return View(model);
+        }
+
+        public OBK_AssessmentDeclaration GetSaDeclarationById(string id)
+        {
+          var repository = new SafetyAssessmentRepository();
+          var model = repository.GetById(id);
+            //model.IsExist = true;
+          FillDeclarationControl(model);
+          return model;
+        }
+
+        private void FillDeclarationControl(OBK_AssessmentDeclaration model)
+        {
+            var safetyRepository = new SafetyAssessmentRepository();
+            ViewData["ContractList"] =
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.OwnerId), "Id",
+                    "ContractInfo", model.Contract_Id);
+
+            if (model.Contract_Id != null)
+            {
+                var contract = safetyRepository.GetContractById(model.Contract_Id);
+                var organization = safetyRepository.GetOrganizationById(contract.OrganizationId);
+
+                //справочник стран
+                var countries = safetyRepository.GetCounties();
+                ViewData["Counties"] = new SelectList(countries, "Id", "Name",
+                    model.CountryId = organization.CountryId);
+
+                //Валюта
+                var currency = safetyRepository.GetObkCurrencies();
+                ViewData["Courrency"] = new SelectList(currency, "Id", "Name",
+                    model.CurrencyId = organization.CurrencyId);
+
+                var repository = new ReadOnlyDictionaryRepository();
+                //Наличие сертификата GMP
+                var booleans = repository.GetCertificateGMPCheck();
+                ViewData["IsGMPList"] = new SelectList(booleans, "CertificateGMPCheck", "NameRu",
+                    model.CertificateGMPCheck);
+            }
+            else
+            {
+                var countries = safetyRepository.GetCounties();
+                ViewData["Counties"] = new SelectList(countries, "Id", "Name");
+
+                //Валюта
+                var currency = safetyRepository.GetObkCurrencies();
+                ViewData["Courrency"] = new SelectList(currency, "Id", "Name");
+
+                var repository = new ReadOnlyDictionaryRepository();
+                //Наличие сертификата GMP
+                var booleans = repository.GetCertificateGMPCheck();
+                ViewData["IsGMPList"] = new SelectList(booleans, "CertificateGMPCheck", "NameRu",
+                    model.CertificateGMPCheck);
+            }
         }
 
         /// <summary>
@@ -178,14 +237,14 @@ namespace PW.Ncels.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult UpdateModel(string code, string modelId, string userId, long? recordId, string fieldName, string fieldValue, string fieldDisplay)
+        public virtual ActionResult UpdateModel(string code, int typeId, string modelId, string userId, long? recordId, string fieldName, string fieldValue, string fieldDisplay)
             {
-            var filter = new SafetyAssessmentRepository().UpdateModel(code, modelId, userId, recordId, fieldName, fieldValue, fieldDisplay);
+            var filter = new SafetyAssessmentRepository().UpdateModel(code, typeId, modelId, userId, recordId, fieldName, fieldValue, fieldDisplay);
             return Json(new { Success = true, modelId = filter.ModelId, recordId = filter.RecordId, controlId = filter.ControlId });
         }
 
         /// <summary>
-        /// При выборе договора
+        /// Выбор договора
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -207,7 +266,7 @@ namespace PW.Ncels.Controllers
             return Json(new
             {
                 startDate = String.Format("{0:dd/MM/yyyy}", contract.StartDate),
-                endDate = String.Format("{0:dd/MM/yyyy}", contract.StartDate),
+                endDate = String.Format("{0:dd/MM/yyyy}", contract.EndDate),
 
                 daclarant = organization?.Declarant ?? "нет данных",
                 orgForm = organization?.OrgForm ?? "нет данных",
@@ -227,6 +286,8 @@ namespace PW.Ncels.Controllers
                 bankSwift = organization?.BankSwift ?? "нет данных",
                 bankAccount = organization?.BankAccount ?? "нет данных",
                 bankName = organization?.BankName ?? "нет данных",
+                country = organization?.CountryId ?? null,
+                currency = organization?.CurrencyId ?? null,
                 isSuccess = true
             });
         }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@using PW.Ncels.Database.Constants
+@{
     Layout = "../Shared/_Layout.cshtml";
 }
 
@@ -32,7 +33,20 @@
                 </div>
                 <div class="ibox-content ibox-heading">
                     <div class="note-font btn-group">
+                        <div class="btn-group" role="group">
+                            @*<div class="note-font btn-group">
                         <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" onclick="location.href='@Url.Action("Create", "SafetyAssessment")'"><i class="fa fa-file-text-o"></i> Создать заявление</button>
+                    </div>*@
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-file-text-o"></i> Создать заявление
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type= @CodeConstManager.OBK_SA_SERIAL })">Заявление на серийную оценку безопасности и качества</a></li>
+                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type= @CodeConstManager.OBK_SA_PARTY })">Заявление на оценку безопасности и качества каждой серии(партии)</a></li>
+                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type = @CodeConstManager.OBK_SA_DECLARATION })">Заявление на оценку безопасности и качества путем декларирования</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="ibox-content">

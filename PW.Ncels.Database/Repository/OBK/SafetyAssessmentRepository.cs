@@ -59,10 +59,19 @@ namespace PW.Ncels.Database.Repository.OBK
         }
 
         /// <summary>
+        /// Поиск договора по id
+        /// </summary>
+        public OBK_Contract GetContractById(Guid? id)
+        {
+            return AppContext.OBK_Contract.FirstOrDefault(e => e.Id == id);
+        }
+
+        /// <summary>
         /// Справочник Тип заявления ОБК
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<OBK_Ref_Type> GetObkRefTypes() {
+        public IEnumerable<OBK_Ref_Type> GetObkRefTypes()
+        {
             return AppContext.OBK_Ref_Type.ToList();
         }
 
@@ -104,6 +113,14 @@ namespace PW.Ncels.Database.Repository.OBK
         {
            var result = AppContext.OBK_RS_Products.Where(x => x.OBK_AssessmentDeclarationId == new Guid(modelId));
             return result;
+        }
+
+        /// <summary>
+        /// Поиск договора по id
+        /// </summary>
+        public OBK_Organization GetOrganizationById(int id)
+        {
+            return AppContext.OBK_Organization.FirstOrDefault(e => e.Id == id);
         }
 
         public object GetSaveObkRsProducts(string modelId, string nameRu, string nameKz, string producerNameRu, string producerNameKz, string countryNameRu, string countryNameKz,
@@ -219,7 +236,7 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="fieldValue">значение</param>
         /// <param name="fieldDisplay">значение</param>
         /// <returns></returns>
-        public SubUpdateField UpdateModel(string code, string modelId, string userId, long? recordId, string fieldName, string fieldValue, string fieldDisplay)
+        public SubUpdateField UpdateModel(string code, int typeId, string modelId, string userId, long? recordId, string fieldName, string fieldValue, string fieldDisplay)
         {
             bool isNew = false;
             var model = GetById(modelId);
@@ -228,12 +245,13 @@ namespace PW.Ncels.Database.Repository.OBK
                 model = new OBK_AssessmentDeclaration
                 {
                     OwnerId = UserHelper.GetCurrentEmployee().Id,
-                    Type_Id = 1,
+                    Type_Id = typeId,
                     Id = new Guid(modelId),
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
-                    Contract_Id = UserHelper.GetCurrentEmployee().Id,
-                    CertificateDate = DateTime.Now
+                    //Contract_Id = UserHelper.GetCurrentEmployee().Id,
+                    CertificateDate = DateTime.Now,
+                    IsDeleted = false
                 };
                 isNew = true;
             }
@@ -306,19 +324,15 @@ namespace PW.Ncels.Database.Repository.OBK
         }
 
         /// <summary>
-        /// Поиск договора по id
+        /// удаление записи
         /// </summary>
-        public OBK_Contract GetContractById(Guid id)
+        /// <param name="id"></param>
+        /// <param name="guid"></param>
+        public void DeleteReport(string id, Guid guid)
         {
-            return AppContext.OBK_Contract.FirstOrDefault(e => e.Id == id);
-        }
-
-        /// <summary>
-        /// Поиск договора по id
-        /// </summary>
-        public OBK_Organization GetOrganizationById(int id)
-        {
-            return AppContext.OBK_Organization.FirstOrDefault(e => e.Id == id);
-        }
+            var model = GetById(id);
+            model.IsDeleted = true;
+            AppContext.SaveChanges();
+        }     
     }
 }
