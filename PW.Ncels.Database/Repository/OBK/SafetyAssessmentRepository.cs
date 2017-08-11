@@ -20,34 +20,38 @@ namespace PW.Ncels.Database.Repository.OBK
     public class SafetyAssessmentRepository : ARepository
     {
 
-        public SafetyAssessmentRepository() {
+        public SafetyAssessmentRepository()
+        {
             AppContext = CreateDatabaseContext();
         }
 
-        public SafetyAssessmentRepository(bool isProxy) {
+        public SafetyAssessmentRepository(bool isProxy)
+        {
             AppContext = CreateDatabaseContext(isProxy);
         }
 
-        public SafetyAssessmentRepository(ncelsEntities context) : base(context) { }
+        public SafetyAssessmentRepository(ncelsEntities context) : base(context)
+        {
+        }
 
         /// <summary>
         /// Получение списка контрактов
         /// </summary>
-        /// <param name="ownerId"></param>
+        /// <param name="employeeId"></param>
         /// <returns></returns>
-        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid ownerId)
+        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId)
         {
-            return AppContext.OBK_Contract.Where(e => e.OwnerId == ownerId);
+            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId);
         }
 
         /// <summary>
         /// Показать список c проставлением дополнительной информации по владельцу
         /// </summary>
-        /// <param name="ownerId">владелец</param>
+        /// <param name="employeeId">владелец</param>
         /// <returns></returns>
-        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid ownerId)
+        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId)
         {
-            var list = GetContractsByStatuses(ownerId).OrderBy(e => e.StartDate);
+            var list = GetContractsByStatuses(employeeId).OrderBy(e => e.StartDate);
 
             foreach (var contract in list)
             {
@@ -79,7 +83,8 @@ namespace PW.Ncels.Database.Repository.OBK
         /// Список стран
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Dictionary> GetCounties() {
+        public IEnumerable<Dictionary> GetCounties()
+        {
             return AppContext.Dictionaries.Where(o => o.Type == "Country").ToList();
         }
 
@@ -87,100 +92,55 @@ namespace PW.Ncels.Database.Repository.OBK
         /// валюта
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Dictionary> GetObkCurrencies() {
+        public IEnumerable<Dictionary> GetObkCurrencies()
+        {
             return AppContext.Dictionaries.Where(o => o.Type == "Currency").ToList();
         }
 
-        public OBK_AssessmentDeclaration GetById(string modelId) {
+        public OBK_AssessmentDeclaration GetById(string modelId)
+        {
             return AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == new Guid(modelId));
         }
 
-        public IQueryable<OBK_RS_Products> GetRsProducts(string modelId)
+        public IEnumerable<OBK_RS_Products> GetRsProductsAndSeries(Guid modelId)
         {
-            return AppContext.OBK_RS_Products.Where(e => e.OBK_AssessmentDeclarationId == new Guid(modelId));
+            return AppContext.OBK_RS_Products.Where(e => e.ContractId == modelId)
+                .Include(x => x.OBK_Procunts_Series)
+                .ToList();
         }
 
         public ReesrtObk GetSearchReestr(string regNumber, string tradeName, string manufacturer, string mnn)
         {
             var reestr = AppContext.sr_register.FirstOrDefault(x => x.reg_number == regNumber);
-            if (reestr != null) {
+            if (reestr != null)
+            {
                 return AppContext.ReesrtObks.FirstOrDefault(x => x.register_id == reestr.id);
             }
             return null;
         }
 
-        public IQueryable<OBK_RS_Products> GetAddToTable(string modelId)
+        public IEnumerable<Dictionary> GetOrganizationForm()
         {
-           var result = AppContext.OBK_RS_Products.Where(x => x.OBK_AssessmentDeclarationId == new Guid(modelId));
-            return result;
+            return AppContext.Dictionaries.Where(x => x.Type == "OpfType").ToList();
         }
 
         /// <summary>
-        /// Поиск договора по id
+        /// Поиск органищация по id
         /// </summary>
-        public OBK_Organization GetOrganizationById(int id)
+        public OBK_Declarant GetDeclarantById(Guid? id)
         {
-            return AppContext.OBK_Organization.FirstOrDefault(e => e.Id == id);
+            return AppContext.OBK_Declarant.FirstOrDefault(e => e.Id == id);
         }
-
-        public object GetSaveObkRsProducts(string modelId, string nameRu, string nameKz, string producerNameRu, string producerNameKz, string countryNameRu, string countryNameKz,
-            string tnvedCode, string kpvedCode, string price, string currency)
+        /// <summary>
+        /// Поиск контактов органищация по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public OBK_DeclarantContact GetDeclarantContactById(Guid? id)
         {
-            bool isNew = false;
-            var model = GetById(modelId);
-            if (model == null)
-            {
-                model = new OBK_AssessmentDeclaration
-                {
-                    OwnerId = UserHelper.GetCurrentEmployee().Id,
-                    Type_Id = 1,
-                    Id = new Guid(modelId),
-                    CreatedDate = DateTime.Now,
-                    StatusId = CodeConstManager.STATUS_DRAFT_ID,
-                    Contract_Id = UserHelper.GetCurrentEmployee().Id,
-                    CertificateDate = DateTime.Now
-                };
-                isNew = true;
-            }
-
-            if (isNew) {
-                var products = new OBK_RS_Products {
-                    OBK_AssessmentDeclarationId = model.Id,
-                    NameRu = nameRu,
-                    NameKz = nameKz,
-                    ProducerNameRu = producerNameRu,
-                    ProducerNameKz = producerNameKz,
-                    CountryNameRu = countryNameRu,
-                    CountryNameKZ = countryNameKz,
-                    TnvedCode = tnvedCode,
-                    KpvedCode = kpvedCode,
-                    Price = price
-                };
-                AppContext.OBK_AssessmentDeclaration.Add(model);
-                AppContext.OBK_RS_Products.Add(products);
-                AppContext.SaveChanges();
-                return new {Success = true};
-            }
-            else {
-                var products = new OBK_RS_Products {
-                    OBK_AssessmentDeclarationId = model.Id,
-                    NameRu = nameRu,
-                    NameKz = nameKz,
-                    ProducerNameRu = producerNameRu,
-                    ProducerNameKz = producerNameKz,
-                    CountryNameRu = countryNameRu,
-                    CountryNameKZ = countryNameKz,
-                    TnvedCode = tnvedCode,
-                    KpvedCode = kpvedCode,
-                    Price = price
-                };
-                AppContext.OBK_RS_Products.Add(products);
-                AppContext.SaveChanges();
-                return new { Success = true };
-            }
-            return new { Success = false };
+            return AppContext.OBK_DeclarantContact.FirstOrDefault(e => e.Id == id);
         }
-
+        
         /// <summary>
         /// загрузка списка заявлений
         /// </summary>
@@ -188,22 +148,30 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="isRegisterProject"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public async Task<object> GetSafetyAssessmentDeclarationList(ModelRequest request, bool isRegisterProject, int? type)
+        public async Task<object> GetSafetyAssessmentDeclarationList(ModelRequest request, bool isRegisterProject,
+            int? type)
         {
             try
             {
                 //Database query
                 var employeeId = UserHelper.GetCurrentEmployee().Id;
                 var org = UserHelper.GetCurrentEmployee();
-                var v = type != null ? AppContext.OBK_AssessmentDeclarationView.Where(m => m.OwnerId == employeeId).OrderByDescending(m => m.SortDate).AsQueryable()
+                var v = type != null
+                    ? AppContext.OBK_AssessmentDeclarationView.Where(m => m.OwnerId == employeeId)
+                        .OrderByDescending(m => m.SortDate)
+                        .AsQueryable()
                     : AppContext.OBK_AssessmentDeclarationView.Where(m => m.OwnerId == employeeId).AsQueryable();
                 //search
-                if (!string.IsNullOrEmpty(request.SearchValue)) {
-                    v = v.Where( a => a.Number.Contains(request.SearchValue) || a.StausName.Contains(request.SearchValue));
+                if (!string.IsNullOrEmpty(request.SearchValue))
+                {
+                    v =
+                        v.Where(
+                            a => a.Number.Contains(request.SearchValue) || a.StausName.Contains(request.SearchValue));
                 }
 
                 //sort
-                if (!(string.IsNullOrEmpty(request.SortColumn) && string.IsNullOrEmpty(request.SortColumnDir))) {
+                if (!(string.IsNullOrEmpty(request.SortColumn) && string.IsNullOrEmpty(request.SortColumnDir)))
+                {
                     v = v.OrderBy(request.SortColumn + " " + request.SortColumnDir);
                 }
 
@@ -211,7 +179,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 int recordsTotal = await v.CountAsync();
                 var expertiseViews = v.Skip(request.Skip).Take(request.PageSize);
                 return
-                    new  {
+                    new
+                    {
                         draw = request.Draw,
                         recordsFiltered = recordsTotal,
                         recordsTotal = recordsTotal,
@@ -219,8 +188,9 @@ namespace PW.Ncels.Database.Repository.OBK
                     };
             }
 
-            catch (Exception e) {
-                return new { IsError = true, Message = e.Message };
+            catch (Exception e)
+            {
+                return new {IsError = true, Message = e.Message};
             }
 
         }
@@ -236,7 +206,8 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="fieldValue">значение</param>
         /// <param name="fieldDisplay">значение</param>
         /// <returns></returns>
-        public SubUpdateField UpdateModel(string code, int typeId, string modelId, string userId, long? recordId, string fieldName, string fieldValue, string fieldDisplay)
+        public SubUpdateField UpdateModel(string code, int typeId, string modelId, string userId, long? recordId,
+            string fieldName, string fieldValue, string fieldDisplay)
         {
             bool isNew = false;
             var model = GetById(modelId);
@@ -244,12 +215,11 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 model = new OBK_AssessmentDeclaration
                 {
-                    OwnerId = UserHelper.GetCurrentEmployee().Id,
+                    EmployeeId = UserHelper.GetCurrentEmployee().Id,
                     Type_Id = typeId,
                     Id = new Guid(modelId),
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
-                    //Contract_Id = UserHelper.GetCurrentEmployee().Id,
                     CertificateDate = DateTime.Now,
                     IsDeleted = false
                 };
@@ -266,7 +236,8 @@ namespace PW.Ncels.Database.Repository.OBK
             return null;
         }
 
-        private SubUpdateField UpdateMain(bool isNew, OBK_AssessmentDeclaration model, string fieldName, string fieldValue, string userId, string fieldDisplay)
+        private SubUpdateField UpdateMain(bool isNew, OBK_AssessmentDeclaration model, string fieldName,
+            string fieldValue, string userId, string fieldDisplay)
         {
             var property = model.GetType().GetProperty(fieldName);
             if (property != null)
@@ -308,7 +279,8 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="fieldValue">значение</param>
         /// <param name="userId">автор</param>
         /// <param name="fieldDisplay"></param>
-        protected void SaveHistoryField(Guid modelId, string fieldName, string fieldValue, Guid userId, string fieldDisplay)
+        protected void SaveHistoryField(Guid modelId, string fieldName, string fieldValue, Guid userId,
+            string fieldDisplay)
         {
             var history = new OBK_AssessmentDeclarationFieldHistory
             {
@@ -333,6 +305,83 @@ namespace PW.Ncels.Database.Repository.OBK
             var model = GetById(id);
             model.IsDeleted = true;
             AppContext.SaveChanges();
-        }     
+        }
+
+        /// <summary>
+        /// создание дубликата
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        public OBK_AssessmentDeclaration DublicateAssessmentDeclaration(string id, Guid guid)
+        {
+            var oldModel = GetById(id);
+            if (oldModel == null)
+            {
+                return null;
+            }
+            var model = new OBK_AssessmentDeclaration
+            {
+                Id = Guid.NewGuid(),
+                EmployeeId = guid,
+                StatusId = CodeConstManager.STATUS_DRAFT_ID,
+                CreatedDate = DateTime.Now,
+                CertificateGMP = oldModel.CertificateGMP,
+                CertificateNumber = oldModel.CertificateNumber,
+                AssuranceCheck = oldModel.AssuranceCheck,
+                OrderCheck = oldModel.OrderCheck,
+                StabilityCheck = oldModel.StabilityCheck,
+                PaymentCheck = oldModel.PaymentCheck,
+                Type_Id = oldModel.Type_Id,
+                Contract_Id = oldModel.Contract_Id,
+                CertificateDate = oldModel.CertificateDate,
+                CertificateGMPCheck = oldModel.CertificateGMPCheck,
+                InvoiceRu = oldModel.InvoiceRu,
+                InvoiceKz = oldModel.InvoiceKz,
+                InvoiceDate = oldModel.InvoiceDate,
+                InvoiceContractRu = oldModel.InvoiceContractRu,
+                InvoiceContractKz = oldModel.InvoiceContractKz,
+                InvoiceAgentLastName = oldModel.InvoiceAgentLastName,
+                InvoiceAgentFirstName = oldModel.InvoiceAgentFirstName,
+                InvoiceAgentMiddelName = oldModel.InvoiceAgentMiddelName,
+                InvoiceAgentPositionName = oldModel.InvoiceAgentPositionName,
+                IsDeleted = false,
+                DesignDate = oldModel.DesignDate
+            };
+
+            //foreach (var obkRsProducts in oldModel.OBK_RS_Products)
+            //{
+            //    var products = new OBK_RS_Products()
+            //    {
+            //        NameRu = obkRsProducts.NameRu,
+            //        NameKz = obkRsProducts.NameKz,
+            //        CountryNameRu = obkRsProducts.CountryNameRu,
+            //        CountryNameKZ = obkRsProducts.CountryNameKZ,
+            //        ProducerNameRu = obkRsProducts.ProducerNameRu,
+            //        ProducerNameKz = obkRsProducts.ProducerNameKz,
+            //        TnvedCode = obkRsProducts.TnvedCode,
+            //        KpvedCode = obkRsProducts.KpvedCode,
+            //        Price = obkRsProducts.Price,
+            //        OBK_AssessmentDeclaration = model
+            //    };
+            //    foreach (var obkProcuntsSeries in obkRsProducts.OBK_Procunts_Series)
+            //    {
+            //        var productSeries = new OBK_Procunts_Series()
+            //        {
+            //            Series = obkProcuntsSeries.Series,
+            //            SeriesStartdate = obkProcuntsSeries.SeriesStartdate,
+            //            SeriesEndDate = obkProcuntsSeries.SeriesEndDate,
+            //            SeriesParty = obkProcuntsSeries.SeriesParty,
+            //            OBK_RS_ProductsId = obkProcuntsSeries.OBK_RS_ProductsId,
+            //            OBK_RS_Products = products
+            //        };
+            //        products.OBK_Procunts_Series.Add(productSeries);
+            //    }
+            //    model.OBK_RS_Products.Add(products);
+            //}
+            AppContext.OBK_AssessmentDeclaration.Add(model);
+            AppContext.SaveChanges();
+            return model;
+        }
     }
 }
