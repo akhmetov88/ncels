@@ -2291,7 +2291,6 @@
     <Content Include="Views\SafetyAssessment\Index.cshtml" />
     <Content Include="Views\SafetyAssessment\Create.cshtml" />
     <Content Include="Views\SafetyAssessment\RegisterSafetyAssessmentList.cshtml" />
-    <Content Include="Views\SafetyAssessment\AssessmentView.cshtml" />
     <Content Include="Views\TestDigitalSign\Index.cshtml" />
     <Content Include="Views\Home\OBK_SignView.cshtml" />
     <Content Include="Views\OBKContract\Index.cshtml" />
@@ -2303,6 +2302,7 @@
     <Content Include="Views\SafetyAssessment\ProductView.cshtml" />
     <Content Include="Views\SafetyAssessment\ProductSeriesView.cshtml" />
     <Content Include="Views\SafetyAssessment\ShowDetails.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExportFileTemplate.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

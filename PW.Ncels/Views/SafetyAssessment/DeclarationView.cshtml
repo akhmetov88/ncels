@@ -81,7 +81,7 @@
 
 <input type="hidden" value="@Model.ObjectId" id="modelId" />
 <input type="hidden" value="@Model.Type_Id" id="typeId" />
-@Html.HiddenFor(model => model.OwnerId)
+@Html.HiddenFor(model => model.EmployeeId)
 
 <div class="ibox-content">
 
@@ -169,21 +169,6 @@
         showRootPage("OBKcorespondenceBtn", "corespondencePage");
         showRootPage("OBKconclusionBtn", "conclusionPage");
     });
-
-    @*function DeleteRecord(code, recordId) {
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("DeleteRecord")',
-            data: { 'code': code, 'recordId': recordId },
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-            },
-            error: function (data) {
-                alert("1Error" + data);
-            }
-        });
-    }*@
 
     function showInformIcon(isShow) {
         if (isShow) {
@@ -282,7 +267,7 @@
         }
 
         var modelId = $("#modelId").val();
-        var userId = $("#OwnerId").val();
+        var userId = $("#EmployeeId").val();
         var typeId = $("#typeId").val();
         if (modelId === null || modelId.length === 0) {
             modelId = null;
