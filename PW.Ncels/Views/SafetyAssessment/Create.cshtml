@@ -55,5 +55,24 @@
 <script src="~/Scripts/js/custom/common.js"></script>
 <script src="~/Scripts/js/custom/spin.js"></script>
 <script type="text/javascript">
+    
+    $(document).ready(function () {
 
+        var modelId = $("#modelId").val();
+
+        $("#viewBtn").click(function() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ExportFileTemplate", new { id = Model.Id })',
+                dataType: 'html',
+                cache: false,
+                success: function(data) {
+                    showReport(data);
+                },
+                error: function(data) {
+                    alert("Ошибка");
+                }
+            });
+        });
+    });
 </script>

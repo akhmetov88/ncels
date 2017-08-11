@@ -1,27 +1,138 @@
-﻿@using System.Globalization
-@using PW.Ncels.Database.Constants
-@using PW.Ncels.Database.DataModel
-@using PW.Ncels.Database.Recources
-@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
+﻿@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
+
+@{
+    var @nameRu = "";
+    var @nameKz = "";
+    var @producerNameRu = "";
+    var @producerNameKz = "";
+    var @countryNameRu = "";
+    var @countryNameKz = "";
+    var @tnvedCode = "";
+    var @kpvedCode = "";
+    var @price = "";
+    var @currency = "";
+}
 
 <div class="panel-body">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <table id="tableProducts" style="width: 100%; text-align: center" class="display">
+                    <table id="tableProducts" dt-options="dtOptions" dt-columns="dtColumns"  class="table table-striped table-bordered table-hover dataTable">
                     </table>
                 </div>  
             </div>  
         </div>   
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Информация о заявлемой продукции
+                </div>
+                <div class="panel-body" id="productsId">
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label>Наименование*</label>
+                                        <textarea id="NameRu" name="NameRu" type="text" class="form-control edit-control" readonly="readonly"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label>Наименование на казахском</label>
+                                        <textarea id="NameKz" name="NameKz" type="text" class="form-control edit-control" readonly="readonly"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label>Наименование производителя</label>
+                                        <input id="ProducerNameRu" name="ProducerNameRu" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label>Наименование производителя на казахском</label>
+                                        <input id="ProducerNameKz" name="ProducerNameKz" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label>Страна</label>
+                                        <input id="CountryNameRu" name="CountryNameRu" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label>Страна на казахском</label>
+                                        <input id="CountryNameKz" name="CountryNameKz" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <label>ТН ВЭД</label>
+                                        <input id="TnvedCode" name="TnvedCode" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <label>КП ВЭД</label>
+                                        <input id="KpvedCode" name="KpvedCode" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <label>Цена</label>
+                                        <input id="Price" name="Price" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <label>Валюта</label>
+                                        <input id="Currency" name="Currency" type="text" class="form-control edit-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <div class="col-lg-12" style="margin-top: 10px">
+                                </div>
+                            </div>
+                            <span></span>
+                            
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <table id="tableProductSeries" dt-options="dtOptions" dt-columns="dtColumns"  class="table table-striped table-bordered table-hover dataTable">
+                                            </table>
+                                        </div>  
+                                    </div>  
+                                </div>   
+                            </div>
+                                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-        var table = $('#tableProducts').DataTable({
+
+        $('#tableProducts').DataTable({
             data: null,
+            searching: false,
             columns: [
                 { title: "" },
                 { title: "Наименование" },
@@ -31,136 +142,53 @@
                 { title: "КП ВЭД" }
             ]
         });
-
-        $('#tableProducts tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
+        
+        $('#tableProductSeries').DataTable({
+            data: null,
+            searching: false,
+            "bLengthChange": false,
+            columns: [
+                { title: "Серия" },
+                { title: "Произведена" },
+                { title: "Истекает" },
+                { title: "Партия" },
+                { title: "Ед. измерения" }
+            ]
         });
-
-        $('#deleteBtn').click(function () {
-            table.row('.selected').remove().draw(false);
-        });
-
-        // поиск в реестре
-        $("#searchBtn").on("click",
-            function() {
-                $.ajax({
-                    type: "POST",
-                    url: "/SafetyAssessment/GetSearchReestr",
-                    data: {
-                        'regNumber': $("#RegNumber").val(),
-                        'tradeName': $("#TradeName").val(),
-                        'manufacturer': $("#Manufacturer").val(),
-                        'mnn': $("#MNN").val()
-                    },
-                    dataType: 'json',
-                    cache: false,
-                    success: function(data) {
-                        if (data.Success) {
-                            $("#NameRu").val(data.name);
-                            $("#NameKz").val(data.name);
-                            $("#ProducerNameRu").val(data.producer_name);
-                            $("#ProducerNameKz").val(data.producer_name);
-                            $("#CountryNameRu").val(data.country_name);
-                            $("#CountryNameKz").val(data.country_name);
-                            $("#TnvedCode").val(data.tnved_code);
-                            $("#KpvedCode").val(data.kpved_code);
-                            $("#Price").val(data.cost);
-                            $("#Currency").val(data.currency_name);
-                        } else {
-                            $("#NameRu").val("");
-                            $("#NameKz").val("");
-                            $("#ProducerNameRu").val("");
-                            $("#ProducerNameKz").val("");
-                            $("#CountryNameRu").val("");
-                            $("#CountryNameKz").val("");
-                            $("#TnvedCode").val("");
-                            $("#KpvedCode").val("");
-                            $("#Price").val("");
-                            $("#Currency").val("");
-                            alert("Данные не найдены");
-                        }
-                    },
-                    error: function(data) {
-                        alert("1Error" + data);
-                    }
-                });
-            });
-
-        //добавление продуктов
-        $("#saveProductBtn").on("click",
-            function() {
-                $.ajax({
-                    type: "POST",
-                    url: "/SafetyAssessment/SaveProducts",
-                    data: {
-                        'modelId': $("#modelId").val(),
-                        'nameRu': $("#NameRu").val(),
-                        'nameKz': $("#NameKz").val(),
-                        'producerNameRu': $("#ProducerNameRu").val(),
-                        'producerNameKz': $("#ProducerNameKz").val(),
-                        'countryNameRu': $("#CountryNameRu").val(),
-                        'countryNameKz': $("#CountryNameKz").val(),
-                        'tnvedCode': $("#TnvedCode").val(),
-                        'kpvedCode': $("#KpvedCode").val(),
-                        'price': $("#Price").val(),
-                        'currency': $("#Currency").val()
-                    },
-                    dataType: 'json',
-                    cache: false,
-                    success: function (result) {
-                        if (result) {
-                            addToTable();
-                            $("#NameRu").val("");
-                            $("#NameKz").val("");
-                            $("#ProducerNameRu").val("");
-                            $("#ProducerNameKz").val("");
-                            $("#CountryNameRu").val("");
-                            $("#CountryNameKz").val("");
-                            $("#TnvedCode").val("");
-                            $("#KpvedCode").val("");
-                            $("#Price").val("");
-                            $("#Currency").val("");
-                        }
-                    },
-                    error: function(data) {
-                        alert("1Error" + data);
-                    }
-                });
-                return;
-            });
-
-        function addToTable() {
-            $.ajax({
-                type: "GET",
-                url: "/SafetyAssessment/AddToTable",
-                data: {
-                    'modelId': $("#modelId").val()
-                },
-                dataType: 'json',
-                cache: false,
-                success: function(result) {
-                    $('#tableProducts').DataTable({
-                        destroy: true,
-                        searching: false,
-                        data: result,
-                        columns: [
-                            { "data": "Id" },
-                            { "data": "NameRu" },
-                            { "data": "ProducerNameRu" },
-                            { "data": "CountryNameRu" },
-                            { "data": "TnvedCode" },
-                            { "data": "KpvedCode" }
-                        ]
-                    });
-                }
-            });
-        }
     });
+    
+    function rowCallback(row) {
+        $('td', row).unbind('click');
+        $('td', row).bind('click', function () {
+            var tab = $(this.parentNode.parentNode.parentNode).DataTable();
+            tab.$('tr.pw-row-selected').removeClass('pw-row-selected');
+            $(this.parentNode).addClass('pw-row-selected');
+            var mass = tab.row('.pw-row-selected').data();
+            $("#NameRu").val(mass.NameRu);
+            $("#NameKz").val(mass.NameKz);
+            $("#ProducerNameRu").val(mass.ProducerNameRu);
+            $("#ProducerNameKz").val(mass.ProducerNameKz);
+            $("#CountryNameRu").val(mass.CountryNameRu);
+            $("#CountryNameKz").val(mass.CountryNameKZ);
+            $("#TnvedCode").val(mass.TnvedCode);
+            $("#KpvedCode").val(mass.KpvedCode);
+            $("#Price").val(mass.Price);
 
+            $("#tableProductSeries").DataTable({
+                data: mass.OBK_Procunts_Series,
+                destroy: true,
+                searching: false,
+                LengthMenu: false,
+                "bLengthChange": false,
+                "columns": [
+                    { "data": "Series" },
+                    { "data": "SeriesStartdate" },
+                    { "data": "SeriesEndDate" },
+                    { "data": "SeriesParty" },
+                    { "data": "SeriesParty" }
+                ]
+            });
+        });
+        return row;
+    }
 </script> 

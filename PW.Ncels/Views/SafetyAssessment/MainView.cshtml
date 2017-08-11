@@ -1,26 +1,23 @@
 ﻿@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 @{
-    var @startDate = "";
-    var @endDate = "";
-    var @declarant = "";
-    var @orgForm = "";
-    var @nameKz = "";
-    var @nameRu = "";
-    var @nameEn = "";
-    var @regNumber = "";
-    var @chiefLastName = "";
-    var @chiefFirstName = "";
-    var @chiefMiddleName = "";
-    var @chiefPosition = "";
-    var @addressFact = "";
-    var @addressLegal = "";
-    var @phone = "";
-    var @email = "";
-    var @bankBik = "";
-    var @bankSwift = "";
-    var @bankAccount = "";
-    var @bankName = "";
+    var @startDate = Model?.StartDate ?? "";
+    var @endDate = Model?.EndDate ?? "";
+    //var @orgForm = Model?.OrganizationFormId ?? "";
+    var @nameKz = Model?.NameKz ?? "";
+    var @nameRu = Model?.NameRu ?? "";
+    var @nameEn = Model?.NameEn ?? "";
+    var @chiefLastName = Model?.ChiefLastName ?? "";
+    var @chiefFirstName = Model?.ChiefFirstName ?? "";
+    var @chiefMiddleName = Model?.ChiefMiddleName ?? "";
+    var @chiefPosition = Model?.ChiefPosition ?? "";
+    var @addressFact = Model?.AddressFact ?? "";
+    var @addressLegal = Model?.AddressLegal ?? "";
+    var @phone = Model?.Phone ?? "";
+    var @email = Model?.Email ?? "";
+    var @bankBik = Model?.BankBik ?? "";
+    var @bankIik = Model?.BankIik ?? "";
+    var @bankName = Model?.BankName ?? "";
 }
 
 @{
@@ -46,7 +43,7 @@
                             <div class="col-lg-6">
                                 <label for="name" class="col-lg-6" style="margin-top: 5px">Договор:</label>
                                 <div class="input-group">
-                                    @Html.DropDownList("ContractId", (IEnumerable<SelectListItem>)(ViewData["ContractList"]),
+                                    @Html.DropDownList("Contract_Id", (IEnumerable<SelectListItem>)(ViewData["ContractList"]),
                                         String.Empty,
                                         new
                                         {
@@ -95,21 +92,18 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="form-group">
-                    <label>Заявитель:</label>
-                    <div class="input-group">
-                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="declarant" value="@declarant">
-                        <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
-                                <i class="glyphicon glyphicon-info-sign"></i>
-                            </a>
-                        </span>
-                    </div>
-                </div>
+                <label>Заявитель:</label>
                 <div class="form-group">
                     <label>Организационная форма:</label>
                     <div class="input-group">
-                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="orgForm" value="@orgForm">
+                        @Html.DropDownList("OrganizationFormId", (IEnumerable<SelectListItem>) (ViewData["OrganizationForm"]),
+                            String.Empty,
+                            new
+                            {
+                                @class = "form-control edit-control",
+                                @readonly = true
+                            })
+
                         <span class="input-group-addon">
                             <a class="commentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -143,17 +137,6 @@
                     <label>Наименование на английском языке:</label>
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameEn" value="@nameEn">
-                        <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
-                                <i class="glyphicon glyphicon-info-sign"></i>
-                            </a>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Номер рег. удостоверения:</label>
-                    <div class="input-group">
-                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="regNumber" value="@regNumber">
                         <span class="input-group-addon">
                             <a class="commentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -297,18 +280,7 @@
                 <div class="form-group">
                     <label>Расчетный счет:</label>
                     <div class="input-group">
-                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankAccount" value="@bankAccount">
-                        <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
-                                <i class="glyphicon glyphicon-info-sign"></i>
-                            </a>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>БИК:</label>
-                    <div class="input-group">
-                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankBik" value="@bankBik">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankIik" value="@bankIik">
                         <span class="input-group-addon">
                             <a class="commentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -330,7 +302,7 @@
                 <div class="form-group">
                     <label>SWIFT:</label>
                     <div class="input-group">
-                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankSwift" value="@bankSwift">
+                        <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankBik" value="@bankBik">
                         <span class="input-group-addon">
                             <a class="commentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -385,72 +357,6 @@
 
 <script type="text/javascript">
     
-    $("#ContractId").change(function () {
-        var val = $(this).val();
-        if (val == null || val.length === 0) {
-            //перечислить поля
-            return;
-        } $.ajax({
-            type: "POST",
-            url: '@Url.Action("GetContract")',
-            data: { 'id': val },
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-                if (data.isSuccess) {
-                    $("#startDate").val(data.startDate);
-                    $("#endDate").val(data.endDate);
-                    $("#declarant").val(data.declarant);
-                    $("#orgForm").val(data.orgForm);
-                    $("#nameKz").val(data.nameKz);
-                    $("#nameRu").val(data.nameRu);
-                    $("#nameEn").val(data.nameEn);
-                    $("#regNumber").val(data.regNumber);
-                    $("#chiefLastName").val(data.chiefLastName);
-                    $("#chiefFirstName").val(data.chiefFirstName);
-                    $("#chiefMiddleName").val(data.chiefMiddleName);
-                    $("#chiefPosition").val(data.chiefPosition);
-                    $("#addressFact").val(data.addressFact);
-                    $("#addressLegal").val(data.addressLegal);
-                    $("#phone").val(data.phone);
-                    $("#email").val(data.email);
-                    $("#bankBik").val(data.bankBik);
-                    $("#bankSwift").val(data.bankSwift);
-                    $("#bankAccount").val(data.bankAccount);
-                    $("#bankName").val(data.bankName);
-                    $("#CountryId").val(data.country);
-                    $("#CurrencyId").val(data.currency);
-                } else {
-                    $("#startDate").val("");
-                    $("#endDate").val("");
-                    $("#declarant").val("");
-                    $("#orgForm").val("");
-                    $("#nameKz").val("");
-                    $("#nameRu").val("");
-                    $("#nameEn").val("");
-                    $("#regNumber").val("");
-                    $("#chiefLastName").val("");
-                    $("#chiefFirstName").val("");
-                    $("#chiefMiddleName").val("");
-                    $("#chiefPosition").val("");
-                    $("#addressFact").val("");
-                    $("#addressLegal").val("");
-                    $("#phone").val("");
-                    $("#email").val("");
-                    $("#bankBik").val("");
-                    $("#bankSwift").val("");
-                    $("#bankAccount").val("");
-                    $("#bankName").val("");
-                    $("#CountryId").val(null);
-                    $("#CurrencyId").val(null);
-                }
-            },
-            error: function () {
-                alert("Connection Failed. Please Try Again");
-            }
-        });
-    });
-
     function setDateFormat(control) {
         $(control).datepicker({
             dateFormat: 'dd.mm.yy',
@@ -488,6 +394,88 @@
                 fieldDisplay = $(this).select2('data').text;
             }
             UpdateModel("main", null, null, controlId, fieldValue, type, fieldDisplay);
+        });
+    });
+
+    $("#Contract_Id").change(function () {
+        var val = $(this).val();
+        if (val == null || val.length === 0) {
+            //перечислить поля
+            return;
+        } $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetContract")',
+            data: { 'id': val },
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if (data.isSuccess) {
+                    var response = data.result;
+                    $("#startDate").val(response.StartDate);
+                    $("#endDate").val(response.EndDate);
+                    $("#declarant").val(response.Declarant);
+                    $("#OrganizationFormId").val(response.OrganizationFormId);
+                    $("#nameKz").val(response.NameKz);
+                    $("#nameRu").val(response.NameRu);
+                    $("#nameEn").val(response.NameEn);
+                    $("#chiefLastName").val(response.ChiefLastName);
+                    $("#chiefFirstName").val(response.ChiefFirstName);
+                    $("#chiefMiddleName").val(response.ChiefMiddleName);
+                    $("#chiefPosition").val(response.ChiefPosition);
+                    $("#addressFact").val(response.AddressFact);
+                    $("#addressLegal").val(response.AddressLegal);
+                    $("#phone").val(response.Phone);
+                    $("#email").val(response.Email);
+                    $("#bankBik").val(response.BankBik);
+                    $("#bankIik").val(response.BankIik);
+                    $("#bankName").val(response.BankName);
+                    $("#CountryId").val(response.CountryId);
+                    $("#CurrencyId").val(response.CurrencyId);
+
+                    var product = response.ObkRsProductses;
+                    $("#tableProducts").DataTable({
+                        data: product,
+                        destroy: true,
+                        searching: false,
+                        iDisplayLength: 5,
+                        rowCallback: rowCallback,
+                        "columns": [
+                            { "data": "Id" },
+                            { "data": "NameRu" },
+                            { "data": "ProducerNameRu" },
+                            { "data": "CountryNameRu" },
+                            { "data": "TnvedCode" },
+                            { "data": "KpvedCode" }
+                        ]
+                    });
+
+                } else {
+                    $("#startDate").val("");
+                    $("#endDate").val("");
+                    $("#declarant").val("");
+                    $("#OrganizationFormId").val(null);
+                    $("#nameKz").val("");
+                    $("#nameRu").val("");
+                    $("#nameEn").val("");
+                    $("#regNumber").val("");
+                    $("#chiefLastName").val("");
+                    $("#chiefFirstName").val("");
+                    $("#chiefMiddleName").val("");
+                    $("#chiefPosition").val("");
+                    $("#addressFact").val("");
+                    $("#addressLegal").val("");
+                    $("#phone").val("");
+                    $("#email").val("");
+                    $("#bankBik").val("");
+                    $("#bankIik").val("");
+                    $("#bankName").val("");
+                    $("#CountryId").val(null);
+                    $("#CurrencyId").val(null);
+                }
+            },
+            error: function () {
+                alert("Connection Failed. Please Try Again");
+            }
         });
     });
 </script>
