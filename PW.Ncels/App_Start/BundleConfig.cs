@@ -116,6 +116,13 @@ namespace PW.Ncels {
                         "~/Scripts/photon/base/obk/*.js"
                         ));
 
+            // Angular UI Grid
+            bundles.Add(new ScriptBundle("~/bundles/ui-grid").Include(
+                "~/Scripts/js/plugins/ui-grid/ui-grid.min.js"));
+
+            // Angular UI Grid Styles
+            bundles.Add(new StyleBundle("~/Content/plugins/ui-grid").Include(
+              "~/Content/css/plugins/ui-grid/ui-grid.min.css"));
         }
     }
 }
