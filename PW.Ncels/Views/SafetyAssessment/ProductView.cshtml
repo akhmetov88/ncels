@@ -1,6 +1,4 @@
-﻿@using System.Runtime.Serialization.Json
-@using System.Web.Script.Serialization
-@using PW.Ncels.Database.DataModel
+﻿@using System.Web.Script.Serialization
 @model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 @{
@@ -14,17 +12,7 @@
     var @kpvedCode = "";
     var @price = "";
     var @currency = "";
-
-    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(OBK_RS_Products));
-    MemoryStream msObj = new MemoryStream();
-    js.WriteObject(msObj, Model.ObkRsProductses);
-    msObj.Position = 0;
-    StreamReader sr = new StreamReader(msObj);
-    string @products = sr.ReadToEnd();
-
-
-    //JavaScriptSerializer json = new JavaScriptSerializer();
-    //var @products = json.Serialize(Model.ObkRsProductses);
+    var @count = @Model.ObkRsProductses?.Count ?? 0;
 }
 
 <div class="panel-body">
@@ -170,22 +158,36 @@
             ]
         });
 
-        if (@Model.ObkRsProductses.Count > 0) {
-            var product = @products;
-            $("#tableProducts").DataTable({
-                data: product,
-                destroy: true,
-                searching: false,
-                iDisplayLength: 5,
-                rowCallback: rowCallback,
-                "columns": [
-                    { "data": "Id" },
-                    { "data": "NameRu" },
-                    { "data": "ProducerNameRu" },
-                    { "data": "CountryNameRu" },
-                    { "data": "TnvedCode" },
-                    { "data": "KpvedCode" }
-                ]
+        if (@count > 1) {
+            var val = '@Model.Contract_Id';
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetContract")',
+                data: { 'id': val },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.isSuccess) {
+                        $("#tableProducts").DataTable({
+                            data: data.result.ObkRsProductses,
+                            destroy: true,
+                            searching: false,
+                            iDisplayLength: 5,
+                            rowCallback: rowCallback,
+                            "columns": [
+                                { "data": "Id" },
+                                { "data": "NameRu" },
+                                { "data": "ProducerNameRu" },
+                                { "data": "CountryNameRu" },
+                                { "data": "TnvedCode" },
+                                { "data": "KpvedCode" }
+                            ]
+                        });
+                    }
+                },
+                error: function () {
+                    alert("Connection Failed. Please Try Again");
+                }
             });
         }
     });
