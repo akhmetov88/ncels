@@ -369,6 +369,14 @@ namespace PW.Ncels.Database.Constants
         /// оценку безопасности и качества путем декларирования
         /// </summary>
         public const string ATTACH_DECLARATION_SA_FILE_CODE = "OBK_DECLARATION_SAFETY_ASSESSMENT";
+        /// <summary>
+        /// обязательные документы для заполнения
+        /// </summary>
+        public const string ATTACH_REQUIRED_OBK_FILE_CODE = "1";
+        /// <summary>
+        /// не обязательные документы для заполнения
+        /// </summary>
+        public const string ATTACH_OPTIONAL_OBK_FILE_CODE = "2";
         #endregion
 
         #region заявление ОБК
@@ -386,6 +394,15 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const string OBK_SA_DECLARATION = "3";
 
+        #endregion
+
+        #region Вид этапа
+
+        /// <summary>
+        /// ЦОЗ
+        /// </summary>
+        public const int STAGE_OBK_COZ = 1;
+       
         #endregion
 
         #endregion

@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
+using Ncels.Helpers;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.Models.Expertise;
+using PW.Ncels.Database.Repository.Expertise;
 
 namespace PW.Ncels.Database.Repository.OBK
 {
@@ -267,6 +270,7 @@ namespace PW.Ncels.Database.Repository.OBK
             SaveHistoryField(model.Id, fieldName, fieldValue, new Guid(userId), fieldDisplay);
             var subUpdateField = new SubUpdateField();
             subUpdateField.ModelId = model.ObjectId;
+
             return subUpdateField;
         }
 
@@ -383,5 +387,147 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
             return model;
         }
+
+        public OBK_AssessmentDeclaration GetPreamble(Guid id)
+        {
+            var context = CreateDatabaseContext(false);
+            var preamble = context.OBK_AssessmentDeclaration
+                //.Include(e => e.ObkContracts)
+                //.Include(e => e)
+                //.Include(e => e.EXP_DrugOrganizations)
+                //.Include(e => e.EXP_DrugPatent)
+                ////                .Include(e => e.EXP_DrugPrice)
+                //.Include(e => e.EXP_DrugProtectionDoc)
+                //.Include(e => e.EXP_DrugType)
+                //.Include(e => e.EXP_DrugUseMethod)
+                //                .Include(e => e.EXP_DrugWrapping).
+                .AsNoTracking()
+                .FirstOrDefault(e => e.Id == id);
+            return preamble;
+        }
+        /// <summary>
+        /// генерация ук
+        /// </summary>
+        /// <returns></returns>
+        public string GetAppNumber()
+        {
+            int year = DateTime.Now.Year;
+            var numer = AppContext.OBK_AssessmentDeclaration.Where(e => e.SendDate.Value.Year == year).Max(e => e.Number);
+            if (numer == null)
+            {
+                return year + "000001";
+            }
+            long numberConvert;
+            if (long.TryParse(numer, out numberConvert))
+            {
+                var newNumber = numberConvert + 1;
+                return newNumber.ToString();
+            }
+            return null;
+        }
+
+        //public void SaveHisotry(OBK_AssessmentDeclarationHistory history, Guid? getCurrentUserId)
+        //{
+        //    AppContext.OBK_AssessmentDeclarationHistory.Add(history);
+        //    AppContext.SaveChanges();
+        //}
+        /// <summary>
+        /// сохранение заявления
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public virtual OBK_AssessmentDeclaration SaveOrUpdate(OBK_AssessmentDeclaration entity, Guid? userId)
+        {
+
+            if (entity.Id == Guid.Empty)
+            {
+                try
+                {
+                    entity.CreatedDate = DateTime.Now;
+                    AppContext.MarkAsAdded(entity);
+                    AppContext.Commit(true);
+                    return entity;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
+            }
+
+            //var suspendedStage = AppContext.EXP_ExpertiseStage.FirstOrDefault(x =>
+            //    !x.IsHistory
+            //    && x.DeclarationId == entity.Id
+            //    && x.IsSuspended
+            //);
+            //if (suspendedStage != null)
+            //{
+            //    LogHelper.Log.DebugFormat("Найден приостановленный этап {0}", suspendedStage.Id);
+            //    if (suspendedStage.SuspendedStartDate.HasValue)
+            //    {
+            //        suspendedStage.IsSuspended = false;
+            //        var suspendedDays = (DateTime.Now - suspendedStage.SuspendedStartDate.Value).TotalDays;
+            //        LogHelper.Log.DebugFormat("Всего дней приостановки {0}", suspendedDays);
+            //        if (suspendedStage.EndDate.HasValue)
+            //        {
+            //            suspendedStage.EndDate = suspendedStage.EndDate.Value.AddDays(suspendedDays);
+            //        }
+            //        else
+            //        {
+            //            LogHelper.Log.DebugFormat("У этапа {0} не указана дата завершения исполнения EndDate", suspendedStage.Id);
+            //        }
+            //        AppContext.Commit(true);
+            //    }
+            //    else
+            //    {
+            //        LogHelper.Log.DebugFormat("У этапа {0} почему-то не указана дата начала приостановки", suspendedStage.Id);
+            //    }
+            //}
+            //else
+            //{
+            //    LogHelper.Log.Debug("Заявление не содержит приостановленных этапов");
+            //}
+
+            var attachedEntity = AppContext.Set<OBK_AssessmentDeclaration>().Find(entity.Id);
+            AppContext.Entry(attachedEntity).CurrentValues.SetValues(entity);
+            AppContext.Commit(true);
+            //Отправка заявления на этап ЦОЗ
+            //if (entity.StatusId != CodeConstManager.STATUS_DRAFT_ID)
+            //{
+            //    string resultDescription;
+            //    var stageRepository = new AssessmentStageRepository();
+            //    if (!stageRepository.HasStage(entity.Id, CodeConstManager.STAGE_OBK_COZ))
+            //        stageRepository.ToNextStage(entity.Id, null, new[] { CodeConstManager.STAGE_OBK_COZ }, out resultDescription);
+            //}
+            return entity;
+        }
+
+        #region внутренний портал
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="stage"></param>
+        /// <param name="userId"></param>
+        /// <param name="customFilter"></param>
+        /// <returns></returns>
+        //public IQueryable<OBK_AssessmentDeclarationRegisterView> SafetyAssessmentRegisterList(string status, int stage, Guid userId, DeclarationRegistryFilter customFilter)
+        //{
+        //    var query =
+        //        AppContext.OBK_AssessmentDeclarationRegisterView;
+        //    return query;
+        //}
+        #endregion
     }
 }

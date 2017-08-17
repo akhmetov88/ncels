@@ -437,6 +437,8 @@ namespace PW.Ncels.Database.DataModel
         public DbSet<OBK_Organization> OBK_Organization { get; set; }
         public DbSet<OBK_Ref_Status> OBK_Ref_Status { get; set; }
         public DbSet<OBK_AssessmentDeclarationView> OBK_AssessmentDeclarationView { get; set; }
+        public DbSet<OBK_Declarant> OBK_Declarant { get; set; }
+        public DbSet<OBK_DeclarantContact> OBK_DeclarantContact { get; set; }
     
         public virtual int CloseTask(Nullable<System.Guid> id, string note, string modifiedUser)
         {

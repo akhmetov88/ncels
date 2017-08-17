@@ -163,6 +163,10 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("IsViewTmcList", @"Возможность просматривать список ТМЦ", "Возможность просматривать список ТМЦ", "Разрешения на действия в Системе");
             AddPermission("IsFrpCenterTmc", @"Право на выдачу ТМЦ со склада ИЦ", "Право на выдачу ТМЦ со склада ИЦ", "Разрешения на действия в Системе");
 
+            // ОБК
+            AddPermission("IsMenuSafetyAssessmentVisibility", @"Модуль 'ОБК'", "Вкладка 'ОБК Заявления' главная", "Доступ в главном меню ОБК");
+            AddPermission("CanSafetyAssessmentExecutorsAssignment", @"Модуль 'ОБК'", "Распределение заявлений", "Работа с заявлениями ОБК");
+
             RemoveNonActualKeys();
         }
 
@@ -840,5 +844,19 @@ namespace PW.Ncels.Database.Helpers
         public static bool IsPriceProjectProcCenterVisibility { get { return IsVisibility("IsPriceProjectProcCenterVisibility"); } }
         public static bool IsPriceProjectChiefVisibility { get { return IsVisibility("IsPriceProjectChiefVisibility"); } }
         public static bool IsPriceProjectExpertVisibility { get { return IsVisibility("IsPriceProjectExpertVisibility"); } }
+
+        #region ОБК
+        /// <summary>
+        /// модуль обк заявления
+        /// </summary>
+        public static bool IsMenuSafetyAssessmentVisibility { get { return IsVisibility("IsMenuSafetyAssessmentVisibility"); } }
+        /// <summary>
+        /// показывать кнопку назначить исполнителя
+        /// </summary>
+        public static bool CanSafetyAssessmentExecutorsAssignment { get { return IsVisibility("CanSafetyAssessmentExecutorsAssignment"); } }
+
+        #endregion
+
+
     }
 }

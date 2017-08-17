@@ -74,5 +74,140 @@
                 }
             });
         });
+
+        $("#signBtn").click(function () {
+            if (!checkDeclaraionValidation()) {
+                showWarning("Заполните объязательные поля");
+                return;
+            }
+            var id = $("#modelId").val();
+            startSign('/SafetyAssessment/SignOperation', id);
+        });
+        $("#notSignBtn").click(function () {
+            if (!checkDeclaraionValidation()) {
+                showWarning("Заполните объязательные поля");
+                return;
+            }
+            var success = function () {
+                var modelId = $("#modelId").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SendNotSign")',
+                    data: { 'modelId': modelId },
+                    dataType: 'json',
+                    cache: false,
+                    success: function (data) {
+                        window.location.href = '@Url.Action("RegisterSafetyAssessmentList", "SafetyAssessment")';
+                    },
+                    error: function () {
+                        alert("Connection Failed. Please Try Again");
+                    }
+                });
+
+            }
+            var cancel = function () {
+            };
+            showConfirmation("Подтверждение", "Вы уверены что хотите отправить без подписи?", success, cancel);
+        });
     });
+</script>
+
+
+<!--Валидация-->
+<script type="text/javascript">
+
+    function checkDeclaraionValidation() {
+        var validAttach = checkAttachFile();
+        var validDeclaration = checkWrapping();
+        if (!validDeclaration) {
+            $("#drugDeclarationBtn").css({ 'color': '#a94442', 'background-color': '#f2dede' });
+        } else {
+            $("#drugDeclarationBtn").css({ 'color': '#555', 'background-color': '#ffffff' });
+        }
+        valid = validDeclaration && validAttach;
+        return valid;
+    }
+    function checkValueFromIsNull(value) {
+        if (value == null || value.length === 0) {
+            return true;
+        }
+        return false;
+    }
+    function setMarkValidation(control, value) {
+        if (checkValueFromIsNull(value)) {
+            $(control).addClass("pw-select-invalid");
+            return false;
+        }
+        if ($(control).hasClass("pw-select-invalid")) {
+            $(control).removeClass("pw-select-invalid");
+        }
+        return true;
+    }
+    function checkWrapping() {
+        var validFile = true;
+        $('.wrapping-row').each(function () {
+            var wrappingType = $(this).find('td').eq(1).find('select');
+            var wrappingKind = $(this).find('td').eq(2).find('select');
+            var wrappingSize = $(this).find('td').eq(3).find('input');
+            var sizeMeasure = $(this).find('td').eq(4).find('select');
+            var wrappingVolume = $(this).find('td').eq(5).find('input');
+            var volumeMeasure = $(this).find('td').eq(6).find('select');
+            var countUnit = $(this).find('td').eq(7).find('input');
+
+            var wrappingTypeValue = $(wrappingType).val();
+            var wrappingKindValue = $(wrappingKind).val();
+            var countUnitValue = $(countUnit).val();
+
+            var isNull = checkValueFromIsNull(wrappingTypeValue) &&
+                checkValueFromIsNull(wrappingKindValue) &&
+                checkValueFromIsNull(countUnitValue);
+            if (isNull) {
+                return;
+            }
+            validFile = setMarkValidation(wrappingType, wrappingTypeValue) && validFile;
+
+            var kindcontrol = $("#" + wrappingKind.attr('id') + "_chosen").find('a').eq(0);
+            if (checkValueFromIsNull(wrappingKindValue)) {
+                $(kindcontrol).css({ 'background': 'rgb(251, 227, 228)' });
+                validFile = false;
+            } else {
+                $(kindcontrol).css({ 'background': '#ffffff' });
+            }
+            //debugger;
+            var labelTab = $("#" + $(wrappingType).closest(".tab-pane").attr("id") + "Label");
+            if (!labelTab.hasClass("error") && !validFile) {
+                labelTab.addClass("error");
+                $(labelTab).css({ 'color': '#a94442', 'background-color': '#f2dede' });
+            } else {
+                $(labelTab).css({ 'color': '#555', 'background-color': '#ffffff' });
+            }
+        });
+
+        if (!validFile) {
+            $("#wrapLabelPage").css({ 'color': '#a94442', 'background-color': '#f2dede' });
+        } else {
+            $("#wrapLabelPage").css({ 'color': '#555', 'background-color': '#ffffff' });
+        }
+        return validFile;
+    }
+    function checkAttachFile() {
+        var validFile = true;
+        $('.file-validation').each(function () {
+            var ct = $(this).attr('countFile');
+            var attcode = $(this).attr('attcode');
+            var count = parseInt(ct, 10) || 0;
+            if (count === 0 && attcode === '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE') {
+                $(this).text("Необходимо вложить файлы");
+                validFile = false;
+            } else {
+                $(this).text("");
+            }
+        });
+        if (!validFile) {
+            $("#OBKSaAttachBtn").css({ 'color': '#a94442', 'background-color': '#f2dede' });
+        } else {
+            $("#OBKSaAttachBtn").css({ 'color': '#555', 'background-color': '#ffffff' });
+        }
+        return validFile;
+    }
 </script>

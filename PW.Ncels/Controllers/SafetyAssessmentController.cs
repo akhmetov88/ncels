@@ -412,5 +412,68 @@ namespace PW.Ncels.Controllers
             result.ObkRsProductses = resultProducts;
             return Json(new { isSuccess = true , result });
         }
+
+
+        public ActionResult SignOperation(string id)
+        {
+            var repository = new SafetyAssessmentRepository();
+            var model = repository.GetPreamble(new Guid(id));
+            bool IsSuccess = true;
+            string preambleXml = string.Empty;
+            try
+            {
+                preambleXml = SerializeHelper.SerializeDataContract(model);
+                preambleXml = preambleXml.Replace("utf-16", "utf-8");
+            }
+            catch (Exception e)
+            {
+                IsSuccess = false;
+            }
+
+            return Json(new
+            {
+                IsSuccess,
+                preambleXml
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// отправка заявки без подписи 
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public virtual ActionResult SendNotSign(string modelId)
+        {
+            var repository = new SafetyAssessmentRepository();
+            var model = repository.GetById(modelId);
+
+            if (model.StatusId == CodeConstManager.STATUS_DRAFT_ID)
+            {
+                model.FirstSendDate = DateTime.Now;
+            }
+
+            model.StatusId = CodeConstManager.STATUS_SEND_ID;
+            model.SendDate = DateTime.Now;
+            model.IsSigned = false;
+            //var history = new OBK_AssessmentDeclarationHistory()
+            //{
+            //    DateCreate = DateTime.Now,
+            //    AssessmentDeclarationId = model.Id,
+            //    StatusId = CodeConstManager.STATUS_SEND_ID,
+            //    UserId = UserHelper.GetCurrentEmployee().Id,
+            //    Note = "Отчет предоставлен без подписи. Дата отправки:" + DateTime.Now
+            //};
+            //if (string.IsNullOrEmpty(model.Number))
+            //{
+            //    model.Number = repository.GetAppNumber();
+            //}
+            //repository.SaveOrUpdate(model, UserHelper.GetCurrentEmployee().Id);
+            //repository.SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
+            return Json(new
+            {
+                isSuccess = true
+            });
+        }
     }
 }
