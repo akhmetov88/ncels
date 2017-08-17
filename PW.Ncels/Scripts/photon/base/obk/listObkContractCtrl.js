@@ -142,7 +142,7 @@ function obkContractForm($scope, $http) {
 
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
             $scope.selectedProductIndex = $scope.gridOptionsProducts.data.indexOf(row.entity);
-            alert($scope.selectedProductIndex);
+            //alert($scope.selectedProductIndex);
         });
     };
 
@@ -360,6 +360,7 @@ function obkContractForm($scope, $http) {
                     $scope.showAddEditDrugBlock = false;
                     $scope.clearSearchAndProductFields();
                     $scope.mode = 0;
+                    alert("Информация о продукции добавлена");
                 }
                 else {
                     alert("Выбранная продукция уже имеется в таблице!");
@@ -402,6 +403,7 @@ function obkContractForm($scope, $http) {
             $scope.showAddEditDrugBlock = false;
             $scope.clearSearchAndProductFields();
             $scope.mode = 0;
+            alert("Информация о продукции обновлена");
         }
     }
 
