@@ -10,7 +10,7 @@ function obkContractForm($scope, $http) {
     $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
     $scope.object = {};
     $scope.object.IsResident = 1;
-    $scope.object.seriesValue = "SERIES-01";
+    $scope.object.seriesValue = "";
     $scope.object.seriesCreateDate = curDate.getTime();
     $scope.object.seriesExpireDate = curDate.getTime();
 
