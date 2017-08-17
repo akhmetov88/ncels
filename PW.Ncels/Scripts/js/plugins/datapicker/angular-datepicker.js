@@ -780,6 +780,8 @@
                 views.unshift(view);
 
                 function formatter(value) {
+                    // Apply Fix To Show Empty Data
+                    return value != "" ? dateFilter(value, format, timezone) : "";
                     return dateFilter(value, format, timezone);
                 }
 

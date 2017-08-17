@@ -1947,6 +1947,7 @@
     <Content Include="Scripts\js\ui-router\angular-ui-router.min.js" />
     <Content Include="Scripts\photon\base\listSafetyDeclarationCtrl.js" />
     <Content Include="Scripts\photon\base\obk\listObkContractCtrl.js" />
+    <Content Include="Scripts\photon\base\obk\ObkContractGrid.js" />
     <Content Include="Scripts\photon\base\visitCtrl.js" />
     <Content Include="Scripts\photon\base\correspondenceCtrl.js" />
     <Content Include="Scripts\photon\base\detailProjectCtrl.js" />
@@ -2303,6 +2304,7 @@
     <Content Include="Views\SafetyAssessment\ProductSeriesView.cshtml" />
     <Content Include="Views\SafetyAssessment\ShowDetails.cshtml" />
     <Content Include="Views\SafetyAssessment\ExportFileTemplate.cshtml" />
+    <Content Include="Views\OBKContract\ContractAddition.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
