@@ -4,7 +4,7 @@
 
 function obkContractForm($scope, $http) {
 
-
+    $scope.ExpertOrganizations = [];
 
     var curDate = new Date();
     $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit

@@ -1,5 +1,5 @@
 ﻿@using PW.Ncels.Database.DataModel
-@model Guid
+@model Guid?
 @{
     ViewBag.Title = "Contract";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -145,7 +145,7 @@
                                                             <label>Экспертная организация</label>
                                                             <ui-select ng-model="object.ExpertOrganization" theme="bootstrap">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                <ui-select-choices repeat="item.Id as item in Currency | filter: $select.search">
+                                                                <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
                                                                 </ui-select-choices>
                                                             </ui-select>

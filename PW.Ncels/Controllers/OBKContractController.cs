@@ -33,7 +33,8 @@ namespace PW.Ncels.Controllers
 
         public ActionResult Contract(Guid? id, string listAction)
         {
-            ViewBag.ListAction = listAction;
+            //ViewBag.ListAction = listAction;
+            ViewBag.ListAction = "Index";
             return View(id ?? Guid.NewGuid());
         }
 
