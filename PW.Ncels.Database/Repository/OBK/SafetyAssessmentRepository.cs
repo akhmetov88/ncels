@@ -82,6 +82,11 @@ namespace PW.Ncels.Database.Repository.OBK
             return AppContext.OBK_Ref_Type.ToList();
         }
 
+        public OBK_Ref_Type GetObkRefTypes(string type)
+        {
+            return AppContext.OBK_Ref_Type.FirstOrDefault(e => e.Code == type);
+        }
+
         /// <summary>
         /// Список стран
         /// </summary>
@@ -219,7 +224,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 model = new OBK_AssessmentDeclaration
                 {
                     EmployeeId = UserHelper.GetCurrentEmployee().Id,
-                    Type_Id = typeId,
+                    Type_Id = GetObkRefTypes(typeId.ToString()).Id,
                     Id = new Guid(modelId),
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
@@ -350,39 +355,10 @@ namespace PW.Ncels.Database.Repository.OBK
                 InvoiceAgentMiddelName = oldModel.InvoiceAgentMiddelName,
                 InvoiceAgentPositionName = oldModel.InvoiceAgentPositionName,
                 IsDeleted = false,
-                DesignDate = oldModel.DesignDate
+                DesignDate = oldModel.DesignDate,
+                ObkContracts = oldModel.ObkContracts
             };
-
-            //foreach (var obkRsProducts in oldModel.OBK_RS_Products)
-            //{
-            //    var products = new OBK_RS_Products()
-            //    {
-            //        NameRu = obkRsProducts.NameRu,
-            //        NameKz = obkRsProducts.NameKz,
-            //        CountryNameRu = obkRsProducts.CountryNameRu,
-            //        CountryNameKZ = obkRsProducts.CountryNameKZ,
-            //        ProducerNameRu = obkRsProducts.ProducerNameRu,
-            //        ProducerNameKz = obkRsProducts.ProducerNameKz,
-            //        TnvedCode = obkRsProducts.TnvedCode,
-            //        KpvedCode = obkRsProducts.KpvedCode,
-            //        Price = obkRsProducts.Price,
-            //        OBK_AssessmentDeclaration = model
-            //    };
-            //    foreach (var obkProcuntsSeries in obkRsProducts.OBK_Procunts_Series)
-            //    {
-            //        var productSeries = new OBK_Procunts_Series()
-            //        {
-            //            Series = obkProcuntsSeries.Series,
-            //            SeriesStartdate = obkProcuntsSeries.SeriesStartdate,
-            //            SeriesEndDate = obkProcuntsSeries.SeriesEndDate,
-            //            SeriesParty = obkProcuntsSeries.SeriesParty,
-            //            OBK_RS_ProductsId = obkProcuntsSeries.OBK_RS_ProductsId,
-            //            OBK_RS_Products = products
-            //        };
-            //        products.OBK_Procunts_Series.Add(productSeries);
-            //    }
-            //    model.OBK_RS_Products.Add(products);
-            //}
+            
             AppContext.OBK_AssessmentDeclaration.Add(model);
             AppContext.SaveChanges();
             return model;
@@ -425,12 +401,16 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             return null;
         }
-
-        //public void SaveHisotry(OBK_AssessmentDeclarationHistory history, Guid? getCurrentUserId)
-        //{
-        //    AppContext.OBK_AssessmentDeclarationHistory.Add(history);
-        //    AppContext.SaveChanges();
-        //}
+        /// <summary>
+        /// сохранение истории при отправке в ЦОЗ
+        /// </summary>
+        /// <param name="history"></param>
+        /// <param name="getCurrentUserId"></param>
+        public void SaveHisotry(OBK_AssessmentDeclarationHistory history, Guid? getCurrentUserId)
+        {
+            AppContext.OBK_AssessmentDeclarationHistory.Add(history);
+            AppContext.SaveChanges();
+        }
         /// <summary>
         /// сохранение заявления
         /// </summary>
@@ -502,13 +482,15 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.Entry(attachedEntity).CurrentValues.SetValues(entity);
             AppContext.Commit(true);
             //Отправка заявления на этап ЦОЗ
-            //if (entity.StatusId != CodeConstManager.STATUS_DRAFT_ID)
-            //{
-            //    string resultDescription;
-            //    var stageRepository = new AssessmentStageRepository();
-            //    if (!stageRepository.HasStage(entity.Id, CodeConstManager.STAGE_OBK_COZ))
-            //        stageRepository.ToNextStage(entity.Id, null, new[] { CodeConstManager.STAGE_OBK_COZ }, out resultDescription);
-            //}
+            if (entity.StatusId != CodeConstManager.STATUS_DRAFT_ID)
+            {
+                string resultDescription;
+                var stageRepository = new AssessmentStageRepository();
+                if (!stageRepository.HasStage(entity.Id, CodeConstManager.STAGE_OBK_COZ))
+                {
+                }
+                //stageRepository.ToNextStage(entity.Id, null, new[] { CodeConstManager.STAGE_OBK_COZ }, out resultDescription);
+            }
             return entity;
         }
 

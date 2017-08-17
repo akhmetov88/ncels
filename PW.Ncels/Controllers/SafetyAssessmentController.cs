@@ -67,14 +67,20 @@ namespace PW.Ncels.Controllers
 
             var safetyRepository = new SafetyAssessmentRepository(false);
 
-            if (type == CodeConstManager.OBK_SA_SERIAL) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_SERIAL));
+            if (type == CodeConstManager.OBK_SA_SERIAL)
+            {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
+                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
             }
-            if (type == CodeConstManager.OBK_SA_PARTY) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_PARTY));
+            if (type == CodeConstManager.OBK_SA_PARTY)
+            {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
+                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
             }
-            if (type == CodeConstManager.OBK_SA_DECLARATION) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_DECLARATION));
+            if (type == CodeConstManager.OBK_SA_DECLARATION)
+            {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
+                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
             }
 
             ViewData["ContractList"] =
@@ -206,13 +212,13 @@ namespace PW.Ncels.Controllers
                     "ContractInfo", model.Contract_Id);
 
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL)) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_SERIAL));
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
             }
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_PARTY));
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
             }
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_DECLARATION)) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = Int32.Parse(CodeConstManager.OBK_SA_DECLARATION));
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
             }
 
             if (model.Contract_Id != null)
@@ -456,20 +462,20 @@ namespace PW.Ncels.Controllers
             model.StatusId = CodeConstManager.STATUS_SEND_ID;
             model.SendDate = DateTime.Now;
             model.IsSigned = false;
-            //var history = new OBK_AssessmentDeclarationHistory()
-            //{
-            //    DateCreate = DateTime.Now,
-            //    AssessmentDeclarationId = model.Id,
-            //    StatusId = CodeConstManager.STATUS_SEND_ID,
-            //    UserId = UserHelper.GetCurrentEmployee().Id,
-            //    Note = "Отчет предоставлен без подписи. Дата отправки:" + DateTime.Now
-            //};
-            //if (string.IsNullOrEmpty(model.Number))
-            //{
-            //    model.Number = repository.GetAppNumber();
-            //}
+            var history = new OBK_AssessmentDeclarationHistory()
+            {
+                DateCreate = DateTime.Now,
+                AssessmentDeclarationId = model.Id,
+                StatusId = CodeConstManager.STATUS_SEND_ID,
+                UserId = UserHelper.GetCurrentEmployee().Id,
+                Note = "Отчет предоставлен без подписи. Дата отправки:" + DateTime.Now
+            };
+            if (string.IsNullOrEmpty(model.Number))
+            {
+                model.Number = repository.GetAppNumber();
+            }
             //repository.SaveOrUpdate(model, UserHelper.GetCurrentEmployee().Id);
-            //repository.SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
+            repository.SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
             return Json(new
             {
                 isSuccess = true

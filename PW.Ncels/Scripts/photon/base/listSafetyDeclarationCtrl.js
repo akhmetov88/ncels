@@ -50,12 +50,6 @@ function actionsSafetyDeclarationHtmlAction(data, type, full, meta) {
             full.Id +
             '" class="link-object" ><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Создать подобное</a></li></ul></div>'
         ;
-    ;
-
-
-    return '<a  class="pw-task-link" href="/DrugDeclaration/Edit?id=' + full.Id + '" >' +
-        'Черновик' +
-        '</a>';
 }
 function safetyDeclataionGrid($scope, DTColumnBuilder) {
     $scope.dtColumns = [
