@@ -83,6 +83,19 @@
 <input type="hidden" value="@Model.Type_Id" id="typeId" />
 @Html.HiddenFor(model => model.EmployeeId)
 
+@foreach (var comment in Model.OBK_AssessmentDeclarationCom)
+{
+    <p class="rating" idcontrol="@comment.ControlId" iserror=@comment.IsError>   </p>
+}
+
+@if (Model.StatusId == CodeConstManager.STATUS_REJECT_ID)
+{
+    <div class="alert alert-warning" role="alert">
+        <h4>Причина отказа:</h4>
+        @Model.DesignNote
+    </div>
+}
+
 <div class="ibox-content">
 
     <div class="row root-page" id="mainPage">
@@ -110,6 +123,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row root-page" id="historyPage" style="display: none">
+        @Html.Partial("~/Views/SafetyAssessment/HistoriesView.cshtml", @Model)
     </div>
     <div class="row root-page" id="attachPage" style="display: none">
         <div class="panel-body">

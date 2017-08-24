@@ -20,11 +20,10 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <table id="tableProducts" dt-options="dtOptions" dt-columns="dtColumns"  class="table table-striped table-bordered table-hover dataTable">
-                    </table>
-                </div>  
-            </div>  
-        </div>   
+                    <table class="table table-striped table-bordered table-hover dataTable" dt-columns="dtColumns" dt-options="dtOptions" id="tableProducts" width="100%"></table>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
@@ -39,13 +38,13 @@
                                 <div class="col-lg-6">
                                     <div class="input-group">
                                         <label>Наименование*</label>
-                                        <textarea id="NameRu" name="NameRu" type="text" class="form-control edit-control" readonly="readonly"></textarea>
+                                        <textarea id="NameRu" name="NameRu" type="text" class="form-control" readonly="readonly"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="input-group">
                                         <label>Наименование на казахском</label>
-                                        <textarea id="NameKz" name="NameKz" type="text" class="form-control edit-control" readonly="readonly"></textarea>
+                                        <textarea id="NameKz" name="NameKz" type="text" class="form-control" readonly="readonly"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -103,22 +102,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group" >
-                                <div class="col-lg-12" style="margin-top: 10px">
+                                <div class="form-group">
+                                <div class="col-lg-12">
+                                    <table id="tableProductSeries" dt-options="dtOptions" dt-columns="dtColumns" class="table table-striped table-bordered table-hover dataTable" width="100%"></table>
                                 </div>
                             </div>
-                            <span></span>
-                            
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <table id="tableProductSeries" dt-options="dtOptions" dt-columns="dtColumns"  class="table table-striped table-bordered table-hover dataTable">
-                                            </table>
-                                        </div>  
-                                    </div>  
-                                </div>   
-                            </div>           
                         </div>
                     </div>
                 </div>
@@ -134,6 +122,7 @@
         $('#tableProducts').DataTable({
             data: null,
             searching: false,
+            "bLengthChange": false,
             columns: [
                 { title: "" },
                 { title: "Наименование" },
@@ -149,14 +138,13 @@
             searching: false,
             "bLengthChange": false,
             columns: [
-                { title: "Номер серии" },
+                { title: "Серия" },
                 { title: "Произведена" },
                 { title: "Истекает" },
-                { title: "Размер партии" },
+                { title: "Партия" },
                 { title: "Ед. измерения" }
             ]
         });
-
         if (@count > 1) {
             var val = '@Model.Contract_Id';
             $.ajax({
@@ -172,6 +160,9 @@
                             destroy: true,
                             searching: false,
                             iDisplayLength: 5,
+                            LengthMenu: false,
+                            "bLengthChange": false,
+                            "autoWidth": true,
                             rowCallback: rowCallback,
                             "columns": [
                                 { "data": "Id" },
@@ -225,4 +216,5 @@
         });
         return row;
     }
-</script> 
+</script>
+

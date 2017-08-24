@@ -21,11 +21,13 @@ using PW.Ncels.Helpers;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Dictionary;
 using System.Web.Script.Serialization;
+using PW.Ncels.Database.Controller;
+using PW.Ncels.Database.Models.OBK;
 
 namespace PW.Ncels.Controllers
 {
     [Authorize]
-    public class SafetyAssessmentController : ACommonController
+    public class SafetyAssessmentController : ComAssessmentController
     {
 
         // GET: SafetyAssessment
@@ -418,6 +420,28 @@ namespace PW.Ncels.Controllers
             result.ObkRsProductses = resultProducts;
             return Json(new { isSuccess = true , result });
         }
+        [HttpPost]
+        public virtual ActionResult GetHistory(Guid modelId)
+        {
+            var repository = new SafetyAssessmentRepository();
+            var result = new List<OBK_DeclarationHistory>();
+            var models = repository.GetDeclarationHistory(modelId);
+            foreach (var model in models)
+            {
+                if (repository.GetStageStatus(model.StageStatusId).Code == OBK_Ref_StageStatus.Completed &&
+                    model.StatusId == 9)
+                {
+                    var history = new OBK_DeclarationHistory();
+                    history.StartDateHistory = DateHelper.GetDate(model.StartDate); 
+                    history.EndDateHistory = DateHelper.GetDate(model.EndDate);
+                    history.Note = model.Note;
+                    history.StatusName = repository.GetStatus(model.StatusId).NameRu;
+                    history.StageName = repository.GetStage(model.StageId).NameRu;
+                    result.Add(history);
+                }
+            }
+            return Json(new {isSuccess = true, result});
+        }
 
 
         public ActionResult SignOperation(string id)
@@ -474,7 +498,7 @@ namespace PW.Ncels.Controllers
             {
                 model.Number = repository.GetAppNumber();
             }
-            //repository.SaveOrUpdate(model, UserHelper.GetCurrentEmployee().Id);
+            repository.SaveOrUpdate(model, UserHelper.GetCurrentEmployee().Id);
             repository.SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
             return Json(new
             {

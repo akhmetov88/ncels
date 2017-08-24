@@ -402,7 +402,60 @@ namespace PW.Ncels.Database.Constants
         /// ЦОЗ
         /// </summary>
         public const int STAGE_OBK_COZ = 1;
-       
+
+        #endregion
+
+        #region Статусы
+
+        /// <summary>
+        /// Статус черновик
+        /// </summary>
+        public const int STATUS_OBK_DRAFT_ID = 1;
+
+        /// <summary>
+        /// Статус отправил
+        /// </summary>
+        public const int STATUS_OBK_SEND_ID = 2;
+
+        /// <summary>
+        /// Передана на экспертизу
+        /// </summary>
+        public const int STATUS_OBK_EXP_SEND_ID = 3;
+
+        /// <summary>
+        /// Возврат
+        /// </summary>
+        public const int STATUS_OBK_REJECT_ID = 4;
+
+        ///// <summary>
+        ///// Повторно
+        ///// </summary>
+        //public const int STATUS_OBK_REPEAT_ID = 5;
+
+        ///// <summary>
+        ///// Возвращено с экспертизы
+        ///// </summary>
+        //public const int STATUS_OBK_EXP_REJECT_ID = 6;
+
+
+        ///// <summary>
+        ///// Заключения для согласования
+        ///// </summary>
+        //public const int STATUS_OBK_EXP_SEND_INSTRUCTION_ID = 8;
+        /// <summary>
+        /// Отказано ЦОЗ
+        /// </summary>
+        public const int STATUS_OBK_COZ_REFUSED_ID = 9;
+        ///// <summary>
+        ///// Отказанно
+        ///// </summary>
+        //public const int STATUS_OBK_EXP_REFUSED_ID = 10;
+
+        ///// <summary>
+        ///// Регистрация
+        ///// </summary>
+        //public const int DRUG_OBK_REGISTER_ID = 1;
+
         #endregion
 
         #endregion

@@ -2230,6 +2230,8 @@
     <Content Include="Views\SafetyAssessment\ShowDetails.cshtml" />
     <Content Include="Views\SafetyAssessment\ExportFileTemplate.cshtml" />
     <Content Include="Views\OBKContract\ContractAddition.cshtml" />
+    <Content Include="Views\SafetyAssessment\ShowComment.cshtml" />
+    <Content Include="Views\SafetyAssessment\HistoriesView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

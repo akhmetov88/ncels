@@ -206,6 +206,7 @@
     <Compile Include="Constants\TypeCodeConts.cs" />
     <Compile Include="Constants\VisitStatuses.cs" />
     <Compile Include="Controller\ADrugDeclarationController.cs" />
+    <Compile Include="Controller\ComAssessmentController.cs" />
     <Compile Include="DataModel\AccessDocument.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -920,13 +921,25 @@
     <Compile Include="DataModel\OBK_AssessmentDeclaration.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationCom.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationComRecord.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_AssessmentDeclarationFieldHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_AssessmentDeclarationHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationRegisterView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_AssessmentDeclarationView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStage.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_certifications.cs">
@@ -1934,8 +1947,12 @@
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
+    <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
+    <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />
+    <Compile Include="Models\OBK\OBK_AssessmentDeclarationFieldHistory.cs" />
     <Compile Include="Models\OBK\OBK_Contract.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
+    <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
     <Compile Include="Models\OBK\OBK_RS_Products.cs" />
     <Compile Include="Models\PermissionRoleModel.cs" />

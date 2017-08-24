@@ -1,10 +1,4 @@
-﻿@using PW.Ncels.Database.Constants
-@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
-    
-@{
-    Model.CreatedDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
-}
-
+﻿@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 <div class="panel-body">
     <div class="row">
@@ -15,7 +9,7 @@
                         <div class="col-lg-8">
                             <label>Способ проведения*</label>
                             <div class="input-group" id="typeIds">
-                                @Html.DropDownList("Type_Id", (IEnumerable<SelectListItem>)(ViewData["TypeList"]),String.Empty, new { @class = "form-control edit-control main-control", @disabled=true})
+                                @Html.DropDownList("Type_Id", (IEnumerable<SelectListItem>)(ViewData["TypeList"]), String.Empty, new { @class = "form-control edit-control main-control", @disabled = true })
                                 <span class="input-group-addon">
                                     <a class="OBKcommentDialog" href="#">
                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -26,7 +20,7 @@
                         <div class="col-lg-4">
                             <label>Дата заполнения*:</label>
                             <div class="input-group">
-                                @Html.TextBoxFor(model => model.CreatedDate, new {@class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
+                                @Html.TextBoxFor(model => model.CreatedDate, new { @class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
                                 <span class="input-group-addon">
                                     <a class="OBKcommentDialog" href="#">
                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -91,7 +85,7 @@
                     <div class="form-group">
                         <label>Дата инвойса:</label>
                         <div class="input-group">
-                            @Html.TextBoxFor(model => model.InvoiceDate, new {@class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
+                            @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
                             <span class="input-group-addon">
                                 <a class="OBKcommentDialog" href="#">
                                     <i class="glyphicon glyphicon-info-sign"></i>
@@ -105,9 +99,9 @@
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <label id="invoiceAgentLabel">Представитель:</label>
+                    <label>Представитель:</label>
                     <div class="form-group">
-                        <label id="surnameLabel">Фамилия*</label>
+                        <label>Фамилия*</label>
                         <div class="input-group">
                             @Html.TextBoxFor(model => model.InvoiceAgentLastName, new { @class = "form-control edit-control main-control" })
                             <span class="input-group-addon">
@@ -118,7 +112,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label id="nameLabel">Имя*</label>
+                        <label>Имя*</label>
                         <div class="input-group">
                             @Html.TextBoxFor(model => model.InvoiceAgentFirstName, new { @class = "form-control edit-control main-control" })
                             <span class="input-group-addon">
@@ -140,7 +134,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label id="positionLabel">Должность*</label>
+                        <label>Должность*</label>
                         <div class="input-group">
                             @Html.TextBoxFor(model => model.InvoiceAgentPositionName, new { @class = "form-control edit-control main-control" })
                             <span class="input-group-addon">

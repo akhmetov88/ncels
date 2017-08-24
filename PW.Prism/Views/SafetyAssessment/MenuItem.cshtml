@@ -1,0 +1,92 @@
+﻿@using PW.Ncels.Database.Constants
+@model PW.Ncels.Database.DataModel.OBK_AssessmentStage
+
+<script>
+    
+    function showDeclaration(event) {
+        var itemId = '@Model.Id';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/SafetyAssessment/Design?Id=" + itemId,
+            success: function (result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            }
+        });
+    }
+    
+    function showAttachFile(event) {
+        var itemId = '@Model.DeclarationId';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/SafetyAssessment/AttachFileView?Id=" + itemId,
+            success: function (result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            }
+        });
+    }
+    
+    function showDeclarationSteps(event) {
+        //GetRdDocumentsHistory
+        var itemId = '@Model.DeclarationId';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/DrugDeclaration/DeclarationStepsNew?Id=" + itemId,
+            success: function (result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            },
+            error: function () {
+                $("#loading").hide();
+                ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
+            }
+        });
+    }
+    
+    function showHistoryStage(event)
+    {
+        //GetRdDocumentsHistory
+        var itemId = '@Model.DeclarationId';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/DrugStageHistory/HistoryStageView?Id=" + itemId,
+            success: function (result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            },
+            error: function () {
+                $("#loading").hide();
+                ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
+            }
+        });
+    }
+    
+    function showMaterial(event) {
+        var itemId = '@Model.DeclarationId';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/Material/MaterialListPartialVew?ddId=" + itemId,
+            success: function (result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            }
+        });
+    }
+</script>
+
+<div id="MainMenu" style="font-size: 14px; ">
+    <div class="list-group panel">
+        <a href="#" onclick="showDeclaration(event)" class="list-group-item"><span class="glyphicon glyphicon-file"></span> Заявление</a>
+        <a href="#" onclick="showAttachFile(event)" class="list-group-item"><span class="glyphicon glyphicon-folder-open"></span> Перечень документов</a>
+        @if(@Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code != @CodeConstManager.OBK_SA_DECLARATION)
+        {
+            <a href="#" onclick="showMaterial(event)" class="list-group-item"><span class="glyphicon glyphicon-briefcase"></span> Материалы РД</a>
+        }
+        @*<a href="#" class="list-group-item"><span class="glyphicon glyphicon-flag"></span> История по заявлению</a>
+        <a href="#" onclick="showDocumentsRdHistory(event);" class="list-group-item"><span class="glyphicon glyphicon-time"></span> История документов РД</a>*@
+        <a href="#" onclick="showDeclarationSteps(event)" class="list-group-item"><span class="glyphicon glyphicon-ok-circle"></span> Этапы заявления</a>
+        <a href="#" onclick="showHistoryStage(event)" class="list-group-item"><span class="glyphicon glyphicon-off"></span> Заключения этапов</a>
+
+    </div>
+</div>
