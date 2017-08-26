@@ -15,6 +15,7 @@ namespace PW.Ncels.Database.DataModel
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     using System.Data.Objects.DataClasses;
+
     public partial class ncelsEntities : DbContext
     {
         public ncelsEntities()
@@ -439,6 +440,10 @@ namespace PW.Ncels.Database.DataModel
         public DbSet<OBK_AssessmentDeclarationView> OBK_AssessmentDeclarationView { get; set; }
         public DbSet<OBK_Declarant> OBK_Declarant { get; set; }
         public DbSet<OBK_DeclarantContact> OBK_DeclarantContact { get; set; }
+        public DbSet<OBK_Ref_DegreeRisk> OBK_Ref_DegreeRisk { get; set; }
+        public DbSet<OBK_Ref_PriceList> OBK_Ref_PriceList { get; set; }
+        public DbSet<OBK_Ref_ServiceType> OBK_Ref_ServiceType { get; set; }
+        public DbSet<OBK_Ref_ValueAddedTax> OBK_Ref_ValueAddedTax { get; set; }
     
         public virtual int CloseTask(Nullable<System.Guid> id, string note, string modifiedUser)
         {

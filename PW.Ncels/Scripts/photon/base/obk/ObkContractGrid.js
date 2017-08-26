@@ -1,4 +1,9 @@
-﻿function dateformatHtml(data, type, full, meta) {
+﻿function actionsObkContractListHtmlAction(data, type, full, meta, $scope) {
+    debugger;
+    return '<a  class="pw-task-link" href="/OBKContract/Contract?id=' + full.Id + '" >' + data + '</a>';
+}
+
+function dateformatHtml(data, type, full, meta) {
     if (data == null)
         return '';
     var date = new Date(parseInt(data.slice(6, -2)));
@@ -7,9 +12,12 @@
 
 }
 function obkContractGrid($scope, DTColumnBuilder) {
-    $scope.dtColumns = [
+    function renderNumFunc(data, type, full, meta) {
+        return actionsObkContractListHtmlAction(data, type, full, meta, $scope);
+    };
 
-        DTColumnBuilder.newColumn("Number", "№ договора/доп. согл-я").withOption('name', 'Number'),
+    $scope.dtColumns = [
+        DTColumnBuilder.newColumn("Number", "№ договора/доп. согл-я").withOption('name', 'Number').renderWith(renderNumFunc),
         DTColumnBuilder.newColumn("CreatedDate", "Дата создания").withOption('name', 'CreatedDate').renderWith(dateformatHtml),
         DTColumnBuilder.newColumn("Status", "Статус").withOption('name', 'Status'),
         DTColumnBuilder.newColumn("DeclarantName", "Заявитель").withOption('name', 'DeclarantName'),

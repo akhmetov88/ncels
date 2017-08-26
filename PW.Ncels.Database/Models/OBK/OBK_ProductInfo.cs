@@ -8,10 +8,11 @@ namespace PW.Ncels.Database.Models.OBK
 {
     public class OBK_ProductInfo
     {
-        public int Id;
+        public int ProductId;
         public string RegNumber;
         public string Name;
         public string NameKz;
+        public int RegTypeId;
         public string RegTypeName;
         public DateTime RegDate;
         public DateTime? ExpireDate;
@@ -23,5 +24,6 @@ namespace PW.Ncels.Database.Models.OBK
         public string KpvedCode;
         public decimal? Price;
         public string Currency;
+        public int? DegreeRiskId;
     }
 }

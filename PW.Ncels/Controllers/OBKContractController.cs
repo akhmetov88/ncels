@@ -35,7 +35,13 @@ namespace PW.Ncels.Controllers
         {
             //ViewBag.ListAction = listAction;
             ViewBag.ListAction = "Index";
-            return View(id ?? Guid.NewGuid());
+            return View(id);
+        }
+
+        public ActionResult LoadContract(Guid id)
+        {
+            OBKContractViewModel contract = obkRepo.LoadContract(id);
+            return Json(contract, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SearchDrug(int regType, string drugNumber, string drugTradeName, string drugManufacturer, string drugMnn)
@@ -44,11 +50,11 @@ namespace PW.Ncels.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult ContractSave(OBKContractViewModel contractViewModel)
-        //{
-        //    OBK_Contract savedContract = obkRepo.SaveContract(contractViewModel);
-        //    return Json(savedContract);
-        //}
+        public ActionResult ContractSave(OBKContractViewModel contractViewModel)
+        {
+            OBKContractViewModel savedContract = obkRepo.SaveContract2(contractViewModel);
+            return Json(savedContract);
+        }
 
         /// <summary>
         /// Получение списка договоров
@@ -101,6 +107,20 @@ namespace PW.Ncels.Controllers
             };
 
             return Json(declarantJson, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult GetService(Guid service)
+        {
+            var serviceObj = obkRepo.GetService(service);
+            return Json(serviceObj, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult SaveProduct(Guid contractId, OBKContractProductViewModel product)
+        {
+            OBKContractProductViewModel productInfo = obkRepo.SaveProduct(contractId, product);
+            return Json(productInfo);
         }
     }
 }

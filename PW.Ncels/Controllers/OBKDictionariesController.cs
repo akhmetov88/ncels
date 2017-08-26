@@ -36,8 +36,70 @@ namespace PW.Ncels.Controllers
         [HttpGet]
         public ActionResult GetMeasureDictionary()
         {
-            var srMeasures = db.sr_measures.Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz }); 
+            var srMeasures = db.sr_measures.Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz });
             return Json(srMeasures, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize()]
+        [HttpGet]
+        //public ActionResult GetServiceNames(int type)
+        //{
+        //    var names = db.OBK_Ref_PriceList.Where(x => x.TypeId == type).Select(x => new { x.Id, Name = x.NameRu });
+        //    return Json(names, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult GetServiceNames(int type, int? productType, int? degreeRiskId)
+        {
+            Guid productTypeGuid = Guid.Empty;
+
+            switch (productType)
+            {
+                case 1:
+                    productTypeGuid = new Guid("9106d5e8-35dc-4178-8882-b30166de4c81");
+                    break;
+                case 2:
+                    productTypeGuid = new Guid("9106d5e8-35dc-4178-8882-b30166de4c82");
+                    break;
+            }
+
+            Guid degreeRiskGuid = Guid.Empty;
+
+            switch (degreeRiskId)
+            {
+                // Класс 1
+                case 1:
+                    degreeRiskGuid = new Guid("c02f40cc-757c-42ba-a400-3f7937cf8600");
+                    break;
+                // Класс 2А
+                case 2:
+                    degreeRiskGuid = new Guid("c02f40cc-757c-42ba-a400-3f7937cf8601");
+                    break;
+                // Класс 2Б
+                case 3:
+                    degreeRiskGuid = new Guid("c02f40cc-757c-42ba-a400-3f7937cf8602");
+                    break;
+                // Класс 3
+                case 4:
+                    degreeRiskGuid = new Guid("c02f40cc-757c-42ba-a400-3f7937cf8603");
+                    break;
+            }
+
+            var names = db.OBK_Ref_PriceList.Where(x => 
+            x.TypeId == type && 
+            (x.ServiceTypeId == productTypeGuid || productTypeGuid == Guid.Empty) &&
+            (x.DegreeRiskId == degreeRiskGuid || degreeRiskGuid == Guid.Empty)
+            ).Select(x => new { x.Id, Name = x.NameRu });
+            return Json(names, JsonRequestBehavior.AllowGet);
+        }
+
+        public double? GetTax()
+        {
+            var tax = db.OBK_Ref_ValueAddedTax.Where(x => x.Year == DateTime.Now.Year).FirstOrDefault();
+            if (tax != null)
+            {
+                return tax.Value;
+            }
+            return null;
         }
     }
 }

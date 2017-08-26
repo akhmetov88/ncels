@@ -18,6 +18,7 @@ namespace PW.Ncels.Database.DataModel
         {
             this.Dictionaries1 = new HashSet<Dictionary>();
             this.EXP_DrugCorespondence = new HashSet<EXP_DrugCorespondence>();
+            this.OBK_Ref_PriceList = new HashSet<OBK_Ref_PriceList>();
         }
     
         public System.Guid Id { get; set; }
@@ -40,5 +41,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<Dictionary> Dictionaries1 { get; set; }
         public virtual Dictionary Dictionary1 { get; set; }
         public virtual ICollection<EXP_DrugCorespondence> EXP_DrugCorespondence { get; set; }
+        public virtual ICollection<OBK_Ref_PriceList> OBK_Ref_PriceList { get; set; }
     }
 }
