@@ -8,6 +8,7 @@ BEGIN
 		[PriceWithoutTax] FLOAT NOT NULL,
 		[PriceWithTax] FLOAT NOT NULL,
 		[ProductId] INT NULL,
+		[ContractId] UNIQUEIDENTIFIER NOT NULL,
 		CONSTRAINT PK_OBK_ContractPrice_Id
 		PRIMARY KEY ([Id]),
 		CONSTRAINT FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id
@@ -15,6 +16,9 @@ BEGIN
 		REFERENCES OBK_Ref_PriceList([Id]),
 		CONSTRAINT FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id
 		FOREIGN KEY ([ProductId])
-		REFERENCES OBK_RS_Products([Id])
+		REFERENCES OBK_RS_Products([Id]),
+		CONSTRAINT FK_OBK_ContractPrice_ContractId__OBK_Contract_Id
+		FOREIGN KEY ([ContractId])
+		REFERENCES OBK_Contract([Id])
 	)
 END
