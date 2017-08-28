@@ -11,22 +11,22 @@
                     <div class="form-group">
                         <div class="input-group">
                             @Html.CheckBoxFor(model => model.AssuranceCheck, new {@class= "form-control edit-control main-control", @style = "float: left;margin: 0 auto;width: 20px;" })
-                            <label>&nbsp; Гарантирую достоверность предоставленной информации</label>
+                            <label id="assuranceChek">&nbsp; Гарантирую достоверность предоставленной информации</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Обязуюсь:</label>
                         <div class="input-group">
                             @Html.CheckBoxFor(model => model.OrderCheck, new { @class = "form-control edit-control main-control", @style = "float: left;margin: 0 auto;width: 20px;" })
-                            <label>&nbsp; соблюдать порядок оценки безопасности и качества</label>
+                            <label id="orderCheck">&nbsp; соблюдать порядок оценки безопасности и качества</label>
                         </div>
                         <div class="input-group">
                             @Html.CheckBoxFor(model => model.StabilityCheck, new { @class = "form-control edit-control main-control", @style = "float: left;margin: 0 auto;width: 20px;" })
-                            <label>&nbsp; обеспечивать стабильность показателей заявленной продукции</label>
+                            <label id="stabilityCheck">&nbsp; обеспечивать стабильность показателей заявленной продукции</label>
                         </div>
                         <div class="input-group">
                             @Html.CheckBoxFor(model => model.PaymentCheck, new { @class = "form-control edit-control main-control", @style = "float: left;margin: 0 auto;width: 20px;" })
-                            <label>&nbsp; оплатить в соответствии с договором расходы связанные с проведением оценки безопасности и качества и последующими испытаниями</label>
+                            <label id="paymentCheck">&nbsp; оплатить в соответствии с договором расходы связанные с проведением оценки безопасности и качества и последующими испытаниями</label>
                         </div>
                     </div>
                 </div>

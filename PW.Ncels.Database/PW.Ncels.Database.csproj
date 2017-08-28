@@ -206,6 +206,7 @@
     <Compile Include="Constants\TypeCodeConts.cs" />
     <Compile Include="Constants\VisitStatuses.cs" />
     <Compile Include="Controller\ADrugDeclarationController.cs" />
+    <Compile Include="Controller\ComAssessmentController.cs" />
     <Compile Include="DataModel\AccessDocument.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -920,10 +921,25 @@
     <Compile Include="DataModel\OBK_AssessmentDeclaration.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationCom.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationComRecord.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_AssessmentDeclarationFieldHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationHistory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentDeclarationRegisterView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_AssessmentDeclarationView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStage.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_certifications.cs">
@@ -960,6 +976,12 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_product_cost.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_Stage.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_StageStatus.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_DegreeRisk.cs">
@@ -1816,6 +1838,7 @@
     <Compile Include="Entities\FileLink.cs" />
     <Compile Include="Entities\FileLinkView.cs" />
     <Compile Include="Entities\History.cs" />
+    <Compile Include="Entities\OBK_Ref_StageStatus.cs" />
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Entities\prismEntities.cs" />
     <Compile Include="Entities\Report.cs" />
@@ -1942,8 +1965,12 @@
     <Compile Include="Models\OBK\OBKContractSeriesViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractService.cs" />
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
+    <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
+    <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />
+    <Compile Include="Models\OBK\OBK_AssessmentDeclarationFieldHistory.cs" />
     <Compile Include="Models\OBK\OBK_Contract.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
+    <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
     <Compile Include="Models\OBK\OBK_RS_Products.cs" />
     <Compile Include="Models\PermissionRoleModel.cs" />
@@ -2047,6 +2074,7 @@
     <Compile Include="Repository\Expertise\TranslateRepository.cs" />
     <Compile Include="Repository\Lims\ApplicationPoaRepository.cs" />
     <Compile Include="Repository\Lims\TmcRepository.cs" />
+    <Compile Include="Repository\OBK\AssessmentStageRepository.cs" />
     <Compile Include="Repository\OBK\OBKContractRepository.cs" />
     <Compile Include="Repository\OBK\SafetyAssessmentRepository.cs" />
     <Compile Include="Repository\Price\PriceProjectRepository.cs" />

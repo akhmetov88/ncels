@@ -230,6 +230,7 @@ function changeFieldList(control, code) {
 }
 
 function showInformIcon(isShow) {
+    debugger;
     if (isShow) {
         $('.input-group-addon').show();
     } else {

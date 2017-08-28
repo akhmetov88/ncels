@@ -41,7 +41,7 @@
 
 
                             <div class="col-lg-6">
-                                <label for="name" class="col-lg-6" style="margin-top: 5px">Договор:</label>
+                                <label for="name" id="ContractIdLabel" class="col-lg-6" style="margin-top: 5px">Договор:</label>
                                 <div class="input-group">
                                     @Html.DropDownList("Contract_Id", (IEnumerable<SelectListItem>)(ViewData["ContractList"]),
                                         String.Empty,
@@ -50,7 +50,7 @@
                                             @class = "form-control edit-control main-control"
                                         })
                                     <span class="input-group-addon">
-                                        <a class="commentDialog" href="#">
+                                        <a class="OBKcommentDialog" href="#">
                                             <i class="glyphicon glyphicon-info-sign"></i>
                                         </a>
                                     </span>
@@ -62,7 +62,7 @@
                                 <div class="input-group">
                                     <input class="form-control edit-control main-control" type="text" readonly="readonly" id="startDate" value="@startDate">
                                     <span class="input-group-addon">
-                                        <a class="commentDialog" href="#">
+                                        <a class="OBKcommentDialog" href="#">
                                             <i class="glyphicon glyphicon-info-sign"></i>
                                         </a>
                                     </span>
@@ -74,7 +74,7 @@
                                 <div class="input-group">
                                     <input class="form-control edit-control main-control" type="text" readonly="readonly" id="endDate" value="@endDate">
                                     <span class="input-group-addon">
-                                        <a class="commentDialog" href="#">
+                                        <a class="OBKcommentDialog" href="#">
                                             <i class="glyphicon glyphicon-info-sign"></i>
                                         </a>
                                     </span>
@@ -105,7 +105,7 @@
                             })
 
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -116,7 +116,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameKz" value="@nameKz">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -127,7 +127,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameRu" value="@nameRu">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -138,7 +138,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="nameEn" value="@nameEn">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -156,7 +156,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefLastName" value="@chiefLastName">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -167,7 +167,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefFirstName" value="@chiefFirstName">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -178,7 +178,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefMiddleName" value="@chiefMiddleName">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -189,7 +189,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="chiefPosition" value="@chiefPosition">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -209,7 +209,7 @@
                     <div class="input-group">
                         @Html.DropDownList("CountryId", (IEnumerable<SelectListItem>)(ViewData["Counties"]), String.Empty, new { @class = "form-control edit-control", @readonly= "readonly" })
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -220,7 +220,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="addressLegal" value="@addressLegal">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -231,7 +231,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="addressFact" value="@addressFact">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -242,7 +242,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="phone" value="@phone">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -253,7 +253,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="email" value="@email">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -271,7 +271,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankName" value="@bankName">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -282,7 +282,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankIik" value="@bankIik">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -293,7 +293,7 @@
                     <div class="input-group">
                         @Html.DropDownList("CurrencyId", (IEnumerable<SelectListItem>)(ViewData["Courrency"]), String.Empty, new { @class = "form-control edit-control", @readonly = "readonly" })
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -304,7 +304,7 @@
                     <div class="input-group">
                         <input class="form-control edit-control main-control" type="text" readonly="readonly" id="bankBik" value="@bankBik">
                         <span class="input-group-addon">
-                            <a class="commentDialog" href="#">
+                            <a class="OBKcommentDialog" href="#">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                         </span>
@@ -318,33 +318,33 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-lg-4">
-                <label>Наличие сертификата GMP:</label>
+                <label id="CertificateCheckId">Наличие сертификата GMP:</label>
                 <div class="input-group">
                     @Html.DropDownList("CertificateGMPCheck", (IEnumerable<SelectListItem>)(ViewData["IsGMPList"]), String.Empty, new { @class = "form-control edit-control main-control" })
                     <span class="input-group-addon">
-                        <a class="commentDialog" href="#">
+                        <a class="OBKcommentDialog" href="#">
                             <i class="glyphicon glyphicon-info-sign"></i>
                         </a>
                     </span>
                 </div>
             </div>
             <div class="col-lg-4">
-                <label>Номер сертификата ISO/GMP*:</label>
+                <label id="CertificateId">Номер сертификата ISO/GMP*:</label>
                 <div class="input-group">
                     @Html.TextBoxFor(model => model.CertificateGMP, new { @class = "form-control edit-control main-control" })
                     <span class="input-group-addon">
-                        <a class="commentDialog" href="#">
+                        <a class="OBKcommentDialog" href="#">
                             <i class="glyphicon glyphicon-info-sign"></i>
                         </a>
                     </span>
                 </div>
             </div>
             <div class="col-lg-4">
-                <label>Срок действия:</label>
+                <label>Срок окончания действия:</label>
                 <div class="input-group">
                     @Html.TextBoxFor(model => model.CertificateDate, new {@class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
                     <span class="input-group-addon">
-                        <a class="commentDialog" href="#">
+                        <a class="OBKcommentDialog" href="#">
                             <i class="glyphicon glyphicon-info-sign"></i>
                         </a>
                     </span>

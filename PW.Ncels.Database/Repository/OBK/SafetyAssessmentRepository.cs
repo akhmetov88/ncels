@@ -7,12 +7,14 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
+using Kendo.Mvc.Extensions;
 using Ncels.Helpers;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.Models.Expertise;
+using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.Expertise;
 
 namespace PW.Ncels.Database.Repository.OBK
@@ -82,6 +84,11 @@ namespace PW.Ncels.Database.Repository.OBK
             return AppContext.OBK_Ref_Type.ToList();
         }
 
+        public OBK_Ref_Type GetObkRefTypes(string type)
+        {
+            return AppContext.OBK_Ref_Type.FirstOrDefault(e => e.Code == type);
+        }
+
         /// <summary>
         /// Список стран
         /// </summary>
@@ -89,6 +96,29 @@ namespace PW.Ncels.Database.Repository.OBK
         public IEnumerable<Dictionary> GetCounties()
         {
             return AppContext.Dictionaries.Where(o => o.Type == "Country").ToList();
+        }
+        /// <summary>
+        /// статус для пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public OBK_Ref_Status GetStatus(int id)
+        {
+            return AppContext.OBK_Ref_Status.FirstOrDefault(e => e.Id == id);
+        }
+        /// <summary>
+        /// этап
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public OBK_Ref_Stage GetStage(int id)
+        {
+            return AppContext.OBK_Ref_Stage.FirstOrDefault(e => e.Id == id);
+        }
+
+        public OBK_Ref_StageStatus GetStageStatus(int id)
+        {
+            return AppContext.OBK_Ref_StageStatus.FirstOrDefault(e => e.Id == id);
         }
 
         /// <summary>
@@ -143,7 +173,19 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             return AppContext.OBK_DeclarantContact.FirstOrDefault(e => e.Id == id);
         }
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="declaration"></param>
+        /// <returns></returns>
+        public OBK_AssessmentDeclaration Update(OBK_AssessmentDeclaration declaration)
+        {
+            var attachedEntity = AppContext.Set<OBK_AssessmentDeclaration>().Find(declaration.Id);
+            AppContext.Entry(attachedEntity).CurrentValues.SetValues(declaration);
+            AppContext.Commit(true);
+            return declaration;
+        }
+
         /// <summary>
         /// загрузка списка заявлений
         /// </summary>
@@ -219,7 +261,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 model = new OBK_AssessmentDeclaration
                 {
                     EmployeeId = UserHelper.GetCurrentEmployee().Id,
-                    Type_Id = typeId,
+                    Type_Id = GetObkRefTypes(typeId.ToString()).Id,
                     Id = new Guid(modelId),
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
@@ -350,43 +392,98 @@ namespace PW.Ncels.Database.Repository.OBK
                 InvoiceAgentMiddelName = oldModel.InvoiceAgentMiddelName,
                 InvoiceAgentPositionName = oldModel.InvoiceAgentPositionName,
                 IsDeleted = false,
-                DesignDate = oldModel.DesignDate
+                DesignDate = oldModel.DesignDate,
+                ObkContracts = oldModel.ObkContracts
             };
-
-            //foreach (var obkRsProducts in oldModel.OBK_RS_Products)
-            //{
-            //    var products = new OBK_RS_Products()
-            //    {
-            //        NameRu = obkRsProducts.NameRu,
-            //        NameKz = obkRsProducts.NameKz,
-            //        CountryNameRu = obkRsProducts.CountryNameRu,
-            //        CountryNameKZ = obkRsProducts.CountryNameKZ,
-            //        ProducerNameRu = obkRsProducts.ProducerNameRu,
-            //        ProducerNameKz = obkRsProducts.ProducerNameKz,
-            //        TnvedCode = obkRsProducts.TnvedCode,
-            //        KpvedCode = obkRsProducts.KpvedCode,
-            //        Price = obkRsProducts.Price,
-            //        OBK_AssessmentDeclaration = model
-            //    };
-            //    foreach (var obkProcuntsSeries in obkRsProducts.OBK_Procunts_Series)
-            //    {
-            //        var productSeries = new OBK_Procunts_Series()
-            //        {
-            //            Series = obkProcuntsSeries.Series,
-            //            SeriesStartdate = obkProcuntsSeries.SeriesStartdate,
-            //            SeriesEndDate = obkProcuntsSeries.SeriesEndDate,
-            //            SeriesParty = obkProcuntsSeries.SeriesParty,
-            //            OBK_RS_ProductsId = obkProcuntsSeries.OBK_RS_ProductsId,
-            //            OBK_RS_Products = products
-            //        };
-            //        products.OBK_Procunts_Series.Add(productSeries);
-            //    }
-            //    model.OBK_RS_Products.Add(products);
-            //}
+            
             AppContext.OBK_AssessmentDeclaration.Add(model);
             AppContext.SaveChanges();
             return model;
         }
+
+        /// <summary>
+        /// получение комментариев
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="idControl"></param>
+        /// <returns></returns>
+        public OBK_AssessmentDeclarationCom GetComments(string modelId, string idControl)
+        {
+            return
+                AppContext.OBK_AssessmentDeclarationCom.FirstOrDefault(
+                    e => e.ControlId == idControl && modelId == e.AssessmentDeclarationId.ToString());
+        }
+
+        public List<OBK_AssessmentDeclarationFieldHistory> GetFieldHistories(string modelId, string idControl)
+        {
+            return
+                AppContext.OBK_AssessmentDeclarationFieldHistory.Where(
+                    e => e.ControlId == idControl && e.AssessmentDeclarationId.ToString() == modelId).ToList();
+        }
+        /// <summary>
+        /// сохранение комметария
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="idControl"></param>
+        /// <param name="isError"></param>
+        /// <param name="comment"></param>
+        /// <param name="fieldValue"></param>
+        /// <param name="userId"></param>
+        /// <param name="fieldDisplay"></param>
+        public void SaveComment(string modelId, string idControl, bool isError, string comment, string fieldValue,
+            string userId, string fieldDisplay)
+        {
+            var entityId = new Guid(modelId);
+            var model =
+                AppContext.OBK_AssessmentDeclarationCom.FirstOrDefault(
+                    e => e.ControlId == idControl && e.AssessmentDeclarationId.Equals(entityId)) ??
+                new OBK_AssessmentDeclarationCom
+                {
+                    DateCreate = DateTime.Now,
+                    AssessmentDeclarationId = entityId,
+                    ControlId = idControl,
+                };
+
+            model.IsError = isError;
+            model.OBK_AssessmentDeclarationComRecord.Add(new OBK_AssessmentDeclarationComRecord
+            {
+                CreateDate = DateTime.Now,
+                Note = comment,
+                UserId = new Guid(userId),
+                OBK_AssessmentDeclarationCom = model,
+                ValueField = fieldValue,
+                DisplayField = fieldDisplay
+            });
+            if (model.Id == 0)
+            {
+
+                AppContext.OBK_AssessmentDeclarationCom.Add(model);
+            }
+            AppContext.SaveChanges();
+        }
+        /// <summary>
+        /// получение историии для истории этапов
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        public IQueryable<OBK_DeclarationHistory> GetDeclarationHistory(Guid modelId)
+        {
+            var result = AppContext.OBK_AssessmentDeclarationHistory.Join(AppContext.OBK_AssessmentStage,
+                    history => history.AssessmentDeclarationId, stage => stage.DeclarationId,
+                    (history, stage) => new OBK_DeclarationHistory()
+                    {
+                        AssessmentDeclarationId = history.AssessmentDeclarationId,
+                        StageId = stage.StageId,
+                        StageStatusId = stage.StageStatusId,
+                        StatusId = history.StatusId,
+                        StartDate = stage.StartDate,
+                        EndDate = stage.EndDate,
+                        Note = history.Note
+                    })
+                .Where(b => b.AssessmentDeclarationId == modelId);
+            return result;
+        }
+
 
         public OBK_AssessmentDeclaration GetPreamble(Guid id)
         {
@@ -425,12 +522,36 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             return null;
         }
-
-        //public void SaveHisotry(OBK_AssessmentDeclarationHistory history, Guid? getCurrentUserId)
-        //{
-        //    AppContext.OBK_AssessmentDeclarationHistory.Add(history);
-        //    AppContext.SaveChanges();
-        //}
+        /// <summary>
+        /// сохранение истории при отправке в ЦОЗ
+        /// </summary>
+        /// <param name="history"></param>
+        /// <param name="getCurrentUserId"></param>
+        public void SaveHisotry(OBK_AssessmentDeclarationHistory history, Guid? getCurrentUserId)
+        {
+            AppContext.OBK_AssessmentDeclarationHistory.Add(history);
+            AppContext.SaveChanges();
+        }
+        /// <summary>
+        /// Отправка этапов ОБК в работу выбранным исполнителям
+        /// </summary>
+        /// <param name="stageIds"></param>
+        /// <param name="executorIds"></param>
+        public void SendToWork(Guid[] stageIds, Guid[] executorIds)
+        {
+            var stages = AppContext.OBK_AssessmentStage.Include(e => e.Employees).Where(e => stageIds.Contains(e.Id)).ToList();
+            var executors = AppContext.Employees.Where(e => executorIds.Contains(e.Id)).ToList();
+            foreach (var stage in stages)
+            {
+                stage.Employees.AddRange(executors);
+                stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+            }
+            AppContext.SaveChanges();
+        }
+        public OBK_Ref_StageStatus GetStageStatusByCode(string code)
+        {
+            return AppContext.OBK_Ref_StageStatus.AsNoTracking().FirstOrDefault(e => e.Code == code);
+        }
         /// <summary>
         /// сохранение заявления
         /// </summary>
@@ -439,7 +560,6 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <returns></returns>
         public virtual OBK_AssessmentDeclaration SaveOrUpdate(OBK_AssessmentDeclaration entity, Guid? userId)
         {
-
             if (entity.Id == Guid.Empty)
             {
                 try
@@ -502,13 +622,13 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.Entry(attachedEntity).CurrentValues.SetValues(entity);
             AppContext.Commit(true);
             //Отправка заявления на этап ЦОЗ
-            //if (entity.StatusId != CodeConstManager.STATUS_DRAFT_ID)
-            //{
-            //    string resultDescription;
-            //    var stageRepository = new AssessmentStageRepository();
-            //    if (!stageRepository.HasStage(entity.Id, CodeConstManager.STAGE_OBK_COZ))
-            //        stageRepository.ToNextStage(entity.Id, null, new[] { CodeConstManager.STAGE_OBK_COZ }, out resultDescription);
-            //}
+            if (entity.StatusId != CodeConstManager.STATUS_DRAFT_ID)
+            {
+                string resultDescription;
+                var stageRepository = new AssessmentStageRepository();
+                if (!stageRepository.HasStage(entity.Id, CodeConstManager.STAGE_OBK_COZ))
+                    stageRepository.ToNextStage(entity.Id, null, new[] { CodeConstManager.STAGE_OBK_COZ }, out resultDescription);
+            }
             return entity;
         }
 
@@ -522,12 +642,14 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="userId"></param>
         /// <param name="customFilter"></param>
         /// <returns></returns>
-        //public IQueryable<OBK_AssessmentDeclarationRegisterView> SafetyAssessmentRegisterList(string status, int stage, Guid userId, DeclarationRegistryFilter customFilter)
-        //{
-        //    var query =
-        //        AppContext.OBK_AssessmentDeclarationRegisterView;
-        //    return query;
-        //}
+        public IQueryable<OBK_AssessmentDeclarationRegisterView> SafetyAssessmentRegisterList(string status, int stage, Guid userId, DeclarationRegistryFilter customFilter)
+        {
+            // добавить этап обк (stage)
+            var query =
+                AppContext.OBK_AssessmentDeclarationRegisterView.Where(e=>e.ExecutorId == userId && e.StageCode == stage.ToString());
+            return query;
+        }
+
         #endregion
     }
 }

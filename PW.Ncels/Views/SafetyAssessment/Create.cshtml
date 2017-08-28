@@ -120,9 +120,9 @@
         var validAttach = checkAttachFile();
         var validDeclaration = checkWrapping();
         if (!validDeclaration) {
-            $("#drugDeclarationBtn").css({ 'color': '#a94442', 'background-color': '#f2dede' });
+            $("#OBKSaDeclarationBtn").css({ 'color': '#a94442', 'background-color': '#f2dede' });
         } else {
-            $("#drugDeclarationBtn").css({ 'color': '#555', 'background-color': '#ffffff' });
+            $("#OBKSaDeclarationBtn").css({ 'color': '#555', 'background-color': '#ffffff' });
         }
         valid = validDeclaration && validAttach;
         return valid;
@@ -145,48 +145,76 @@
     }
     function checkWrapping() {
         var validFile = true;
-        $('.wrapping-row').each(function () {
-            var wrappingType = $(this).find('td').eq(1).find('select');
-            var wrappingKind = $(this).find('td').eq(2).find('select');
-            var wrappingSize = $(this).find('td').eq(3).find('input');
-            var sizeMeasure = $(this).find('td').eq(4).find('select');
-            var wrappingVolume = $(this).find('td').eq(5).find('input');
-            var volumeMeasure = $(this).find('td').eq(6).find('select');
-            var countUnit = $(this).find('td').eq(7).find('input');
+        var contract = $("#Contract_Id").val();
+        var cerGMPCheck = $("#CertificateGMPCheck").val();
+        var certNumber = $("#CertificateGMP").val();
+        var surname = $("#InvoiceAgentLastName").val();
+        var name = $("#InvoiceAgentFirstName").val();
+        var position = $("#InvoiceAgentPositionName").val();
 
-            var wrappingTypeValue = $(wrappingType).val();
-            var wrappingKindValue = $(wrappingKind).val();
-            var countUnitValue = $(countUnit).val();
-
-            var isNull = checkValueFromIsNull(wrappingTypeValue) &&
-                checkValueFromIsNull(wrappingKindValue) &&
-                checkValueFromIsNull(countUnitValue);
-            if (isNull) {
-                return;
-            }
-            validFile = setMarkValidation(wrappingType, wrappingTypeValue) && validFile;
-
-            var kindcontrol = $("#" + wrappingKind.attr('id') + "_chosen").find('a').eq(0);
-            if (checkValueFromIsNull(wrappingKindValue)) {
-                $(kindcontrol).css({ 'background': 'rgb(251, 227, 228)' });
-                validFile = false;
-            } else {
-                $(kindcontrol).css({ 'background': '#ffffff' });
-            }
-            //debugger;
-            var labelTab = $("#" + $(wrappingType).closest(".tab-pane").attr("id") + "Label");
-            if (!labelTab.hasClass("error") && !validFile) {
-                labelTab.addClass("error");
-                $(labelTab).css({ 'color': '#a94442', 'background-color': '#f2dede' });
-            } else {
-                $(labelTab).css({ 'color': '#555', 'background-color': '#ffffff' });
-            }
-        });
-
-        if (!validFile) {
-            $("#wrapLabelPage").css({ 'color': '#a94442', 'background-color': '#f2dede' });
+        var assur = $("#AssuranceCheck").prop('checked');
+        var order = $("#OrderCheck").prop('checked');
+        var stability = $("#StabilityCheck").prop('checked');
+        var payment = $("#PaymentCheck").prop('checked');
+        if (contract == null || contract.length === 0) {
+            $("#ContractIdLabel").css({ 'color': '#a94442' });
+            validFile = false;
         } else {
-            $("#wrapLabelPage").css({ 'color': '#555', 'background-color': '#ffffff' });
+            $("#ContractIdLabel").css({ 'color': '#555' });
+        }
+        if (cerGMPCheck == null || cerGMPCheck.length === 0) {
+            $("#CertificateCheckId").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#CertificateCheckId").css({ 'color': '#555' });
+        }
+        if (certNumber === "") {
+            $("#CertificateId").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#CertificateId").css({ 'color': '#555' });
+        }
+        if (surname === "") {
+            $("#surnameLabel").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#surnameLabel").css({ 'color': '#555' });
+        }
+        if (name === "") {
+            $("#nameLabel").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#nameLabel").css({ 'color': '#555' });
+        }
+        if (position === "") {
+            $("#positionLabel").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#positionLabel").css({ 'color': '#555' });
+        }
+        if (!assur) {
+            $("#assuranceChek").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#assuranceChek").css({ 'color': '#555' });
+        }
+        if (!order) {
+            $("#orderCheck").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#orderCheck").css({ 'color': '#555' });
+        }
+        if (!stability) {
+            $("#stabilityCheck").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#stabilityCheck").css({ 'color': '#555' });
+        }
+        if (!payment) {
+            $("#paymentCheck").css({ 'color': '#a94442' });
+            validFile = false;
+        } else {
+            $("#paymentCheck").css({ 'color': '#555' });
         }
         return validFile;
     }
