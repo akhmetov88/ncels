@@ -935,6 +935,9 @@
     <Compile Include="DataModel\OBK_Contract.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_ContractPrice.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_currencies.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1937,6 +1940,7 @@
     <Compile Include="Models\NomenclatureModel.cs" />
     <Compile Include="Models\OBK\OBKContractProductViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractSeriesViewModel.cs" />
+    <Compile Include="Models\OBK\OBKContractService.cs" />
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
     <Compile Include="Models\OBK\OBK_Contract.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />

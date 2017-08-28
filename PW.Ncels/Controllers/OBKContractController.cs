@@ -122,5 +122,40 @@ namespace PW.Ncels.Controllers
             OBKContractProductViewModel productInfo = obkRepo.SaveProduct(contractId, product);
             return Json(productInfo);
         }
+
+        [HttpPost]
+        public ActionResult DeleteProduct(Guid contractId, int productId)
+        {
+            var deleteState = obkRepo.DeleteProduct(contractId, productId);
+            return Json(deleteState);
+        }
+
+        [HttpGet]
+        public ActionResult GetProducts(Guid contractId)
+        {
+            var list = obkRepo.GetProducts(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult SaveContractPrice(Guid contractId, OBKContractServiceViewModel service)
+        {
+            OBKContractServiceViewModel serviceInfo = obkRepo.SaveContractPrice(contractId, service);
+            return Json(serviceInfo);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteContractPrice(Guid contractId, Guid? serviceId)
+        {
+            var deleteState = obkRepo.DeleteContractPrice(contractId, serviceId);
+            return Json(deleteState);
+        }
+
+        [HttpGet]
+        public ActionResult GetContractPrices(Guid contractId)
+        {
+            var list = obkRepo.GetContractPrices(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

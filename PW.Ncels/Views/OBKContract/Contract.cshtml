@@ -95,7 +95,7 @@
 
                                                         <div class="form-group">
                                                             <label>Тип договора</label>
-                                                            <ui-select ng-model="object.Type" theme="bootstrap" ng-change="refTypeChange();">
+                                                            <ui-select ng-model="object.Type" theme="bootstrap" ng-change="refTypeChange(true);">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in ObkContractTypes | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>

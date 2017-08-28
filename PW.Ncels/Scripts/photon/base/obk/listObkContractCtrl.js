@@ -46,7 +46,7 @@ function obkContractForm($scope, $http, $interval) {
             $scope.product.ProducerNameRu = row.entity.ProducerName;
             $scope.product.ProducerNameKz = row.entity.ProducerNameKz;
             $scope.product.CountryNameRu = row.entity.CountryName;
-            $scope.product.CountryNameKz = row.entity.CountryNameKz;;
+            $scope.product.CountryNameKz = row.entity.CountryNameKz;
             $scope.product.TnvedCode = row.entity.TnvedCode;
             $scope.product.KpvedCode = row.entity.KpvedCode;
             $scope.product.Price = row.entity.Price;
@@ -115,7 +115,6 @@ function obkContractForm($scope, $http, $interval) {
         $scope.gridOptionsSeriesApi = gridApi;
         //$scope.selectedSeriesIndex
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-            //alert("selected");
             $scope.selectedSeriesIndex = $scope.gridOptionsSeries.data.indexOf(row.entity);
         });
     };
@@ -150,7 +149,6 @@ function obkContractForm($scope, $http, $interval) {
 
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
             $scope.selectedProductIndex = $scope.gridOptionsProducts.data.indexOf(row.entity);
-            //alert($scope.selectedProductIndex);
         });
     };
 
@@ -210,7 +208,6 @@ function obkContractForm($scope, $http, $interval) {
                 drugMnn: drugMnn
             }
         }).then(function (resp) {
-            //alert(JSON.stringify(resp));
             if (resp.data) {
                 //$scope.copyOrg(resp.data, currentOrg, copySpecificFieldsFn);
                 //switch (sourceName) {
@@ -244,6 +241,7 @@ function obkContractForm($scope, $http, $interval) {
 
     $scope.editDrug = function editDrug() {
         if ($scope.selectedProductIndex != null) {
+            $scope.deletedServicesId = [];
             $scope.mode = 2;
 
             $scope.showAddEditDrugBlock = true;
@@ -268,6 +266,7 @@ function obkContractForm($scope, $http, $interval) {
                 var service = $scope.addedServices[i];
                 if (service.ProductId == selectedObj.Id) {
                     var newService = {
+                        Id: service.Id,
                         ServiceName: service.ServiceName,
                         ServiceId: service.ServiceId,
                         UnitOfMeasurementName: service.UnitOfMeasurementName,
@@ -290,12 +289,15 @@ function obkContractForm($scope, $http, $interval) {
         if ($scope.selectedProductIndex != null) {
 
             var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
+            var id = selectedObj.Id;
             for (var i = $scope.addedServices.length - 1; i >= 0; i--) {
                 if ($scope.addedServices[i].ProductId == selectedObj.ProductId) {
                     $scope.addedServices.splice(i, 1);
                 }
             }
             $scope.calcTotalCostCalculator();
+
+            $scope.deleteProductInformation(id);
 
             $scope.addedProducts.splice($scope.selectedProductIndex, 1);
             $scope.selectedProductIndex = null;
@@ -394,26 +396,7 @@ function obkContractForm($scope, $http, $interval) {
 
                     $scope.addedProducts.push(product);
 
-                    for (var i = 0; i < $scope.addedProductServices.length; i++) {
-                        var service = $scope.addedProductServices[i];
-                        var newService = {
-                            ServiceName: service.ServiceName,
-                            ServiceId: service.ServiceId,
-                            UnitOfMeasurementName: service.UnitOfMeasurementName,
-                            UnitOfMeasurementId: service.UnitOfMeasurementId,
-                            PriceWithoutTax: service.PriceWithoutTax,
-                            Count: service.Count,
-                            FinalCostWithoutTax: service.FinalCostWithoutTax,
-                            FinalCostWithTax: service.FinalCostWithTax,
-                            ProductId: $scope.product.ProductId,
-                            ProductName: $scope.product.NameRu
-                        };
-                        $scope.addedServices.push(newService);
-                    }
-
                     $scope.saveProductInformation(product);
-
-                    $scope.addedProductServices.length = 0;
 
                     $scope.showAddEditDrugBlock = false;
                     $scope.clearSearchAndProductFields();
@@ -445,13 +428,12 @@ function obkContractForm($scope, $http, $interval) {
 
             var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
             selectedObj.Id = $scope.product.Id;
-            alert("selectedObj.Id = " + selectedObj.Id);
             selectedObj.ProductId = $scope.product.ProductId;
             selectedObj.NameRu = $scope.product.NameRu;
             selectedObj.NameKz = $scope.product.NameKz;
             selectedObj.ProducerNameRu = $scope.product.ProducerNameRu;
             selectedObj.ProducerNameKz = $scope.product.ProducerNameKz;
-            selectedObj.CountryNameR = $scope.product.CountryNameRuu;
+            selectedObj.CountryNameRu = $scope.product.CountryNameRu;
             selectedObj.CountryNameKz = $scope.product.CountryNameKz;
             selectedObj.TnvedCode = $scope.product.TnvedCode;
             selectedObj.KpvedCode = $scope.product.KpvedCode;
@@ -468,24 +450,23 @@ function obkContractForm($scope, $http, $interval) {
             }
             $scope.calcTotalCostCalculator();
 
-            for (var i = 0; i < $scope.addedProductServices.length; i++) {
-                var service = $scope.addedProductServices[i];
-                var newService = {
-                    ServiceName: service.ServiceName,
-                    ServiceId: service.ServiceId,
-                    UnitOfMeasurementName: service.UnitOfMeasurementName,
-                    UnitOfMeasurementId: service.UnitOfMeasurementId,
-                    PriceWithoutTax: service.PriceWithoutTax,
-                    Count: service.Count,
-                    FinalCostWithoutTax: service.FinalCostWithoutTax,
-                    FinalCostWithTax: service.FinalCostWithTax,
-                    ProductId: $scope.product.ProductId,
-                    ProductName: $scope.product.NameRu
-                };
-                $scope.addedServices.push(newService);
-            }
-
-            $scope.addedProductServices.length = 0;
+            //for (var i = 0; i < $scope.addedProductServices.length; i++) {
+            //    var service = $scope.addedProductServices[i];
+            //    var newService = {
+            //        Id: service.Id,
+            //        ServiceName: service.ServiceName,
+            //        ServiceId: service.ServiceId,
+            //        UnitOfMeasurementName: service.UnitOfMeasurementName,
+            //        UnitOfMeasurementId: service.UnitOfMeasurementId,
+            //        PriceWithoutTax: service.PriceWithoutTax,
+            //        Count: service.Count,
+            //        FinalCostWithoutTax: service.FinalCostWithoutTax,
+            //        FinalCostWithTax: service.FinalCostWithTax,
+            //        ProductId: $scope.product.ProductId,
+            //        ProductName: $scope.product.NameRu
+            //    };
+            //    $scope.addedServices.push(newService);
+            //}
 
             $scope.saveProductInformation(selectedObj);
 
@@ -498,7 +479,6 @@ function obkContractForm($scope, $http, $interval) {
 
     $scope.saveProductInformation = function (product) {
         var projectId = $scope.object.Id;
-        alert("projectId = " + projectId);
         if (projectId) {
             $http({
                 url: '/OBKContract/SaveProduct',
@@ -508,6 +488,91 @@ function obkContractForm($scope, $http, $interval) {
                 if (response.ProductId && response.Id) {
                     $scope.updateIdOfProduct(response.ProductId, response.Id);
                 }
+
+                for (var i = 0; i < $scope.addedProductServices.length; i++) {
+                    var service = $scope.addedProductServices[i];
+                    if (service.Id == null) {
+                        var newService = {
+                            Id: service.Id,
+                            ServiceName: service.ServiceName,
+                            ServiceId: service.ServiceId,
+                            UnitOfMeasurementName: service.UnitOfMeasurementName,
+                            UnitOfMeasurementId: service.UnitOfMeasurementId,
+                            PriceWithoutTax: service.PriceWithoutTax,
+                            Count: service.Count,
+                            FinalCostWithoutTax: service.FinalCostWithoutTax,
+                            FinalCostWithTax: service.FinalCostWithTax,
+                            ProductId: response.Id,
+                            ProductName: $scope.product.NameRu
+                        };
+                        $scope.addedServices.push(newService);
+                        var index = $scope.addedServices.length - 1;
+                        $scope.saveServiceInformation(newService, index);
+                    }
+                    else {
+                        for (var i = 0; i < $scope.addedServices.length; i++) {
+                            if ($scope.addedServices[i].Id != null && $scope.addedServices[i].Id == service.Id) {
+                                $scope.addedServices[i].ServiceName = service.ServiceName;
+                                $scope.addedServices[i].ServiceId = service.ServiceId,
+                                $scope.addedServices[i].UnitOfMeasurementName = service.UnitOfMeasurementName,
+                                $scope.addedServices[i].UnitOfMeasurementId = service.UnitOfMeasurementId,
+                                $scope.addedServices[i].PriceWithoutTax = service.PriceWithoutTax,
+                                $scope.addedServices[i].Count = service.Count,
+                                $scope.addedServices[i].FinalCostWithoutTax = service.FinalCostWithoutTax,
+                                $scope.addedServices[i].FinalCostWithTax = service.FinalCostWithTax,
+                                $scope.addedServices[i].ProductId = response.Id;
+                                $scope.saveServiceInformation($scope.addedServices[i], i);
+                            }
+                        }
+                    }
+                }
+
+                $scope.addedProductServices.length = 0;
+
+                if ($scope.deletedServicesId && $scope.deletedServicesId.length > 0) {
+                    for (var i = 0; i < $scope.deletedServicesId.length; i++) {
+                        for (var j = $scope.addedServices.length - 1; j >= 0; j--) {
+                            if ($scope.addedServices[j].Id == $scope.deletedServicesId[i]) {
+                                $scope.addedServices.splice(j, 1);
+                            }
+                        }
+                        $scope.deleteServiceInformation($scope.deletedServicesId[i]);
+                    }
+                    $scope.deletedServicesId.length = 0;
+                }
+
+                $scope.calcTotalCostCalculator();
+
+                //if ($scope.addedProductServices != null && $scope.addedProductServices.length > 0) {
+                //    for (var i = 0; i < $scope.addedProductServices.length; i++) {
+                //        var service = $scope.addedProductServices[i];
+                //        var newService = {
+                //            Id: service.Id,
+                //            ServiceName: service.ServiceName,
+                //            ServiceId: service.ServiceId,
+                //            UnitOfMeasurementName: service.UnitOfMeasurementName,
+                //            UnitOfMeasurementId: service.UnitOfMeasurementId,
+                //            PriceWithoutTax: service.PriceWithoutTax,
+                //            Count: service.Count,
+                //            FinalCostWithoutTax: service.FinalCostWithoutTax,
+                //            FinalCostWithTax: service.FinalCostWithTax,
+                //            ProductId: response.Id,
+                //            ProductName: null
+                //        };
+                //    }
+                //}
+            });
+        }
+    }
+
+    $scope.deleteProductInformation = function (id) {
+        var projectId = $scope.object.Id;
+        if (projectId) {
+            $http({
+                url: '/OBKContract/DeleteProduct',
+                method: 'POST',
+                data: { contractId: projectId, productId: id }
+            }).success(function (response) {
             });
         }
     }
@@ -577,10 +642,12 @@ function obkContractForm($scope, $http, $interval) {
         $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
     }
 
-    $scope.refTypeChange = function () {
+    $scope.refTypeChange = function (save) {
         $scope.loadServiceNames();
         $scope.loadProductServiceNames();
-        $scope.editProject();
+        if (save) {
+            $scope.editProject();
+        }
     }
 
     $scope.loadServiceNames = function loadServiceNames() {
@@ -759,6 +826,9 @@ function obkContractForm($scope, $http, $interval) {
             if (resp.data) {
                 $scope.object.Id = resp.data.Id;
                 $scope.object.Type = resp.data.Type;
+
+                $scope.refTypeChange(false);
+
                 $scope.object.DeclarantId = resp.data.DeclarantId;
                 $scope.object.DeclarantIsResident = resp.data.DeclarantIsResident;
                 $scope.object.DeclarantOrganizationFormId = resp.data.DeclarantOrganizationFormId;
@@ -799,6 +869,31 @@ function obkContractForm($scope, $http, $interval) {
             }
         }, function (response) {
 
+        });
+
+        $http({
+            method: 'GET',
+            url: '/OBKContract/GetProducts',
+            params: {
+                contractId: projectId
+            }
+        }).then(function (resp) {
+            if (resp.data) {
+                $scope.addedProducts.push.apply($scope.addedProducts, resp.data);
+            }
+        });
+
+        $http({
+            method: 'GET',
+            url: '/OBKContract/GetContractPrices',
+            params: {
+                contractId: projectId
+            }
+        }).then(function (resp) {
+            if (resp.data) {
+                $scope.addedServices.push.apply($scope.addedServices, resp.data);
+                $scope.calcTotalCostCalculator();
+            }
         });
     }
 
@@ -947,6 +1042,8 @@ function initCalculator($scope, $interval, $http) {
                 alert("Вы не можете удалить данную услугу, для удаления данной услуги перейдите во вкладку \"Информация о заявляемой продукции\"");
             }
             else {
+                var id = selectedObj.Id;
+                $scope.deleteServiceInformation(id);
                 $scope.addedServices.splice($scope.selectedServiceIndex, 1);
                 $scope.selectedServiceIndex = null;
 
@@ -963,6 +1060,7 @@ function initCalculator($scope, $interval, $http) {
 
             if ($scope.object.ServiceName && $scope.object.CountServices) {
                 var service = {
+                    Id: null,
                     ServiceName: $scope.object.ServiceName.Name,
                     ServiceId: $scope.object.ServiceName.Id,
                     UnitOfMeasurementName: $scope.object.UnitOfMeasurementName,
@@ -974,6 +1072,9 @@ function initCalculator($scope, $interval, $http) {
                 };
 
                 $scope.addedServices.push(service);
+                var index = $scope.addedServices.length - 1;
+
+                $scope.saveServiceInformation(service, index);
 
                 $scope.showAddEditServiceBlock = false;
                 $scope.clearServiceForm();
@@ -1000,6 +1101,8 @@ function initCalculator($scope, $interval, $http) {
                 selectedObj.FinalCostWithoutTax = $scope.object.ResultPriceWithoutTax;
                 selectedObj.FinalCostWithTax = $scope.object.ResultPriceWithTax;
 
+                $scope.saveServiceInformation(selectedObj, $scope.selectedServiceIndex);
+
                 $scope.showAddEditServiceBlock = false;
                 $scope.clearServiceForm();
                 $scope.modeService = null;
@@ -1011,6 +1114,33 @@ function initCalculator($scope, $interval, $http) {
             else {
                 alert("Введите информацию об услуге");
             }
+        }
+    }
+
+    $scope.saveServiceInformation = function (service, index) {
+        var projectId = $scope.object.Id;
+        if (projectId) {
+            $http({
+                url: '/OBKContract/SaveContractPrice',
+                method: 'POST',
+                data: { contractId: projectId, service: service }
+            }).success(function (response) {
+                if (index != null && response.Id && $scope.addedServices[index].Id == null) {
+                    $scope.addedServices[index].Id = response.Id;
+                }
+            });
+        }
+    }
+
+    $scope.deleteServiceInformation = function (id) {
+        var projectId = $scope.object.Id;
+        if (projectId) {
+            $http({
+                url: '/OBKContract/DeleteContractPrice',
+                method: 'POST',
+                data: { contractId: projectId, serviceId: id }
+            }).success(function (response) {
+            });
         }
     }
 
@@ -1050,12 +1180,13 @@ function initCalculator($scope, $interval, $http) {
     };
 
     $scope.gridOptionsCalculator.columnDefs = [
+        { name: 'Id', displayName: 'ИД', width: "*", visible: false },
         { name: 'ServiceName', displayName: 'Тип услуги', width: "*" },
-		{ name: 'ServiceId', displayName: 'Тип услуги - ИД', width: "*", visible: true },
-        { name: "ProductId", displayName: "Продукция - ИД", width: "*", visible: true },
+		{ name: 'ServiceId', displayName: 'Тип услуги - ИД', width: "*", visible: false },
+        { name: "ProductId", displayName: "Продукция - ИД", width: "*", visible: false },
         { name: "ProductName", displayName: "Продукция", width: "*" },
         { name: 'UnitOfMeasurementName', displayName: 'Единица измерения', width: "*" },
-		{ name: 'UnitOfMeasurementId', displayName: 'Единица измерения - ИД', width: "*", visible: true },
+		{ name: 'UnitOfMeasurementId', displayName: 'Единица измерения - ИД', width: "*", visible: false },
         { name: 'PriceWithoutTax', displayName: 'Цена в тенге, без НДС', width: "*" },
         { name: 'Count', displayName: 'Количество услуг (работ)', width: "*" },
         { name: 'FinalCostWithoutTax', displayName: 'Итоговая стоимость услуги, в тенге без НДС', width: "*" },
@@ -1177,10 +1308,11 @@ function initProductServiceModule($scope, $http, $interval) {
     };
 
     $scope.gridOptionsProductServices.columnDefs = [
+        { name: 'Id', displayName: 'ИД', width: "*", visible: false },
         { name: 'ServiceName', displayName: 'Тип услуги', width: "*" },
-		{ name: 'ServiceId', displayName: 'Тип услуги - ИД', width: "*", visible: true },
+		{ name: 'ServiceId', displayName: 'Тип услуги - ИД', width: "*", visible: false },
         { name: 'UnitOfMeasurementName', displayName: 'Единица измерения', width: "*" },
-		{ name: 'UnitOfMeasurementId', displayName: 'Единица измерения - ИД', width: "*", visible: true },
+		{ name: 'UnitOfMeasurementId', displayName: 'Единица измерения - ИД', width: "*", visible: false },
         { name: 'PriceWithoutTax', displayName: 'Цена в тенге, без НДС', width: "*" },
         { name: 'Count', displayName: 'Количество услуг (работ)', width: "*" },
         { name: 'FinalCostWithoutTax', displayName: 'Итоговая стоимость услуги, в тенге без НДС', width: "*" },
@@ -1229,6 +1361,10 @@ function initProductServiceModule($scope, $http, $interval) {
 
     $scope.deleteProductService = function () {
         if ($scope.selectedProductServiceIndex != null) {
+            var selectedObj = $scope.addedProductServices[$scope.selectedProductServiceIndex];
+            if (selectedObj.Id) {
+                $scope.deletedServicesId.push(selectedObj.Id);
+            }
             $scope.addedProductServices.splice($scope.selectedProductServiceIndex, 1);
             $scope.selectedProductServiceIndex = null;
         }
@@ -1309,6 +1445,7 @@ function initProductServiceModule($scope, $http, $interval) {
         if ($scope.modeProductService == 1) {
             if ($scope.object.ProductServiceName && $scope.object.ProductServiceCountServices) {
                 var service = {
+                    Id: null,
                     ServiceName: $scope.object.ProductServiceName.Name,
                     ServiceId: $scope.object.ProductServiceName.Id,
                     UnitOfMeasurementName: $scope.object.ProductServiceUnitOfMeasurementName,

@@ -381,6 +381,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 FillProduct(productInfo, product);
                 AppContext.SaveChanges();
 
+                DeleteSeries(productInfo.Id);
                 SaveSeries(productInfo.Id, product.Series);
 
                 r.Id = productInfo.Id;
@@ -392,14 +393,103 @@ namespace PW.Ncels.Database.Repository.OBK
                 FillProduct(productInfo, product);
                 AppContext.OBK_RS_Products.Add(productInfo);
                 AppContext.SaveChanges();
+
+                SaveSeries(productInfo.Id, product.Series);
+
                 r.Id = productInfo.Id;
             }
             return r;
         }
 
+        public bool DeleteProduct(Guid contractId, int productId)
+        {
+            var product = AppContext.OBK_RS_Products.Where(x => x.Id == productId).FirstOrDefault();
+            if (product != null)
+            {
+                AppContext.OBK_Procunts_Series.RemoveRange(AppContext.OBK_Procunts_Series.Where(x => x.OBK_RS_ProductsId == productId));
+                AppContext.OBK_ContractPrice.RemoveRange(AppContext.OBK_ContractPrice.Where(x => x.ProductId == productId));
+                AppContext.OBK_RS_Products.Remove(product);
+                AppContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public List<OBKContractProductViewModel> GetProducts(Guid contractId)
+        {
+            return AppContext.OBK_RS_Products.Where(x => x.ContractId == contractId).Select(x => new OBKContractProductViewModel
+            {
+                ProductId = null,
+                Id = x.Id,
+                NameRu = x.NameRu,
+                NameKz = x.NameKz,
+                ProducerNameRu = x.ProducerNameRu,
+                ProducerNameKz = x.ProducerNameKz,
+                CountryNameRu = x.CountryNameRu,
+                CountryNameKz = x.CountryNameKZ,
+                KpvedCode = x.KpvedCode,
+                TnvedCode = x.TnvedCode,
+                Price = x.Price,
+                Series = AppContext.OBK_Procunts_Series.Where(y => y.OBK_RS_ProductsId == x.Id).Select(y => new OBKContractSeriesViewModel
+                {
+                    Id = y.Id,
+                    Series = y.Series,
+                    CreateDate = y.SeriesStartdate,
+                    ExpireDate = y.SeriesEndDate,
+                    Part = y.SeriesParty,
+                    UnitId = y.SeriesMeasureId,
+                    UnitName = y.sr_measures.short_name
+                }).ToList()
+            }).ToList();
+        }
+
+        public OBKContractServiceViewModel SaveContractPrice(Guid contractId, OBKContractServiceViewModel service)
+        {
+            var s = new OBKContractServiceViewModel();
+            if (service.Id != null)
+            {
+                OBK_ContractPrice serviceInfo = AppContext.OBK_ContractPrice.Where(x => x.Id == service.Id).FirstOrDefault();
+                FillContractPrice(serviceInfo, service);
+                AppContext.SaveChanges();
+                s.Id = serviceInfo.Id;
+            }
+            else
+            {
+                OBK_ContractPrice serviceInfo = new OBK_ContractPrice();
+                serviceInfo.Id = Guid.NewGuid();
+                serviceInfo.ContractId = contractId;
+                FillContractPrice(serviceInfo, service);
+                AppContext.OBK_ContractPrice.Add(serviceInfo);
+                AppContext.SaveChanges();
+                s.Id = serviceInfo.Id;
+            }
+            return s;
+        }
+
+        public bool DeleteContractPrice(Guid contractId, Guid? serviceId)
+        {
+            var service = AppContext.OBK_ContractPrice.Where(x => x.Id == serviceId).FirstOrDefault();
+            if (service != null)
+            {
+                AppContext.OBK_ContractPrice.Remove(service);
+                AppContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        private void FillContractPrice(OBK_ContractPrice serviceInfo, OBKContractServiceViewModel service)
+        {
+            serviceInfo.PriceRefId = service.ServiceId;
+            serviceInfo.PriceWithoutTax = service.PriceWithoutTax;
+            serviceInfo.Count = service.Count;
+            serviceInfo.PriceWithoutTax = service.FinalCostWithoutTax;
+            serviceInfo.PriceWithTax = service.FinalCostWithTax;
+            serviceInfo.ProductId = service.ProductId;
+        }
+
         private void SaveSeries(int productId, List<OBKContractSeriesViewModel> list)
         {
-            AppContext.OBK_Procunts_Series.RemoveRange(AppContext.OBK_Procunts_Series.Where(x => x.OBK_RS_ProductsId == productId));
             if (list != null && list.Count > 0)
             {
                 foreach (OBKContractSeriesViewModel item in list)
@@ -409,10 +499,18 @@ namespace PW.Ncels.Database.Repository.OBK
                     newSerie.SeriesEndDate = item.CreateDate;
                     newSerie.SeriesStartdate = item.ExpireDate;
                     newSerie.SeriesParty = item.Part;
+                    newSerie.SeriesMeasureId = item.UnitId;
                     newSerie.OBK_RS_ProductsId = productId;
+                    AppContext.OBK_Procunts_Series.Add(newSerie);
                     AppContext.SaveChanges();
                 }
             }
+        }
+
+        private void DeleteSeries(int productId)
+        {
+            AppContext.OBK_Procunts_Series.RemoveRange(AppContext.OBK_Procunts_Series.Where(x => x.OBK_RS_ProductsId == productId));
+            AppContext.SaveChanges();
         }
 
         private void FillProduct(OBK_RS_Products productInfo, OBKContractProductViewModel product)
@@ -426,6 +524,26 @@ namespace PW.Ncels.Database.Repository.OBK
             productInfo.KpvedCode = product.KpvedCode;
             productInfo.TnvedCode = product.TnvedCode;
             productInfo.Price = product.Price;
+        }
+
+        public List<OBKContractServiceViewModel> GetContractPrices(Guid contractId)
+        {
+            var list = AppContext.OBK_ContractPrice.Where(x => x.ContractId == contractId).Select(x => new OBKContractServiceViewModel
+            {
+                Id = x.Id,
+                ServiceName = x.OBK_Ref_PriceList.NameRu,
+                ServiceId = x.PriceRefId,
+                UnitOfMeasurementId = x.OBK_Ref_PriceList.UnitId,
+                UnitOfMeasurementName = x.OBK_Ref_PriceList.Dictionary.Name,
+                PriceWithoutTax = x.OBK_Ref_PriceList.Price,
+                Count = x.Count,
+                FinalCostWithoutTax = x.PriceWithoutTax,
+                FinalCostWithTax = x.PriceWithTax,
+                ProductId = x.ProductId,
+                ProductName = x.OBK_RS_Products.NameRu
+            }
+            ).ToList();
+            return list;
         }
     }
 }
