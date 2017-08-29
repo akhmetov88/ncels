@@ -50,9 +50,9 @@ namespace PW.Ncels.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ContractSave(OBKContractViewModel contractViewModel)
+        public ActionResult ContractSave(Guid Guid, OBKContractViewModel contractViewModel)
         {
-            OBKContractViewModel savedContract = obkRepo.SaveContract2(contractViewModel);
+            OBKContractViewModel savedContract = obkRepo.SaveContract2(Guid, contractViewModel);
             return Json(savedContract);
         }
 
@@ -74,6 +74,7 @@ namespace PW.Ncels.Controllers
             var declarantJson = new
             {
                 organization.OrganizationFormId,
+                organization.IsResident,
                 organization.NameKz,
                 organization.NameRu,
                 organization.NameEn,

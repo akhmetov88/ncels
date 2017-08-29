@@ -666,11 +666,16 @@ function obkContractForm($scope, $http, $interval) {
         }
     }
 
+    $scope.saveBtnClick = function () {
+        $scope.checkFileValidation();
+    }
+
     $scope.editProject = function () {
+        var generatedGuid = $("#generatedGuid").val();
         $http({
             url: '/OBKContract/ContractSave',
             method: 'POST',
-            data: JSON.stringify($scope.object)
+            data: { Guid: generatedGuid, contractViewModel: $scope.object }
         }).success(function (response) {
             //debugger;
 
@@ -718,6 +723,7 @@ function obkContractForm($scope, $http, $interval) {
             }).then(function (resp) {
                 if (resp.data) {
                     $scope.object.DeclarantOrganizationFormId = resp.data.OrganizationFormId;
+                    $scope.object.DeclarantIsResident = resp.data.IsResident;
                     $scope.object.DeclarantNameKz = resp.data.NameKz;
                     $scope.object.DeclarantNameRu = resp.data.NameRu;
                     $scope.object.DeclarantNameEn = resp.data.NameEn;
@@ -903,6 +909,22 @@ function obkContractForm($scope, $http, $interval) {
     }
     else {
 
+    }
+
+
+    $scope.checkFileValidation = function () {
+        $('.file-validation').text("");
+        $('.file-validation:visible').each(function () {
+            var ct = $(this).attr('countFile');
+            var attcode = $(this).attr('attcode');
+            var count = parseInt(ct, 10) || 0;
+            if (count === 0 && attcode === "1") {
+                $(this).text("Необходимо вложить файлы");
+                validFile = false;
+            } else {
+                $(this).text("");
+            }
+        });
     }
 }
 

@@ -132,7 +132,7 @@ namespace PW.Ncels.Database.Repository.OBK
             return contract;
         }
 
-        public OBKContractViewModel SaveContract2(OBKContractViewModel contractViewModel)
+        public OBKContractViewModel SaveContract2(Guid guid, OBKContractViewModel contractViewModel)
         {
             var ret = new OBKContractViewModel();
 
@@ -145,7 +145,7 @@ namespace PW.Ncels.Database.Repository.OBK
             else
             {
                 OBK_Contract contract = new OBK_Contract();
-                contract.Id = Guid.NewGuid();
+                contract.Id = guid;
                 contract.CreatedDate = DateTime.Now;
                 contract.Number = "б/н";
                 contract.Status = 1;
