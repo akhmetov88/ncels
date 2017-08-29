@@ -120,6 +120,14 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             return AppContext.OBK_Ref_StageStatus.FirstOrDefault(e => e.Id == id);
         }
+        /// <summary>
+        /// основание для УОБК
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<OBK_Ref_Reason> GetRefReasons(bool expResult)
+        {
+            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted && e.ExpertiseResult == expResult);
+        }
 
         /// <summary>
         /// валюта

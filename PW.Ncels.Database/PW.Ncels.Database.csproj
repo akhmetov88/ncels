@@ -978,6 +978,9 @@
     <Compile Include="DataModel\obk_product_cost.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_Ref_Reason.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_Ref_Stage.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1972,6 +1975,7 @@
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
+    <Compile Include="Models\OBK\OBK_Ref_Result.cs" />
     <Compile Include="Models\OBK\OBK_RS_Products.cs" />
     <Compile Include="Models\PermissionRoleModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />

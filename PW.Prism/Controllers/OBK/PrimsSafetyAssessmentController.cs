@@ -16,20 +16,20 @@ namespace PW.Prism.Controllers.OBK
     public abstract class PrimsSafetyAssessmentController : ComAssessmentController
     {
         // GET: PrimsSafetyAssessment
-        public virtual ActionResult Index()
+        public virtual ActionResult Index(int type)
         {
             var model = new OBKEntity
             {
                 Guid = Guid.NewGuid(),
-                DicStageId = GetStage()
+                DicStageId = type
             };
             return PartialView("~/Views/SafetyAssessment/Index.cshtml", model);
         }
 
-        public int GetStage()
-        {
-            return CodeConstManager.STAGE_OBK_COZ;
-        }
+        //public int GetStage()
+        //{
+        //    return CodeConstManager.STAGE_OBK_COZ;
+        //}
         /// <summary>
         /// выбор заявления
         /// </summary>

@@ -440,10 +440,21 @@ namespace PW.Ncels.Database.DataModel
         public DbSet<OBK_AssessmentDeclarationView> OBK_AssessmentDeclarationView { get; set; }
         public DbSet<OBK_Declarant> OBK_Declarant { get; set; }
         public DbSet<OBK_DeclarantContact> OBK_DeclarantContact { get; set; }
+<<<<<<< Updated upstream
         public DbSet<OBK_Ref_DegreeRisk> OBK_Ref_DegreeRisk { get; set; }
         public DbSet<OBK_Ref_PriceList> OBK_Ref_PriceList { get; set; }
         public DbSet<OBK_Ref_ServiceType> OBK_Ref_ServiceType { get; set; }
         public DbSet<OBK_Ref_ValueAddedTax> OBK_Ref_ValueAddedTax { get; set; }
+=======
+        public DbSet<OBK_AssessmentDeclarationHistory> OBK_AssessmentDeclarationHistory { get; set; }
+        public DbSet<OBK_Ref_Stage> OBK_Ref_Stage { get; set; }
+        public DbSet<OBK_Ref_StageStatus> OBK_Ref_StageStatus { get; set; }
+        public DbSet<OBK_AssessmentStage> OBK_AssessmentStage { get; set; }
+        public DbSet<OBK_AssessmentDeclarationRegisterView> OBK_AssessmentDeclarationRegisterView { get; set; }
+        public DbSet<OBK_AssessmentDeclarationCom> OBK_AssessmentDeclarationCom { get; set; }
+        public DbSet<OBK_AssessmentDeclarationComRecord> OBK_AssessmentDeclarationComRecord { get; set; }
+        public DbSet<OBK_Ref_Reason> OBK_Ref_Reason { get; set; }
+>>>>>>> Stashed changes
     
         public virtual int CloseTask(Nullable<System.Guid> id, string note, string modifiedUser)
         {

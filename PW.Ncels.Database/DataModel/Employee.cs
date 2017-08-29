@@ -21,6 +21,9 @@ namespace PW.Ncels.Database.DataModel
             this.Visits = new HashSet<Visit>();
             this.Visits1 = new HashSet<Visit>();
             this.CommissionUnits = new HashSet<CommissionUnit>();
+            this.OBK_AssessmentStage = new HashSet<OBK_AssessmentStage>();
+            this.OBK_AssessmentDeclarationComRecord = new HashSet<OBK_AssessmentDeclarationComRecord>();
+            this.OBK_AssessmentDeclarationFieldHistory = new HashSet<OBK_AssessmentDeclarationFieldHistory>();
         }
     
         public System.Guid Id { get; set; }
@@ -113,5 +116,8 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<Visit> Visits { get; set; }
         public virtual ICollection<Visit> Visits1 { get; set; }
         public virtual ICollection<CommissionUnit> CommissionUnits { get; set; }
+        public virtual ICollection<OBK_AssessmentStage> OBK_AssessmentStage { get; set; }
+        public virtual ICollection<OBK_AssessmentDeclarationComRecord> OBK_AssessmentDeclarationComRecord { get; set; }
+        public virtual ICollection<OBK_AssessmentDeclarationFieldHistory> OBK_AssessmentDeclarationFieldHistory { get; set; }
     }
 }

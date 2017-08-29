@@ -23,13 +23,26 @@ namespace PW.Prism.Controllers.OBK
     {
         public ActionResult ListRegister([DataSourceRequest] DataSourceRequest request, string type, int stage, DeclarationRegistryFilter customFilter = null)
         {
-            var stageName = ExpStageNameHelper.GetName(stage);
+            var stageName = GetName(stage);
             ActionLogger.WriteInt(stageName + ": Получение списка заявлений");
             var list =
                 new SafetyAssessmentRepository().SafetyAssessmentRegisterList(type, stage,
                     UserHelper.GetCurrentEmployee().Id, customFilter);
             var result = list.ToDataSourceResult(request);
             return Json(result);
+        }
+
+        public string GetName(int stage)
+        {
+            switch (stage)
+            {
+                case CodeConstManager.STAGE_OBK_COZ:
+                    return "ЦОЗ";
+                case CodeConstManager.STAGE_OBK_EXPERTISE_DOC:
+                    return "Экспертиза документов";
+                default:
+                    return stage.ToString();
+            }
         }
 
         public ActionResult Design(Guid[] id)
@@ -45,7 +58,7 @@ namespace PW.Prism.Controllers.OBK
             //    model.OBK_AssessmentDeclaration.StatusId != CodeConstManager.STATUS_EXP_ON_REFUSING_ID
             //    && model.OBK_AssessmentDeclaration.StatusId != CodeConstManager.STATUS_EXP_REFUSED_ID;
             FillDeclarationControl(model.OBK_AssessmentDeclaration);
-            var stageName = ExpStageNameHelper.GetName(model.StageId);
+            var stageName = GetName(model.StageId);
             ActionLogger.WriteInt(stageName + ": Получение заявления №" + model.OBK_AssessmentDeclaration.Number);
             return PartialView(model);
         }
@@ -193,6 +206,66 @@ namespace PW.Prism.Controllers.OBK
             var okbExecutor = new SafetyAssessmentRepository();
             okbExecutor.SendToWork(stages, executors);
             return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// отправка на экспертизу документов
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult DocumentReview(Guid id)
+        {
+            return PartialView(id);
+        }
+
+        public ActionResult DocumentReviewConfirm(Guid? id)
+        {
+            if (id == null) return Json("Ok!", JsonRequestBehavior.AllowGet);
+            var expertise = GetAssessmentStage(id);
+            var model = expertise.OBK_AssessmentDeclaration;
+            if (model == null) return Json("Ok!", JsonRequestBehavior.AllowGet);
+            model.StatusId = CodeConstManager.STATUS_OBK_EXP_SEND_ID;
+            new SafetyAssessmentRepository().Update(model);
+            var history = new OBK_AssessmentDeclarationHistory()
+            {
+                DateCreate = DateTime.Now,
+                AssessmentDeclarationId = model.Id,
+                StatusId = model.StatusId,
+                UserId = UserHelper.GetCurrentEmployee().Id,
+            };
+            new SafetyAssessmentRepository().SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
+            var stageRepository = new AssessmentStageRepository();
+            string resultDescription;
+            if (!stageRepository.HasStage(model.Id, CodeConstManager.STAGE_OBK_EXPERTISE_DOC))
+                stageRepository.ToNextStage(model.Id, null, new[] { CodeConstManager.STAGE_OBK_EXPERTISE_DOC }, out resultDescription);
+
+            return Json("Ok!", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ExpertiseDocView(Guid id)
+        {
+            var stage = GetAssessmentStage(id);
+            var model = stage.OBK_AssessmentDeclaration;
+
+            //Результат
+            var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
+            ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
+
+            //var reasons = new SafetyAssessmentRepository().GetRefReasons();
+            //ViewData["ReasonResult"] = new SelectList(reasons, "ExpertiseResult", "NameRu");
+            
+            return PartialView(model);
+        }
+
+        public ActionResult GetReasons(bool expResult)
+        {
+            var reasons = new SafetyAssessmentRepository().GetRefReasons(expResult);
+            var result = reasons.Select(x => new {
+                x.Id,
+                x.NameRu,
+                x.NameKz
+            }); //new SelectList(reasons, "Id", "NameRu", "NameKz");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

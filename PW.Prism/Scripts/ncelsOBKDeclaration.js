@@ -266,12 +266,12 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
             actions: ["Close"]
         });
 
-        window.data("kendoWindow").title('Отправить на первичную экспертизу');
+        window.data("kendoWindow").title('Отправить на первичную документов');
         window.data("kendoWindow").setOptions({
             width: 550,
             height: 'auto'
         });
-        window.data("kendoWindow").refresh('/DrugDeclaration/DocumentReview?id=' + stageId);
+        window.data("kendoWindow").refresh('/SafetyAssessment/DocumentReview?id=' + stageId);
 
         window.data("kendoWindow").center();
         window.data("kendoWindow").open();
