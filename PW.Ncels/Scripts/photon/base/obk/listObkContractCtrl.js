@@ -62,7 +62,7 @@ function obkContractForm($scope, $http, $interval) {
     { name: 'ProductId', displayName: 'ProductId', visible: false },
     { name: 'RegNumber', displayName: 'Рег. номер' },
     { name: 'RegTypeName', displayName: 'Тип' },
-    { name: 'RegTypeId', displayName: 'Тип - ИД' },
+    { name: 'RegTypeId', displayName: 'Тип - ИД', visible: false },
     { name: 'Name', displayName: 'Торговое название' },
     { name: 'NameKz', displayName: 'Торговое название на казахском', visible: false },
     { name: 'RegDate', displayName: 'Дата регистрации' },
@@ -219,6 +219,8 @@ function obkContractForm($scope, $http, $interval) {
                 //        break;
                 //};
 
+                $scope.formatArray(resp.data);
+                
                 $scope.searchResults = resp.data;
                 $scope.gridOptions.data = resp.data;
                 //$scope.gridOptionsApi.grid.refresh();
@@ -233,6 +235,18 @@ function obkContractForm($scope, $http, $interval) {
         });
     };
 
+    $scope.formatArray = function (arr) {
+        if (arr && arr.length) {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].RegDate) {
+                    arr[i].RegDate = convertDateToStringDDMMYYYY(arr[i].RegDate);
+                }
+                if (arr[i].ExpireDate) {
+                    arr[i].ExpireDate = convertDateToStringDDMMYYYY(arr[i].ExpireDate);
+                }
+            }
+        }
+    }
 
     $scope.addDrug = function addDrug() {
         $scope.showAddEditDrugBlock = true;
@@ -945,6 +959,17 @@ function convertDateToString(dateMilliseconds) {
     var yyyy = d.getFullYear();
     var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
     return mm + "." + yyyy;
+}
+
+function convertDateToStringDDMMYYYY(value) {
+    if (value) {
+        var d = new Date(parseInt(value.substr(6)));
+        var yyyy = d.getFullYear();
+        var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+        var dd = d.getDay() < 9 ? "0" + d.getDay() : d.getDay();
+        return dd + "." + mm + "." + yyyy;
+    }
+    return "";
 }
 
 function loadObkRefTypes($scope, $http) {

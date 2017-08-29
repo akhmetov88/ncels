@@ -110,7 +110,7 @@
 
                                                         <div class="form-group">
                                                             <label>Тип договора</label>
-                                                            <ui-select ng-model="object.Type" theme="bootstrap" ng-change="refTypeChange(true);">
+                                                            <ui-select ng-model="object.Type" theme="bootstrap" required ng-change="refTypeChange(true);">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in ObkContractTypes | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
@@ -174,7 +174,7 @@
                                                     <div class="col-lg-6 b-l">
                                                         <div class="form-group">
                                                             <label>Экспертная организация</label>
-                                                            <ui-select ng-model="object.ExpertOrganization" theme="bootstrap">
+                                                            <ui-select ng-model="object.ExpertOrganization" required theme="bootstrap">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
@@ -183,23 +183,23 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <h4>Адрес</h4>
-                                                            <label>Юридический адрес</label>
+                                                            <label>Юридический адрес * </label>
                                                             <input ng-model="object.AddressLegalRu" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Юридический адрес на казахском</label>
+                                                            <label>Юридический адрес на казахском * </label>
                                                             <input ng-model="object.AddressLegalKz" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Фактический адрес</label>
+                                                            <label>Фактический адрес * </label>
                                                             <input ng-model="object.AddressFact" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Номер телефона</label>
+                                                            <label>Номер телефона * </label>
                                                             <input ng-model="object.Phone" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Адрес электронной почты</label>
+                                                            <label>Адрес электронной почты * </label>
                                                             <input ng-model="object.Email" placeholder="example@mail.ru" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                     </div>
@@ -350,7 +350,7 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="form-group">
-                                                            <label>ИИК *</label>
+                                                            <label>ИИК (р/с) *</label>
                                                             <input ng-model="object.BankIik" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                     </div>
@@ -690,7 +690,7 @@
                                                                                                         <div class="form-group" id="attachProduct">
                                                                                                             <div class="col-lg-3">
                                                                                                                 <div class="input-group">
-                                                                                                                    <label>Серия</label>
+                                                                                                                    <label>Номер серии</label>
                                                                                                                     <input id="series" name="series" type="text" class="form-control edit-control" text="" ng-model="object.seriesValue">
                                                                                                                 </div>
                                                                                                             </div>
@@ -710,7 +710,7 @@
                                                                                                             </div>
                                                                                                             <div class="col-lg-2">
                                                                                                                 <div class="input-group">
-                                                                                                                    <label>Партия</label>
+                                                                                                                    <label>Размер партии</label>
                                                                                                                     <input id="series1" name="series1" type="number" class="form-control edit-control" text="" ng-model="object.partValue">
                                                                                                                 </div>
                                                                                                             </div>
