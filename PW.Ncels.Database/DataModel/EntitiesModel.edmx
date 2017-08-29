@@ -2807,6 +2807,7 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="types_no_reg" Type="int" />
         </EntityType>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <EntityType Name="OBK_Ref_DegreeRisk">
           <Key>
             <PropertyRef Name="iD" />
@@ -2837,6 +2838,8 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="NameRu" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="NameKz" Type="nvarchar" MaxLength="255" Nullable="false" />
 =======
+=======
+>>>>>>> Stashed changes
         <EntityType Name="OBK_Ref_Reason">
           <Key>
             <PropertyRef Name="Id" />
@@ -2871,6 +2874,9 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="NameKz" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="DateCreate" Type="datetime" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         </EntityType>
         <EntityType Name="OBK_Ref_Status">
@@ -18880,9 +18886,15 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySet Name="obk_product_cost" EntityType="Self.obk_product_cost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_products" EntityType="Self.obk_products" Schema="dbo" store:Type="Tables" />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="Self.OBK_Ref_DegreeRisk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_PriceList" EntityType="Self.OBK_Ref_PriceList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_ServiceType" EntityType="Self.OBK_Ref_ServiceType" Schema="dbo" store:Type="Tables" />
+=======
+          <EntitySet Name="OBK_Ref_Reason" EntityType="Self.OBK_Ref_Reason" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_Ref_Stage" EntityType="Self.OBK_Ref_Stage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_Ref_StageStatus" EntityType="Self.OBK_Ref_StageStatus" Schema="dbo" store:Type="Tables" />
+>>>>>>> Stashed changes
 =======
           <EntitySet Name="OBK_Ref_Reason" EntityType="Self.OBK_Ref_Reason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_Stage" EntityType="Self.OBK_Ref_Stage" Schema="dbo" store:Type="Tables" />
@@ -31743,6 +31755,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_DeclarantContact" EntitySet="OBK_DeclarantContact" />
           </AssociationSet>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="ncelsModel.OBK_Ref_DegreeRisk" />
           <EntitySet Name="OBK_Ref_PriceList" EntityType="ncelsModel.OBK_Ref_PriceList" />
           <EntitySet Name="OBK_Ref_ServiceType" EntityType="ncelsModel.OBK_Ref_ServiceType" />
@@ -31764,6 +31777,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
           </AssociationSet>
 =======
+=======
+>>>>>>> Stashed changes
           <EntitySet Name="OBK_AssessmentDeclarationHistory" EntityType="ncelsModel.OBK_AssessmentDeclarationHistory" />
           <AssociationSet Name="FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration">
             <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
@@ -31816,6 +31831,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_AssessmentDeclarationFieldHistory" EntitySet="OBK_AssessmentDeclarationFieldHistory" />
           </AssociationSet>
           <EntitySet Name="OBK_Ref_Reason" EntityType="ncelsModel.OBK_Ref_Reason" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
           </EntityContainer>
         <EntityType Name="Registery">
@@ -44603,6 +44621,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           </ReferentialConstraint>
         </Association>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <EntityType Name="OBK_Ref_DegreeRisk">
           <Key>
             <PropertyRef Name="iD" />
@@ -44641,6 +44660,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
         </EntityType>
         <EntityType Name="OBK_Ref_ValueAddedTax">
 =======
+=======
+>>>>>>> Stashed changes
         <EntityType Name="OBK_AssessmentDeclarationHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -44706,11 +44727,15 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" FromRole="OBK_Ref_StageStatus" ToRole="OBK_AssessmentStage" />
         </EntityType>
         <EntityType Name="OBK_AssessmentStage">
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
           <Property Name="Value" Type="Double" Nullable="false" />
           <Property Name="Year" Type="Int32" Nullable="false" />
@@ -44764,6 +44789,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           </ReferentialConstraint>
         </Association>
 =======
+=======
+>>>>>>> Stashed changes
           <Property Name="DeclarationId" Type="Guid" Nullable="false" />
           <Property Name="StageId" Type="Int32" Nullable="false" />
           <Property Name="StageStatusId" Type="Int32" Nullable="false" />
@@ -44949,6 +44976,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         </Schema>
     </edmx:ConceptualModels>
@@ -56280,6 +56310,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </EntityTypeMapping>
           </EntitySetMapping>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <EntitySetMapping Name="OBK_Ref_DegreeRisk">
             <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_DegreeRisk">
               <MappingFragment StoreEntitySet="OBK_Ref_DegreeRisk">
@@ -56301,6 +56332,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
 =======
+=======
+>>>>>>> Stashed changes
           <EntitySetMapping Name="OBK_AssessmentDeclarationHistory">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationHistory">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationHistory">
@@ -56324,11 +56357,15 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="NameKz" ColumnName="NameKz" />
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
           <EntitySetMapping Name="OBK_Ref_ServiceType">
             <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_ServiceType">
@@ -56336,6 +56373,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="NameKz" ColumnName="NameKz" />
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
 =======
+=======
+>>>>>>> Stashed changes
           <EntitySetMapping Name="OBK_Ref_StageStatus">
             <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_StageStatus">
               <MappingFragment StoreEntitySet="OBK_Ref_StageStatus">
@@ -56406,11 +56445,15 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
                 <ScalarProperty Name="IsError" ColumnName="IsError" />
                 <ScalarProperty Name="AssessmentDeclarationId" ColumnName="AssessmentDeclarationId" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
           <EntitySetMapping Name="OBK_Ref_ValueAddedTax">
             <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_ValueAddedTax">
@@ -56418,6 +56461,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
 =======
+=======
+>>>>>>> Stashed changes
           <EntitySetMapping Name="OBK_AssessmentDeclarationComRecord">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationComRecord">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationComRecord">
@@ -56440,6 +56485,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="NameKz" ColumnName="NameKz" />
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
