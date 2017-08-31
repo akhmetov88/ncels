@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>F:\Projects\Deployments\prism_20170824_1228</_PublishTargetUrl>
+    <_PublishTargetUrl>F:\Projects\Deployments\prism_20170829_1811</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -55,7 +55,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:25</publishTime>
     </File>
     <File Include="bin/en-US/PW.Ncels.Database.resources.dll">
-      <publishTime>08/24/2017 12:26:23</publishTime>
+      <publishTime>08/29/2017 18:11:14</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -82,7 +82,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:25</publishTime>
     </File>
     <File Include="bin/kk-KZ/PW.Ncels.Database.resources.dll">
-      <publishTime>08/24/2017 12:26:23</publishTime>
+      <publishTime>08/29/2017 18:11:14</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>03/08/2017 19:26:22</publishTime>
@@ -94,10 +94,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/Ncels.Core.dll">
-      <publishTime>08/24/2017 12:26:25</publishTime>
+      <publishTime>08/29/2017 18:11:14</publishTime>
     </File>
     <File Include="bin/Ncels.Core.pdb">
-      <publishTime>08/24/2017 12:26:25</publishTime>
+      <publishTime>08/29/2017 18:11:14</publishTime>
     </File>
     <File Include="bin/Ncels.Helpers.dll">
       <publishTime>08/17/2017 15:38:21</publishTime>
@@ -106,10 +106,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/17/2017 15:38:21</publishTime>
     </File>
     <File Include="bin/Ncels.Scheduler.dll">
-      <publishTime>08/24/2017 12:28:09</publishTime>
+      <publishTime>08/29/2017 18:11:15</publishTime>
     </File>
     <File Include="bin/Ncels.Scheduler.pdb">
-      <publishTime>08/24/2017 12:28:09</publishTime>
+      <publishTime>08/29/2017 18:11:15</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/13/2016 23:06:14</publishTime>
@@ -127,16 +127,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:25</publishTime>
     </File>
     <File Include="bin/PW.Ncels.Database.dll">
-      <publishTime>08/24/2017 12:26:23</publishTime>
+      <publishTime>08/29/2017 18:11:14</publishTime>
     </File>
     <File Include="bin/PW.Ncels.Database.pdb">
-      <publishTime>08/24/2017 12:26:23</publishTime>
+      <publishTime>08/29/2017 18:11:14</publishTime>
     </File>
     <File Include="bin/PW.Prism.dll">
-      <publishTime>08/24/2017 12:28:14</publishTime>
+      <publishTime>08/29/2017 18:11:21</publishTime>
     </File>
     <File Include="bin/PW.Prism.pdb">
-      <publishTime>08/24/2017 12:28:14</publishTime>
+      <publishTime>08/29/2017 18:11:21</publishTime>
     </File>
     <File Include="bin/Quartz.dll">
       <publishTime>02/18/2017 09:28:06</publishTime>
@@ -1888,7 +1888,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:23</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/21/2017 10:22:24</publishTime>
+      <publishTime>08/28/2017 14:48:45</publishTime>
     </File>
     <File Include="ReportForm.aspx">
       <publishTime>08/16/2017 17:25:23</publishTime>
@@ -2245,13 +2245,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:23</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
-      <publishTime>06/22/2017 09:39:55</publishTime>
+      <publishTime>08/29/2017 10:33:34</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.min.js">
-      <publishTime>06/22/2017 09:39:55</publishTime>
+      <publishTime>08/29/2017 10:33:34</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.min.map">
-      <publishTime>06/22/2017 09:39:55</publishTime>
+      <publishTime>08/28/2017 14:48:45</publishTime>
     </File>
     <File Include="Scripts/jquery-1.12.4.js">
       <publishTime>08/21/2017 09:46:20</publishTime>
@@ -4378,7 +4378,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Scripts/ncelsOBKDeclaration.js">
-      <publishTime>08/24/2017 10:54:46</publishTime>
+      <publishTime>08/29/2017 10:34:12</publishTime>
     </File>
     <File Include="Scripts/ncelsPrice.js">
       <publishTime>08/16/2017 17:25:24</publishTime>
@@ -4507,7 +4507,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>08/21/2017 11:03:31</publishTime>
+      <publishTime>08/29/2017 10:34:12</publishTime>
     </File>
     <File Include="tsconfig.json">
       <publishTime>08/16/2017 17:25:24</publishTime>
@@ -5035,7 +5035,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>08/15/2017 10:36:37</publishTime>
+      <publishTime>08/29/2017 10:34:12</publishTime>
     </File>
     <File Include="Views/Home/MessageDialogBox.cshtml">
       <publishTime>08/16/2017 17:25:24</publishTime>
@@ -5620,22 +5620,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/23/2017 12:18:13</publishTime>
     </File>
     <File Include="Views/SafetyAssessment/Design.cshtml">
-      <publishTime>08/23/2017 12:20:07</publishTime>
+      <publishTime>08/29/2017 10:34:12</publishTime>
+    </File>
+    <File Include="Views/SafetyAssessment/DocumentReview.cshtml">
+      <publishTime>08/24/2017 17:11:17</publishTime>
     </File>
     <File Include="Views/SafetyAssessment/Edit.cshtml">
       <publishTime>08/18/2017 16:12:36</publishTime>
     </File>
+    <File Include="Views/SafetyAssessment/ExpertiseDocView.cshtml">
+      <publishTime>08/29/2017 11:57:42</publishTime>
+    </File>
     <File Include="Views/SafetyAssessment/Index.cshtml">
-      <publishTime>08/22/2017 16:30:13</publishTime>
+      <publishTime>08/24/2017 17:55:17</publishTime>
     </File>
     <File Include="Views/SafetyAssessment/MainView.cshtml">
       <publishTime>08/23/2017 09:18:06</publishTime>
     </File>
     <File Include="Views/SafetyAssessment/MenuItem.cshtml">
-      <publishTime>08/22/2017 12:51:31</publishTime>
+      <publishTime>08/29/2017 10:34:12</publishTime>
     </File>
     <File Include="Views/SafetyAssessment/ProductView.cshtml">
-      <publishTime>08/22/2017 16:39:35</publishTime>
+      <publishTime>08/29/2017 11:59:48</publishTime>
     </File>
     <File Include="Views/SafetyAssessment/Reject.cshtml">
       <publishTime>08/22/2017 15:01:26</publishTime>
@@ -5794,7 +5800,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/14/2017 18:42:42</publishTime>
+      <publishTime>08/29/2017 10:34:12</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutMobile.cshtml">
       <publishTime>08/16/2017 17:25:24</publishTime>
@@ -6043,7 +6049,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/24/2017 12:28:09</publishTime>
+      <publishTime>08/29/2017 18:11:15</publishTime>
     </File>
     <File Include="Widgets/widget_birthday.mrt">
       <publishTime>08/16/2017 17:25:24</publishTime>

@@ -2649,7 +2649,7 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
@@ -2661,6 +2661,18 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="DeclarantContactId" Type="uniqueidentifier" />
           <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="ContractType" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="OBK_ContractPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PriceRefId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Count" Type="int" Nullable="false" />
+          <Property Name="PriceWithoutTax" Type="float" Nullable="false" />
+          <Property Name="PriceWithTax" Type="float" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="obk_currencies">
           <Key>
@@ -2677,12 +2689,12 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="NameKz" Type="nvarchar" MaxLength="255" />
-          <Property Name="NameRu" Type="nvarchar" MaxLength="255" />
+          <Property Name="NameKz" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="NameRu" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="NameEn" Type="nvarchar" MaxLength="255" />
           <Property Name="CountryId" Type="uniqueidentifier" />
           <Property Name="Iin" Type="nvarchar" MaxLength="255" />
-          <Property Name="Bin" Type="nvarchar" MaxLength="255" />
+          <Property Name="Bin" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="OrganizationFormId" Type="uniqueidentifier" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -2694,8 +2706,8 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DeclarantId" Type="uniqueidentifier" />
-          <Property Name="AddressLegalRu" Type="nvarchar" MaxLength="255" />
-          <Property Name="AddressLegalKz" Type="nvarchar" MaxLength="255" />
+          <Property Name="AddressLegalRu" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="AddressLegalKz" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="AddressFact" Type="nvarchar" MaxLength="255" />
           <Property Name="Phone" Type="nvarchar" MaxLength="255" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
@@ -2770,6 +2782,7 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="SeriesEndDate" Type="nvarchar(max)" />
           <Property Name="SeriesParty" Type="nvarchar(max)" />
           <Property Name="OBK_RS_ProductsId" Type="int" Nullable="false" />
+          <Property Name="SeriesMeasureId" Type="bigint" />
         </EntityType>
         <EntityType Name="obk_product_cost">
           <Key>
@@ -2806,8 +2819,6 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="cert_sign" Type="bit" />
           <Property Name="types_no_reg" Type="int" />
         </EntityType>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         <EntityType Name="OBK_Ref_DegreeRisk">
           <Key>
             <PropertyRef Name="iD" />
@@ -2830,6 +2841,18 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="DegreeRiskId" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="OBK_Ref_Reason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="NameRu" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NameKz" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExpertiseResult" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="OBK_Ref_ServiceType">
           <Key>
             <PropertyRef Name="Id" />
@@ -2837,20 +2860,6 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="NameRu" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="NameKz" Type="nvarchar" MaxLength="255" Nullable="false" />
-=======
-=======
->>>>>>> Stashed changes
-        <EntityType Name="OBK_Ref_Reason">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="NameRu" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="NameKz" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ExpertiseResult" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OBK_Ref_Stage">
           <Key>
@@ -2874,10 +2883,6 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="NameKz" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="DateCreate" Type="datetime" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         </EntityType>
         <EntityType Name="OBK_Ref_Status">
           <Key>
@@ -7301,7 +7306,6 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationView' does 
             <PropertyRef Name="StatusId" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="IsDeleted" />
             <PropertyRef Name="SortDate" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -7314,7 +7318,6 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationView' does 
           <Property Name="TypeName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="SortDate" Type="datetime" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ncelsProd.dbo.OrganizationsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -12001,6 +12004,42 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OBK_ContractPrice_ContractId__OBK_Contract_Id">
+          <End Role="OBK_Contract" Type="Self.OBK_Contract" Multiplicity="1" />
+          <End Role="OBK_ContractPrice" Type="Self.OBK_ContractPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Contract">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_ContractPrice">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id">
+          <End Role="OBK_Ref_PriceList" Type="Self.OBK_Ref_PriceList" Multiplicity="1" />
+          <End Role="OBK_ContractPrice" Type="Self.OBK_ContractPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_PriceList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_ContractPrice">
+              <PropertyRef Name="PriceRefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id">
+          <End Role="OBK_RS_Products" Type="Self.OBK_RS_Products" Multiplicity="0..1" />
+          <End Role="OBK_ContractPrice" Type="Self.OBK_ContractPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_RS_Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_ContractPrice">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_obk_exchangerate_obk_currencies">
           <End Role="obk_currencies" Type="Self.obk_currencies" Multiplicity="1" />
           <End Role="obk_exchangerate" Type="Self.obk_exchangerate" Multiplicity="*" />
@@ -12010,6 +12049,18 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Principal>
             <Dependent Role="obk_exchangerate">
               <PropertyRef Name="currency_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id">
+          <End Role="sr_measures" Type="Self.sr_measures" Multiplicity="0..1" />
+          <End Role="OBK_Procunts_Series" Type="Self.OBK_Procunts_Series" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sr_measures">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OBK_Procunts_Series">
+              <PropertyRef Name="SeriesMeasureId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18877,6 +18928,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySet Name="obk_certification_copies" EntityType="Self.obk_certification_copies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_certifications" EntityType="Self.obk_certifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Contract" EntityType="Self.OBK_Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_ContractPrice" EntityType="Self.OBK_ContractPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_currencies" EntityType="Self.obk_currencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Declarant" EntityType="Self.OBK_Declarant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_DeclarantContact" EntityType="Self.OBK_DeclarantContact" Schema="dbo" store:Type="Tables" />
@@ -18885,21 +18937,12 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySet Name="OBK_Procunts_Series" EntityType="Self.OBK_Procunts_Series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_product_cost" EntityType="Self.obk_product_cost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_products" EntityType="Self.obk_products" Schema="dbo" store:Type="Tables" />
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
           <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="Self.OBK_Ref_DegreeRisk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_PriceList" EntityType="Self.OBK_Ref_PriceList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_Ref_Reason" EntityType="Self.OBK_Ref_Reason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_ServiceType" EntityType="Self.OBK_Ref_ServiceType" Schema="dbo" store:Type="Tables" />
-=======
-          <EntitySet Name="OBK_Ref_Reason" EntityType="Self.OBK_Ref_Reason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_Stage" EntityType="Self.OBK_Ref_Stage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_StageStatus" EntityType="Self.OBK_Ref_StageStatus" Schema="dbo" store:Type="Tables" />
->>>>>>> Stashed changes
-=======
-          <EntitySet Name="OBK_Ref_Reason" EntityType="Self.OBK_Ref_Reason" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OBK_Ref_Stage" EntityType="Self.OBK_Ref_Stage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OBK_Ref_StageStatus" EntityType="Self.OBK_Ref_StageStatus" Schema="dbo" store:Type="Tables" />
->>>>>>> Stashed changes
           <EntitySet Name="OBK_Ref_Status" EntityType="Self.OBK_Ref_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_Type" EntityType="Self.OBK_Ref_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_ValueAddedTax" EntityType="Self.OBK_Ref_ValueAddedTax" Schema="dbo" store:Type="Tables" />
@@ -20365,8 +20408,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
     [OBK_AssessmentDeclarationView].[StausName] AS [StausName], 
     [OBK_AssessmentDeclarationView].[TypeName] AS [TypeName], 
     [OBK_AssessmentDeclarationView].[CreatedDate] AS [CreatedDate], 
-    [OBK_AssessmentDeclarationView].[SortDate] AS [SortDate], 
-    [OBK_AssessmentDeclarationView].[IsDeleted] AS [IsDeleted]
+    [OBK_AssessmentDeclarationView].[SortDate] AS [SortDate]
     FROM [dbo].[OBK_AssessmentDeclarationView] AS [OBK_AssessmentDeclarationView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="OrganizationsView" EntityType="Self.OrganizationsView" store:Type="Views" store:Schema="dbo">
@@ -22689,9 +22731,25 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_Ref_Type" EntitySet="OBK_Ref_Type" />
             <End Role="OBK_Contract" EntitySet="OBK_Contract" />
           </AssociationSet>
+          <AssociationSet Name="FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" Association="Self.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id">
+            <End Role="OBK_Contract" EntitySet="OBK_Contract" />
+            <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" Association="Self.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id">
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+            <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" Association="Self.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id">
+            <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
+            <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
+          </AssociationSet>
           <AssociationSet Name="FK_obk_exchangerate_obk_currencies" Association="Self.FK_obk_exchangerate_obk_currencies">
             <End Role="obk_currencies" EntitySet="obk_currencies" />
             <End Role="obk_exchangerate" EntitySet="obk_exchangerate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" Association="Self.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id">
+            <End Role="sr_measures" EntitySet="sr_measures" />
+            <End Role="OBK_Procunts_Series" EntitySet="OBK_Procunts_Series" />
           </AssociationSet>
           <AssociationSet Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" Association="Self.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
             <End Role="OBK_Ref_DegreeRisk" EntitySet="OBK_Ref_DegreeRisk" />
@@ -31754,31 +31812,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_Declarant" EntitySet="OBK_Declarant" />
             <End Role="OBK_DeclarantContact" EntitySet="OBK_DeclarantContact" />
           </AssociationSet>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-          <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="ncelsModel.OBK_Ref_DegreeRisk" />
-          <EntitySet Name="OBK_Ref_PriceList" EntityType="ncelsModel.OBK_Ref_PriceList" />
-          <EntitySet Name="OBK_Ref_ServiceType" EntityType="ncelsModel.OBK_Ref_ServiceType" />
-          <EntitySet Name="OBK_Ref_ValueAddedTax" EntityType="ncelsModel.OBK_Ref_ValueAddedTax" />
-          <AssociationSet Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
-            <End Role="Dictionary" EntitySet="Dictionaries" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
-            <End Role="OBK_Ref_DegreeRisk" EntitySet="OBK_Ref_DegreeRisk" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
-            <End Role="OBK_Ref_ServiceType" EntitySet="OBK_Ref_ServiceType" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
-            <End Role="OBK_Ref_Type" EntitySet="OBK_Ref_Type" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-=======
-=======
->>>>>>> Stashed changes
           <EntitySet Name="OBK_AssessmentDeclarationHistory" EntityType="ncelsModel.OBK_AssessmentDeclarationHistory" />
           <AssociationSet Name="FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration">
             <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
@@ -31831,10 +31864,43 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_AssessmentDeclarationFieldHistory" EntitySet="OBK_AssessmentDeclarationFieldHistory" />
           </AssociationSet>
           <EntitySet Name="OBK_Ref_Reason" EntityType="ncelsModel.OBK_Ref_Reason" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+          <EntitySet Name="OBK_ContractPrice" EntityType="ncelsModel.OBK_ContractPrice" />
+          <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="ncelsModel.OBK_Ref_DegreeRisk" />
+          <EntitySet Name="OBK_Ref_PriceList" EntityType="ncelsModel.OBK_Ref_PriceList" />
+          <EntitySet Name="OBK_Ref_ServiceType" EntityType="ncelsModel.OBK_Ref_ServiceType" />
+          <EntitySet Name="OBK_Ref_ValueAddedTax" EntityType="ncelsModel.OBK_Ref_ValueAddedTax" />
+          <AssociationSet Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
+            <End Role="Dictionary" EntitySet="Dictionaries" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" Association="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id">
+            <End Role="OBK_Contract" EntitySet="OBK_Contract" />
+            <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" Association="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id">
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+            <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" Association="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id">
+            <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
+            <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" Association="ncelsModel.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id">
+            <End Role="sr_measures" EntitySet="sr_measures" />
+            <End Role="OBK_Procunts_Series" EntitySet="OBK_Procunts_Series" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
+            <End Role="OBK_Ref_DegreeRisk" EntitySet="OBK_Ref_DegreeRisk" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
+            <End Role="OBK_Ref_ServiceType" EntitySet="OBK_Ref_ServiceType" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
+            <End Role="OBK_Ref_Type" EntitySet="OBK_Ref_Type" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Registery">
           <Key>
@@ -34068,6 +34134,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="EXP_DrugDosage1" Relationship="ncelsModel.FK_EXP_DrugDosage_AppPeriodMixMeasure" FromRole="sr_measures" ToRole="EXP_DrugDosage" />
           <NavigationProperty Name="EXP_DrugDosage11" Relationship="ncelsModel.FK_EXP_DrugDosage_AppPeriodOpenMeasure" FromRole="sr_measures" ToRole="EXP_DrugDosage" />
           <NavigationProperty Name="EXP_DrugDosage2" Relationship="ncelsModel.FK_EXP_DrugDosage_BestBeforeMeasure" FromRole="sr_measures" ToRole="EXP_DrugDosage" />
+          <NavigationProperty Name="OBK_Procunts_Series" Relationship="ncelsModel.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" FromRole="sr_measures" ToRole="OBK_Procunts_Series" />
         </EntityType>
         <EntityType Name="sr_substances">
           <Key>
@@ -44325,7 +44392,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" >
             <Documentation>
               <LongDescription>Номер договора</LongDescription>
@@ -44346,6 +44413,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_Ref_Status" Relationship="ncelsModel.FK_OBK_Contract_OBK_Ref_Status" FromRole="OBK_Contract" ToRole="OBK_Ref_Status" />
           <NavigationProperty Name="OBK_Ref_Type" Relationship="ncelsModel.FK_OBK_Contract_OBK_Ref_Type" FromRole="OBK_Contract" ToRole="OBK_Ref_Type" />
           <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_RS_Products_OBK_Contract" FromRole="OBK_Contract" ToRole="OBK_RS_Products" />
+          <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" FromRole="OBK_Contract" ToRole="OBK_ContractPrice" />
         </EntityType>
         <Association Name="FK_OBK_Ref_Type_AssessmentDeclaration">
           <End Type="ncelsModel.OBK_Ref_Type" Role="OBK_Ref_Type" Multiplicity="1" />
@@ -44377,6 +44445,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="ContractId" Type="Guid" />
           <Property Name="CurrencyId" Type="Int32" />
           <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_RS_Products_OBK_Contract" FromRole="OBK_RS_Products" ToRole="OBK_Contract" />
+          <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" FromRole="OBK_RS_Products" ToRole="OBK_ContractPrice" />
         </EntityType>
         <EntityType Name="OBK_Procunts_Series">
           <Key>
@@ -44389,6 +44458,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="SeriesParty" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_RS_Products_Procunts_Series" FromRole="OBK_Procunts_Series" ToRole="OBK_RS_Products" />
           <Property Name="OBK_RS_ProductsId" Type="Int32" Nullable="false" />
+          <Property Name="SeriesMeasureId" Type="Int64" />
+          <NavigationProperty Name="sr_measures" Relationship="ncelsModel.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" FromRole="OBK_Procunts_Series" ToRole="sr_measures" />
         </EntityType>
         <Association Name="FK_OBK_RS_Products_Procunts_Series">
           <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="1" />
@@ -44478,7 +44549,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <PropertyRef Name="Id" />
             <PropertyRef Name="SortDate" />
             <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="IsDeleted" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="OwnerId" Type="Guid" Nullable="false" />
@@ -44490,19 +44560,18 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SortDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="OBK_Declarant">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="NameKz" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameRu" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="NameEn" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CountryId" Type="Guid" />
           <Property Name="Iin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Bin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Bin" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="OrganizationFormId" Type="Guid" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -44516,8 +44585,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="DeclarantId" Type="Guid" />
-          <Property Name="AddressLegalRu" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLegalKz" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLegalRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLegalKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="AddressFact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -44620,48 +44689,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        <EntityType Name="OBK_Ref_DegreeRisk">
-          <Key>
-            <PropertyRef Name="iD" />
-          </Key>
-          <Property Name="iD" Type="Guid" Nullable="false" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_DegreeRisk" ToRole="OBK_Ref_PriceList" />
-        </EntityType>
-        <EntityType Name="OBK_Ref_PriceList">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UnitId" Type="Guid" Nullable="false" />
-          <Property Name="Price" Type="Double" Nullable="false" />
-          <Property Name="ServiceTypeId" Type="Guid" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="DegreeRiskId" Type="Guid" />
-          <NavigationProperty Name="Dictionary" Relationship="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" FromRole="OBK_Ref_PriceList" ToRole="Dictionary" />
-          <NavigationProperty Name="OBK_Ref_DegreeRisk" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_DegreeRisk" />
-          <NavigationProperty Name="OBK_Ref_ServiceType" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_ServiceType" />
-          <NavigationProperty Name="OBK_Ref_Type" Relationship="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_Type" />
-        </EntityType>
-        <EntityType Name="OBK_Ref_ServiceType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_ServiceType" ToRole="OBK_Ref_PriceList" />
-        </EntityType>
-        <EntityType Name="OBK_Ref_ValueAddedTax">
-=======
-=======
->>>>>>> Stashed changes
         <EntityType Name="OBK_AssessmentDeclarationHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -44727,70 +44754,10 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" FromRole="OBK_Ref_StageStatus" ToRole="OBK_AssessmentStage" />
         </EntityType>
         <EntityType Name="OBK_AssessmentStage">
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-          <Property Name="Value" Type="Double" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
-          <End Type="ncelsModel.Dictionary" Role="Dictionary" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Dictionary">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="UnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
-          <End Type="ncelsModel.OBK_Ref_DegreeRisk" Role="OBK_Ref_DegreeRisk" Multiplicity="0..1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Ref_DegreeRisk">
-              <PropertyRef Name="iD" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="DegreeRiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
-          <End Type="ncelsModel.OBK_Ref_ServiceType" Role="OBK_Ref_ServiceType" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Ref_ServiceType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="ServiceTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
-          <End Type="ncelsModel.OBK_Ref_Type" Role="OBK_Ref_Type" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Ref_Type">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="TypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-=======
-=======
->>>>>>> Stashed changes
           <Property Name="DeclarationId" Type="Guid" Nullable="false" />
           <Property Name="StageId" Type="Int32" Nullable="false" />
           <Property Name="StageStatusId" Type="Int32" Nullable="false" />
@@ -44969,17 +44936,169 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NameRu" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NameKz" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ExpertiseResult" Type="Boolean" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+        <EntityType Name="OBK_ContractPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PriceRefId" Type="Guid" Nullable="false" />
+          <Property Name="Count" Type="Int32" Nullable="false" />
+          <Property Name="PriceWithoutTax" Type="Double" Nullable="false" />
+          <Property Name="PriceWithTax" Type="Double" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" FromRole="OBK_ContractPrice" ToRole="OBK_Contract" />
+          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" FromRole="OBK_ContractPrice" ToRole="OBK_Ref_PriceList" />
+          <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" FromRole="OBK_ContractPrice" ToRole="OBK_RS_Products" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_DegreeRisk">
+          <Key>
+            <PropertyRef Name="iD" />
+          </Key>
+          <Property Name="iD" Type="Guid" Nullable="false" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_DegreeRisk" ToRole="OBK_Ref_PriceList" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_PriceList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UnitId" Type="Guid" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="ServiceTypeId" Type="Guid" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DegreeRiskId" Type="Guid" />
+          <NavigationProperty Name="Dictionary" Relationship="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" FromRole="OBK_Ref_PriceList" ToRole="Dictionary" />
+          <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_ContractPrice" />
+          <NavigationProperty Name="OBK_Ref_DegreeRisk" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_DegreeRisk" />
+          <NavigationProperty Name="OBK_Ref_ServiceType" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_ServiceType" />
+          <NavigationProperty Name="OBK_Ref_Type" Relationship="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_Type" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_ServiceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_ServiceType" ToRole="OBK_Ref_PriceList" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_ValueAddedTax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Value" Type="Double" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
+          <End Type="ncelsModel.Dictionary" Role="Dictionary" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dictionary">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_ContractPrice_ContractId__OBK_Contract_Id">
+          <End Type="ncelsModel.OBK_Contract" Role="OBK_Contract" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_ContractPrice" Role="OBK_ContractPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Contract">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_ContractPrice">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id">
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_ContractPrice" Role="OBK_ContractPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_PriceList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_ContractPrice">
+              <PropertyRef Name="PriceRefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id">
+          <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_ContractPrice" Role="OBK_ContractPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_RS_Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_ContractPrice">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id">
+          <End Type="ncelsModel.sr_measures" Role="sr_measures" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_Procunts_Series" Role="OBK_Procunts_Series" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sr_measures">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OBK_Procunts_Series">
+              <PropertyRef Name="SeriesMeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
+          <End Type="ncelsModel.OBK_Ref_DegreeRisk" Role="OBK_Ref_DegreeRisk" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_DegreeRisk">
+              <PropertyRef Name="iD" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="DegreeRiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
+          <End Type="ncelsModel.OBK_Ref_ServiceType" Role="OBK_Ref_ServiceType" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_ServiceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="ServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
+          <End Type="ncelsModel.OBK_Ref_Type" Role="OBK_Ref_Type" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -56175,6 +56294,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_Procunts_Series">
             <EntityTypeMapping TypeName="IsTypeOf(ncelsModel.OBK_Procunts_Series)">
               <MappingFragment StoreEntitySet="OBK_Procunts_Series">
+                <ScalarProperty Name="SeriesMeasureId" ColumnName="SeriesMeasureId" />
                 <ScalarProperty Name="OBK_RS_ProductsId" ColumnName="OBK_RS_ProductsId" />
                 <ScalarProperty Name="SeriesParty" ColumnName="SeriesParty" />
                 <ScalarProperty Name="SeriesEndDate" ColumnName="SeriesEndDate" />
@@ -56241,7 +56361,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_AssessmentDeclarationView">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationView">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationView">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="SortDate" ColumnName="SortDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -56309,31 +56428,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-          <EntitySetMapping Name="OBK_Ref_DegreeRisk">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_DegreeRisk">
-              <MappingFragment StoreEntitySet="OBK_Ref_DegreeRisk">
-                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
-                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
-                <ScalarProperty Name="iD" ColumnName="iD" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OBK_Ref_PriceList">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_PriceList">
-              <MappingFragment StoreEntitySet="OBK_Ref_PriceList">
-                <ScalarProperty Name="DegreeRiskId" ColumnName="DegreeRiskId" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
-                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-=======
-=======
->>>>>>> Stashed changes
           <EntitySetMapping Name="OBK_AssessmentDeclarationHistory">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationHistory">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationHistory">
@@ -56357,24 +56451,10 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="NameKz" ColumnName="NameKz" />
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-          <EntitySetMapping Name="OBK_Ref_ServiceType">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_ServiceType">
-              <MappingFragment StoreEntitySet="OBK_Ref_ServiceType">
-                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
-                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
-=======
-=======
->>>>>>> Stashed changes
           <EntitySetMapping Name="OBK_Ref_StageStatus">
             <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_StageStatus">
               <MappingFragment StoreEntitySet="OBK_Ref_StageStatus">
@@ -56445,24 +56525,10 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
                 <ScalarProperty Name="IsError" ColumnName="IsError" />
                 <ScalarProperty Name="AssessmentDeclarationId" ColumnName="AssessmentDeclarationId" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-          <EntitySetMapping Name="OBK_Ref_ValueAddedTax">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_ValueAddedTax">
-              <MappingFragment StoreEntitySet="OBK_Ref_ValueAddedTax">
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-=======
-=======
->>>>>>> Stashed changes
           <EntitySetMapping Name="OBK_AssessmentDeclarationComRecord">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationComRecord">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationComRecord">
@@ -56485,10 +56551,61 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="NameKz" ColumnName="NameKz" />
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_ContractPrice">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_ContractPrice">
+              <MappingFragment StoreEntitySet="OBK_ContractPrice">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PriceWithTax" ColumnName="PriceWithTax" />
+                <ScalarProperty Name="PriceWithoutTax" ColumnName="PriceWithoutTax" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="PriceRefId" ColumnName="PriceRefId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_DegreeRisk">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_DegreeRisk">
+              <MappingFragment StoreEntitySet="OBK_Ref_DegreeRisk">
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="iD" ColumnName="iD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_PriceList">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_PriceList">
+              <MappingFragment StoreEntitySet="OBK_Ref_PriceList">
+                <ScalarProperty Name="DegreeRiskId" ColumnName="DegreeRiskId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_ServiceType">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_ServiceType">
+              <MappingFragment StoreEntitySet="OBK_Ref_ServiceType">
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_ValueAddedTax">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_ValueAddedTax">
+              <MappingFragment StoreEntitySet="OBK_Ref_ValueAddedTax">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

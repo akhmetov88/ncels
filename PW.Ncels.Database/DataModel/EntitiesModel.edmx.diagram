@@ -4,15 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="21">
-=======
       <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="30">
->>>>>>> Stashed changes
-=======
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="30">
->>>>>>> Stashed changes
         <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
@@ -721,19 +713,6 @@
         <AssociationConnector Association="ncelsModel.FK_OBK_Contract_OBK_Ref_Type" />
         <AssociationConnector Association="ncelsModel.FK_OBK_RS_Products_OBK_Contract" />
         <AssociationConnector Association="ncelsModel.FK_OBK_DeclarantContact_OBK_Declarant" />
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_DegreeRisk" Width="1.5" PointX="83" PointY="22.625" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_PriceList" Width="1.5" PointX="85.25" PointY="1.25" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ServiceType" Width="1.5" PointX="83" PointY="25.125" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ValueAddedTax" Width="1.5" PointX="58.375" PointY="72.625" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" />
-=======
-=======
->>>>>>> Stashed changes
         <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationHistory" Width="1.5" PointX="84.75" PointY="0.75" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status" />
@@ -753,10 +732,19 @@
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_Employees" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration" />
         <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Reason" Width="1.5" PointX="88.625" PointY="8" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractPrice" Width="1.5" PointX="91.375" PointY="10.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_DegreeRisk" Width="1.5" PointX="80" PointY="26.375" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_PriceList" Width="1.5" PointX="82.25" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ServiceType" Width="1.5" PointX="80" PointY="30" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ValueAddedTax" Width="1.5" PointX="58.375" PointY="76.125" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
