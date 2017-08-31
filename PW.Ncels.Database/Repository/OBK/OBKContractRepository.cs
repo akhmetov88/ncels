@@ -212,6 +212,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 contactData.IsHasBossDocNumber = contractViewModel.IsHasBossDocNumber;
                 contactData.BossDocNumber = contractViewModel.BossDocNumber;
                 contactData.BossDocCreatedDate = contractViewModel.BossDocCreatedDate;
+                contactData.BossDocEndDate = contractViewModel.BossDocEndDate;
+                contactData.BossDocUnlimited = contractViewModel.BossDocUnlimited;
                 contactData.SignLastName = contractViewModel.SignLastName;
                 contactData.SignFirstName = contractViewModel.SignFirstName;
                 contactData.SignMiddleName = contractViewModel.SignMiddleName;
@@ -220,6 +222,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 contactData.IsHasSignDocNumber = contractViewModel.IsHasSignDocNumber;
                 contactData.SignDocNumber = contractViewModel.SignDocNumber;
                 contactData.SignDocCreatedDate = contractViewModel.SignDocCreatedDate;
+                contactData.SignDocEndDate = contractViewModel.SignDocEndDate;
+                contactData.SignDocUnlimited = contractViewModel.SignDocUnlimited;
                 contactData.BankIik = contractViewModel.BankIik;
                 contactData.BankBik = contractViewModel.BankBik;
                 contactData.CurrencyId = contractViewModel.CurrencyId;
@@ -353,6 +357,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 contractViewModel.IsHasBossDocNumber = OBKContract.OBK_DeclarantContact.IsHasBossDocNumber;
                 contractViewModel.BossDocNumber = OBKContract.OBK_DeclarantContact.BossDocNumber;
                 contractViewModel.BossDocCreatedDate = OBKContract.OBK_DeclarantContact.BossDocCreatedDate;
+                contractViewModel.BossDocEndDate = OBKContract.OBK_DeclarantContact.BossDocEndDate;
+                contractViewModel.BossDocUnlimited = OBKContract.OBK_DeclarantContact.BossDocUnlimited;
                 contractViewModel.SignLastName = OBKContract.OBK_DeclarantContact.SignLastName;
                 contractViewModel.SignFirstName = OBKContract.OBK_DeclarantContact.SignFirstName;
                 contractViewModel.SignMiddleName = OBKContract.OBK_DeclarantContact.SignMiddleName;
@@ -361,6 +367,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 contractViewModel.IsHasSignDocNumber = OBKContract.OBK_DeclarantContact.IsHasSignDocNumber;
                 contractViewModel.SignDocNumber = OBKContract.OBK_DeclarantContact.SignDocNumber;
                 contractViewModel.SignDocCreatedDate = OBKContract.OBK_DeclarantContact.SignDocCreatedDate;
+                contractViewModel.SignDocEndDate = OBKContract.OBK_DeclarantContact.SignDocEndDate;
+                contractViewModel.SignDocUnlimited = OBKContract.OBK_DeclarantContact.SignDocUnlimited;
                 contractViewModel.BankIik = OBKContract.OBK_DeclarantContact.BankIik;
                 contractViewModel.BankBik = OBKContract.OBK_DeclarantContact.BankBik;
                 contractViewModel.CurrencyId = OBKContract.OBK_DeclarantContact.CurrencyId;
@@ -421,6 +429,8 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 ProductId = null,
                 Id = x.Id,
+                RegTypeId = x.RegTypeId,
+                DegreeRiskId = x.DegreeRiskId,
                 NameRu = x.NameRu,
                 NameKz = x.NameKz,
                 ProducerNameRu = x.ProducerNameRu,
@@ -515,6 +525,8 @@ namespace PW.Ncels.Database.Repository.OBK
 
         private void FillProduct(OBK_RS_Products productInfo, OBKContractProductViewModel product)
         {
+            productInfo.RegTypeId = product.RegTypeId;
+            productInfo.DegreeRiskId = product.DegreeRiskId;
             productInfo.NameRu = product.NameRu;
             productInfo.NameKz = product.NameKz;
             productInfo.ProducerNameRu = product.ProducerNameRu;

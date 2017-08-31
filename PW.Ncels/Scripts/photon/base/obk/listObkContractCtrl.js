@@ -14,7 +14,11 @@ function obkContractForm($scope, $http, $interval) {
     $scope.object.seriesExpireDate = curDate.getTime();
 
     $scope.object.BossDocCreatedDate = "";
+    $scope.object.BossDocEndDate = "";
+    $scope.object.BossDocUnlimited = false;
     $scope.object.SignDocCreatedDate = "";
+    $scope.object.SignDocEndDate = "";
+    $scope.object.SignDocUnlimited = false;
 
     $scope.enableCompanyData = false;
     $scope.showBin = false;
@@ -37,7 +41,6 @@ function obkContractForm($scope, $http, $interval) {
         $scope.gridOptionsApi = gridApi;
 
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-            var msg = 'row selected ' + row.isSelected;
             $scope.product.ProductId = row.entity.ProductId;
             $scope.product.RegTypeId = row.entity.RegTypeId;
             $scope.product.DegreeRiskId = row.entity.DegreeRiskId;
@@ -264,6 +267,8 @@ function obkContractForm($scope, $http, $interval) {
 
             $scope.product.Id = selectedObj.Id;
             $scope.product.ProductId = selectedObj.ProductId;
+            $scope.product.RegTypeId = selectedObj.RegTypeId;
+            $scope.product.DegreeRiskId = selectedObj.DegreeRiskId;
             $scope.product.NameRu = selectedObj.NameRu;
             $scope.product.NameKz = selectedObj.NameKz;
             $scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
@@ -293,6 +298,8 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.addedProductServices.push(newService);
                 }
             }
+
+            $scope.loadProductServiceNames();
         }
         else {
             alert("Выберите продукцию для изменения");
@@ -394,6 +401,8 @@ function obkContractForm($scope, $http, $interval) {
                     var product = {
                         Id: null,
                         ProductId: $scope.product.ProductId,
+                        RegTypeId: $scope.product.RegTypeId,
+                        DegreeRiskId: $scope.product.DegreeRiskId,
                         NameRu: $scope.product.NameRu,
                         NameKz: $scope.product.NameKz,
                         ProducerNameRu: $scope.product.ProducerNameRu,
@@ -443,6 +452,8 @@ function obkContractForm($scope, $http, $interval) {
             var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
             selectedObj.Id = $scope.product.Id;
             selectedObj.ProductId = $scope.product.ProductId;
+            selectedObj.RegTypeId = $scope.product.RegTypeId;
+            selectedObj.DegreeRiskId = $scope.product.DegreeRiskId;
             selectedObj.NameRu = $scope.product.NameRu;
             selectedObj.NameKz = $scope.product.NameKz;
             selectedObj.ProducerNameRu = $scope.product.ProducerNameRu;
@@ -755,6 +766,8 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                     $scope.object.BossDocNumber = resp.data.BossDocNumber;
                     $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
+                    $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
+                    $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
                     $scope.object.SignLastName = resp.data.SignLastName;
                     $scope.object.SignFirstName = resp.data.SignFirstName;
                     $scope.object.SignMiddleName = resp.data.SignMiddleName;
@@ -763,6 +776,8 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                     $scope.object.SignDocNumber = resp.data.SignDocNumber;
                     $scope.object.SignDocCreatedDate = getDate(resp.data.SignDocCreatedDate);
+                    $scope.object.SignDocEndDate = getDate(resp.data.SignDocEndDate);
+                    $scope.object.SignDocUnlimited = resp.data.SignDocUnlimited;
                     $scope.object.BankIik = resp.data.BankIik;
                     $scope.object.BankBik = resp.data.BankBik;
                     $scope.object.CurrencyId = resp.data.CurrencyId;
@@ -793,6 +808,8 @@ function obkContractForm($scope, $http, $interval) {
             $scope.object.IsHasBossDocNumber = null;
             $scope.object.BossDocNumber = null;
             $scope.object.BossDocCreatedDate = getDate(null);
+            $scope.object.BossDocEndDate = getDate(null);
+            $scope.object.BossDocUnlimited = false;
             $scope.object.SignLastName = null;
             $scope.object.SignFirstName = null;
             $scope.object.SignMiddleName = null;
@@ -801,6 +818,8 @@ function obkContractForm($scope, $http, $interval) {
             $scope.object.IsHasSignDocNumber = null;
             $scope.object.SignDocNumber = null;
             $scope.object.SignDocCreatedDate = getDate(null);
+            $scope.object.SignDocEndDate = getDate(null);
+            $scope.object.SignDocUnlimited = false;
             $scope.object.BankIik = null;
             $scope.object.BankBik = null;
             $scope.object.CurrencyId = null;
@@ -872,7 +891,9 @@ function obkContractForm($scope, $http, $interval) {
                 $scope.object.BossDocType = resp.data.BossDocType;
                 $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                 $scope.object.BossDocNumber = resp.data.BossDocNumber;
-                $scope.object.BossDocCreatedDate = resp.data.BossDocCreatedDate;
+                $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
+                $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
+                $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
                 $scope.object.SignLastName = resp.data.SignLastName;
                 $scope.object.SignFirstName = resp.data.SignFirstName;
                 $scope.object.SignMiddleName = resp.data.SignMiddleName;
@@ -880,7 +901,9 @@ function obkContractForm($scope, $http, $interval) {
                 $scope.object.SignDocType = resp.data.SignDocType;
                 $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                 $scope.object.SignDocNumber = resp.data.SignDocNumber;
-                $scope.object.SignDocCreatedDate = resp.data.SignDocCreatedDate;
+                $scope.object.SignDocCreatedDate = getDate(resp.data.SignDocCreatedDate);
+                $scope.object.SignDocEndDate = getDate(resp.data.SignDocEndDate);
+                $scope.object.SignDocUnlimited = resp.data.SignDocUnlimited;
                 $scope.object.BankIik = resp.data.BankIik;
                 $scope.object.BankBik = resp.data.BankBik;
                 $scope.object.CurrencyId = resp.data.CurrencyId;
