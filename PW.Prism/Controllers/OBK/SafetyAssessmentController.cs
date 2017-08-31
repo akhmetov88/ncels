@@ -127,6 +127,7 @@ namespace PW.Prism.Controllers.OBK
                     prodSeries.SeriesStartdate = productSeries.SeriesStartdate;
                     prodSeries.SeriesEndDate = productSeries.SeriesEndDate;
                     prodSeries.SeriesParty = productSeries.SeriesParty;
+                    prodSeries.SeriesShortNameRu = productSeries.sr_measures.short_name;
                     prod.OBK_Procunts_Series.Add(prodSeries);
                 }
                 resultProducts.Add(prod);

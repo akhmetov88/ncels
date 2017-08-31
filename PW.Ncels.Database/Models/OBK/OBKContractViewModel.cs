@@ -32,14 +32,18 @@ namespace PW.Ncels.Database.Models.OBK
         public bool IsHasBossDocNumber { get; set; }
         public string BossDocNumber { get; set; }
         public DateTime? BossDocCreatedDate { get; set; }
+        public DateTime? BossDocEndDate { get; set; }
+        public bool BossDocUnlimited { get; set; }
         public string SignLastName { get; set; }
         public string SignFirstName { get; set; }
         public string SignMiddleName { get; set; }
-        public string SignPosition { get; set;}
+        public string SignPosition { get; set; }
         public Guid? SignDocType { get; set; }
         public bool IsHasSignDocNumber { get; set; }
         public string SignDocNumber { get; set; }
         public DateTime? SignDocCreatedDate { get; set; }
+        public DateTime? SignDocEndDate { get; set; }
+        public bool SignDocUnlimited { get; set; }
         public string BankIik { get; set; }
         public string BankBik { get; set; }
         public Guid? CurrencyId { get; set; }

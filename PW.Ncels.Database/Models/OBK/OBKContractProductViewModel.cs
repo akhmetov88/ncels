@@ -7,6 +7,8 @@ namespace PW.Ncels.Database.Models.OBK
     {
         public int? ProductId { get; set; }
         public int? Id { get; set; }
+        public int RegTypeId { get; set; }
+        public int? DegreeRiskId { get; set; }
         public string NameRu { get; set; }
         public string NameKz { get; set; }
         public string ProducerNameRu { get; set; }

@@ -106,7 +106,7 @@ namespace PW.Ncels.Controllers
             //Валюта
             var currency = safetyRepository.GetObkCurrencies();
             ViewData["Courrency"] = new SelectList(currency, "Id", "Name");
-            
+
             return View(model);
         }
 
@@ -305,6 +305,7 @@ namespace PW.Ncels.Controllers
                         prodSeries.SeriesStartdate = productSeries.SeriesStartdate;
                         prodSeries.SeriesEndDate = productSeries.SeriesEndDate;
                         prodSeries.SeriesParty = productSeries.SeriesParty;
+                        prodSeries.SeriesShortNameRu = productSeries.sr_measures.short_name;
                         prod.OBK_Procunts_Series.Add(prodSeries);
                     }
                     resultProducts.Add(prod);
@@ -413,6 +414,7 @@ namespace PW.Ncels.Controllers
                     prodSeries.SeriesStartdate = productSeries.SeriesStartdate;
                     prodSeries.SeriesEndDate = productSeries.SeriesEndDate;
                     prodSeries.SeriesParty = productSeries.SeriesParty;
+                    prodSeries.SeriesShortNameRu = productSeries.sr_measures.short_name;
                     prod.OBK_Procunts_Series.Add(prodSeries);
                 }
                 resultProducts.Add(prod);

@@ -29,6 +29,7 @@ namespace PW.Ncels.Database.DataModel
             this.EXP_DrugDosage1 = new HashSet<EXP_DrugDosage>();
             this.EXP_DrugDosage11 = new HashSet<EXP_DrugDosage>();
             this.EXP_DrugDosage2 = new HashSet<EXP_DrugDosage>();
+            this.OBK_Procunts_Series = new HashSet<OBK_Procunts_Series>();
         }
     
         public long id { get; set; }
@@ -51,5 +52,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<EXP_DrugDosage> EXP_DrugDosage1 { get; set; }
         public virtual ICollection<EXP_DrugDosage> EXP_DrugDosage11 { get; set; }
         public virtual ICollection<EXP_DrugDosage> EXP_DrugDosage2 { get; set; }
+        public virtual ICollection<OBK_Procunts_Series> OBK_Procunts_Series { get; set; }
     }
 }

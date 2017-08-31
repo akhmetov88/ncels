@@ -14,7 +14,11 @@ function obkContractForm($scope, $http, $interval) {
     $scope.object.seriesExpireDate = curDate.getTime();
 
     $scope.object.BossDocCreatedDate = "";
+    $scope.object.BossDocEndDate = "";
+    $scope.object.BossDocUnlimited = false;
     $scope.object.SignDocCreatedDate = "";
+    $scope.object.SignDocEndDate = "";
+    $scope.object.SignDocUnlimited = false;
 
     $scope.enableCompanyData = false;
     $scope.showBin = false;
@@ -37,7 +41,6 @@ function obkContractForm($scope, $http, $interval) {
         $scope.gridOptionsApi = gridApi;
 
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-            var msg = 'row selected ' + row.isSelected;
             $scope.product.ProductId = row.entity.ProductId;
             $scope.product.RegTypeId = row.entity.RegTypeId;
             $scope.product.DegreeRiskId = row.entity.DegreeRiskId;
@@ -62,7 +65,7 @@ function obkContractForm($scope, $http, $interval) {
     { name: 'ProductId', displayName: 'ProductId', visible: false },
     { name: 'RegNumber', displayName: 'Рег. номер' },
     { name: 'RegTypeName', displayName: 'Тип' },
-    { name: 'RegTypeId', displayName: 'Тип - ИД' },
+    { name: 'RegTypeId', displayName: 'Тип - ИД', visible: false },
     { name: 'Name', displayName: 'Торговое название' },
     { name: 'NameKz', displayName: 'Торговое название на казахском', visible: false },
     { name: 'RegDate', displayName: 'Дата регистрации' },
@@ -219,6 +222,8 @@ function obkContractForm($scope, $http, $interval) {
                 //        break;
                 //};
 
+                $scope.formatArray(resp.data);
+                
                 $scope.searchResults = resp.data;
                 $scope.gridOptions.data = resp.data;
                 //$scope.gridOptionsApi.grid.refresh();
@@ -233,6 +238,18 @@ function obkContractForm($scope, $http, $interval) {
         });
     };
 
+    $scope.formatArray = function (arr) {
+        if (arr && arr.length) {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].RegDate) {
+                    arr[i].RegDate = convertDateToStringDDMMYYYY(arr[i].RegDate);
+                }
+                if (arr[i].ExpireDate) {
+                    arr[i].ExpireDate = convertDateToStringDDMMYYYY(arr[i].ExpireDate);
+                }
+            }
+        }
+    }
 
     $scope.addDrug = function addDrug() {
         $scope.showAddEditDrugBlock = true;
@@ -250,6 +267,8 @@ function obkContractForm($scope, $http, $interval) {
 
             $scope.product.Id = selectedObj.Id;
             $scope.product.ProductId = selectedObj.ProductId;
+            $scope.product.RegTypeId = selectedObj.RegTypeId;
+            $scope.product.DegreeRiskId = selectedObj.DegreeRiskId;
             $scope.product.NameRu = selectedObj.NameRu;
             $scope.product.NameKz = selectedObj.NameKz;
             $scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
@@ -279,6 +298,8 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.addedProductServices.push(newService);
                 }
             }
+
+            $scope.loadProductServiceNames();
         }
         else {
             alert("Выберите продукцию для изменения");
@@ -380,6 +401,8 @@ function obkContractForm($scope, $http, $interval) {
                     var product = {
                         Id: null,
                         ProductId: $scope.product.ProductId,
+                        RegTypeId: $scope.product.RegTypeId,
+                        DegreeRiskId: $scope.product.DegreeRiskId,
                         NameRu: $scope.product.NameRu,
                         NameKz: $scope.product.NameKz,
                         ProducerNameRu: $scope.product.ProducerNameRu,
@@ -429,6 +452,8 @@ function obkContractForm($scope, $http, $interval) {
             var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
             selectedObj.Id = $scope.product.Id;
             selectedObj.ProductId = $scope.product.ProductId;
+            selectedObj.RegTypeId = $scope.product.RegTypeId;
+            selectedObj.DegreeRiskId = $scope.product.DegreeRiskId;
             selectedObj.NameRu = $scope.product.NameRu;
             selectedObj.NameKz = $scope.product.NameKz;
             selectedObj.ProducerNameRu = $scope.product.ProducerNameRu;
@@ -666,11 +691,16 @@ function obkContractForm($scope, $http, $interval) {
         }
     }
 
+    $scope.saveBtnClick = function () {
+        $scope.checkFileValidation();
+    }
+
     $scope.editProject = function () {
+        var generatedGuid = $("#generatedGuid").val();
         $http({
             url: '/OBKContract/ContractSave',
             method: 'POST',
-            data: JSON.stringify($scope.object)
+            data: { Guid: generatedGuid, contractViewModel: $scope.object }
         }).success(function (response) {
             //debugger;
 
@@ -718,6 +748,7 @@ function obkContractForm($scope, $http, $interval) {
             }).then(function (resp) {
                 if (resp.data) {
                     $scope.object.DeclarantOrganizationFormId = resp.data.OrganizationFormId;
+                    $scope.object.DeclarantIsResident = resp.data.IsResident;
                     $scope.object.DeclarantNameKz = resp.data.NameKz;
                     $scope.object.DeclarantNameRu = resp.data.NameRu;
                     $scope.object.DeclarantNameEn = resp.data.NameEn;
@@ -735,6 +766,8 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                     $scope.object.BossDocNumber = resp.data.BossDocNumber;
                     $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
+                    $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
+                    $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
                     $scope.object.SignLastName = resp.data.SignLastName;
                     $scope.object.SignFirstName = resp.data.SignFirstName;
                     $scope.object.SignMiddleName = resp.data.SignMiddleName;
@@ -743,6 +776,8 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                     $scope.object.SignDocNumber = resp.data.SignDocNumber;
                     $scope.object.SignDocCreatedDate = getDate(resp.data.SignDocCreatedDate);
+                    $scope.object.SignDocEndDate = getDate(resp.data.SignDocEndDate);
+                    $scope.object.SignDocUnlimited = resp.data.SignDocUnlimited;
                     $scope.object.BankIik = resp.data.BankIik;
                     $scope.object.BankBik = resp.data.BankBik;
                     $scope.object.CurrencyId = resp.data.CurrencyId;
@@ -773,6 +808,8 @@ function obkContractForm($scope, $http, $interval) {
             $scope.object.IsHasBossDocNumber = null;
             $scope.object.BossDocNumber = null;
             $scope.object.BossDocCreatedDate = getDate(null);
+            $scope.object.BossDocEndDate = getDate(null);
+            $scope.object.BossDocUnlimited = false;
             $scope.object.SignLastName = null;
             $scope.object.SignFirstName = null;
             $scope.object.SignMiddleName = null;
@@ -781,6 +818,8 @@ function obkContractForm($scope, $http, $interval) {
             $scope.object.IsHasSignDocNumber = null;
             $scope.object.SignDocNumber = null;
             $scope.object.SignDocCreatedDate = getDate(null);
+            $scope.object.SignDocEndDate = getDate(null);
+            $scope.object.SignDocUnlimited = false;
             $scope.object.BankIik = null;
             $scope.object.BankBik = null;
             $scope.object.CurrencyId = null;
@@ -852,7 +891,9 @@ function obkContractForm($scope, $http, $interval) {
                 $scope.object.BossDocType = resp.data.BossDocType;
                 $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                 $scope.object.BossDocNumber = resp.data.BossDocNumber;
-                $scope.object.BossDocCreatedDate = resp.data.BossDocCreatedDate;
+                $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
+                $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
+                $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
                 $scope.object.SignLastName = resp.data.SignLastName;
                 $scope.object.SignFirstName = resp.data.SignFirstName;
                 $scope.object.SignMiddleName = resp.data.SignMiddleName;
@@ -860,7 +901,9 @@ function obkContractForm($scope, $http, $interval) {
                 $scope.object.SignDocType = resp.data.SignDocType;
                 $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                 $scope.object.SignDocNumber = resp.data.SignDocNumber;
-                $scope.object.SignDocCreatedDate = resp.data.SignDocCreatedDate;
+                $scope.object.SignDocCreatedDate = getDate(resp.data.SignDocCreatedDate);
+                $scope.object.SignDocEndDate = getDate(resp.data.SignDocEndDate);
+                $scope.object.SignDocUnlimited = resp.data.SignDocUnlimited;
                 $scope.object.BankIik = resp.data.BankIik;
                 $scope.object.BankBik = resp.data.BankBik;
                 $scope.object.CurrencyId = resp.data.CurrencyId;
@@ -904,6 +947,22 @@ function obkContractForm($scope, $http, $interval) {
     else {
 
     }
+
+
+    $scope.checkFileValidation = function () {
+        $('.file-validation').text("");
+        $('.file-validation:visible').each(function () {
+            var ct = $(this).attr('countFile');
+            var attcode = $(this).attr('attcode');
+            var count = parseInt(ct, 10) || 0;
+            if (count === 0 && attcode === "1") {
+                $(this).text("Необходимо вложить файлы");
+                validFile = false;
+            } else {
+                $(this).text("");
+            }
+        });
+    }
 }
 
 function getDate(value) {
@@ -923,6 +982,17 @@ function convertDateToString(dateMilliseconds) {
     var yyyy = d.getFullYear();
     var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
     return mm + "." + yyyy;
+}
+
+function convertDateToStringDDMMYYYY(value) {
+    if (value) {
+        var d = new Date(parseInt(value.substr(6)));
+        var yyyy = d.getFullYear();
+        var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+        var dd = d.getDay() < 9 ? "0" + d.getDay() : d.getDay();
+        return dd + "." + mm + "." + yyyy;
+    }
+    return "";
 }
 
 function loadObkRefTypes($scope, $http) {

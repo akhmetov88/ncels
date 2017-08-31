@@ -49,16 +49,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <label class="control-label">Результат</label>
                                     @Html.DropDownList("ExpertiseResult", (IEnumerable<SelectListItem>) ViewData["UObkExpertiseResult"],
                                         String.Empty, new { @class = "form-control" })
                                 </div>
-                                <div class="col-lg-3">
-                                    <label class="control-label">Основание</label>
-                                    @Html.DropDownList("ReasonResult", Enumerable.Empty<SelectListItem>(), String.Empty, new { @class = "form-control" })
-                                </div>
-
                                 <div class="col-lg-3">
                                     <label class="control-label">Дата регистрации:</label>
                                     <input class="form-control date-control" type="text" id="ExpertiseStartDate" value="@expertiseStartDate">
@@ -67,6 +62,12 @@
                                 <div class="col-lg-3">
                                     <label class="control-label">Дата истечения:</label>
                                     <input class="form-control date-control" type="text" id="ExpertiseEndDate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-11">
+                                    <label class="control-label">Основание</label>
+                                    @Html.DropDownList("ReasonResult", Enumerable.Empty<SelectListItem>(), String.Empty, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -91,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-lg-7">
+                                    <div class="col-lg-11">
                                         <label class="control-label">НД</label>
                                         <input id="TnvedCode1" name="TnvedCode" type="text" class="form-control"/>
                                     </div>
@@ -277,6 +278,7 @@
         $("#ExpConclusionNumber").val("");
         $("#ExpBlankNumber").val("");
         $("#ExpApplicationNumber1").val("");
+        hide();
     }
 
     function rowCallback(row) {
@@ -297,7 +299,7 @@
                         ", партия " +
                         item.SeriesParty +
                         " " +
-                        item.SeriesParty;
+                        item.SeriesShortNameRu;
                 });
                 var resultSeriesKz = mass.OBK_Procunts_Series.map(function(item) {
                     return ", " +
@@ -307,7 +309,7 @@
                         " ж., партия " +
                         item.SeriesParty +
                         " " +
-                        item.SeriesParty;
+                        item.SeriesShortNameRu;
                 });
                 $("#ExpProNameRu").val(mass.NameRu + resultSeriesRu);
                 $("#ExpProNameKz").val(mass.NameKz + resultSeriesKz);
@@ -341,7 +343,7 @@
                                     ", партия " +
                                     data.SeriesParty +
                                     " " +
-                                    data.SeriesParty;
+                                    data.SeriesShortNameRu;
                             }
                         },
                         { data: null, defaultContent: "<i>нет данных</i>" },
@@ -371,7 +373,7 @@
                                 ", партия " +
                                 massSeries.SeriesParty +
                                 " " +
-                                massSeries.SeriesParty);
+                                massSeries.SeriesShortNameRu);
                             $("#ExpProNameKz").val(mass.NameKz +
                                 ", " +
                                 massSeries.Series +
@@ -380,7 +382,7 @@
                                 " ж., партия " +
                                 massSeries.SeriesParty +
                                 " " +
-                                massSeries.SeriesParty);
+                                massSeries.SeriesShortNameRu);
 
                             $("#AddInfoExpertiseRu").val("Договора поставки " +
                                 "@invoiceContractRu" +

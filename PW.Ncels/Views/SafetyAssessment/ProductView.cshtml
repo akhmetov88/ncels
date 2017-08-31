@@ -198,6 +198,7 @@
             tab.$('tr.pw-row-selected').removeClass('pw-row-selected');
             $(this.parentNode).addClass('pw-row-selected');
             var mass = tab.row('.pw-row-selected').data();
+            debugger;
             $("#NameRu").val(mass.NameRu);
             $("#NameKz").val(mass.NameKz);
             $("#ProducerNameRu").val(mass.ProducerNameRu);
@@ -219,7 +220,7 @@
                     { "data": "SeriesStartdate" },
                     { "data": "SeriesEndDate" },
                     { "data": "SeriesParty" },
-                    { "data": "SeriesParty" }
+                    { "data": "SeriesShortNameRu" }
                 ]
             });
         });
