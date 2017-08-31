@@ -246,6 +246,13 @@
                                                                     </ui-select>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-lg-3">
+                                                                <div class="form-group">
+                                                                    <div class="checkbox">
+                                                                        <label><input type="checkbox" value="" ng-model="object.BossDocUnlimited">Бессрочный</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3">
@@ -270,6 +277,15 @@
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
                                                                 <input ng-model="object.BossDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>Дата окончания действия *</label>
+                                                            <div class="input-group date">
+                                                                <input ng-model="object.BossDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
@@ -317,6 +333,13 @@
                                                                     </ui-select>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-lg-3">
+                                                                <div class="form-group">
+                                                                    <div class="checkbox">
+                                                                        <label><input type="checkbox" value="" ng-model="object.SignDocUnlimited">Бессрочный</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3">
@@ -341,6 +364,15 @@
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
                                                                 <input ng-model="object.SignDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>Дата окончания действия *</label>
+                                                            <div class="input-group date">
+                                                                <input ng-model="object.SignDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
