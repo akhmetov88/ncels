@@ -276,7 +276,7 @@
                                                         <div class="form-group">
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
-                                                                <input ng-model="object.BossDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                <input ng-model="object.BossDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" required date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
@@ -285,7 +285,7 @@
                                                         <div class="form-group">
                                                             <label>Дата окончания действия *</label>
                                                             <div class="input-group date">
-                                                                <input ng-model="object.BossDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                <input ng-model="object.BossDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ng-required="!object.BossDocUnlimited" date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
@@ -363,7 +363,7 @@
                                                         <div class="form-group">
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
-                                                                <input ng-model="object.SignDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" required ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                <input ng-model="object.SignDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" required date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
@@ -372,7 +372,7 @@
                                                         <div class="form-group">
                                                             <label>Дата окончания действия *</label>
                                                             <div class="input-group date">
-                                                                <input ng-model="object.SignDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                <input ng-model="object.SignDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" ng-required="!object.SignDocUnlimited" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
@@ -511,29 +511,27 @@
                                                                 <div class="row" style="margin-bottom: 10px">
                                                                     <div class="col-sm-12">
                                                                         <div class="form-group">
-                                                                            <div class="col-lg-6">
+                                                                            <div class="col-lg-2">
                                                                                 <div class="input-group">
                                                                                     <label>Рег. номер</label>
                                                                                     <input id="RegNumber" name="RegNumber" type="text" class="form-control edit-control" text="" ng-model="object.drugNumber">
                                                                                 </div>
                                                                             </div>
-                                                                            @*<div class="col-lg-3">
-                                                                                    <div class="input-group">
-                                                                                        <input id="LS" name="LS" type="checkbox" class="form-control edit-control" text="" style="text-align: left">
-                                                                                        <label>Лекарственные средства</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-lg-3">
-                                                                                    <div class="input-group">
-                                                                                        <input id="IMN" name="IMN" type="checkbox" class="form-control edit-control" text="">
-                                                                                        <label>ИМН и МТ</label>
-                                                                                    </div>
-                                                                                </div>*@
-                                                                            <div class="col-log-6">
+                                                                            <div class="col-lg-4">
                                                                                 <div class="input-group">
                                                                                     <label>Тип</label>
+                                                                                    <br />
                                                                                     <label class="radio-inline"><input type="radio" name="drugtype" ng-model="object.drugRegType" value="1">Лекарственные средства</label>
                                                                                     <label class="radio-inline"><input type="radio" name="drugtype" ng-model="object.drugRegType" value="2">ИМН и МТ</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-3">
+                                                                                <div class="input-group">
+                                                                                    <label>&nbsp;</label>
+                                                                                    <br />
+                                                                                    <div class="checkbox" style="margin-top: 0">
+                                                                                        <label><input type="checkbox" value="" ng-model="object.drugEndDateExpired">С истекшим сроком действия</label>
+                                                                                    </div>    
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -546,25 +544,12 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="input-group">
-                                                                                    <label>Производитель</label>
-                                                                                    <input id="Manufacturer" name="Manufacturer" type="text" class="form-control edit-control" text="" ng-model="object.drugManufacturer">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="input-group">
-                                                                                    <label>МНН</label>
-                                                                                    <input id="MNN" name="MNN" type="text" class="form-control edit-control" text="" ng-model="object.drugMnn">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <div class="col-lg-3">
+                                                                            <div class="col-lg-6">
                                                                                 <button type="button" class="btn btn-success btn-sm add-btn-from4" id="searchBtn" ng-click="searchDrug()" style="margin-top: 10px">
                                                                                     <span class="glyphicon" aria-hidden="true"></span>Поиск
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="clearSearchDrugBtn" ng-click="clearSearchDrugArea()" style="margin-top: 10px">
+                                                                                    <span class="glyphicon" aria-hidden="true"></span>Очистить критерии поиска
                                                                                 </button>
                                                                             </div>
                                                                         </div>
@@ -689,13 +674,13 @@
                                                                                     <input id="KpvedCode" name="KpvedCode" type="text" class="form-control edit-control" text="" ng-model="product.KpvedCode" readonly>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-3">
+                                                                            <div class="col-lg-3" style="display:none">
                                                                                 <div class="input-group">
                                                                                     <label>Цена</label>
                                                                                     <input id="Price" name="Price" type="text" class="form-control edit-control" text="" ng-model="product.Price" readonly>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-3">
+                                                                            <div class="col-lg-3" style="display:none">
                                                                                 <div class="input-group">
                                                                                     <label>Валюта</label>
                                                                                     <input id="Currency" name="Currency" type="text" class="form-control edit-control" text="" ng-model="product.Currency" readonly>
