@@ -173,6 +173,7 @@ function obkContractForm($scope, $http, $interval) {
 
     $scope.showAddEditDrugBlock = false;
     $scope.object.drugRegType = 1;
+    $scope.object.drugEndDateExpired = false;
     $scope.searchResults = null;
 
 
@@ -197,8 +198,7 @@ function obkContractForm($scope, $http, $interval) {
         var drugRegType = $scope.object.drugRegType;
         var drugNumber = $scope.object.drugNumber;
         var drugTradeName = $scope.object.drugTradeName;
-        var drugManufacturer = $scope.object.drugManufacturer;
-        var drugMnn = $scope.object.drugMnn;
+        var drugEndDateExpired = $scope.object.drugEndDateExpired;
 
         $http({
             method: 'GET',
@@ -207,8 +207,7 @@ function obkContractForm($scope, $http, $interval) {
                 regType: drugRegType,
                 drugNumber: drugNumber,
                 drugTradeName: drugTradeName,
-                drugManufacturer: drugManufacturer,
-                drugMnn: drugMnn
+                drugEndDateExpired: drugEndDateExpired
             }
         }).then(function (resp) {
             if (resp.data) {
@@ -237,6 +236,13 @@ function obkContractForm($scope, $http, $interval) {
             //alert(JSON.stringify(response));
         });
     };
+
+    $scope.clearSearchDrugArea = function () {
+        $scope.object.drugNumber = null;
+        $scope.object.drugRegType = 1;
+        $scope.object.drugEndDateExpired = false;
+        $scope.object.drugTradeName = null;
+    }
 
     $scope.formatArray = function (arr) {
         if (arr && arr.length) {
@@ -629,9 +635,8 @@ function obkContractForm($scope, $http, $interval) {
     $scope.clearSearchAndProductFields = function clearSearchAndProductFields() {
         $scope.object.drugNumber = null;
         $scope.object.drugRegType = 1;
+        $scope.object.drugEndDateExpired = false;
         $scope.object.drugTradeName = null;
-        $scope.object.drugManufacturer = null;
-        $scope.object.drugMnn = null;
 
         $scope.gridOptions.data.length = 0;
 
@@ -989,7 +994,7 @@ function convertDateToStringDDMMYYYY(value) {
         var d = new Date(parseInt(value.substr(6)));
         var yyyy = d.getFullYear();
         var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
-        var dd = d.getDay() < 9 ? "0" + d.getDay() : d.getDay();
+        var dd = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
         return dd + "." + mm + "." + yyyy;
     }
     return "";

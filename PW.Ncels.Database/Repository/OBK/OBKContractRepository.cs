@@ -26,9 +26,9 @@ namespace PW.Ncels.Database.Repository.OBK
 
         public OBKContractRepository(ncelsEntities context) : base(context) { }
 
-        public IEnumerable<OBK_ProductInfo> GetSearchReestr(int regType, string regNumber, string tradeName, string manufacturer, string mnn)
+        public IEnumerable<OBK_ProductInfo> GetSearchReestr(int regType, string regNumber, string tradeName, bool drugEndDateExpired)
         {
-            if (regNumber == null && tradeName == null && manufacturer == null && mnn == null)
+            if (regNumber == null && tradeName == null)
                 return null;
             //var reestr = AppContext.sr_register.Where(
             //    x =>
@@ -52,10 +52,12 @@ namespace PW.Ncels.Database.Repository.OBK
                          join srrmt in AppContext.sr_register_mt on register.id equals srrmt.id into srregistermtTable
                          from srregistermt in srregistermtTable.DefaultIfEmpty()
                          where register.reg_type_id == regType &&
-                         (string.IsNullOrEmpty(regNumber) || register.reg_number == regNumber) &&
-                         (string.IsNullOrEmpty(tradeName) || register.name == tradeName) &&
-                         (string.IsNullOrEmpty(manufacturer) || register.C_producer_name == manufacturer) &&
-                         (string.IsNullOrEmpty(mnn) || intnames.name_rus == mnn)
+                         (string.IsNullOrEmpty(regNumber) || register.reg_number.ToLower().Contains(regNumber.ToLower())) &&
+                         (string.IsNullOrEmpty(tradeName) || register.name.ToLower().Contains(tradeName.ToLower())) &&
+                         ( 
+                            (!drugEndDateExpired && register.expiration_date != null && register.expiration_date >= DateTime.Now) ||
+                            drugEndDateExpired
+                         )
                          select new OBK_ProductInfo
                          {
                              ProductId = register.id,
