@@ -1968,6 +1968,7 @@
     <Compile Include="Models\OBK\OBKContractSeriesViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractService.cs" />
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
+    <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationFieldHistory.cs" />

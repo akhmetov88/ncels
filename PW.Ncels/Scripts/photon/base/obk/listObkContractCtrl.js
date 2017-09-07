@@ -1,14 +1,17 @@
-﻿
-
-
-
-function obkContractForm($scope, $http, $interval) {
+﻿function obkContractForm($scope, $http, $interval) {
     $scope.ExpertOrganizations = [];
+
+    $scope.showContactInformation = false;
+
+    $scope.declarantNotFound = false;
+
+    $scope.iinSearchActive = false;
 
     var curDate = new Date();
     $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
+    $scope.declarant = {};
     $scope.object = {};
-    $scope.object.DeclarantIsResident = 1;
+    $scope.declarant.IsResident = true;
     $scope.object.seriesValue = "";
     $scope.object.seriesCreateDate = curDate.getTime();
     $scope.object.seriesExpireDate = curDate.getTime();
@@ -80,29 +83,6 @@ function obkContractForm($scope, $http, $interval) {
     { name: 'Currency', displayName: 'Валюта', visible: false },
     { name: 'DegreeRiskId', displayName: 'Класс ИМН', visible: false }
     ];
-
-    //  $scope.myData = [
-    //{
-    //    "testname": "Cox",
-    //    "lastName": "Carney",
-    //    "company": "Enormo",
-    //    "employed": true
-    //},
-    //{
-    //    "firstName": "Lorraine",
-    //    "lastName": "Wise",
-    //    "company": "Comveyer",
-    //    "employed": false
-    //},
-    //{
-    //    "firstName": "Nancy",
-    //    "lastName": "Waters",
-    //    "company": "Fuelton",
-    //    "employed": false
-    //}
-    //  ];
-
-
 
     // gridSeries
     $scope.gridOptionsSeries = {
@@ -193,6 +173,36 @@ function obkContractForm($scope, $http, $interval) {
         Name: "Нет"
     }];
 
+    $scope.loadNamesNonResidents = function () {
+        $scope.NamesNonResidents = [];
+
+        $http({
+            method: 'GET',
+            url: '/OBKContract/GetNamesNonResidents',
+            params: {
+                countryId: $scope.object.Country
+            }
+        }).then(function (resp) {
+            if (resp.data) {
+                $scope.NamesNonResidents = resp.data;
+            }
+        });
+    }
+
+    $scope.loadNamesNonResidents();
+
+    $scope.nonResidentCountryChange = function () {
+        $scope.loadNamesNonResidents();
+        $scope.object.NameNonResident = null;
+        $scope.declarantNotFound = false;
+        $scope.showContactInformation = false;
+
+        $scope.clearDeclarantForm();
+        $scope.removeDeclarantId();
+
+        $scope.clearContactForm();
+        $scope.clearContactData();
+    }
 
     $scope.searchDrug = function () {
         var drugRegType = $scope.object.drugRegType;
@@ -222,7 +232,7 @@ function obkContractForm($scope, $http, $interval) {
                 //};
 
                 $scope.formatArray(resp.data);
-                
+
                 $scope.searchResults = resp.data;
                 $scope.gridOptions.data = resp.data;
                 //$scope.gridOptionsApi.grid.refresh();
@@ -723,23 +733,26 @@ function obkContractForm($scope, $http, $interval) {
 
 
     $scope.companyChange = function (loadOrgData) {
-        if ($scope.object.DeclarantId == "00000000-0000-0000-0000-000000000000") {
-            $scope.enableCompanyData = true;
-            $scope.showResidentsBlock = true;
-            $scope.showHideBin();
-            if (loadOrgData) {
-                $scope.loadOrganizationData(null);
-            }
-        }
-        else {
-            $scope.enableCompanyData = false;
-            $scope.showResidentsBlock = false;
-            $scope.hideBin();
-            var orgGuid = $scope.object.DeclarantId;
-            if (loadOrgData) {
-                $scope.loadOrganizationData(orgGuid);
-            }
-        }
+        //if ($scope.object.DeclarantId == "00000000-0000-0000-0000-000000000000") {
+        //    $scope.enableCompanyData = true;
+        //    $scope.showResidentsBlock = true;
+        //    $scope.showHideBin();
+        //    if (loadOrgData) {
+        //        $scope.loadOrganizationData(null);
+        //    }
+        //}
+        //else {
+        //    $scope.enableCompanyData = false;
+        //    $scope.showResidentsBlock = false;
+        //    $scope.hideBin();
+        //    var orgGuid = $scope.object.DeclarantId;
+        //    if (loadOrgData) {
+        //        $scope.loadOrganizationData(orgGuid);
+        //    }
+        //}
+
+
+        alert("Saved company!");
     }
 
     $scope.loadOrganizationData = function (id) {
@@ -752,12 +765,20 @@ function obkContractForm($scope, $http, $interval) {
                 }
             }).then(function (resp) {
                 if (resp.data) {
-                    $scope.object.DeclarantOrganizationFormId = resp.data.OrganizationFormId;
-                    $scope.object.DeclarantIsResident = resp.data.IsResident;
-                    $scope.object.DeclarantNameKz = resp.data.NameKz;
-                    $scope.object.DeclarantNameRu = resp.data.NameRu;
-                    $scope.object.DeclarantNameEn = resp.data.NameEn;
-                    $scope.object.DeclarantCountryId = resp.data.CountryId;
+                    $scope.declarant.Id = resp.data.Id;
+                    $scope.declarant.OrganizationFormId = resp.data.OrganizationFormId;
+                    $scope.declarant.NameKz = resp.data.NameKz;
+                    $scope.declarant.NameRu = resp.data.NameRu;
+                    $scope.declarant.NameEn = resp.data.NameEn;
+                    $scope.declarant.CountryId = resp.data.CountryId;
+
+                    //$scope.object.DeclarantOrganizationFormId = resp.data.OrganizationFormId;
+                    //$scope.object.DeclarantIsResident = resp.data.IsResident;
+                    //$scope.object.DeclarantNameKz = resp.data.NameKz;
+                    //$scope.object.DeclarantNameRu = resp.data.NameRu;
+                    //$scope.object.DeclarantNameEn = resp.data.NameEn;
+                    //$scope.object.DeclarantCountryId = resp.data.CountryId;
+
                     $scope.object.AddressLegalRu = resp.data.AddressLegalRu;
                     $scope.object.AddressLegalKz = resp.data.AddressLegalKz
                     $scope.object.AddressFact = resp.data.AddressFact;
@@ -788,18 +809,24 @@ function obkContractForm($scope, $http, $interval) {
                     $scope.object.CurrencyId = resp.data.CurrencyId;
                     $scope.object.BankNameRu = resp.data.BankNameRu;
                     $scope.object.BankNameKz = resp.data.BankNameKz;
+
+                    $scope.saveDeclarantId(resp.data.Id);
+                    $scope.editProject();
+
+                    $scope.showContactInformation = true;
                 }
-                $scope.editProject();
             }, function (response) {
                 alert(JSON.stringify(response));
             });
         }
         else {
-            $scope.object.DeclarantOrganizationFormId = null;
-            $scope.object.DeclarantNameKz = null;
-            $scope.object.DeclarantNameRu = null;
-            $scope.object.DeclarantNameEn = null;
-            $scope.object.DeclarantCountryId = null;
+            $scope.declarant.Id = null;
+            $scope.declarant.OrganizationFormId = null;
+            $scope.declarant.NameKz = null;
+            $scope.declarant.NameRu = null;
+            $scope.declarant.NameEn = null;
+            $scope.declarant.CountryId = null;
+
             $scope.object.AddressLegalRu = null;
             $scope.object.AddressLegalKz = null
             $scope.object.AddressFact = null;
@@ -830,17 +857,70 @@ function obkContractForm($scope, $http, $interval) {
             $scope.object.CurrencyId = null;
             $scope.object.BankNameRu = null;
             $scope.object.BankNameKz = null;
-            $scope.editProject();
+        }
+    }
+
+    $scope.clearContactForm = function () {
+        $scope.object.AddressLegalRu = null;
+        $scope.object.AddressLegalKz = null
+        $scope.object.AddressFact = null;
+        $scope.object.Phone = null;
+        $scope.object.Email = null;
+        $scope.object.BossLastName = null;
+        $scope.object.BossFirstName = null;
+        $scope.object.BossMiddleName = null;
+        $scope.object.BossPosition = null;
+        $scope.object.BossDocType = null;
+        $scope.object.IsHasBossDocNumber = null;
+        $scope.object.BossDocNumber = null;
+        $scope.object.BossDocCreatedDate = getDate(null);
+        $scope.object.BossDocEndDate = getDate(null);
+        $scope.object.BossDocUnlimited = false;
+        $scope.object.SignLastName = null;
+        $scope.object.SignFirstName = null;
+        $scope.object.SignMiddleName = null;
+        $scope.object.SignPosition = null;
+        $scope.object.SignDocType = null;
+        $scope.object.IsHasSignDocNumber = null;
+        $scope.object.SignDocNumber = null;
+        $scope.object.SignDocCreatedDate = getDate(null);
+        $scope.object.SignDocEndDate = getDate(null);
+        $scope.object.SignDocUnlimited = false;
+        $scope.object.BankIik = null;
+        $scope.object.BankBik = null;
+        $scope.object.CurrencyId = null;
+        $scope.object.BankNameRu = null;
+        $scope.object.BankNameKz = null;
+    }
+
+    $scope.clearContactData = function () {
+        if ($scope.object.Id) {
+            $http({
+                url: '/OBKContract/ClearContactData',
+                method: 'POST',
+                data: { contractId: $scope.object.Id }
+            }).success(function (response) {
+            });
         }
     }
 
     $scope.showHideBin = function () {
-        if ($scope.object.DeclarantIsResident == 1) {
+        if ($scope.declarant.IsResident == true) {
             $scope.showBin = true;
+            $scope.cancelFindDeclarant();
         }
         else {
             $scope.showBin = false;
+            $scope.object.Country = null;
+            $scope.object.NameNonResident = null;
+            $scope.clearDeclarantForm();
+            $scope.removeDeclarantId();
         }
+        $scope.declarant.Bin = null;
+        $scope.showContactInformation = false;
+        $scope.declarantNotFound = false;
+        $scope.clearContactForm();
+        $scope.clearContactData();
     }
 
     $scope.hideBin = function () {
@@ -873,16 +953,67 @@ function obkContractForm($scope, $http, $interval) {
 
                 $scope.refTypeChange(false);
 
-                $scope.object.DeclarantId = resp.data.DeclarantId;
-                $scope.object.DeclarantIsResident = resp.data.DeclarantIsResident;
-                $scope.object.DeclarantOrganizationFormId = resp.data.DeclarantOrganizationFormId;
-                $scope.object.DeclarantBin = resp.data.DeclarantBin;
-                $scope.object.DeclarantNameKz = resp.data.DeclarantNameKz;
-                $scope.object.DeclarantNameRu = resp.data.DeclarantNameRu;
-                $scope.object.DeclarantNameEn = resp.data.DeclarantNameEn;
-                $scope.object.DeclarantCountryId = resp.data.DeclarantCountryId;
+                $http({
+                    method: 'GET',
+                    url: '/OBKContract/GetDeclarant',
+                    params: {
+                        contractId: projectId
+                    }
+                }).then(function (resp) {
+                    if (resp.data) {
+                        $scope.declarant.Id = resp.data.Id;
+                        $scope.declarant.IsResident = resp.data.IsResident;
+                        $scope.declarant.OrganizationFormId = resp.data.OrganizationFormId;
+                        $scope.declarant.NameKz = resp.data.NameKz;
+                        $scope.declarant.NameRu = resp.data.NameRu;
+                        $scope.declarant.NameEn = resp.data.NameEn;
+                        $scope.declarant.CountryId = resp.data.CountryId;
+                        $scope.declarant.Bin = resp.data.Bin;
 
-                $scope.companyChange(false);
+                        if ($scope.declarant.IsResident) {
+                            $scope.showBin = true;
+                            if (resp.data.IsConfirmed) {
+                                $scope.iinSearchActive = true;
+                                $scope.declarantNotFound = false;
+                                $scope.enableCompanyData = false;
+                                $scope.showContactInformation = true;
+                            }
+                            else {
+                                $scope.iinSearchActive = true;
+                                $scope.declarantNotFound = true;
+                                $scope.addDeclarant();
+                            }
+                        }
+                        else {
+                            $scope.showBin = false;
+                            if (resp.data.IsConfirmed) {
+                                $scope.object.Country = $scope.declarant.CountryId;
+                                $scope.loadNamesNonResidents();
+                                $scope.object.NameNonResident = $scope.declarant.Id;
+
+                                $scope.addDeclarantDisabled = true;
+                                $scope.showContactInformation = true;
+                            }
+                            else {
+                                $scope.object.Country = $scope.declarant.CountryId;
+                                $scope.loadNamesNonResidents();
+                                $scope.object.NameNonResident = "00000000-0000-0000-0000-000000000000";
+                                $scope.addDeclarant();
+                            }
+                        }
+                    }
+                });
+
+                //$scope.declarant.DeclarantId = resp.data.DeclarantId;
+                //$scope.declarant.DeclarantIsResident = resp.data.DeclarantIsResident;
+                //$scope.declarant.DeclarantOrganizationFormId = resp.data.DeclarantOrganizationFormId;
+                //$scope.declarant.DeclarantBin = resp.data.DeclarantBin;
+                //$scope.declarant.DeclarantNameKz = resp.data.DeclarantNameKz;
+                //$scope.declarant.DeclarantNameRu = resp.data.DeclarantNameRu;
+                //$scope.declarant.DeclarantNameEn = resp.data.DeclarantNameEn;
+                //$scope.declarant.DeclarantCountryId = resp.data.DeclarantCountryId;
+
+                //$scope.companyChange(false);
 
                 $scope.object.AddressLegalRu = resp.data.AddressLegalRu;
                 $scope.object.AddressLegalKz = resp.data.AddressLegalKz;
@@ -967,6 +1098,164 @@ function obkContractForm($scope, $http, $interval) {
                 $(this).text("");
             }
         });
+    }
+
+    $scope.findDeclarant = function () {
+        if ($scope.declarant.Bin && $scope.declarant.Bin.length == 12) {
+            $http({
+                method: 'GET',
+                url: '/OBKContract/FindDeclarant',
+                params: {
+                    bin: $scope.declarant.Bin
+                }
+            }).then(function (resp) {
+                $scope.iinSearchActive = true;
+                if (resp.data) {
+                    $scope.showContactInformation = true;
+                    $scope.declarantNotFound = false;
+                    $scope.enableCompanyData = false;
+
+                    $scope.declarant.Id = resp.data.Id;
+                    $scope.declarant.OrganizationFormId = resp.data.OrganizationFormId;
+                    $scope.declarant.IsResident = resp.data.IsResident;
+                    $scope.declarant.NameKz = resp.data.NameKz;
+                    $scope.declarant.NameRu = resp.data.NameRu;
+                    $scope.declarant.NameEn = resp.data.NameEn;
+                    $scope.declarant.CountryId = resp.data.CountryId;
+
+                    $scope.object.AddressLegalRu = resp.data.AddressLegalRu;
+                    $scope.object.AddressLegalKz = resp.data.AddressLegalKz
+                    $scope.object.AddressFact = resp.data.AddressFact;
+                    $scope.object.Phone = resp.data.Phone;
+                    $scope.object.Email = resp.data.Email;
+                    $scope.object.BossLastName = resp.data.BossLastName;
+                    $scope.object.BossFirstName = resp.data.BossFirstName;
+                    $scope.object.BossMiddleName = resp.data.BossMiddleName;
+                    $scope.object.BossPosition = resp.data.BossPosition;
+                    $scope.object.BossDocType = resp.data.BossDocType;
+                    $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
+                    $scope.object.BossDocNumber = resp.data.BossDocNumber;
+                    $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
+                    $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
+                    $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
+                    $scope.object.SignLastName = resp.data.SignLastName;
+                    $scope.object.SignFirstName = resp.data.SignFirstName;
+                    $scope.object.SignMiddleName = resp.data.SignMiddleName;
+                    $scope.object.SignPosition = resp.data.SignPosition;
+                    $scope.object.SignDocType = resp.data.SignDocType;
+                    $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
+                    $scope.object.SignDocNumber = resp.data.SignDocNumber;
+                    $scope.object.SignDocCreatedDate = getDate(resp.data.SignDocCreatedDate);
+                    $scope.object.SignDocEndDate = getDate(resp.data.SignDocEndDate);
+                    $scope.object.SignDocUnlimited = resp.data.SignDocUnlimited;
+                    $scope.object.BankIik = resp.data.BankIik;
+                    $scope.object.BankBik = resp.data.BankBik;
+                    $scope.object.CurrencyId = resp.data.CurrencyId;
+                    $scope.object.BankNameRu = resp.data.BankNameRu;
+                    $scope.object.BankNameKz = resp.data.BankNameKz;
+                    $scope.saveDeclarantId(resp.data.Id);
+                }
+                else {
+                    $scope.declarantNotFound = true;
+                    $scope.addDeclarantDisabled = false;
+                    $scope.enableCompanyData = true;
+
+                    $scope.declarant.Id = null;
+                }
+            }, function (response) {
+
+            });
+        }
+    }
+
+    $scope.saveDeclarantId = function (declarantId) {
+        if ($scope.object.Id) {
+            $http({
+                url: '/OBKContract/SaveDeclarantId',
+                method: 'POST',
+                data: { contractId: $scope.object.Id, declarantId: declarantId }
+            }).success(function (response) {
+            });
+        }
+    }
+
+    $scope.clearDeclarantForm = function () {
+        $scope.declarant.Id = null;
+        $scope.declarant.OrganizationFormId = null;
+        $scope.declarant.NameKz = null;
+        $scope.declarant.NameRu = null;
+        $scope.declarant.NameEn = null;
+        $scope.declarant.CountryId = null;
+    }
+
+    $scope.removeDeclarantId = function () {
+        if ($scope.object.Id) {
+            $http({
+                url: '/OBKContract/RemoveDeclarantId',
+                method: 'POST',
+                data: { contractId: $scope.object.Id }
+            }).success(function (response) {
+            });
+        }
+    }
+
+    $scope.addDeclarant = function () {
+        $scope.showContactInformation = true;
+        $scope.enableCompanyData = true;
+        $scope.addDeclarantDisabled = true;
+
+        if ($scope.declarant.IsResident == false) {
+            $scope.declarant.CountryId = $scope.object.Country;
+        }
+        else if ($scope.declarant.IsResident == true) {
+            $scope.declarant.CountryId = null;
+        }
+    }
+
+    $scope.cancelFindDeclarant = function () {
+        $scope.iinSearchActive = false;
+        $scope.declarantNotFound = false;
+        $scope.showContactInformation = false;
+        $scope.addDeclarantDisabled = false;
+
+        $scope.clearDeclarantForm();
+
+        $scope.removeDeclarantId();
+
+        $scope.clearContactForm();
+
+        $scope.clearContactData();
+    }
+
+    $scope.editDeclarant = function () {
+        if ($scope.object.Id) {
+            $http({
+                url: '/OBKContract/ContractDeclarantSave',
+                method: 'POST',
+                data: { guid: $scope.object.Id, declarantViewModel: $scope.declarant }
+            }).success(function (response) {
+                $scope.declarant.Id = response;
+            });
+        }
+    }
+
+    $scope.nameNonResidentChange = function () {
+        $scope.showContactInformation = false;
+        if ($scope.object.NameNonResident) {
+            if ($scope.object.NameNonResident == "00000000-0000-0000-0000-000000000000") {
+                $scope.declarantNotFound = true;
+                $scope.addDeclarantDisabled = false;
+                $scope.clearDeclarantForm();
+                $scope.removeDeclarantId();
+                $scope.clearContactForm();
+                $scope.clearContactData();
+            }
+            else {
+                $scope.declarantNotFound = false;
+                $scope.addDeclarantDisabled = true;
+                $scope.loadOrganizationData($scope.object.NameNonResident);
+            }
+        }
     }
 }
 

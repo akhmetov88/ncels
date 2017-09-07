@@ -25,7 +25,7 @@ namespace PW.Ncels.Controllers
             //var obkOrganizations = db.OBK_Organization.Select(o => new { o.Id, Name = o.NameRu, o.NameKz });
             //return Json(obkOrganizations, JsonRequestBehavior.AllowGet);
 
-            var obkDeclarants = db.OBK_Declarant.Where(o => o.IsConfirmed == true).Select(o => new { o.Id, Name = o.NameKz, o.NameKz }).ToList();
+            var obkDeclarants = db.OBK_Declarant.Where(o => o.IsConfirmed == true).Select(o => new { o.Id, Name = o.NameRu, o.NameKz }).ToList();
             var noData = new { Id = Guid.Empty, Name = "Нет данных", NameKz = "Нет данных" };
             var list = new[] { noData }.ToList().Concat(obkDeclarants);
 
