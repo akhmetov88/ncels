@@ -10,14 +10,14 @@ namespace PW.Ncels.Database.Models.OBK
     {
         public Guid Id { get; set; }
         public int Type { get; set; }
-        public Guid? DeclarantId { get; set; }
-        public bool DeclarantIsResident { get; set; }
-        public Guid? DeclarantOrganizationFormId { get; set; }
-        public string DeclarantBin { get; set; }
-        public string DeclarantNameKz { get; set; }
-        public string DeclarantNameRu { get; set; }
-        public string DeclarantNameEn { get; set; }
-        public Guid? DeclarantCountryId { get; set; }
+        //public Guid? DeclarantId { get; set; }
+        //public bool DeclarantIsResident { get; set; }
+        //public Guid? DeclarantOrganizationFormId { get; set; }
+        //public string DeclarantBin { get; set; }
+        //public string DeclarantNameKz { get; set; }
+        //public string DeclarantNameRu { get; set; }
+        //public string DeclarantNameEn { get; set; }
+        //public Guid? DeclarantCountryId { get; set; }
         public int ExpertOrganization { get; set; }
         public string AddressLegalRu { get; set; }
         public string AddressLegalKz { get; set; }
