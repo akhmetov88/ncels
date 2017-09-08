@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Ncels.Helpers;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.Controller;
 using PW.Ncels.Database.DataModel;
@@ -70,18 +71,21 @@ namespace PW.Prism.Controllers.OBK
             ViewData["ContractList"] =
                 new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId), "Id",
                     "ContractInfo", model.Contract_Id);
-
+            
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL))
             {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
+                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
             }
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_PARTY))
             {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
+                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
             }
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
             {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
+                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
             }
 
             if (model.Contract_Id != null)
@@ -133,6 +137,16 @@ namespace PW.Prism.Controllers.OBK
                         model.OrganizationFormId = declarant.OrganizationFormId);
                 }
 
+                var certType = safetyRepository.GetCertificateType();
+                if (model.CertificateTypeId == null)
+                {
+                    ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu");
+                }
+                else
+                {
+                    ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu", model.CertificateTypeId);
+                }
+
                 model.StartDate = string.Format("{0:dd.MM.yyyy}", contract.StartDate);
                 model.EndDate = string.Format("{0:dd.MM.yyyy}", contract.EndDate);
                 model.NameKz = declarant?.NameKz ?? "нет данных";
@@ -172,6 +186,7 @@ namespace PW.Prism.Controllers.OBK
                         prodSeries.SeriesStartdate = productSeries.SeriesStartdate;
                         prodSeries.SeriesEndDate = productSeries.SeriesEndDate;
                         prodSeries.SeriesParty = productSeries.SeriesParty;
+                        prodSeries.SeriesShortNameRu = productSeries.sr_measures.short_name;
                         prod.OBK_Procunts_Series.Add(prodSeries);
                     }
                     resultProducts.Add(prod);
@@ -192,6 +207,9 @@ namespace PW.Prism.Controllers.OBK
                 var booleans = repository.GetCertificateGMPCheck();
                 ViewData["IsGMPList"] = new SelectList(booleans, "CertificateGMPCheck", "NameRu",
                     model.CertificateGMPCheck);
+
+                var certType = safetyRepository.GetCertificateType();
+                ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu");
 
                 //организационная форма
                 var orgForm = safetyRepository.GetOrganizationForm();

@@ -95,6 +95,9 @@ namespace PW.Ncels.Controllers
             var orgForm = safetyRepository.GetOrganizationForm();
             ViewData["OrganizationForm"] = new SelectList(orgForm, "Id", "Name");
 
+            var certType = safetyRepository.GetCertificateType();
+            ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu");
+
             //Наличие сертификата GMP
             var booleans = repository.GetCertificateGMPCheck();
             ViewData["IsGMPList"] = new SelectList(booleans, "CertificateGMPCheck", "NameRu", model.CertificateGMPCheck);
@@ -156,17 +159,17 @@ namespace PW.Ncels.Controllers
             report.ExportDocument(StiExportFormat.Pdf, stream);
             stream.Position = 0;
             var assessmentDeclaration = db.OBK_AssessmentDeclaration.FirstOrDefault(dd => dd.Id == id);
-            //var drugDeclarationHistory = drugDeclaration.EXP_DrugDeclarationHistory.Where(dh => dh.XmlSign != null)
-            //    .OrderByDescending(dh => dh.DateCreate).FirstOrDefault();
-            //if (drugDeclarationHistory != null)
-            //{
-            //    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
-            //    doc.InserQrCodesToEnd("ExecutorSign", drugDeclarationHistory.XmlSign);
-            //    var pdfFile = new MemoryStream();
-            //    pdfFile.Position = 0;
-            //    stream.Close();
-            //    return new FileStreamResult(pdfFile, "application/pdf");
-            //}
+            var assessmentDeclarationHistory = assessmentDeclaration.OBK_AssessmentDeclarationHistory.Where(dh => dh.XmlSign != null)
+                .OrderByDescending(dh => dh.DateCreate).FirstOrDefault();
+            if (assessmentDeclarationHistory != null)
+            {
+                Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                doc.InserQrCodesToEnd("ExecutorSign", assessmentDeclarationHistory.XmlSign);
+                var pdfFile = new MemoryStream();
+                pdfFile.Position = 0;
+                stream.Close();
+                return new FileStreamResult(pdfFile, "application/pdf");
+            }
             return new FileStreamResult(stream, "application/pdf");
         }
 
@@ -256,6 +259,13 @@ namespace PW.Ncels.Controllers
                 ViewData["IsGMPList"] = new SelectList(booleans, "CertificateGMPCheck", "NameRu",
                     model.CertificateGMPCheck);
 
+                var certType = safetyRepository.GetCertificateType();
+                if (model.CertificateTypeId == null) {
+                    ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu");
+                } else {
+                    ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu", model.CertificateTypeId);
+                }
+
                 //организационная форма
                 var orgForm = safetyRepository.GetOrganizationForm();
                 if (declarant.OrganizationFormId == null) {
@@ -326,6 +336,9 @@ namespace PW.Ncels.Controllers
                 var booleans = repository.GetCertificateGMPCheck();
                 ViewData["IsGMPList"] = new SelectList(booleans, "CertificateGMPCheck", "NameRu",
                     model.CertificateGMPCheck);
+
+                var certType = safetyRepository.GetCertificateType();
+                ViewData["CertificateType"] = new SelectList(certType, "Id", "NameRu");
 
                 //организационная форма
                 var orgForm = safetyRepository.GetOrganizationForm();
@@ -483,6 +496,14 @@ namespace PW.Ncels.Controllers
             if (model.StatusId == CodeConstManager.STATUS_DRAFT_ID)
             {
                 model.FirstSendDate = DateTime.Now;
+            }
+
+            var modelStage = new AssessmentStageRepository().GetByDeclarationId(modelId, CodeConstManager.STAGE_OBK_COZ);
+            if (modelStage != null && modelStage.StageStatusId ==
+                new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.InReWork).Id)
+            {
+                modelStage.StageStatusId = new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+                new SafetyAssessmentRepository().SaveStage(modelStage);
             }
 
             model.StatusId = CodeConstManager.STATUS_SEND_ID;

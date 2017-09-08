@@ -20,6 +20,17 @@ namespace PW.Ncels.Database.Repository.OBK
             return AppContext.OBK_AssessmentStage.FirstOrDefault(e => e.Id == id);
         }
 
+        public OBK_AssessmentStage GetByDeclarationId(string declarationId, int stage)
+        {
+            return AppContext.OBK_AssessmentStage.FirstOrDefault(
+                e => e.DeclarationId == new Guid(declarationId) && e.StageId == stage);
+        }
+
+        public IEnumerable<OBK_Ref_Nomenclature> GetRefNomenclature()
+        {
+            return AppContext.OBK_Ref_Nomenclature.Where(e=>!e.IsDeleted).ToList();
+        }
+
         /// <summary>
         /// Проверка есть ли у заявления указанный этап
         /// </summary>
@@ -110,7 +121,7 @@ namespace PW.Ncels.Database.Repository.OBK
             stage.FactEndDate = DateTime.Now;
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.Completed).Id;
 
-            var history = new OBK_AssessmentDeclarationHistory()
+            var history = new OBK_AssessmentDeclarationHistory
             {
                 DateCreate = DateTime.Now,
                 AssessmentDeclarationId = stage.DeclarationId,

@@ -452,6 +452,9 @@ namespace PW.Ncels.Database.DataModel
         public DbSet<OBK_Ref_PriceList> OBK_Ref_PriceList { get; set; }
         public DbSet<OBK_Ref_ServiceType> OBK_Ref_ServiceType { get; set; }
         public DbSet<OBK_Ref_ValueAddedTax> OBK_Ref_ValueAddedTax { get; set; }
+        public DbSet<OBK_Ref_Nomenclature> OBK_Ref_Nomenclature { get; set; }
+        public DbSet<OBK_StageExpDocument> OBK_StageExpDocument { get; set; }
+        public DbSet<OBK_Ref_CertificateType> OBK_Ref_CertificateType { get; set; }
     
         public virtual int CloseTask(Nullable<System.Guid> id, string note, string modifiedUser)
         {

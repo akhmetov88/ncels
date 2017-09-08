@@ -2,6 +2,7 @@
 @model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 @{
+    var @modelId = Model.Id;
     var @nameRu = "";
     var @nameKz = "";
     var @producerNameRu = "";
@@ -20,7 +21,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <table class="table table-striped table-bordered table-hover dataTable" dt-columns="dtColumns" dt-options="dtOptions" id="tableProducts" width="100%"></table>
+                    <table class="table table-striped table-bordered table-hover dataTable" dt-columns="dtColumns" dt-options="dtOptions" id="tableProducts_@modelId" width="100%"></table>
                 </div>
             </div>
         </div>
@@ -104,7 +105,7 @@
                             </div>
                                 <div class="form-group">
                                 <div class="col-lg-12">
-                                    <table id="tableProductSeries" dt-options="dtOptions" dt-columns="dtColumns" class="table table-striped table-bordered table-hover dataTable" width="100%"></table>
+                                    <table id="tableProductSeries_@modelId" dt-options="dtOptions" dt-columns="dtColumns" class="table table-striped table-bordered table-hover dataTable" width="100%"></table>
                                 </div>
                             </div>
                         </div>
@@ -118,8 +119,8 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-
-        $('#tableProducts').DataTable({
+        debugger;
+        $("#tableProducts_@modelId").DataTable({
             data: null,
             searching: false,
             "bLengthChange": false,
@@ -133,7 +134,7 @@
             ]
         });
 
-        $('#tableProductSeries').DataTable({
+        $("#tableProductSeries_@modelId").DataTable({
             data: null,
             searching: false,
             "bLengthChange": false,
@@ -155,7 +156,7 @@
                 cache: false,
                 success: function (data) {
                     if (data.isSuccess) {
-                        $("#tableProducts").DataTable({
+                        $("#tableProducts_@modelId").DataTable({
                             data: data.result.ObkRsProductses,
                             destroy: true,
                             searching: false,
@@ -199,7 +200,7 @@
             $("#KpvedCode").val(mass.KpvedCode);
             $("#Price").val(mass.Price);
 
-            $("#tableProductSeries").DataTable({
+            $("#tableProductSeries_@modelId").DataTable({
                 data: mass.OBK_Procunts_Series,
                 destroy: true,
                 searching: false,
