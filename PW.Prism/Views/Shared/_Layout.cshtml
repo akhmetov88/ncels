@@ -269,6 +269,7 @@
               .Items(children =>
               {
                   children.Add().Text("Заявления ОБК").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "SafetyAssessmentList" } });
+                  children.Add().Text("Экспертиза документов").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "SafetyExpertiseList" } });
               });
 
           items.Add().Text(UserHelper.GetCurrentName()).HtmlAttributes(new { @style = "float: right", @class = "sys-notification-menu-item" })

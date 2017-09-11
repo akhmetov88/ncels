@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace PW.Ncels.Database.DataModel
 {
-    public partial class OBK_RS_Products
+    public partial class OBK_Procunts_Series
     {
-        #region
+        #region 
         public Guid? ExpId { get; set; }
-        public bool? ExpResult { get; set; }
         public int? ProductId { get; set; }
         public int? ProductSeriesId { get; set; }
+        public bool ExpResult { get; set; }
         public string ExpResultTitle { get; set; }
         public string ExpStartDate { get; set; }
         public string ExpEndDate { get; set; }
@@ -31,6 +31,9 @@ namespace PW.Ncels.Database.DataModel
         public string ExpExecutorSign { get; set; }
         #endregion
 
-        public List<OBK_Procunts_Series> Obk_Products_Series { get; set; }
+        public string SeriesNameRu { get; set; }
+        public string SeriesNameKz { get; set; }
+        public string SeriesShortNameRu { get; set; }
+        public string SeriesShortNameKz { get; set; }
     }
 }

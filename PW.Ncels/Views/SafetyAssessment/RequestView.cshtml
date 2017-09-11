@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" id="invoiceAgentDiv" style="display: block">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Документы:</label>
@@ -155,3 +155,12 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var type = $("#Type_Id").val();
+        if (type === "1") {
+            document.getElementById('invoiceAgentDiv').style.display = "none";
+        }
+    });
+</script>

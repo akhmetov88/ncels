@@ -151,6 +151,11 @@
         var surname = $("#InvoiceAgentLastName").val();
         var name = $("#InvoiceAgentFirstName").val();
         var position = $("#InvoiceAgentPositionName").val();
+        var cerCountry = $("#CertificateCountryId option:selected").val();
+        var cerOrgan = $("#CertificateOrganization").val();
+        var certType = $("#CertificateTypeId").val();
+        var certStartDate = $("#CertificateStartDate").val();
+        var certEndDate = $("#CertificateDate").val();
 
         var assur = $("#AssuranceCheck").prop('checked');
         var order = $("#OrderCheck").prop('checked');
@@ -168,10 +173,34 @@
         } else {
             $("#CertificateCheckId").css({ 'color': '#555' });
         }
-        if (certNumber === "") {
-            $("#CertificateId").css({ 'color': '#a94442' });
-            validFile = false;
+        if (cerGMPCheck === "True") {
+            if (cerCountry === "") {
+                $("#CertificateCountryLabelId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else { $("#CertificateCountryLabelId").css({ 'color': '#555' }); }
+            if (cerOrgan === "") {
+                $("#CertificateOrganizationLabelId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else { $("#CertificateOrganizationLabelId").css({ 'color': '#555' }); }
+            if (certNumber === "") {
+                $("#CertificateId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else { $("#CertificateId").css({ 'color': '#555' }); }
+            if (certType === "") {
+                $("#CertificateTypeLableId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else { $("#CertificateTypeLableId").css({ 'color': '#555' }); }
+            if (certStartDate === "") {
+                $("#CertificateStartDateId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else { $("#CertificateStartDateId").css({ 'color': '#555' }); }
+            if (certEndDate === "") {
+                $("#CertificateEndDateId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else { $("#CertificateEndDateId").css({ 'color': '#555' }); }
         } else {
+            $("#CertificateCountryLabelId").css({ 'color': '#555' });
+            $("#CertificateOrganizationLabelId").css({ 'color': '#555' });
             $("#CertificateId").css({ 'color': '#555' });
         }
         if (surname === "") {

@@ -19,7 +19,18 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             return AppContext.OBK_AssessmentStage.FirstOrDefault(e => e.Id == id);
         }
-        
+
+        public OBK_AssessmentStage GetByDeclarationId(string declarationId, int stage)
+        {
+            return AppContext.OBK_AssessmentStage.FirstOrDefault(
+                e => e.DeclarationId == new Guid(declarationId) && e.StageId == stage);
+        }
+
+        public IEnumerable<OBK_Ref_Nomenclature> GetRefNomenclature()
+        {
+            return AppContext.OBK_Ref_Nomenclature.Where(e=>!e.IsDeleted).ToList();
+        }
+
         /// <summary>
         /// Проверка есть ли у заявления указанный этап
         /// </summary>
@@ -48,7 +59,7 @@ namespace PW.Ncels.Database.Repository.OBK
             //var declaration = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == declarationId);
             //if (declaration.EXP_DIC_Type.Code != EXP_DIC_Type.Registration)
             //{
-                //return ToNextStage(declaration, fromStageId, nextStageIds, out resultDescription);
+            //  //return ToNextStage(declaration, fromStageId, nextStageIds, out resultDescription);
             //}
             var currentStage = fromStageId != null
                 ? AppContext.OBK_AssessmentStage.FirstOrDefault(e => e.Id == fromStageId)
@@ -56,11 +67,11 @@ namespace PW.Ncels.Database.Repository.OBK
                     e => e.DeclarationId == declarationId && activeStageCodes.Contains(e.OBK_Ref_StageStatus.Code));
             var stageStatusNew = GetStageStatusByCode(OBK_Ref_StageStatus.New);
             //закрываем предыдущий этап
-            //if (currentStage != null && CanCloseStage(currentStage, nextStageIds))
-            //{
-            //    currentStage.StatusId = GetStageStatusByCode(EXP_DIC_StageStatus.Completed).Id;
-            //    currentStage.FactEndDate = DateTime.Now;
-            //}
+            if (currentStage != null) //&& CanCloseStage(currentStage, nextStageIds)
+            {
+                currentStage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.Completed).Id;
+                currentStage.FactEndDate = DateTime.Now;
+            }
             var isAnalitic = false;
             foreach (var nextStageId in nextStageIds)
             {
@@ -70,7 +81,7 @@ namespace PW.Ncels.Database.Repository.OBK
                                                            && e.StageId == nextStageId &&
                                                            e.OBK_Ref_StageStatus.Code != OBK_Ref_StageStatus.Completed &&
                                                            !e.IsHistory)) continue;
-                //переделать дату окончания этапа
+                //todo переделать дату окончания этапа
                 var daysOnStage = 0;//GetExpStageDaysOnExecution(declaration.TypeId, nextStageId);
                 var startDate = DateTime.Now;
                 var newStage = new OBK_AssessmentStage()
@@ -110,7 +121,7 @@ namespace PW.Ncels.Database.Repository.OBK
             stage.FactEndDate = DateTime.Now;
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.Completed).Id;
 
-            var history = new OBK_AssessmentDeclarationHistory()
+            var history = new OBK_AssessmentDeclarationHistory
             {
                 DateCreate = DateTime.Now,
                 AssessmentDeclarationId = stage.DeclarationId,

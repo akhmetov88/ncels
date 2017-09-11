@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="21">
+      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="30">
         <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
@@ -713,37 +713,43 @@
         <AssociationConnector Association="ncelsModel.FK_OBK_Contract_OBK_Ref_Type" />
         <AssociationConnector Association="ncelsModel.FK_OBK_RS_Products_OBK_Contract" />
         <AssociationConnector Association="ncelsModel.FK_OBK_DeclarantContact_OBK_Declarant" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_DegreeRisk" Width="1.5" PointX="83" PointY="22.625" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_PriceList" Width="1.5" PointX="85.25" PointY="1.25" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ServiceType" Width="1.5" PointX="83" PointY="25.125" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ValueAddedTax" Width="1.5" PointX="58.375" PointY="72.625" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationCom" Width="1.5" PointX="79" PointY="15" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationComRecord" Width="1.5" PointX="86.25" PointY="12.875" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationHistory" Width="1.5" PointX="87.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentStage" Width="1.5" PointX="79" PointY="18.625" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_ContractPrice" Width="1.5" PointX="91.375" PointY="8.75" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Stage" Width="1.5" PointX="76.75" PointY="21.125" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_StageStatus" Width="1.5" PointX="76.75" PointY="18" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_Employees" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_Employees" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationHistory" Width="1.5" PointX="84.75" PointY="0.75" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" />
-        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Stage" Width="1.5" PointX="76.125" PointY="11.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_StageStatus" Width="1.5" PointX="76.125" PointY="14.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentStage" Width="1.5" PointX="79" PointY="12.375" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_Stage" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" />
+        <AssociationConnector Association="ncelsModel.OBK_AssessmentStageExecutors" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationRegisterView" Width="1.5" PointX="92.375" PointY="1" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationCom" Width="1.5" PointX="79" PointY="18.375" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationComRecord" Width="1.5" PointX="86.25" PointY="10.25" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Reason" Width="1.5" PointX="88.625" PointY="8" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractPrice" Width="1.5" PointX="91.375" PointY="10.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_DegreeRisk" Width="1.5" PointX="80" PointY="26.375" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_PriceList" Width="1.5" PointX="82.25" PointY="0.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ServiceType" Width="1.5" PointX="80" PointY="30" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ValueAddedTax" Width="1.5" PointX="58.375" PointY="76.125" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" />
         <AssociationConnector Association="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" />
         <AssociationConnector Association="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" />
         <AssociationConnector Association="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" />
         <AssociationConnector Association="ncelsModel.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" />
-        <AssociationConnector Association="ncelsModel.OBK_AssessmentStageExecutors" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationRegisterView" Width="1.5" PointX="64.375" PointY="71.75" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Nomenclature" Width="1.5" PointX="58.375" PointY="71.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_StageExpDocument" Width="1.5" PointX="83.625" PointY="21.375" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_StageExpDocument_OBK_Procunts_Series" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_StageExpDocument_OBK_RS_Products" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_CertificateType" Width="1.5" PointX="64.375" PointY="71.875" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

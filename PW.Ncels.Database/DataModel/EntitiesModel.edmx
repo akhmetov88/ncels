@@ -2527,6 +2527,10 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="FirstSendDate" Type="datetime" />
           <Property Name="IsSigned" Type="bit" Nullable="false" />
           <Property Name="DesignNote" Type="nvarchar(max)" />
+          <Property Name="CertificateCountryId" Type="uniqueidentifier" />
+          <Property Name="CertificateOrganization" Type="nvarchar" MaxLength="500" />
+          <Property Name="CertificateStartDate" Type="datetime" />
+          <Property Name="CertificateTypeId" Type="int" />
         </EntityType>
         <EntityType Name="OBK_AssessmentDeclarationCom">
           <Key>
@@ -2735,6 +2739,10 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="SignDocNumber" Type="nvarchar" MaxLength="255" />
           <Property Name="SignDocCreatedDate" Type="datetime" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="SignDocEndDate" Type="datetime" />
+          <Property Name="SignDocUnlimited" Type="bit" Nullable="false" />
+          <Property Name="BossDocEndDate" Type="datetime" />
+          <Property Name="BossDocUnlimited" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="obk_exchangerate">
           <Key>
@@ -2819,6 +2827,17 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="cert_sign" Type="bit" />
           <Property Name="types_no_reg" Type="int" />
         </EntityType>
+        <EntityType Name="OBK_Ref_CertificateType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameRu" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="NameKz" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="DateCreate" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="OBK_Ref_DegreeRisk">
           <Key>
             <PropertyRef Name="iD" />
@@ -2826,6 +2845,17 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="iD" Type="uniqueidentifier" Nullable="false" />
           <Property Name="NameRu" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="NameKz" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_Nomenclature">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="NameRu" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NameKz" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OBK_Ref_PriceList">
           <Key>
@@ -2840,6 +2870,18 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="ServiceTypeId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="DegreeRiskId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_Reason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="NameRu" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NameKz" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExpertiseResult" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OBK_Ref_ServiceType">
           <Key>
@@ -2919,6 +2961,33 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="Price" Type="nvarchar" MaxLength="20" />
           <Property Name="ContractId" Type="uniqueidentifier" />
           <Property Name="CurrencyId" Type="int" />
+          <Property Name="RegTypeId" Type="int" Nullable="false" />
+          <Property Name="DegreeRiskId" Type="int" />
+        </EntityType>
+        <EntityType Name="OBK_StageExpDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="ProductSeriesId" Type="int" />
+          <Property Name="ExpResult" Type="bit" Nullable="false" />
+          <Property Name="ExpStartDate" Type="datetime" />
+          <Property Name="ExpEndDate" Type="datetime" />
+          <Property Name="ExpReasonNameRu" Type="nvarchar(max)" />
+          <Property Name="ExpReasonNameKz" Type="nvarchar(max)" />
+          <Property Name="ExpProductNameRu" Type="nvarchar(max)" />
+          <Property Name="ExpProductNameKz" Type="nvarchar(max)" />
+          <Property Name="ExpNomenclatureRu" Type="nvarchar(max)" />
+          <Property Name="ExpNomenclatureKz" Type="nvarchar(max)" />
+          <Property Name="ExpAddInfoRu" Type="nvarchar(max)" />
+          <Property Name="ExpAddInfoKz" Type="nvarchar(max)" />
+          <Property Name="ExpConclusionNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExpBlankNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExpApplication" Type="bit" Nullable="false" />
+          <Property Name="ExpApplicationNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExpExecutorSign" Type="nvarchar(max)" />
+          <Property Name="ExecutorId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Organizations">
           <Key>
@@ -7259,6 +7328,7 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationRegisterVie
         <EntityType Name="OBK_AssessmentDeclarationRegisterView">
           <Key>
             <PropertyRef Name="StatusId" />
+            <PropertyRef Name="DeclarantName" />
             <PropertyRef Name="StageStatusId" />
             <PropertyRef Name="ExecutorId" />
             <PropertyRef Name="RegType" />
@@ -7269,7 +7339,7 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationRegisterVie
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="500" />
           <Property Name="FirstSendDate" Type="datetime" />
-          <Property Name="DeclarantName" Type="nvarchar" MaxLength="255" />
+          <Property Name="DeclarantName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="StageStatusId" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
@@ -7293,7 +7363,6 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationView' does 
             <PropertyRef Name="StatusId" />
             <PropertyRef Name="TypeName" />
             <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="IsDeleted" />
             <PropertyRef Name="SortDate" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -7306,7 +7375,6 @@ warning 6002: The table/view 'ncelsProd.dbo.OBK_AssessmentDeclarationView' does 
           <Property Name="TypeName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="SortDate" Type="datetime" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ncelsProd.dbo.OrganizationsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -12029,18 +12097,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBK_DeclarantContact_OBK_Declarant">
-          <End Role="OBK_Declarant" Type="Self.OBK_Declarant" Multiplicity="0..1" />
-          <End Role="OBK_DeclarantContact" Type="Self.OBK_DeclarantContact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Declarant">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_DeclarantContact">
-              <PropertyRef Name="DeclarantId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_obk_exchangerate_obk_currencies">
           <End Role="obk_currencies" Type="Self.obk_currencies" Multiplicity="1" />
           <End Role="obk_exchangerate" Type="Self.obk_exchangerate" Multiplicity="*" />
@@ -12134,6 +12190,30 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Principal>
             <Dependent Role="OBK_Procunts_Series">
               <PropertyRef Name="OBK_RS_ProductsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_StageExpDocument_OBK_Procunts_Series">
+          <End Role="OBK_Procunts_Series" Type="Self.OBK_Procunts_Series" Multiplicity="0..1" />
+          <End Role="OBK_StageExpDocument" Type="Self.OBK_StageExpDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Procunts_Series">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_StageExpDocument">
+              <PropertyRef Name="ProductSeriesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_StageExpDocument_OBK_RS_Products">
+          <End Role="OBK_RS_Products" Type="Self.OBK_RS_Products" Multiplicity="0..1" />
+          <End Role="OBK_StageExpDocument" Type="Self.OBK_StageExpDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_RS_Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_StageExpDocument">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18938,8 +19018,11 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySet Name="OBK_Procunts_Series" EntityType="Self.OBK_Procunts_Series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_product_cost" EntityType="Self.obk_product_cost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obk_products" EntityType="Self.obk_products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_Ref_CertificateType" EntityType="Self.OBK_Ref_CertificateType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="Self.OBK_Ref_DegreeRisk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_Ref_Nomenclature" EntityType="Self.OBK_Ref_Nomenclature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_PriceList" EntityType="Self.OBK_Ref_PriceList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_Ref_Reason" EntityType="Self.OBK_Ref_Reason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_ServiceType" EntityType="Self.OBK_Ref_ServiceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_Stage" EntityType="Self.OBK_Ref_Stage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_StageStatus" EntityType="Self.OBK_Ref_StageStatus" Schema="dbo" store:Type="Tables" />
@@ -18947,6 +19030,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySet Name="OBK_Ref_Type" EntityType="Self.OBK_Ref_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_Ref_ValueAddedTax" EntityType="Self.OBK_Ref_ValueAddedTax" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBK_RS_Products" EntityType="Self.OBK_RS_Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OBK_StageExpDocument" EntityType="Self.OBK_StageExpDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organizations" EntityType="Self.Organizations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PermissionKeys" EntityType="Self.PermissionKeys" Schema="dbo" store:Type="Tables" />
@@ -20408,8 +20492,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
     [OBK_AssessmentDeclarationView].[StausName] AS [StausName], 
     [OBK_AssessmentDeclarationView].[TypeName] AS [TypeName], 
     [OBK_AssessmentDeclarationView].[CreatedDate] AS [CreatedDate], 
-    [OBK_AssessmentDeclarationView].[SortDate] AS [SortDate], 
-    [OBK_AssessmentDeclarationView].[IsDeleted] AS [IsDeleted]
+    [OBK_AssessmentDeclarationView].[SortDate] AS [SortDate]
     FROM [dbo].[OBK_AssessmentDeclarationView] AS [OBK_AssessmentDeclarationView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="OrganizationsView" EntityType="Self.OrganizationsView" store:Type="Views" store:Schema="dbo">
@@ -22744,10 +22827,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
             <End Role="OBK_ContractPrice" EntitySet="OBK_ContractPrice" />
           </AssociationSet>
-          <AssociationSet Name="FK_OBK_DeclarantContact_OBK_Declarant" Association="Self.FK_OBK_DeclarantContact_OBK_Declarant">
-            <End Role="OBK_Declarant" EntitySet="OBK_Declarant" />
-            <End Role="OBK_DeclarantContact" EntitySet="OBK_DeclarantContact" />
-          </AssociationSet>
           <AssociationSet Name="FK_obk_exchangerate_obk_currencies" Association="Self.FK_obk_exchangerate_obk_currencies">
             <End Role="obk_currencies" EntitySet="obk_currencies" />
             <End Role="obk_exchangerate" EntitySet="obk_exchangerate" />
@@ -22779,6 +22858,14 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <AssociationSet Name="FK_OBK_RS_Products_Procunts_Series" Association="Self.FK_OBK_RS_Products_Procunts_Series">
             <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
             <End Role="OBK_Procunts_Series" EntitySet="OBK_Procunts_Series" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_StageExpDocument_OBK_Procunts_Series" Association="Self.FK_OBK_StageExpDocument_OBK_Procunts_Series">
+            <End Role="OBK_Procunts_Series" EntitySet="OBK_Procunts_Series" />
+            <End Role="OBK_StageExpDocument" EntitySet="OBK_StageExpDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_StageExpDocument_OBK_RS_Products" Association="Self.FK_OBK_StageExpDocument_OBK_RS_Products">
+            <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
+            <End Role="OBK_StageExpDocument" EntitySet="OBK_StageExpDocument" />
           </AssociationSet>
           <AssociationSet Name="FK_Organizations_EXP_DrugDeclaration" Association="Self.FK_Organizations_EXP_DrugDeclaration">
             <End Role="EXP_DrugDeclaration" EntitySet="EXP_DrugDeclaration" />
@@ -23424,9 +23511,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="Visits" Relationship="ncelsModel.Visits_EmployeeId_fk" FromRole="Employee" ToRole="Visit" />
           <NavigationProperty Name="Visits1" Relationship="ncelsModel.Visits_VisitorId_fk" FromRole="Employee" ToRole="Visit" />
           <NavigationProperty Name="CommissionUnits" Relationship="ncelsModel.CommissionUnits_EmployeeId_fk" FromRole="Employee" ToRole="CommissionUnit" />
+          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.OBK_AssessmentStageExecutors" FromRole="Employee" ToRole="OBK_AssessmentStage" />
           <NavigationProperty Name="OBK_AssessmentDeclarationComRecord" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_Employees" FromRole="Employee" ToRole="OBK_AssessmentDeclarationComRecord" />
           <NavigationProperty Name="OBK_AssessmentDeclarationFieldHistory" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_Employees" FromRole="Employee" ToRole="OBK_AssessmentDeclarationFieldHistory" />
-          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.OBK_AssessmentStageExecutors" FromRole="Employee" ToRole="OBK_AssessmentStage" />
         </EntityType>
         <EntityType Name="Experience">
           <Key>
@@ -31817,64 +31904,21 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="OBK_Declarant" EntitySet="OBK_Declarant" />
             <End Role="OBK_DeclarantContact" EntitySet="OBK_DeclarantContact" />
           </AssociationSet>
-          <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="ncelsModel.OBK_Ref_DegreeRisk" />
-          <EntitySet Name="OBK_Ref_PriceList" EntityType="ncelsModel.OBK_Ref_PriceList" />
-          <EntitySet Name="OBK_Ref_ServiceType" EntityType="ncelsModel.OBK_Ref_ServiceType" />
-          <EntitySet Name="OBK_Ref_ValueAddedTax" EntityType="ncelsModel.OBK_Ref_ValueAddedTax" />
-          <AssociationSet Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
-            <End Role="Dictionary" EntitySet="Dictionaries" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
-            <End Role="OBK_Ref_DegreeRisk" EntitySet="OBK_Ref_DegreeRisk" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
-            <End Role="OBK_Ref_ServiceType" EntitySet="OBK_Ref_ServiceType" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
-            <End Role="OBK_Ref_Type" EntitySet="OBK_Ref_Type" />
-            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
-          </AssociationSet>
-          <EntitySet Name="OBK_AssessmentDeclarationCom" EntityType="ncelsModel.OBK_AssessmentDeclarationCom" />
-          <EntitySet Name="OBK_AssessmentDeclarationComRecord" EntityType="ncelsModel.OBK_AssessmentDeclarationComRecord" />
           <EntitySet Name="OBK_AssessmentDeclarationHistory" EntityType="ncelsModel.OBK_AssessmentDeclarationHistory" />
-          <EntitySet Name="OBK_AssessmentStage" EntityType="ncelsModel.OBK_AssessmentStage" />
-          <EntitySet Name="OBK_ContractPrice" EntityType="ncelsModel.OBK_ContractPrice" />
-          <EntitySet Name="OBK_Ref_Stage" EntityType="ncelsModel.OBK_Ref_Stage" />
-          <EntitySet Name="OBK_Ref_StageStatus" EntityType="ncelsModel.OBK_Ref_StageStatus" />
-          <AssociationSet Name="FK_OBK_AssessmentDeclarationComRecord_Employees" Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_Employees">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="OBK_AssessmentDeclarationComRecord" EntitySet="OBK_AssessmentDeclarationComRecord" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_AssessmentDeclarationFieldHistory_Employees" Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_Employees">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="OBK_AssessmentDeclarationFieldHistory" EntitySet="OBK_AssessmentDeclarationFieldHistory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration">
-            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
-            <End Role="OBK_AssessmentDeclarationCom" EntitySet="OBK_AssessmentDeclarationCom" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration">
-            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
-            <End Role="OBK_AssessmentDeclarationFieldHistory" EntitySet="OBK_AssessmentDeclarationFieldHistory" />
-          </AssociationSet>
           <AssociationSet Name="FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration">
             <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
             <End Role="OBK_AssessmentDeclarationHistory" EntitySet="OBK_AssessmentDeclarationHistory" />
           </AssociationSet>
-          <AssociationSet Name="FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration">
-            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
-            <End Role="OBK_AssessmentStage" EntitySet="OBK_AssessmentStage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom" Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom">
-            <End Role="OBK_AssessmentDeclarationCom" EntitySet="OBK_AssessmentDeclarationCom" />
-            <End Role="OBK_AssessmentDeclarationComRecord" EntitySet="OBK_AssessmentDeclarationComRecord" />
-          </AssociationSet>
           <AssociationSet Name="FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status" Association="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status">
             <End Role="OBK_Ref_Status" EntitySet="OBK_Ref_Status" />
             <End Role="OBK_AssessmentDeclarationHistory" EntitySet="OBK_AssessmentDeclarationHistory" />
+          </AssociationSet>
+          <EntitySet Name="OBK_Ref_Stage" EntityType="ncelsModel.OBK_Ref_Stage" />
+          <EntitySet Name="OBK_Ref_StageStatus" EntityType="ncelsModel.OBK_Ref_StageStatus" />
+          <EntitySet Name="OBK_AssessmentStage" EntityType="ncelsModel.OBK_AssessmentStage" />
+          <AssociationSet Name="FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration">
+            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
+            <End Role="OBK_AssessmentStage" EntitySet="OBK_AssessmentStage" />
           </AssociationSet>
           <AssociationSet Name="FK_OBK_AssessmentStage_OBK_Ref_Stage" Association="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_Stage">
             <End Role="OBK_Ref_Stage" EntitySet="OBK_Ref_Stage" />
@@ -31883,6 +31927,43 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <AssociationSet Name="FK_OBK_AssessmentStage_OBK_Ref_StageStatus" Association="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus">
             <End Role="OBK_Ref_StageStatus" EntitySet="OBK_Ref_StageStatus" />
             <End Role="OBK_AssessmentStage" EntitySet="OBK_AssessmentStage" />
+          </AssociationSet>
+          <AssociationSet Name="OBK_AssessmentStageExecutors" Association="ncelsModel.OBK_AssessmentStageExecutors">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="OBK_AssessmentStage" EntitySet="OBK_AssessmentStage" />
+          </AssociationSet>
+          <EntitySet Name="OBK_AssessmentDeclarationRegisterView" EntityType="ncelsModel.OBK_AssessmentDeclarationRegisterView" />
+          <EntitySet Name="OBK_AssessmentDeclarationCom" EntityType="ncelsModel.OBK_AssessmentDeclarationCom" />
+          <EntitySet Name="OBK_AssessmentDeclarationComRecord" EntityType="ncelsModel.OBK_AssessmentDeclarationComRecord" />
+          <AssociationSet Name="FK_OBK_AssessmentDeclarationComRecord_Employees" Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="OBK_AssessmentDeclarationComRecord" EntitySet="OBK_AssessmentDeclarationComRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration">
+            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
+            <End Role="OBK_AssessmentDeclarationCom" EntitySet="OBK_AssessmentDeclarationCom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom" Association="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom">
+            <End Role="OBK_AssessmentDeclarationCom" EntitySet="OBK_AssessmentDeclarationCom" />
+            <End Role="OBK_AssessmentDeclarationComRecord" EntitySet="OBK_AssessmentDeclarationComRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_AssessmentDeclarationFieldHistory_Employees" Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="OBK_AssessmentDeclarationFieldHistory" EntitySet="OBK_AssessmentDeclarationFieldHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration" Association="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration">
+            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
+            <End Role="OBK_AssessmentDeclarationFieldHistory" EntitySet="OBK_AssessmentDeclarationFieldHistory" />
+          </AssociationSet>
+          <EntitySet Name="OBK_Ref_Reason" EntityType="ncelsModel.OBK_Ref_Reason" />
+          <EntitySet Name="OBK_ContractPrice" EntityType="ncelsModel.OBK_ContractPrice" />
+          <EntitySet Name="OBK_Ref_DegreeRisk" EntityType="ncelsModel.OBK_Ref_DegreeRisk" />
+          <EntitySet Name="OBK_Ref_PriceList" EntityType="ncelsModel.OBK_Ref_PriceList" />
+          <EntitySet Name="OBK_Ref_ServiceType" EntityType="ncelsModel.OBK_Ref_ServiceType" />
+          <EntitySet Name="OBK_Ref_ValueAddedTax" EntityType="ncelsModel.OBK_Ref_ValueAddedTax" />
+          <AssociationSet Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
+            <End Role="Dictionary" EntitySet="Dictionaries" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
           </AssociationSet>
           <AssociationSet Name="FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" Association="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id">
             <End Role="OBK_Contract" EntitySet="OBK_Contract" />
@@ -31900,11 +31981,29 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <End Role="sr_measures" EntitySet="sr_measures" />
             <End Role="OBK_Procunts_Series" EntitySet="OBK_Procunts_Series" />
           </AssociationSet>
-          <AssociationSet Name="OBK_AssessmentStageExecutors" Association="ncelsModel.OBK_AssessmentStageExecutors">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="OBK_AssessmentStage" EntitySet="OBK_AssessmentStage" />
+          <AssociationSet Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
+            <End Role="OBK_Ref_DegreeRisk" EntitySet="OBK_Ref_DegreeRisk" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
           </AssociationSet>
-          <EntitySet Name="OBK_AssessmentDeclarationRegisterView" EntityType="ncelsModel.OBK_AssessmentDeclarationRegisterView" />
+          <AssociationSet Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
+            <End Role="OBK_Ref_ServiceType" EntitySet="OBK_Ref_ServiceType" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" Association="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
+            <End Role="OBK_Ref_Type" EntitySet="OBK_Ref_Type" />
+            <End Role="OBK_Ref_PriceList" EntitySet="OBK_Ref_PriceList" />
+          </AssociationSet>
+          <EntitySet Name="OBK_Ref_Nomenclature" EntityType="ncelsModel.OBK_Ref_Nomenclature" />
+          <EntitySet Name="OBK_StageExpDocument" EntityType="ncelsModel.OBK_StageExpDocument" />
+          <AssociationSet Name="FK_OBK_StageExpDocument_OBK_Procunts_Series" Association="ncelsModel.FK_OBK_StageExpDocument_OBK_Procunts_Series">
+            <End Role="OBK_Procunts_Series" EntitySet="OBK_Procunts_Series" />
+            <End Role="OBK_StageExpDocument" EntitySet="OBK_StageExpDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OBK_StageExpDocument_OBK_RS_Products" Association="ncelsModel.FK_OBK_StageExpDocument_OBK_RS_Products">
+            <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
+            <End Role="OBK_StageExpDocument" EntitySet="OBK_StageExpDocument" />
+          </AssociationSet>
+          <EntitySet Name="OBK_Ref_CertificateType" EntityType="ncelsModel.OBK_Ref_CertificateType" />
           </EntityContainer>
         <EntityType Name="Registery">
           <Key>
@@ -44373,11 +44472,15 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="EmployeeId" Type="Guid" Nullable="false" />
           <Property Name="FirstSendDate" Type="DateTime" Precision="3" />
           <Property Name="IsSigned" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OBK_AssessmentDeclarationHistory" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_AssessmentDeclarationHistory" />
+          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_AssessmentStage" />
           <Property Name="DesignNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OBK_AssessmentDeclarationCom" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationCom_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_AssessmentDeclarationCom" />
           <NavigationProperty Name="OBK_AssessmentDeclarationFieldHistory" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_AssessmentDeclarationFieldHistory" />
-          <NavigationProperty Name="OBK_AssessmentDeclarationHistory" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_AssessmentDeclarationHistory" />
-          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_AssessmentStage" />
+          <Property Name="CertificateCountryId" Type="Guid" />
+          <Property Name="CertificateOrganization" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CertificateStartDate" Type="DateTime" Precision="3" />
+          <Property Name="CertificateTypeId" Type="Int32" />
         </EntityType>
         <EntityType Name="OBK_Ref_Type">
           <Key>
@@ -44450,6 +44553,9 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="CurrencyId" Type="Int32" />
           <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_RS_Products_OBK_Contract" FromRole="OBK_RS_Products" ToRole="OBK_Contract" />
           <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" FromRole="OBK_RS_Products" ToRole="OBK_ContractPrice" />
+          <Property Name="RegTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DegreeRiskId" Type="Int32" />
+          <NavigationProperty Name="OBK_StageExpDocument" Relationship="ncelsModel.FK_OBK_StageExpDocument_OBK_RS_Products" FromRole="OBK_RS_Products" ToRole="OBK_StageExpDocument" />
         </EntityType>
         <EntityType Name="OBK_Procunts_Series">
           <Key>
@@ -44464,6 +44570,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="OBK_RS_ProductsId" Type="Int32" Nullable="false" />
           <Property Name="SeriesMeasureId" Type="Int64" />
           <NavigationProperty Name="sr_measures" Relationship="ncelsModel.FK_OBK_Procunts_Series_SeriesMeasureId__sr_measures_id" FromRole="OBK_Procunts_Series" ToRole="sr_measures" />
+          <NavigationProperty Name="OBK_StageExpDocument" Relationship="ncelsModel.FK_OBK_StageExpDocument_OBK_Procunts_Series" FromRole="OBK_Procunts_Series" ToRole="OBK_StageExpDocument" />
         </EntityType>
         <Association Name="FK_OBK_RS_Products_Procunts_Series">
           <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="1" />
@@ -44553,7 +44660,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             <PropertyRef Name="Id" />
             <PropertyRef Name="SortDate" />
             <PropertyRef Name="CreatedDate" />
-            <PropertyRef Name="IsDeleted" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="OwnerId" Type="Guid" Nullable="false" />
@@ -44565,7 +44671,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SortDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="OBK_Declarant">
           <Key>
@@ -44622,6 +44727,10 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_Contract_OBK_DeclarantContact" FromRole="OBK_DeclarantContact" ToRole="OBK_Contract" />
           <NavigationProperty Name="OBK_Declarant" Relationship="ncelsModel.FK_OBK_DeclarantContact_OBK_Declarant" FromRole="OBK_DeclarantContact" ToRole="OBK_Declarant" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SignDocEndDate" Type="DateTime" Precision="3" />
+          <Property Name="SignDocUnlimited" Type="Boolean" Nullable="false" />
+          <Property Name="BossDocEndDate" Type="DateTime" Precision="3" />
+          <Property Name="BossDocUnlimited" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_OBK_Contract_OBK_Declarant">
           <End Type="ncelsModel.OBK_Declarant" Role="OBK_Declarant" Multiplicity="0..1" />
@@ -44695,99 +44804,161 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OBK_Ref_DegreeRisk">
-          <Key>
-            <PropertyRef Name="iD" />
-          </Key>
-          <Property Name="iD" Type="Guid" Nullable="false" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_DegreeRisk" ToRole="OBK_Ref_PriceList" />
-        </EntityType>
-        <EntityType Name="OBK_Ref_PriceList">
+        <EntityType Name="OBK_AssessmentDeclarationHistory">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UnitId" Type="Guid" Nullable="false" />
-          <Property Name="Price" Type="Double" Nullable="false" />
-          <Property Name="ServiceTypeId" Type="Guid" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AssessmentDeclarationId" Type="Guid" Nullable="false" />
+          <Property Name="XmlSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OBK_AssessmentDeclaration" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclarationHistory" ToRole="OBK_AssessmentDeclaration" />
+          <NavigationProperty Name="OBK_Ref_Status" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status" FromRole="OBK_AssessmentDeclarationHistory" ToRole="OBK_Ref_Status" />
+        </EntityType>
+        <Association Name="FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration">
+          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_AssessmentDeclarationHistory" Role="OBK_AssessmentDeclarationHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_AssessmentDeclaration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_AssessmentDeclarationHistory">
+              <PropertyRef Name="AssessmentDeclarationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status">
+          <End Type="ncelsModel.OBK_Ref_Status" Role="OBK_Ref_Status" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_AssessmentDeclarationHistory" Role="OBK_AssessmentDeclarationHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_AssessmentDeclarationHistory">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OBK_Ref_Stage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameRu" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="DegreeRiskId" Type="Guid" />
-          <NavigationProperty Name="Dictionary" Relationship="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" FromRole="OBK_Ref_PriceList" ToRole="Dictionary" />
-          <NavigationProperty Name="OBK_Ref_DegreeRisk" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_DegreeRisk" />
-          <NavigationProperty Name="OBK_Ref_ServiceType" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_ServiceType" />
-          <NavigationProperty Name="OBK_Ref_Type" Relationship="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_Type" />
-          <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_ContractPrice" />
+          <Property Name="DateEdit" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_Stage" FromRole="OBK_Ref_Stage" ToRole="OBK_AssessmentStage" />
         </EntityType>
-        <EntityType Name="OBK_Ref_ServiceType">
+        <EntityType Name="OBK_Ref_StageStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" FromRole="OBK_Ref_StageStatus" ToRole="OBK_AssessmentStage" />
+        </EntityType>
+        <EntityType Name="OBK_AssessmentStage">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_ServiceType" ToRole="OBK_Ref_PriceList" />
+          <Property Name="DeclarationId" Type="Guid" Nullable="false" />
+          <Property Name="StageId" Type="Int32" Nullable="false" />
+          <Property Name="StageStatusId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="FactEndDate" Type="DateTime" Precision="3" />
+          <Property Name="ResultId" Type="Int32" />
+          <Property Name="ParentStageId" Type="Guid" />
+          <Property Name="IsHistory" Type="Boolean" Nullable="false" />
+          <Property Name="OtdIds" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="OtdRemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsSuspended" Type="Boolean" Nullable="false" />
+          <Property Name="SuspendedStartDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="OBK_AssessmentDeclaration" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentStage" ToRole="OBK_AssessmentDeclaration" />
+          <NavigationProperty Name="OBK_Ref_Stage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_Stage" FromRole="OBK_AssessmentStage" ToRole="OBK_Ref_Stage" />
+          <NavigationProperty Name="OBK_Ref_StageStatus" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" FromRole="OBK_AssessmentStage" ToRole="OBK_Ref_StageStatus" />
+          <NavigationProperty Name="Employees" Relationship="ncelsModel.OBK_AssessmentStageExecutors" FromRole="OBK_AssessmentStage" ToRole="Employee" />
         </EntityType>
-        <EntityType Name="OBK_Ref_ValueAddedTax">
+        <Association Name="FK_OBK_AssessmentStage_OBK_AssessmentDeclaration">
+          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_AssessmentDeclaration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_AssessmentStage">
+              <PropertyRef Name="DeclarationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_AssessmentStage_OBK_Ref_Stage">
+          <End Type="ncelsModel.OBK_Ref_Stage" Role="OBK_Ref_Stage" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_Stage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_AssessmentStage">
+              <PropertyRef Name="StageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_AssessmentStage_OBK_Ref_StageStatus">
+          <End Type="ncelsModel.OBK_Ref_StageStatus" Role="OBK_Ref_StageStatus" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_StageStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_AssessmentStage">
+              <PropertyRef Name="StageStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OBK_AssessmentStageExecutors">
+          <End Type="ncelsModel.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+        </Association>
+        <EntityType Name="OBK_AssessmentDeclarationRegisterView">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="StatusId" />
+            <PropertyRef Name="DeclarantName" />
+            <PropertyRef Name="StageStatusId" />
+            <PropertyRef Name="ExecutorId" />
+            <PropertyRef Name="RegType" />
+            <PropertyRef Name="StageId" />
+            <PropertyRef Name="StageStatusCode" />
+            <PropertyRef Name="ContractNumber" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Value" Type="Double" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FirstSendDate" Type="DateTime" Precision="3" />
+          <Property Name="DeclarantName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StageStatusId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="ExecutorId" Type="Guid" Nullable="false" />
+          <Property Name="RegType" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StageId" Type="Guid" Nullable="false" />
+          <Property Name="StatusName" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="StageStatusCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StageCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Guid" />
+          <Property Name="CountryNameRu" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractNumber" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
-          <End Type="ncelsModel.Dictionary" Role="Dictionary" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Dictionary">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="UnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
-          <End Type="ncelsModel.OBK_Ref_DegreeRisk" Role="OBK_Ref_DegreeRisk" Multiplicity="0..1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Ref_DegreeRisk">
-              <PropertyRef Name="iD" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="DegreeRiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
-          <End Type="ncelsModel.OBK_Ref_ServiceType" Role="OBK_Ref_ServiceType" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Ref_ServiceType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="ServiceTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
-          <End Type="ncelsModel.OBK_Ref_Type" Role="OBK_Ref_Type" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_Ref_Type">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_Ref_PriceList">
-              <PropertyRef Name="TypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="OBK_AssessmentDeclarationCom">
           <Key>
             <PropertyRef Name="Id" />
@@ -44815,84 +44986,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="Employee" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_Employees" FromRole="OBK_AssessmentDeclarationComRecord" ToRole="Employee" />
           <NavigationProperty Name="OBK_AssessmentDeclarationCom" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom" FromRole="OBK_AssessmentDeclarationComRecord" ToRole="OBK_AssessmentDeclarationCom" />
         </EntityType>
-        <EntityType Name="OBK_AssessmentDeclarationHistory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Guid" />
-          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AssessmentDeclarationId" Type="Guid" Nullable="false" />
-          <Property Name="XmlSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OBK_AssessmentDeclaration" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentDeclarationHistory" ToRole="OBK_AssessmentDeclaration" />
-          <NavigationProperty Name="OBK_Ref_Status" Relationship="ncelsModel.FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status" FromRole="OBK_AssessmentDeclarationHistory" ToRole="OBK_Ref_Status" />
-        </EntityType>
-        <EntityType Name="OBK_AssessmentStage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="DeclarationId" Type="Guid" Nullable="false" />
-          <Property Name="StageId" Type="Int32" Nullable="false" />
-          <Property Name="StageStatusId" Type="Int32" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="FactEndDate" Type="DateTime" Precision="3" />
-          <Property Name="ResultId" Type="Int32" />
-          <Property Name="ParentStageId" Type="Guid" />
-          <Property Name="IsHistory" Type="Boolean" Nullable="false" />
-          <Property Name="OtdIds" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="OtdRemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsSuspended" Type="Boolean" Nullable="false" />
-          <Property Name="SuspendedStartDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OBK_AssessmentDeclaration" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_AssessmentDeclaration" FromRole="OBK_AssessmentStage" ToRole="OBK_AssessmentDeclaration" />
-          <NavigationProperty Name="OBK_Ref_Stage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_Stage" FromRole="OBK_AssessmentStage" ToRole="OBK_Ref_Stage" />
-          <NavigationProperty Name="OBK_Ref_StageStatus" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" FromRole="OBK_AssessmentStage" ToRole="OBK_Ref_StageStatus" />
-          <NavigationProperty Name="Employees" Relationship="ncelsModel.OBK_AssessmentStageExecutors" FromRole="OBK_AssessmentStage" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="OBK_ContractPrice">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="PriceRefId" Type="Guid" Nullable="false" />
-          <Property Name="Count" Type="Int32" Nullable="false" />
-          <Property Name="PriceWithoutTax" Type="Double" Nullable="false" />
-          <Property Name="PriceWithTax" Type="Double" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" />
-          <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" FromRole="OBK_ContractPrice" ToRole="OBK_Contract" />
-          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" FromRole="OBK_ContractPrice" ToRole="OBK_Ref_PriceList" />
-          <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" FromRole="OBK_ContractPrice" ToRole="OBK_RS_Products" />
-        </EntityType>
-        <EntityType Name="OBK_Ref_Stage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NameRu" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="DateEdit" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_Stage" FromRole="OBK_Ref_Stage" ToRole="OBK_AssessmentStage" />
-        </EntityType>
-        <EntityType Name="OBK_Ref_StageStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="OBK_AssessmentStage" Relationship="ncelsModel.FK_OBK_AssessmentStage_OBK_Ref_StageStatus" FromRole="OBK_Ref_StageStatus" ToRole="OBK_AssessmentStage" />
-        </EntityType>
         <Association Name="FK_OBK_AssessmentDeclarationComRecord_Employees">
           <End Type="ncelsModel.Employee" Role="Employee" Multiplicity="0..1" />
           <End Type="ncelsModel.OBK_AssessmentDeclarationComRecord" Role="OBK_AssessmentDeclarationComRecord" Multiplicity="*" />
@@ -44901,18 +44994,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OBK_AssessmentDeclarationComRecord">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_AssessmentDeclarationFieldHistory_Employees">
-          <End Type="ncelsModel.Employee" Role="Employee" Multiplicity="0..1" />
-          <End Type="ncelsModel.OBK_AssessmentDeclarationFieldHistory" Role="OBK_AssessmentDeclarationFieldHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_AssessmentDeclarationFieldHistory">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -44929,42 +45010,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration">
-          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="0..1" />
-          <End Type="ncelsModel.OBK_AssessmentDeclarationFieldHistory" Role="OBK_AssessmentDeclarationFieldHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_AssessmentDeclaration">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_AssessmentDeclarationFieldHistory">
-              <PropertyRef Name="AssessmentDeclarationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_AssessmentDeclarationHistory_OBK_AssessmentDeclaration">
-          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_AssessmentDeclarationHistory" Role="OBK_AssessmentDeclarationHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_AssessmentDeclaration">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_AssessmentDeclarationHistory">
-              <PropertyRef Name="AssessmentDeclarationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBK_AssessmentStage_OBK_AssessmentDeclaration">
-          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_AssessmentDeclaration">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_AssessmentStage">
-              <PropertyRef Name="DeclarationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OBK_AssessmentDeclarationComRecord_OBK_AssessmentDeclarationCom">
           <End Type="ncelsModel.OBK_AssessmentDeclarationCom" Role="OBK_AssessmentDeclarationCom" Multiplicity="1" />
           <End Type="ncelsModel.OBK_AssessmentDeclarationComRecord" Role="OBK_AssessmentDeclarationComRecord" Multiplicity="*" />
@@ -44977,39 +45022,111 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBK_AssessmentDeclarationHistory_OBK_Ref_Status">
-          <End Type="ncelsModel.OBK_Ref_Status" Role="OBK_Ref_Status" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_AssessmentDeclarationHistory" Role="OBK_AssessmentDeclarationHistory" Multiplicity="*" />
+        <Association Name="FK_OBK_AssessmentDeclarationFieldHistory_Employees">
+          <End Type="ncelsModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_AssessmentDeclarationFieldHistory" Role="OBK_AssessmentDeclarationFieldHistory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OBK_Ref_Status">
+            <Principal Role="Employee">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OBK_AssessmentDeclarationHistory">
-              <PropertyRef Name="StatusId" />
+            <Dependent Role="OBK_AssessmentDeclarationFieldHistory">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBK_AssessmentStage_OBK_Ref_Stage">
-          <End Type="ncelsModel.OBK_Ref_Stage" Role="OBK_Ref_Stage" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+        <Association Name="FK_OBK_AssessmentDeclarationFieldHistory_OBK_AssessmentDeclaration">
+          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_AssessmentDeclarationFieldHistory" Role="OBK_AssessmentDeclarationFieldHistory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OBK_Ref_Stage">
+            <Principal Role="OBK_AssessmentDeclaration">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OBK_AssessmentStage">
-              <PropertyRef Name="StageId" />
+            <Dependent Role="OBK_AssessmentDeclarationFieldHistory">
+              <PropertyRef Name="AssessmentDeclarationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBK_AssessmentStage_OBK_Ref_StageStatus">
-          <End Type="ncelsModel.OBK_Ref_StageStatus" Role="OBK_Ref_StageStatus" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+        <EntityType Name="OBK_Ref_Reason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpertiseResult" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBK_ContractPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PriceRefId" Type="Guid" Nullable="false" />
+          <Property Name="Count" Type="Int32" Nullable="false" />
+          <Property Name="PriceWithoutTax" Type="Double" Nullable="false" />
+          <Property Name="PriceWithTax" Type="Double" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_ContractPrice_ContractId__OBK_Contract_Id" FromRole="OBK_ContractPrice" ToRole="OBK_Contract" />
+          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" FromRole="OBK_ContractPrice" ToRole="OBK_Ref_PriceList" />
+          <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" FromRole="OBK_ContractPrice" ToRole="OBK_RS_Products" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_DegreeRisk">
+          <Key>
+            <PropertyRef Name="iD" />
+          </Key>
+          <Property Name="iD" Type="Guid" Nullable="false" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_DegreeRisk" ToRole="OBK_Ref_PriceList" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_PriceList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UnitId" Type="Guid" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="ServiceTypeId" Type="Guid" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DegreeRiskId" Type="Guid" />
+          <NavigationProperty Name="Dictionary" Relationship="ncelsModel.FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id" FromRole="OBK_Ref_PriceList" ToRole="Dictionary" />
+          <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_PriceRefId__OBK_Ref_PriceList_Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_ContractPrice" />
+          <NavigationProperty Name="OBK_Ref_DegreeRisk" Relationship="ncelsModel.FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_DegreeRisk" />
+          <NavigationProperty Name="OBK_Ref_ServiceType" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_ServiceType" />
+          <NavigationProperty Name="OBK_Ref_Type" Relationship="ncelsModel.FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id" FromRole="OBK_Ref_PriceList" ToRole="OBK_Ref_Type" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_ServiceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OBK_Ref_PriceList" Relationship="ncelsModel.FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id" FromRole="OBK_Ref_ServiceType" ToRole="OBK_Ref_PriceList" />
+        </EntityType>
+        <EntityType Name="OBK_Ref_ValueAddedTax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Value" Type="Double" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OBK_Ref_PriceList__UnitId__Dictionaries__Id">
+          <End Type="ncelsModel.Dictionary" Role="Dictionary" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OBK_Ref_StageStatus">
+            <Principal Role="Dictionary">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OBK_AssessmentStage">
-              <PropertyRef Name="StageStatusId" />
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="UnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -45061,36 +45178,114 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="OBK_AssessmentStageExecutors">
-          <End Type="ncelsModel.Employee" Role="Employee" Multiplicity="*" />
-          <End Type="ncelsModel.OBK_AssessmentStage" Role="OBK_AssessmentStage" Multiplicity="*" />
+        <Association Name="FK_OBK_Ref_PriceList__DegreeRiskId__OBK_Ref_DegreeRisk__Id">
+          <End Type="ncelsModel.OBK_Ref_DegreeRisk" Role="OBK_Ref_DegreeRisk" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_DegreeRisk">
+              <PropertyRef Name="iD" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="DegreeRiskId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <EntityType Name="OBK_AssessmentDeclarationRegisterView">
+        <Association Name="FK_OBK_Ref_PriceList__ServiceTypeId__OBK_Ref_ServiceType__Id">
+          <End Type="ncelsModel.OBK_Ref_ServiceType" Role="OBK_Ref_ServiceType" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_ServiceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="ServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_Ref_PriceList__TypeId__OBK_Ref_Type__Id">
+          <End Type="ncelsModel.OBK_Ref_Type" Role="OBK_Ref_Type" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_Ref_PriceList" Role="OBK_Ref_PriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Ref_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_Ref_PriceList">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OBK_Ref_Nomenclature">
           <Key>
-            <PropertyRef Name="StatusId" />
-            <PropertyRef Name="StageStatusId" />
-            <PropertyRef Name="ExecutorId" />
-            <PropertyRef Name="RegType" />
-            <PropertyRef Name="StageId" />
-            <PropertyRef Name="StageStatusCode" />
-            <PropertyRef Name="ContractNumber" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="Number" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FirstSendDate" Type="DateTime" Precision="3" />
-          <Property Name="DeclarantName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="StageStatusId" Type="Int32" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="ExecutorId" Type="Guid" Nullable="false" />
-          <Property Name="RegType" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="StageId" Type="Guid" Nullable="false" />
-          <Property Name="StatusName" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="StageStatusCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StageCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CountryId" Type="Guid" />
-          <Property Name="CountryNameRu" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="ContractNumber" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OBK_StageExpDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ProductSeriesId" Type="Int32" />
+          <Property Name="ExpResult" Type="Boolean" Nullable="false" />
+          <Property Name="ExpStartDate" Type="DateTime" Precision="3" />
+          <Property Name="ExpEndDate" Type="DateTime" Precision="3" />
+          <Property Name="ExpReasonNameRu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpReasonNameKz" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpProductNameRu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpProductNameKz" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpNomenclatureRu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpNomenclatureKz" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpAddInfoRu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpAddInfoKz" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpConclusionNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpBlankNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpApplication" Type="Boolean" Nullable="false" />
+          <Property Name="ExpApplicationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpExecutorSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExecutorId" Type="Guid" />
+          <NavigationProperty Name="OBK_Procunts_Series" Relationship="ncelsModel.FK_OBK_StageExpDocument_OBK_Procunts_Series" FromRole="OBK_StageExpDocument" ToRole="OBK_Procunts_Series" />
+          <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_StageExpDocument_OBK_RS_Products" FromRole="OBK_StageExpDocument" ToRole="OBK_RS_Products" />
+        </EntityType>
+        <Association Name="FK_OBK_StageExpDocument_OBK_Procunts_Series">
+          <End Type="ncelsModel.OBK_Procunts_Series" Role="OBK_Procunts_Series" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_StageExpDocument" Role="OBK_StageExpDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_Procunts_Series">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_StageExpDocument">
+              <PropertyRef Name="ProductSeriesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OBK_StageExpDocument_OBK_RS_Products">
+          <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_StageExpDocument" Role="OBK_StageExpDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBK_RS_Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_StageExpDocument">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OBK_Ref_CertificateType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameRu" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="NameKz" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -56202,6 +56397,10 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_AssessmentDeclaration">
             <EntityTypeMapping TypeName="IsTypeOf(ncelsModel.OBK_AssessmentDeclaration)">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclaration">
+                <ScalarProperty Name="CertificateTypeId" ColumnName="CertificateTypeId" />
+                <ScalarProperty Name="CertificateStartDate" ColumnName="CertificateStartDate" />
+                <ScalarProperty Name="CertificateOrganization" ColumnName="CertificateOrganization" />
+                <ScalarProperty Name="CertificateCountryId" ColumnName="CertificateCountryId" />
                 <ScalarProperty Name="DesignNote" ColumnName="DesignNote" />
                 <ScalarProperty Name="IsSigned" ColumnName="IsSigned" />
                 <ScalarProperty Name="FirstSendDate" ColumnName="FirstSendDate" />
@@ -56269,6 +56468,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_RS_Products">
             <EntityTypeMapping TypeName="IsTypeOf(ncelsModel.OBK_RS_Products)">
               <MappingFragment StoreEntitySet="OBK_RS_Products">
+                <ScalarProperty Name="DegreeRiskId" ColumnName="DegreeRiskId" />
+                <ScalarProperty Name="RegTypeId" ColumnName="RegTypeId" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -56354,7 +56555,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_AssessmentDeclarationView">
             <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationView">
               <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationView">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="SortDate" ColumnName="SortDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -56388,6 +56588,10 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_DeclarantContact">
             <EntityTypeMapping TypeName="ncelsModel.OBK_DeclarantContact">
               <MappingFragment StoreEntitySet="OBK_DeclarantContact">
+                <ScalarProperty Name="BossDocUnlimited" ColumnName="BossDocUnlimited" />
+                <ScalarProperty Name="BossDocEndDate" ColumnName="BossDocEndDate" />
+                <ScalarProperty Name="SignDocUnlimited" ColumnName="SignDocUnlimited" />
+                <ScalarProperty Name="SignDocEndDate" ColumnName="SignDocEndDate" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="SignDocCreatedDate" ColumnName="SignDocCreatedDate" />
                 <ScalarProperty Name="SignDocNumber" ColumnName="SignDocNumber" />
@@ -56418,6 +56622,146 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
                 <ScalarProperty Name="AddressLegalKz" ColumnName="AddressLegalKz" />
                 <ScalarProperty Name="AddressLegalRu" ColumnName="AddressLegalRu" />
                 <ScalarProperty Name="DeclarantId" ColumnName="DeclarantId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_AssessmentDeclarationHistory">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationHistory">
+              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationHistory">
+                <ScalarProperty Name="XmlSign" ColumnName="XmlSign" />
+                <ScalarProperty Name="AssessmentDeclarationId" ColumnName="AssessmentDeclarationId" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_Stage">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_Stage">
+              <MappingFragment StoreEntitySet="OBK_Ref_Stage">
+                <ScalarProperty Name="DateEdit" ColumnName="DateEdit" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_StageStatus">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_StageStatus">
+              <MappingFragment StoreEntitySet="OBK_Ref_StageStatus">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_AssessmentStage">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentStage">
+              <MappingFragment StoreEntitySet="OBK_AssessmentStage">
+                <ScalarProperty Name="SuspendedStartDate" ColumnName="SuspendedStartDate" />
+                <ScalarProperty Name="IsSuspended" ColumnName="IsSuspended" />
+                <ScalarProperty Name="OtdRemarks" ColumnName="OtdRemarks" />
+                <ScalarProperty Name="OtdIds" ColumnName="OtdIds" />
+                <ScalarProperty Name="IsHistory" ColumnName="IsHistory" />
+                <ScalarProperty Name="ParentStageId" ColumnName="ParentStageId" />
+                <ScalarProperty Name="ResultId" ColumnName="ResultId" />
+                <ScalarProperty Name="FactEndDate" ColumnName="FactEndDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StageStatusId" ColumnName="StageStatusId" />
+                <ScalarProperty Name="StageId" ColumnName="StageId" />
+                <ScalarProperty Name="DeclarationId" ColumnName="DeclarationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="OBK_AssessmentStageExecutors" TypeName="ncelsModel.OBK_AssessmentStageExecutors" StoreEntitySet="OBK_AssessmentStageExecutors">
+            <EndProperty Name="OBK_AssessmentStage">
+              <ScalarProperty Name="Id" ColumnName="AssessmentStageId" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="ExecutorId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="OBK_AssessmentDeclarationRegisterView">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationRegisterView">
+              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationRegisterView">
+                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="CountryNameRu" ColumnName="CountryNameRu" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StageCode" ColumnName="StageCode" />
+                <ScalarProperty Name="StageStatusCode" ColumnName="StageStatusCode" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StageId" ColumnName="StageId" />
+                <ScalarProperty Name="RegType" ColumnName="RegType" />
+                <ScalarProperty Name="ExecutorId" ColumnName="ExecutorId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StageStatusId" ColumnName="StageStatusId" />
+                <ScalarProperty Name="DeclarantName" ColumnName="DeclarantName" />
+                <ScalarProperty Name="FirstSendDate" ColumnName="FirstSendDate" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_AssessmentDeclarationCom">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationCom">
+              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationCom">
+                <ScalarProperty Name="ControlId" ColumnName="ControlId" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="IsError" ColumnName="IsError" />
+                <ScalarProperty Name="AssessmentDeclarationId" ColumnName="AssessmentDeclarationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_AssessmentDeclarationComRecord">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationComRecord">
+              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationComRecord">
+                <ScalarProperty Name="DisplayField" ColumnName="DisplayField" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ValueField" ColumnName="ValueField" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_Reason">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_Reason">
+              <MappingFragment StoreEntitySet="OBK_Ref_Reason">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ExpertiseResult" ColumnName="ExpertiseResult" />
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_ContractPrice">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_ContractPrice">
+              <MappingFragment StoreEntitySet="OBK_ContractPrice">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PriceWithTax" ColumnName="PriceWithTax" />
+                <ScalarProperty Name="PriceWithoutTax" ColumnName="PriceWithoutTax" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="PriceRefId" ColumnName="PriceRefId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -56464,84 +56808,11 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OBK_AssessmentDeclarationCom">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationCom">
-              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationCom">
-                <ScalarProperty Name="ControlId" ColumnName="ControlId" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="IsError" ColumnName="IsError" />
-                <ScalarProperty Name="AssessmentDeclarationId" ColumnName="AssessmentDeclarationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OBK_AssessmentDeclarationComRecord">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationComRecord">
-              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationComRecord">
-                <ScalarProperty Name="DisplayField" ColumnName="DisplayField" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="ValueField" ColumnName="ValueField" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OBK_AssessmentDeclarationHistory">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationHistory">
-              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationHistory">
-                <ScalarProperty Name="XmlSign" ColumnName="XmlSign" />
-                <ScalarProperty Name="AssessmentDeclarationId" ColumnName="AssessmentDeclarationId" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OBK_AssessmentStage">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentStage">
-              <MappingFragment StoreEntitySet="OBK_AssessmentStage">
-                <ScalarProperty Name="SuspendedStartDate" ColumnName="SuspendedStartDate" />
-                <ScalarProperty Name="IsSuspended" ColumnName="IsSuspended" />
-                <ScalarProperty Name="OtdRemarks" ColumnName="OtdRemarks" />
-                <ScalarProperty Name="OtdIds" ColumnName="OtdIds" />
-                <ScalarProperty Name="IsHistory" ColumnName="IsHistory" />
-                <ScalarProperty Name="ParentStageId" ColumnName="ParentStageId" />
-                <ScalarProperty Name="ResultId" ColumnName="ResultId" />
-                <ScalarProperty Name="FactEndDate" ColumnName="FactEndDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="StageStatusId" ColumnName="StageStatusId" />
-                <ScalarProperty Name="StageId" ColumnName="StageId" />
-                <ScalarProperty Name="DeclarationId" ColumnName="DeclarationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OBK_ContractPrice">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_ContractPrice">
-              <MappingFragment StoreEntitySet="OBK_ContractPrice">
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="PriceWithTax" ColumnName="PriceWithTax" />
-                <ScalarProperty Name="PriceWithoutTax" ColumnName="PriceWithoutTax" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="PriceRefId" ColumnName="PriceRefId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OBK_Ref_Stage">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_Stage">
-              <MappingFragment StoreEntitySet="OBK_Ref_Stage">
-                <ScalarProperty Name="DateEdit" ColumnName="DateEdit" />
+          <EntitySetMapping Name="OBK_Ref_Nomenclature">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_Nomenclature">
+              <MappingFragment StoreEntitySet="OBK_Ref_Nomenclature">
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="NameKz" ColumnName="NameKz" />
                 <ScalarProperty Name="NameRu" ColumnName="NameRu" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -56549,45 +56820,41 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OBK_Ref_StageStatus">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_StageStatus">
-              <MappingFragment StoreEntitySet="OBK_Ref_StageStatus">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
-                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="OBK_AssessmentStageExecutors" TypeName="ncelsModel.OBK_AssessmentStageExecutors" StoreEntitySet="OBK_AssessmentStageExecutors">
-            <EndProperty Name="OBK_AssessmentStage">
-              <ScalarProperty Name="Id" ColumnName="AssessmentStageId" />
-            </EndProperty>
-            <EndProperty Name="Employee">
-              <ScalarProperty Name="Id" ColumnName="ExecutorId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="OBK_AssessmentDeclarationRegisterView">
-            <EntityTypeMapping TypeName="ncelsModel.OBK_AssessmentDeclarationRegisterView">
-              <MappingFragment StoreEntitySet="OBK_AssessmentDeclarationRegisterView">
-                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
-                <ScalarProperty Name="CountryNameRu" ColumnName="CountryNameRu" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="StageCode" ColumnName="StageCode" />
-                <ScalarProperty Name="StageStatusCode" ColumnName="StageStatusCode" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="StageId" ColumnName="StageId" />
-                <ScalarProperty Name="RegType" ColumnName="RegType" />
+          <EntitySetMapping Name="OBK_StageExpDocument">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_StageExpDocument">
+              <MappingFragment StoreEntitySet="OBK_StageExpDocument">
                 <ScalarProperty Name="ExecutorId" ColumnName="ExecutorId" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="StageStatusId" ColumnName="StageStatusId" />
-                <ScalarProperty Name="DeclarantName" ColumnName="DeclarantName" />
-                <ScalarProperty Name="FirstSendDate" ColumnName="FirstSendDate" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ExpExecutorSign" ColumnName="ExpExecutorSign" />
+                <ScalarProperty Name="ExpApplicationNumber" ColumnName="ExpApplicationNumber" />
+                <ScalarProperty Name="ExpApplication" ColumnName="ExpApplication" />
+                <ScalarProperty Name="ExpBlankNumber" ColumnName="ExpBlankNumber" />
+                <ScalarProperty Name="ExpConclusionNumber" ColumnName="ExpConclusionNumber" />
+                <ScalarProperty Name="ExpAddInfoKz" ColumnName="ExpAddInfoKz" />
+                <ScalarProperty Name="ExpAddInfoRu" ColumnName="ExpAddInfoRu" />
+                <ScalarProperty Name="ExpNomenclatureKz" ColumnName="ExpNomenclatureKz" />
+                <ScalarProperty Name="ExpNomenclatureRu" ColumnName="ExpNomenclatureRu" />
+                <ScalarProperty Name="ExpProductNameKz" ColumnName="ExpProductNameKz" />
+                <ScalarProperty Name="ExpProductNameRu" ColumnName="ExpProductNameRu" />
+                <ScalarProperty Name="ExpReasonNameKz" ColumnName="ExpReasonNameKz" />
+                <ScalarProperty Name="ExpReasonNameRu" ColumnName="ExpReasonNameRu" />
+                <ScalarProperty Name="ExpEndDate" ColumnName="ExpEndDate" />
+                <ScalarProperty Name="ExpStartDate" ColumnName="ExpStartDate" />
+                <ScalarProperty Name="ExpResult" ColumnName="ExpResult" />
+                <ScalarProperty Name="ProductSeriesId" ColumnName="ProductSeriesId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OBK_Ref_CertificateType">
+            <EntityTypeMapping TypeName="ncelsModel.OBK_Ref_CertificateType">
+              <MappingFragment StoreEntitySet="OBK_Ref_CertificateType">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="NameKz" ColumnName="NameKz" />
+                <ScalarProperty Name="NameRu" ColumnName="NameRu" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
