@@ -31,16 +31,12 @@ namespace PW.Ncels.Database.Repository.OBK
                 return null;
 
             var reestr = from register in AppContext.sr_register
-                         join d in AppContext.sr_register_drugs on register.id equals d.id into register_drugs
-                         from drugs in register_drugs.DefaultIfEmpty()
-                         join i in AppContext.sr_international_names on drugs.int_name_id equals i.id into registerdrugsintnames
-                         from intnames in registerdrugsintnames.DefaultIfEmpty()
-                         join obkp in AppContext.obk_products on register.id equals obkp.register_id into obkProducts
-                         from obkProduct in obkProducts.DefaultIfEmpty()
-                         join obkpc in AppContext.obk_product_cost on obkProduct.id equals obkpc.id into obkProductsCosts
-                         from obkProductCost in obkProductsCosts.DefaultIfEmpty()
-                         join obkc in AppContext.obk_currencies on obkProductCost.currency_id equals obkc.id into obkCurrencies
-                         from obkCurrency in obkCurrencies.DefaultIfEmpty()
+                             //join obkp in AppContext.obk_products on register.id equals obkp.register_id into obkProducts
+                             //from obkProduct in obkProducts.DefaultIfEmpty()
+                         let obkProduct = AppContext.obk_products
+                                            .Where(p => p.register_id == register.id)
+                                            .OrderBy(p => p.id)
+                                            .FirstOrDefault()
                          join srrmt in AppContext.sr_register_mt on register.id equals srrmt.id into srregistermtTable
                          from srregistermt in srregistermtTable.DefaultIfEmpty()
                          where register.reg_type_id == regType &&
@@ -66,8 +62,6 @@ namespace PW.Ncels.Database.Repository.OBK
                              CountryNameKz = register.C_country_name_kz,
                              TnvedCode = obkProduct.tnved_code,
                              KpvedCode = obkProduct.kpved_code,
-                             Price = obkProductCost.cost,
-                             Currency = obkCurrency.currency_name,
                              DegreeRiskId = srregistermt.degree_risk_id
                          };
 
@@ -362,6 +356,9 @@ namespace PW.Ncels.Database.Repository.OBK
                 DeleteSeries(productInfo.Id);
                 SaveSeries(productInfo.Id, product.Series);
 
+                DeleteMtParts(productInfo.Id);
+                SaveMtParts(productInfo.Id, product.MtParts);
+
                 r.Id = productInfo.Id;
             }
             else
@@ -373,6 +370,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 AppContext.SaveChanges();
 
                 SaveSeries(productInfo.Id, product.Series);
+                SaveMtParts(productInfo.Id, product.MtParts);
 
                 r.Id = productInfo.Id;
             }
@@ -384,6 +382,7 @@ namespace PW.Ncels.Database.Repository.OBK
             var product = AppContext.OBK_RS_Products.Where(x => x.Id == productId).FirstOrDefault();
             if (product != null)
             {
+                AppContext.OBK_MtPart.RemoveRange(AppContext.OBK_MtPart.Where(x => x.ProductId == productId));
                 AppContext.OBK_Procunts_Series.RemoveRange(AppContext.OBK_Procunts_Series.Where(x => x.OBK_RS_ProductsId == productId));
                 AppContext.OBK_ContractPrice.RemoveRange(AppContext.OBK_ContractPrice.Where(x => x.ProductId == productId));
                 AppContext.OBK_RS_Products.Remove(product);
@@ -410,6 +409,9 @@ namespace PW.Ncels.Database.Repository.OBK
                 KpvedCode = x.KpvedCode,
                 TnvedCode = x.TnvedCode,
                 Price = x.Price,
+                DrugFormBoxCount = x.DrugFormBoxCount,
+                DrugFormFullName = x.DrugFormFullName,
+                DrugFormFullNameKz = x.DrugFormFullNameKz,
                 Series = AppContext.OBK_Procunts_Series.Where(y => y.OBK_RS_ProductsId == x.Id).Select(y => new OBKContractSeriesViewModel
                 {
                     Id = y.Id,
@@ -419,6 +421,19 @@ namespace PW.Ncels.Database.Repository.OBK
                     Part = y.SeriesParty,
                     UnitId = y.SeriesMeasureId,
                     UnitName = y.sr_measures.short_name
+                }).ToList()
+                ,
+                MtParts = AppContext.OBK_MtPart.Where(y => y.ProductId == x.Id).Select(y => new OBKContractMtPartViewModel
+                {
+                    Id = y.Id,
+                    PartNumber = y.PartNumber,
+                    Model = y.Model,
+                    Specification = y.Specification,
+                    SpecificationKz = y.SpecificationKz,
+                    ProducerName = y.ProducerName,
+                    CountryName = y.CountryName,
+                    ProducerNameKz = y.ProducerNameKz,
+                    CountryNameKz = y.CountryNameKz
                 }).ToList()
             }).ToList();
         }
@@ -493,6 +508,36 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
         }
 
+        private void SaveMtParts(int productId, List<OBKContractMtPartViewModel> list)
+        {
+            if (list != null && list.Count > 0)
+            {
+                foreach (OBKContractMtPartViewModel item in list)
+                {
+                    OBK_MtPart mtPart = new OBK_MtPart();
+                    mtPart.Id = Guid.NewGuid();
+                    mtPart.ProductId = productId;
+                    mtPart.PartNumber = item.PartNumber;
+                    mtPart.Model = item.Model;
+                    mtPart.Specification = item.Specification;
+                    mtPart.SpecificationKz = item.SpecificationKz;
+                    mtPart.ProducerName = item.ProducerName;
+                    mtPart.CountryName = item.CountryName;
+                    mtPart.ProducerNameKz = item.ProducerNameKz;
+                    mtPart.CountryNameKz = item.CountryNameKz;
+
+                    AppContext.OBK_MtPart.Add(mtPart);
+                    AppContext.SaveChanges();
+                }
+            }
+        }
+
+        private void DeleteMtParts(int productId)
+        {
+            AppContext.OBK_MtPart.RemoveRange(AppContext.OBK_MtPart.Where(x => x.ProductId == productId));
+            AppContext.SaveChanges();
+        }
+
         private void FillProduct(OBK_RS_Products productInfo, OBKContractProductViewModel product)
         {
             productInfo.RegTypeId = product.RegTypeId;
@@ -506,6 +551,9 @@ namespace PW.Ncels.Database.Repository.OBK
             productInfo.KpvedCode = product.KpvedCode;
             productInfo.TnvedCode = product.TnvedCode;
             productInfo.Price = product.Price;
+            productInfo.DrugFormBoxCount = product.DrugFormBoxCount;
+            productInfo.DrugFormFullName = product.DrugFormFullName;
+            productInfo.DrugFormFullNameKz = product.DrugFormFullNameKz;
         }
 
         public List<OBKContractServiceViewModel> GetContractPrices(Guid contractId)
@@ -773,6 +821,40 @@ namespace PW.Ncels.Database.Repository.OBK
                 }
             }
             return declarantViewModel;
+        }
+
+        public List<OBKDrugFormViewModel> GetDrugForms(int productId)
+        {
+            var drugForms = AppContext.sr_drug_forms.Where(x => x.register_id == productId).Select(y => new OBKDrugFormViewModel
+            {
+                Id = y.id,
+                RegisterId = y.register_id,
+                BoxCount = y.box_count,
+                FullName = y.full_name,
+                FullNameKz = y.full_name_kz
+            }).ToList();
+            return drugForms;
+        }
+
+        public List<OBKMtPartViewModel> GetMtParts(int productId)
+        {
+            var meParts = AppContext.sr_register_mt_parts.Where(x => x.register_id == productId).Select(y => new OBKMtPartViewModel
+            {
+                Id = y.id,
+                RegisterId = y.register_id,
+                Name = y.name,
+                NameKz = y.name_kz,
+                PartNumber = y.part_number,
+                Model = y.model,
+                Specification = y.specification,
+                SpecificationKz = y.specification_kz,
+                ProducerName = y.producer_name,
+                CountryName = y.country_name,
+                ProducerNameKz = y.producer_name_kz,
+                CountryNameKz = y.country_name_kz,
+
+            }).ToList();
+            return meParts;
         }
     }
 }

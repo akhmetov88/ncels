@@ -292,5 +292,19 @@ namespace PW.Ncels.Controllers
             OBKDeclarantViewModel declarant = obkRepo.GetDeclarant(contractId);
             return Json(declarant, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult GetDrugForms(int productId)
+        {
+            var drugForms = obkRepo.GetDrugForms(productId);
+            return Json(drugForms, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetMtParts(int productId)
+        {
+            var mtParts = obkRepo.GetMtParts(productId);
+            return Json(mtParts, JsonRequestBehavior.AllowGet);
+        }
     }
 }
