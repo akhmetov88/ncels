@@ -555,20 +555,22 @@
 
     $scope.deleteDrug = function deleteDrug() {
         if ($scope.selectedProductIndex != null) {
-
-            var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
-            var id = selectedObj.Id;
-            for (var i = $scope.addedServices.length - 1; i >= 0; i--) {
-                if ($scope.addedServices[i].ProductId == selectedObj.ProductId) {
-                    $scope.addedServices.splice(i, 1);
+            var deleteConfirmed = confirm("Вы подтверждаете удаление продукции со списка?");
+            if (deleteConfirmed) {
+                var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
+                var id = selectedObj.Id;
+                for (var i = $scope.addedServices.length - 1; i >= 0; i--) {
+                    if ($scope.addedServices[i].ProductId == selectedObj.ProductId) {
+                        $scope.addedServices.splice(i, 1);
+                    }
                 }
+                $scope.calcTotalCostCalculator();
+
+                $scope.deleteProductInformation(id);
+
+                $scope.addedProducts.splice($scope.selectedProductIndex, 1);
+                $scope.selectedProductIndex = null;
             }
-            $scope.calcTotalCostCalculator();
-
-            $scope.deleteProductInformation(id);
-
-            $scope.addedProducts.splice($scope.selectedProductIndex, 1);
-            $scope.selectedProductIndex = null;
         }
         else {
             alert("Выберите продукцию для удаления");
