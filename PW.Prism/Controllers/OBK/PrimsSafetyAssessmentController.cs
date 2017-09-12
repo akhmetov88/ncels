@@ -69,7 +69,7 @@ namespace PW.Prism.Controllers.OBK
         {
             var safetyRepository = new SafetyAssessmentRepository();
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId), "Id",
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.Type_Id), "Id",
                     "ContractInfo", model.Contract_Id);
             
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL))

@@ -44,22 +44,23 @@
                                     <table id="tableExpertiseProductSeries_@modelId" dt-options="dtOptions" dt-columns="dtColumns" class="table table-striped table-bordered table-hover dataTable" width="100%"></table>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-lg-6">
-                                    <label class="control-label">Результат</label>
-                                    @Html.DropDownList("ExpertiseResult", (IEnumerable<SelectListItem>)ViewData["UObkExpertiseResult"],
-                                        String.Empty, new { @class = "form-control" })
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="control-label">Дата регистрации:</label>
-                                    <input class="form-control date-control" type="text" id="expertiseStartDate" value="@expertiseStartDate">
-                                </div>
+                            <div id="resultRowId" style="display: block">
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        <label class="control-label">Результат</label>
+                                        @Html.DropDownList("ExpertiseResult", (IEnumerable<SelectListItem>)ViewData["UObkExpertiseResult"],
+                                            String.Empty, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="control-label">Дата регистрации:</label>
+                                        <input class="form-control date-control" type="text" id="expertiseStartDate" value="@expertiseStartDate">
+                                    </div>
 
-                                <div class="col-lg-3">
-                                    <label class="control-label">Дата истечения:</label>
-                                    <input class="form-control date-control" type="text" id="expertiseEndDate">
+                                    <div class="col-lg-3">
+                                        <label class="control-label">Дата истечения:</label>
+                                        <input class="form-control date-control" type="text" id="expertiseEndDate">
+                                    </div>
                                 </div>
-                            </div>
                                 <div class="form-group">
                                     <div class="col-lg-11">
                                         <label class="control-label">Основание</label>
@@ -136,14 +137,15 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                    <div @*id="saveButtonId" style="display: none"*@>
-                        <button type="button" style="margin: 10px" class="btn btn-default" onclick="saveExpDoc()"><span class="pwToolbarButtonSave"></span><span class="pwToolbarButtonTitle">Сохранить</span></button>
-                    </div>
                 </div>
-
+                <div id="saveButtonId" style="display: block">
+                    <button type="button" style="margin: 10px" class="btn btn-default" onclick="saveExpDoc()"><span class="pwToolbarButtonSave"></span><span class="pwToolbarButtonTitle">Сохранить</span></button>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -151,6 +153,16 @@
 <!--валидация-->
 <script type="text/javascript">
 
+    var productSeriesId = null;
+    var tabRow = null;
+
+    function setDateFormat(control) {
+        $(control).datepicker({
+            dateFormat: 'dd.mm.yy',
+            language: 'ru',
+            autoclose: true
+        });
+    }
 
     $(document).ready(function() {
         setDateFormat(".date-control");
@@ -167,8 +179,7 @@
                 { title: "Производитель", sWidth: "32%" },
                 { title: "Страна-производитель", sWidth: "13%" },
                 { title: "ТН ВЭД", sWidth: "10%" },
-                { title: "КП ВЭД", sWidth: "10%" },
-                { title: "Зарегистрированный результат" }
+                { title: "КП ВЭД", sWidth: "10%" }
             ]
         });
 
@@ -187,8 +198,25 @@
             ]
         });
 
+        showRows(false);
         getContract();
     });
+
+    function showRows(bool) {
+        if (bool) {
+            document.getElementById('resultRowId').style.display = 'block';
+            document.getElementById('saveButtonId').style.display = 'block';
+        } else {
+            document.getElementById('resultRowId').style.display = 'none';
+            document.getElementById('saveButtonId').style.display = 'none';
+        }
+    }
+    function show() {
+        document.getElementById('expApplicationNumber').style.display = 'block';
+    }
+    function hide() {
+        document.getElementById('expApplicationNumber').style.display = 'none';
+    }
 
     $("#ExpertiseResult").change(function() {
         var selectedExpertiseResult = $(this).val();
@@ -240,25 +268,6 @@
         hide();
     }
 
-    var productId = null;
-    var productSeriesId = null;
-
-    function setDateFormat(control) {
-        $(control).datepicker({
-            dateFormat: 'dd.mm.yy',
-            language: 'ru',
-            autoclose: true
-        });
-    }
-
-    function show() {
-        document.getElementById('expApplicationNumber').style.display = 'block';
-    }
-
-    function hide() {
-        document.getElementById('expApplicationNumber').style.display = 'none';
-    }
-
     $("#ReasonResult").change(function() {
         $("#expReasonNameRu").val($(this).find(":selected").text());
         $("#expReasonNameKz").val($(this).find(":selected").val());
@@ -301,9 +310,10 @@
                 var tab = $(this.parentNode.parentNode.parentNode).DataTable();
                 tab.$('tr.pw-row-selected').removeClass('pw-row-selected');
                 rowClear();
+                debugger;
                 $(this.parentNode).addClass('pw-row-selected');
                 var mass = tab.row('.pw-row-selected').data();
-
+                tabRow = mass;
                 $("#tableExpertiseProductSeries_@modelId").DataTable({
                     language: {
                         url: "/Content/json/Russian.json"
@@ -317,67 +327,16 @@
                     rowCallback: rowCallbackSeries,
                     columns: [
                         {
-                            data: function (data) {
+                            data:  function (data) {
                                 return data.Series + ", годен до " + data.SeriesEndDate + ", партия " + data.SeriesParty + " " + data.SeriesShortNameRu;
                             }
                         },
-                        {
-                            data: function (data) {
-                                return data.ExpResultTitle != null ? data.ExpResultTitle : mass.ExpResultTitle;
-                            }, defaultContent: "<i>нет данных</i>"
-                        },
-                        {
-                            data: function (data) {
-                                return data.ExpConclusionNumber != null ? data.ExpConclusionNumber : mass.ExpConclusionNumber;
-                            }, defaultContent: "<i>нет данных</i>"
-                        },
-                        {
-                            data: function (data) {
-                                return data.ExpEndDate != null ? data.ExpEndDate : mass.ExpEndDate;
-                            }, defaultContent: "<i>нет данных</i>"
-                        }
+                        { data: "ExpResultTitle", defaultContent: "<i>нет данных</i>" },
+                        { data: "ExpConclusionNumber", defaultContent: "<i>нет данных</i>" },
+                        { data: "ExpEndDate", defaultContent: "<i>нет данных</i>" }
                     ]
                 });
-
-                function massExpResult() {
-                    $("#ExpertiseResult").val(mass.ExpResult);
-                    $("#expertiseStartDate").val(mass.ExpStartDate);
-                    $("#expertiseEndDate").val(mass.ExpEndDate);
-
-                    $("#expReasonNameRu").val(mass.ExpReasonNameRu);
-                    $("#expReasonNameKz").val(mass.ExpReasonNameKz);
-                    $("#expProNameRu").val(mass.ExpProductNameRu);
-                    $("#expProNameKz").val(mass.ExpProductNameKz);
-
-                    $("#nomenclatureNameRu").val(mass.ExpNomenclatureRu);
-                    $("#nomenclatureNameKz").val(mass.ExpNomenclatureKz);
-                    $("#addInfoExpertiseRu").val(mass.ExpAddInfoRu);
-                    $("#addInfoExpertiseKz").val(mass.ExpAddInfoKz);
-                    $("#expConclusionNumber").val(mass.ExpConclusionNumber);
-                    $("#expBlankNumber").val(mass.ExpBlankNumber);
-                    if (mass.ExpApplication)
-                        show();
-                    else
-                        hide();
-                    $("#expApplicationNumber1").val(mass.ExpApplicationNumber);
-                }
-
-                if (mass.ProductId != null && mass.ProductSeriesId == null) {
-                    massExpResult();
-                } else {
-                    productId = mass.Id;
-                    productSeriesId = null;
-
-                    var resultSeriesRu = mass.OBK_Procunts_Series.map(function (item) {
-                        return ", серия " + item.Series + ", годен до " + item.SeriesEndDate + ", партия " + item.SeriesParty + " " + item.SeriesShortNameRu;
-                    });
-                    var resultSeriesKz = mass.OBK_Procunts_Series.map(function (item) {
-                        return ", " + item.Series + " сериясы, сақтау мерзімі " + item.SeriesEndDate + " ж., партия " + item.SeriesParty + " " + item.SeriesShortNameRu;
-                    });
-                    $("#expProNameRu").val(mass.NameRu + resultSeriesRu);
-                    $("#expProNameKz").val(mass.NameKz + resultSeriesKz);
-                    invoice();
-                }
+                showRows(false);
 
                 function rowCallbackSeries(rowSeries) {
                     $('td', rowSeries).unbind('click');
@@ -388,8 +347,11 @@
                             rowClear();
                             $(this.parentNode).addClass('pw-row-selected');
                             var massSeries = tabSeries.row('.pw-row-selected').data();
-
-                            function massSeriesExpResult() {
+                            showRows(true);
+                            debugger;
+                            // если на серию
+                            if (massSeries.ProductSeriesId != null) {
+                                productSeriesId = massSeries.Id;
                                 $("#ExpertiseResult").val(massSeries.ExpResult);
                                 $("#expertiseStartDate").val(massSeries.ExpStartDate);
                                 $("#expertiseEndDate").val(massSeries.ExpEndDate);
@@ -410,17 +372,7 @@
                                 else
                                     hide();
                                 $("#expApplicationNumber1").val(massSeries.ExpApplicationNumber);
-                            }
-
-                            //если на продукцию
-                            if (mass.ProductId != null && mass.ProductSeriesId == null) {
-                                massExpResult();
-                            } else
-                            // если на серию
-                            if (massSeries.ProductId != null && massSeries.ProductSeriesId != null) {
-                                massSeriesExpResult();
                             } else {
-                                productId = mass.Id;
                                 productSeriesId = massSeries.Id;
                                 invoice();
                                 $("#expertiseEndDate").val(massSeries.SeriesEndDate);
@@ -433,6 +385,44 @@
             });
         return row;
     }
+
+    @*function test2() {
+        var test = $('#tableExpertiseProducts_@modelId').DataTable();
+        var test1 = test.row('.pw-row-selected').data();
+    }*@
+
+    @*function getFind(result) {
+        if (tabRow != null) {
+            var res = $.grep(result,
+                function (item) {
+                    if (item.Id === tabRow.Id)
+                        return item;
+                });
+            $("#tableExpertiseProductSeries_@modelId").DataTable({
+                language: {
+                    url: "/Content/json/Russian.json"
+                },
+                data: res.OBK_Procunts_Series,
+                destroy: true,
+                searching: false,
+                LengthMenu: false,
+                iDisplayLength: 5,
+                bLengthChange: false,
+                columns: [
+                    {
+                        //data: Series + ", годен до " + SeriesEndDate + ", партия " + SeriesParty + " " + SeriesShortNameRu
+                        //    function (data) {
+                        //    debugger;
+                        //    return data.Series + ", годен до " + data.SeriesEndDate + ", партия " + data.SeriesParty + " " + data.SeriesShortNameRu;
+                        //}
+                    },
+                    { data: "ExpResultTitle", defaultContent: "<i>нет данных</i>" },
+                    { data: "ExpConclusionNumber" , defaultContent: "<i>нет данных</i>" },
+                    { data: "ExpEndDate", defaultContent: "<i>нет данных</i>" }
+                ]
+            });
+        }
+    }*@
 
     function getContract() {
         $.ajax({
@@ -452,8 +442,8 @@
                         searching: false,
                         iDisplayLength: 5,
                         LengthMenu: false,
-                        "bLengthChange": false,
-                        "autoWidth": true,
+                        bLengthChange: false,
+                        autoWidth: true,
                         rowCallback: rowCallback,
                         columns: [
                             { data: "Id" },
@@ -461,17 +451,14 @@
                             { data: "ProducerNameRu" },
                             { data: "CountryNameRu" },
                             { data: "TnvedCode" },
-                            { data: "KpvedCode" },
-                            {
-                                data: function (data) {
-                                    return (data.ProductId != null && data.ProductSeriesId == null) ? "на продукцию" : "на серию";
-                                }
-                            }
+                            { data: "KpvedCode" }
                         ]
                     });
+                    //debugger;
+                    //getFind(data.result.ObkRsProductses);
                 }
             },
-            error: function () {
+            error: function() {
                 alert("Connection Failed. Please Try Again");
             }
         });
@@ -482,7 +469,6 @@
             type: 'POST',
             url: '@Url.Action("GetSaveExpDoc")',
             data: {
-                prodId: productId,
                 prodSeriesId: productSeriesId,
                 expResult: $("#ExpertiseResult").val(),
                 expStartDate: $("#expertiseStartDate").val(),
@@ -513,3 +499,4 @@
         });
     }
 </script>
+

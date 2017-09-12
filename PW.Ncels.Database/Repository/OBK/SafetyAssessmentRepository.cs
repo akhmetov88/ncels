@@ -44,10 +44,10 @@ namespace PW.Ncels.Database.Repository.OBK
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns></returns>
-        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId)
+        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId, int type)
         {
             //todo надо добавить фильтр для договоро и отображать только подписанные и активные
-            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId);
+            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId && e.Type == type);
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace PW.Ncels.Database.Repository.OBK
         /// </summary>
         /// <param name="employeeId">владелец</param>
         /// <returns></returns>
-        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId)
+        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId, int type)
         {
-            var list = GetContractsByStatuses(employeeId).OrderBy(e => e.StartDate);
+            var list = GetContractsByStatuses(employeeId, type).OrderBy(e => e.StartDate);
 
             foreach (var contract in list)
             {
@@ -679,8 +679,13 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="expDocument"></param>
         public void SaveExpDocument(OBK_StageExpDocument expDocument)
         {
-            AppContext.OBK_StageExpDocument.Add(expDocument);
+            AppContext.OBK_StageExpDocument.AddOrUpdate(expDocument);
             AppContext.SaveChanges();
+        }
+
+        public OBK_StageExpDocument GetStageExpDocument(int prodSerId)
+        {
+            return AppContext.OBK_StageExpDocument.FirstOrDefault(e => e.ProductSeriesId == prodSerId);
         }
 
         #endregion

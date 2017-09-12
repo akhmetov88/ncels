@@ -1022,10 +1022,10 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/11/2017 10:03:27 AM</ReportChanged>
+  <ReportChanged>9/8/2017 6:30:43 PM</ReportChanged>
   <ReportCreated>8/4/2017 9:31:50 AM</ReportCreated>
   <ReportFile>F:\Projects\ncels\PW.Ncels\Reports\Mrts\SafetyAssessmentDeclaration.mrt</ReportFile>
-  <ReportGuid>68eebf2424ff405a8461788ce3447271</ReportGuid>
+  <ReportGuid>2acdef68102d4366b9ac29c35027cc98</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

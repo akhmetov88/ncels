@@ -86,7 +86,7 @@ namespace PW.Ncels.Controllers
             }
 
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId), "Id",
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, safetyRepository.GetObkRefTypes(type).Id), "Id",
                     "ContractInfo", model.Contract_Id);
 
             var repository = new ReadOnlyDictionaryRepository();
@@ -137,7 +137,7 @@ namespace PW.Ncels.Controllers
         public ActionResult ExportFilePdf(Guid id)
         {
             var db = new ncelsEntities();
-            string name = "Заявление на проведение экспертизы лс.pdf";
+            string name = "Заявление на проведение оценки безопасности и качества лс.pdf";
             StiReport report = new StiReport();
             try
             {
@@ -213,7 +213,7 @@ namespace PW.Ncels.Controllers
         {
             var safetyRepository = new SafetyAssessmentRepository();
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId), "Id",
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.Type_Id), "Id",
                     "ContractInfo", model.Contract_Id);
 
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL)) {
