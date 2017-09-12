@@ -1909,7 +1909,7 @@ function initCalculator($scope, $interval, $http) {
             }
         }
 
-        $scope.totalCostCalculator = sum;
+        $scope.totalCostCalculator = sum.toFixed(2);
     }
 }
 
