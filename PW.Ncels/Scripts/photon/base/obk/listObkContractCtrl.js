@@ -322,10 +322,10 @@
 
     $scope.gridOptionsSeries.columnDefs = [
 { name: 'Id', displayName: 'ID', visible: false },
-{ name: 'Series', displayName: 'Серия' },
+{ name: 'Series', displayName: 'Номер серии' },
 { name: 'CreateDate', displayName: 'Произведена' },
 { name: 'ExpireDate', displayName: 'Истекает' },
-{ name: 'Part', displayName: 'Партия' },
+{ name: 'Part', displayName: 'Размер партии' },
 { name: 'UnitName', displayName: 'Ед. измерения' },
 { name: 'UnitId', displayName: 'Ед. измерения - код', visible: false }
     ];
