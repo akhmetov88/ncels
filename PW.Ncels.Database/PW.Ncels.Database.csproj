@@ -966,12 +966,28 @@
     <Compile Include="DataModel\obk_exchangerate.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+	<Compile Include="DataModel\OBK_MtPart.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Organization.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile><<<<<<< .mine
     <Compile Include="DataModel\OBK_MtPart.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Organization.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+=======
+
+
+
+
+
+
+>>>>>>> .theirs
+=======
+>>>>>>> Stashed changes
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
