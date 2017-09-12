@@ -1165,6 +1165,21 @@
         $scope.showHideBin();
     }
 
+    $scope.signerIsLeaderCheckBoxChanged = function () {
+        if ($scope.object.SignerIsLeader == true) {
+            $scope.object.SignLastName = $scope.object.BossLastName;
+            $scope.object.SignFirstName = $scope.object.BossFirstName;
+            $scope.object.SignMiddleName = $scope.object.BossMiddleName;
+            $scope.object.SignPosition = $scope.object.BossPosition;
+            $scope.object.SignDocType = $scope.object.BossDocType;
+            $scope.object.SignDocUnlimited = $scope.object.BossDocUnlimited;
+            $scope.object.IsHasSignDocNumber = $scope.object.IsHasBossDocNumber;
+            $scope.object.SignDocNumber = $scope.object.BossDocNumber;
+            $scope.object.SignDocCreatedDate = $scope.object.BossDocCreatedDate;
+            $scope.object.SignDocEndDate = $scope.object.BossDocEndDate;
+        }
+    }
+
     initProductServiceModule($scope, $http, $interval);
 
     initCalculator($scope, $interval, $http);
