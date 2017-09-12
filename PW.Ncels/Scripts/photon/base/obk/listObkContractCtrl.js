@@ -135,7 +135,7 @@
     ];
 
     $scope.gridOptionsMtPart.data = $scope.mtParts;
-    
+
     $scope.gridOptionsMtPart.onRegisterApi = function (gridApi) {
         $scope.gridOptionsMtPartApi = gridApi;
 
@@ -624,53 +624,60 @@
     }
 
     $scope.saveProduct = function saveProduct() {
-
         if ($scope.mode == 1) {
             var id = $scope.product.ProductId;
             if (id) {
                 if (!$scope.existInArray($scope.addedProducts, id)) {
+                    if ($scope.drugForms.length == 0 || ($scope.drugForms.length > 0 && $scope.product.DrugFormId)) {
+                        if ($scope.productSeries.length > 0) {
+                            if ($scope.addedProductServices.length > 0) {
+                                var product = {
+                                    Id: null,
+                                    ProductId: $scope.product.ProductId,
+                                    RegTypeId: $scope.product.RegTypeId,
+                                    DegreeRiskId: $scope.product.DegreeRiskId,
+                                    NameRu: $scope.product.NameRu,
+                                    NameKz: $scope.product.NameKz,
+                                    ProducerNameRu: $scope.product.ProducerNameRu,
+                                    ProducerNameKz: $scope.product.ProducerNameKz,
+                                    CountryNameRu: $scope.product.CountryNameRu,
+                                    CountryNameKz: $scope.product.CountryNameKz,
+                                    TnvedCode: $scope.product.TnvedCode,
+                                    KpvedCode: $scope.product.KpvedCode,
+                                    Price: $scope.product.Price,
+                                    Currency: $scope.product.Currency,
+                                    DrugFormBoxCount: $scope.product.DrugFormBoxCount,
+                                    DrugFormFullName: $scope.product.DrugFormFullName,
+                                    DrugFormFullNameKz: $scope.product.DrugFormFullNameKz,
+                                    Series: [],
+                                    MtParts: []
+                                }
+                                product.Series = $scope.productSeries.slice();
+                                product.MtParts = $scope.selectedMtParts.slice();
 
-                    if ($scope.drugForms.length == 0 || ($scope.drugForms.length > 0 && $scope.product.DrugFormId))
-                    {
-                        var product = {
-                            Id: null,
-                            ProductId: $scope.product.ProductId,
-                            RegTypeId: $scope.product.RegTypeId,
-                            DegreeRiskId: $scope.product.DegreeRiskId,
-                            NameRu: $scope.product.NameRu,
-                            NameKz: $scope.product.NameKz,
-                            ProducerNameRu: $scope.product.ProducerNameRu,
-                            ProducerNameKz: $scope.product.ProducerNameKz,
-                            CountryNameRu: $scope.product.CountryNameRu,
-                            CountryNameKz: $scope.product.CountryNameKz,
-                            TnvedCode: $scope.product.TnvedCode,
-                            KpvedCode: $scope.product.KpvedCode,
-                            Price: $scope.product.Price,
-                            Currency: $scope.product.Currency,
-                            DrugFormBoxCount: $scope.product.DrugFormBoxCount,
-                            DrugFormFullName: $scope.product.DrugFormFullName,
-                            DrugFormFullNameKz: $scope.product.DrugFormFullNameKz,
-                            Series: [],
-                            MtParts: []
+                                $scope.addedProducts.push(product);
+
+                                $scope.saveProductInformation(product);
+
+                                $scope.showAddEditDrugBlock = false;
+                                $scope.clearSearchAndProductFields();
+                                $scope.mode = 0;
+                                alert("Информация о продукции добавлена");
+                            }
+                            else {
+                                alert("Введите информацию об услуге");
+                            }
                         }
-                        product.Series = $scope.productSeries.slice();
-                        product.MtParts = $scope.selectedMtParts.slice();
-
-                        $scope.addedProducts.push(product);
-
-                        $scope.saveProductInformation(product);
-
-                        $scope.showAddEditDrugBlock = false;
-                        $scope.clearSearchAndProductFields();
-                        $scope.mode = 0;
-                        alert("Информация о продукции добавлена");
+                        else {
+                            alert("Введите информацию о серии продукта");
+                        }
                     }
                     else {
                         alert("Выберите форму выпуска продукции");
                     }
                 }
                 else {
-                    alert("Выбранная продукция уже имеется в таблице!");
+                    alert("Выбранная продукция уже имеется в таблице");
                 }
             }
             else {
