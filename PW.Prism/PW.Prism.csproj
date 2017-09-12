@@ -865,6 +865,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\json\Russian.json" />
     <None Include="Properties\PublishProfiles\pub.pubxml" />
     <Content Include="Reports\AdminDocList.mrt" />
     <Content Include="Reports\CardInc.mrt" />
@@ -2283,6 +2284,7 @@
     <Content Include="Views\SafetyAssessment\ConfirmeRefuseSafety.cshtml" />
     <Content Include="Views\SafetyAssessment\DocumentReview.cshtml" />
     <Content Include="Views\SafetyAssessment\ExpertiseDocView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpertiseDocDeclarationView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

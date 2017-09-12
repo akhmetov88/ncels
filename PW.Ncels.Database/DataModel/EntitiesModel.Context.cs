@@ -434,7 +434,6 @@ namespace PW.Ncels.Database.DataModel
         public DbSet<OBK_RS_Products> OBK_RS_Products { get; set; }
         public DbSet<OBK_Procunts_Series> OBK_Procunts_Series { get; set; }
         public DbSet<OBK_AssessmentDeclarationFieldHistory> OBK_AssessmentDeclarationFieldHistory { get; set; }
-        public DbSet<OBK_Organization> OBK_Organization { get; set; }
         public DbSet<OBK_Ref_Status> OBK_Ref_Status { get; set; }
         public DbSet<OBK_AssessmentDeclarationView> OBK_AssessmentDeclarationView { get; set; }
         public DbSet<OBK_Declarant> OBK_Declarant { get; set; }

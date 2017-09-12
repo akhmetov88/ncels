@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="30">
+      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="85">
         <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
@@ -702,7 +702,6 @@
         <AssociationConnector Association="ncelsModel.FK_OBK_RS_Products_Procunts_Series" />
         <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationFieldHistory" Width="1.5" PointX="76.125" PointY="8.75" />
         <EntityTypeShape EntityType="ncelsModel.OBK_AssessmentDeclarationView" Width="1.5" PointX="88.625" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ncelsModel.OBK_Organization" Width="1.5" PointX="82.75" PointY="6.5" />
         <EntityTypeShape EntityType="ncelsModel.OBK_Ref_Status" Width="1.5" PointX="82.5" PointY="1.125" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_Ref_Status" />
         <EntityTypeShape EntityType="ncelsModel.OBK_Declarant" Width="1.5" PointX="81.25" PointY="12.875" />
