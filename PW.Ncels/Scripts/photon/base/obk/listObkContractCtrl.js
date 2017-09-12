@@ -370,6 +370,7 @@
     // Grid Products End
 
     $scope.showAddEditDrugBlock = false;
+    $scope.showSearchDrugInReestr = false;
     $scope.object.drugRegType = 1;
     $scope.object.drugEndDateExpired = false;
     $scope.searchResults = null;
@@ -493,6 +494,7 @@
 
     $scope.addDrug = function addDrug() {
         $scope.showAddEditDrugBlock = true;
+        $scope.showSearchDrugInReestr = true;
         $scope.mode = 1;
     };
 
@@ -502,6 +504,7 @@
             $scope.mode = 2;
 
             $scope.showAddEditDrugBlock = true;
+            $scope.showSearchDrugInReestr = false;
 
             var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
 
@@ -660,6 +663,7 @@
                                 $scope.saveProductInformation(product);
 
                                 $scope.showAddEditDrugBlock = false;
+                                $scope.showSearchDrugInReestr = false;
                                 $scope.clearSearchAndProductFields();
                                 $scope.mode = 0;
                                 alert("Информация о продукции добавлена");
@@ -746,6 +750,7 @@
             $scope.saveProductInformation(selectedObj);
 
             $scope.showAddEditDrugBlock = false;
+            $scope.showSearchDrugInReestr = false;
             $scope.clearSearchAndProductFields();
             $scope.mode = 0;
             alert("Информация о продукции обновлена");
@@ -862,6 +867,7 @@
 
     $scope.cancelSaveProduct = function cancelSaveProduct() {
         $scope.showAddEditDrugBlock = false;
+        $scope.showSearchDrugInReestr = false;
         $scope.clearSearchAndProductFields();
     }
 
@@ -1224,7 +1230,6 @@
                         $scope.declarant.NameRu = resp.data.NameRu;
                         $scope.declarant.NameEn = resp.data.NameEn;
                         $scope.declarant.CountryId = resp.data.CountryId;
-                        alert("$scope.declarant.CountryId = " + $scope.declarant.CountryId);
                         $scope.declarant.Bin = resp.data.Bin;
 
                         if ($scope.declarant.IsResident) {
