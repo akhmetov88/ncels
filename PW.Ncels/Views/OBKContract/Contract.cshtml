@@ -264,7 +264,7 @@
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Отчество</label>
-                                                            <input ng-model="object.BossMiddleName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
+                                                            <input ng-model="object.BossMiddleName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
@@ -281,7 +281,7 @@
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
                                                                     <label>Вид документа *</label>
-                                                                    <ui-select ng-model="object.BossDocType" theme="bootstrap" ng-change="editProject();">
+                                                                    <ui-select ng-model="object.BossDocType" theme="bootstrap" required ng-change="editProject();">
                                                                         <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                         <ui-select-choices repeat="item.Id as item in OBKContractDocumentType | filter: $select.search">
                                                                             <div ng-bind-html="item.Name| highlight: $select.search"></div>
@@ -312,7 +312,7 @@
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Номер документа</label>
-                                                            <input ng-model="object.BossDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
+                                                            <input ng-model="object.BossDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();" ng-disabled="object.IsHasBossDocNumber != true">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
@@ -360,7 +360,7 @@
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Отчество</label>
-                                                            <input ng-model="object.SignMiddleName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
+                                                            <input ng-model="object.SignMiddleName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
@@ -377,7 +377,7 @@
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
                                                                     <label>Вид документа *</label>
-                                                                    <ui-select ng-model="object.SignDocType" theme="bootstrap" ng-change="editProject();">
+                                                                    <ui-select ng-model="object.SignDocType" theme="bootstrap" required ng-change="editProject();">
                                                                         <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                         <ui-select-choices repeat="item.Id as item in OBKContractDocumentType | filter: $select.search">
                                                                             <div ng-bind-html="item.Name| highlight: $select.search"></div>
@@ -408,7 +408,7 @@
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Номер документа</label>
-                                                            <input ng-model="object.SignDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
+                                                            <input ng-model="object.SignDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();" ng-disabled="object.IsHasSignDocNumber != true">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
@@ -447,7 +447,7 @@
                                                     <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Валюта *</label>
-                                                            <ui-select ng-model="object.CurrencyId" theme="bootstrap" ng-change="editProject();">
+                                                            <ui-select ng-model="object.CurrencyId" required theme="bootstrap" ng-change="editProject();">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in Currency | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
