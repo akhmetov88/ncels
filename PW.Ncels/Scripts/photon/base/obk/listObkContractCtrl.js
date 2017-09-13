@@ -368,7 +368,7 @@
     loadObkOrganizations($scope, $http);
     loadDictionary($scope, 'OpfType', $http);
     loadDictionary($scope, 'Country', $http);
-    loadDictionary($scope, 'OBKContractDocumentType', $http);
+    loadDictionaryOBKContractDocumentType($scope, $http);
     loadDictionaryMeasure($scope, $http);
 
     $scope.BoolDic = [{
@@ -1435,6 +1435,17 @@ function loadObkOrganizations($scope, $http) {
     $http({
         method: "GET",
         url: "/OBKDictionaries/GetObkOrganizations",
+        data: "JSON"
+    }).success(function (result) {
+        $scope[name] = result;
+    });
+}
+
+function loadDictionaryOBKContractDocumentType($scope, $http) {
+    var name = "OBKContractDocumentType";
+    $http({
+        method: "GET",
+        url: "/OBKDictionaries/GetOBKContractDocumentTypeDictionary",
         data: "JSON"
     }).success(function (result) {
         $scope[name] = result;

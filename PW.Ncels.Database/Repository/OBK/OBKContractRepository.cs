@@ -676,9 +676,9 @@ namespace PW.Ncels.Database.Repository.OBK
             if (!string.IsNullOrEmpty(bin))
             {
                 var declrant = id != null ?
-                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin && x.Id != id).FirstOrDefault()
+                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin && x.IsResident == true && x.Id != id).FirstOrDefault()
                     :
-                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin).FirstOrDefault();
+                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin && x.IsResident == true).FirstOrDefault();
                 if (declrant != null)
                 {
                     exist = true;
@@ -691,9 +691,9 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var exist = false;
             var declarant = id != null ?
-                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.Id != id).FirstOrDefault()
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.IsResident == false && x.Id != id).FirstOrDefault()
                 :
-                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId).FirstOrDefault();
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.IsResident == false).FirstOrDefault();
             if (declarant != null)
             {
                 exist = true;

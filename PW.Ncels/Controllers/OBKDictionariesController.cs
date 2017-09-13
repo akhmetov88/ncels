@@ -35,6 +35,14 @@ namespace PW.Ncels.Controllers
 
         [Authorize()]
         [HttpGet]
+        public ActionResult GetOBKContractDocumentTypeDictionary()
+        {
+            var values = db.OBK_Ref_ContractDocumentType.Select(x => new { Id = x.Id, Name = x.NameRu, NameKz = x.NameKz, x.NameGenitiveRu, x.NameGenitiveKz });
+            return Json(values, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize()]
+        [HttpGet]
         public ActionResult GetMeasureDictionary()
         {
             var srMeasures = db.sr_measures.Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz });
@@ -85,8 +93,8 @@ namespace PW.Ncels.Controllers
                     break;
             }
 
-            var names = db.OBK_Ref_PriceList.Where(x => 
-            x.TypeId == type && 
+            var names = db.OBK_Ref_PriceList.Where(x =>
+            x.TypeId == type &&
             (x.ServiceTypeId == productTypeGuid || productTypeGuid == Guid.Empty) &&
             (x.DegreeRiskId == degreeRiskGuid || degreeRiskGuid == Guid.Empty)
             ).Select(x => new { x.Id, Name = x.NameRu });
