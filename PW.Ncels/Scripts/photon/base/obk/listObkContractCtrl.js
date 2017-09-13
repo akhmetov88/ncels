@@ -1563,6 +1563,9 @@ function initCalculator($scope, $interval, $http) {
 
                 $scope.addedServices.push(service);
                 var index = $scope.addedServices.length - 1;
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
 
                 $scope.saveServiceInformation(service, index);
 
