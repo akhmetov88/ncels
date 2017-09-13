@@ -45,7 +45,7 @@ namespace PW.Ncels.Controllers
         [HttpGet]
         public ActionResult GetMeasureDictionary()
         {
-            var srMeasures = db.sr_measures.Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz });
+            var srMeasures = db.sr_measures.Where(x => x.block_sign == true).Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz });
             return Json(srMeasures, JsonRequestBehavior.AllowGet);
         }
 
