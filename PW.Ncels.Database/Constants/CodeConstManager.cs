@@ -463,6 +463,17 @@ namespace PW.Ncels.Database.Constants
 
         #endregion
 
+        #region Настройка отображения типов ОБК
+       /// <summary>
+       /// Отображать тип ОБК при создании формы
+       /// </summary>
+        public const int OBK_VIEW_OPTION_SHOW_ON_CREATE = 1;
+        /// <summary>
+        /// Отображать тип ОБК при продлении срока, оформлении компии, оформлении копии
+        /// </summary>
+        public const int OBK_VIEW_OPTION_SHOW_IN_PROCESS = 2;
+        #endregion
+
         #endregion
     }
 }

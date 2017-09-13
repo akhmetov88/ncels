@@ -942,7 +942,7 @@
         if ($scope.object.Type) {
             $http({
                 method: "GET",
-                url: "/OBKDictionaries/GetServiceNames",
+                url: "/OBKDictionaries/GetServiceNamesServiceTypeDocument",
                 data: "JSON",
                 params: {
                     type: $scope.object.Type

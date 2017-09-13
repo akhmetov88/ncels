@@ -854,7 +854,7 @@
                                                                                                             <div class="col-lg-2">
                                                                                                                 <div class="input-group">
                                                                                                                     <label>Размер партии</label>
-                                                                                                                    <input id="series1" name="series1" type="number" class="form-control edit-control" text="" ng-model="object.partValue">
+                                                                                                                    <input id="series1" name="series1" type="number" min="1" class="form-control edit-control" text="" ng-model="object.partValue">
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                             <div class="col-lg-2">
@@ -1039,7 +1039,7 @@
 
                                                 <div ng-show="showAddEditServiceBlock">
                                                     <div class="row">
-                                                        <div class="col-lg-9">
+                                                        <div class="col-lg-11">
                                                             <div class="form-group">
                                                                 <label>Тип услуги</label>
                                                                 <ui-select ng-model="object.ServiceName" theme="bootstrap" ng-change="serviceTypeChange();">

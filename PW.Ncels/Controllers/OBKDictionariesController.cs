@@ -1,4 +1,5 @@
-﻿using PW.Ncels.Database.DataModel;
+﻿using PW.Ncels.Database.Constants;
+using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using System;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PW.Ncels.Controllers
         [HttpGet]
         public ActionResult GetObkContractTypes()
         {
-            var contractTypes = db.OBK_Ref_Type.OrderBy(x => x.Id).Select(o => new { o.Id, Name = o.NameRu, o.Code, o.NameKz });
+            var contractTypes = db.OBK_Ref_Type.Where(x => x.ViewOption == CodeConstManager.OBK_VIEW_OPTION_SHOW_ON_CREATE).OrderBy(x => x.Id).Select(o => new { o.Id, Name = o.NameRu, o.Code, o.NameKz });
             return Json(contractTypes.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -88,6 +89,18 @@ namespace PW.Ncels.Controllers
             x.TypeId == type && 
             (x.ServiceTypeId == productTypeGuid || productTypeGuid == Guid.Empty) &&
             (x.DegreeRiskId == degreeRiskGuid || degreeRiskGuid == Guid.Empty)
+            ).Select(x => new { x.Id, Name = x.NameRu });
+            return Json(names, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetServiceNamesServiceTypeDocument(int type)
+        {
+            // Документ/Экспертиза
+            Guid serviceType = new Guid("9106d5e8-35dc-4178-8882-b30166de4c80");
+
+            var names = db.OBK_Ref_PriceList.Where(x =>
+            x.TypeId == type &&
+            (x.ServiceTypeId == serviceType)
             ).Select(x => new { x.Id, Name = x.NameRu });
             return Json(names, JsonRequestBehavior.AllowGet);
         }
