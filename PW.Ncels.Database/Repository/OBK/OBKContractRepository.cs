@@ -582,8 +582,10 @@ namespace PW.Ncels.Database.Repository.OBK
             return declarant;
         }
 
-        public OBK_Declarant ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel)
+        public OBK_Declarant ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel, out bool declarantAlreadyExist)
         {
+            declarantAlreadyExist = false;
+
             if (declarantViewModel.Id != null)
             {
                 OBK_Declarant declarant = AppContext.OBK_Declarant.Where(x => x.Id == declarantViewModel.Id).FirstOrDefault();
@@ -610,50 +612,93 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             else
             {
-                var contract = AppContext.OBK_Contract.Where(x => x.Id == guid).FirstOrDefault();
-                if (contract != null)
+                if (declarantViewModel.IsResident)
                 {
-                    if (contract.DeclarantId != null)
-                    {
-                        var existingDeclarant = AppContext.OBK_Declarant.Where(x => x.Id == contract.DeclarantId).FirstOrDefault();
-                        if (!existingDeclarant.IsConfirmed)
-                        {
-                            AppContext.OBK_Declarant.Remove(existingDeclarant);
-                            contract.DeclarantId = null;
-                            AppContext.SaveChanges();
-                        }
-                    }
+                    declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.Bin);
+                }
+                else
+                {
+                    declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.CountryId);
+                }
 
-                    OBK_Declarant declarant = new OBK_Declarant();
-                    declarant.Id = Guid.NewGuid();
-                    declarant.IsConfirmed = false;
-                    declarant.OrganizationFormId = declarantViewModel.OrganizationFormId;
-                    declarant.NameKz = declarantViewModel.NameKz;
-                    declarant.NameRu = declarantViewModel.NameRu;
-                    declarant.NameEn = declarantViewModel.NameEn;
-                    declarant.CountryId = declarantViewModel.CountryId;
-                    declarant.IsResident = declarantViewModel.IsResident;
-                    if (declarant.IsResident)
+                if (!declarantAlreadyExist)
+                {
+                    var contract = AppContext.OBK_Contract.Where(x => x.Id == guid).FirstOrDefault();
+                    if (contract != null)
                     {
-                        declarant.Bin = declarantViewModel.Bin;
+                        if (contract.DeclarantId != null)
+                        {
+                            var existingDeclarant = AppContext.OBK_Declarant.Where(x => x.Id == contract.DeclarantId).FirstOrDefault();
+                            if (!existingDeclarant.IsConfirmed)
+                            {
+                                AppContext.OBK_Declarant.Remove(existingDeclarant);
+                                contract.DeclarantId = null;
+                                AppContext.SaveChanges();
+                            }
+                        }
+
+                        OBK_Declarant declarant = new OBK_Declarant();
+                        declarant.Id = Guid.NewGuid();
+                        declarant.IsConfirmed = false;
+                        declarant.OrganizationFormId = declarantViewModel.OrganizationFormId;
+                        declarant.NameKz = declarantViewModel.NameKz;
+                        declarant.NameRu = declarantViewModel.NameRu;
+                        declarant.NameEn = declarantViewModel.NameEn;
+                        declarant.CountryId = declarantViewModel.CountryId;
+                        declarant.IsResident = declarantViewModel.IsResident;
+                        if (declarant.IsResident)
+                        {
+                            declarant.Bin = declarantViewModel.Bin;
+                        }
+                        else
+                        {
+                            declarant.Bin = null;
+                        }
+                        AppContext.OBK_Declarant.Add(declarant);
+                        AppContext.SaveChanges();
+                        contract.DeclarantId = declarant.Id;
+                        var contact = AppContext.OBK_DeclarantContact.Where(x => x.Id == contract.DeclarantContactId).FirstOrDefault();
+                        if (contact != null)
+                        {
+                            contact.DeclarantId = contract.DeclarantId;
+                        }
+                        AppContext.SaveChanges();
+                        return declarant;
                     }
-                    else
-                    {
-                        declarant.Bin = null;
-                    }
-                    AppContext.OBK_Declarant.Add(declarant);
-                    AppContext.SaveChanges();
-                    contract.DeclarantId = declarant.Id;
-                    var contact = AppContext.OBK_DeclarantContact.Where(x => x.Id == contract.DeclarantContactId).FirstOrDefault();
-                    if (contact != null)
-                    {
-                        contact.DeclarantId = contract.DeclarantId;
-                    }
-                    AppContext.SaveChanges();
-                    return declarant;
                 }
             }
             return null;
+        }
+
+        private bool DeclarantExist(Guid? id, string bin)
+        {
+            var exist = false;
+            if (!string.IsNullOrEmpty(bin))
+            {
+                var declrant = id != null ?
+                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin && x.Id != id).FirstOrDefault()
+                    :
+                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin).FirstOrDefault();
+                if (declrant != null)
+                {
+                    exist = true;
+                }
+            }
+            return exist;
+        }
+
+        private bool DeclarantExist(Guid? id, string nameRu, Guid? countryId)
+        {
+            var exist = false;
+            var declarant = id != null ?
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.Id != id).FirstOrDefault()
+                :
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId).FirstOrDefault();
+            if (declarant != null)
+            {
+                exist = true;
+            }
+            return exist;
         }
 
         public bool SaveDeclarant(Guid contractId, Guid declarantId)

@@ -112,10 +112,6 @@
     }
 
     $scope.gridOptionsMtPart = {
-        //enableRowSelection: true,
-        //enableRowHeaderSelection: false,
-        //multiSelect: false,
-        //noUnselect: true
     };
 
     $scope.gridOptionsMtPart.columnDefs = [
@@ -138,14 +134,6 @@
 
     $scope.gridOptionsMtPart.onRegisterApi = function (gridApi) {
         $scope.gridOptionsMtPartApi = gridApi;
-
-        //$scope.gridOptionsMtPartApi.selection.on.rowSelectionChanged($scope, function (row) {
-
-        //    alert("MtPart Selected");
-
-
-
-        //});
     };
 
     $scope.cBoxChange = function (row) {
@@ -314,7 +302,6 @@
 
     $scope.gridOptionsSeries.onRegisterApi = function (gridApi) {
         $scope.gridOptionsSeriesApi = gridApi;
-        //$scope.selectedSeriesIndex
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
             $scope.selectedSeriesIndex = $scope.gridOptionsSeries.data.indexOf(row.entity);
         });
@@ -444,29 +431,17 @@
             }
         }).then(function (resp) {
             if (resp.data) {
-                //$scope.copyOrg(resp.data, currentOrg, copySpecificFieldsFn);
-                //switch (sourceName) {
-                //    case 'payerSource':
-                //        setPayerType('payerType', 'Payer');
-                //        break;
-                //    case 'payerTranslationSource':
-                //        setPayerType('payerTranslation', 'PayerTranslation');
-                //        break;
-                //};
-
                 $scope.formatArray(resp.data);
 
                 $scope.searchResults = resp.data;
                 $scope.gridOptions.data = resp.data;
-                //$scope.gridOptionsApi.grid.refresh();
             }
             else {
                 $scope.searchResults = null;
                 $scope.gridOptions.data = null;
-                //$scope.gridOptionsApi.grid.refresh();
             }
         }, function (response) {
-            //alert(JSON.stringify(response));
+            alert(JSON.stringify(response));
         });
 
         $scope.clearDrugFormComponents();
@@ -581,21 +556,6 @@
     }
 
     $scope.addSeries = function addSeries() {
-        //var x = $scope.object.seriesValue;
-        //alert(x);
-        //x = $scope.object.seriesCreateDate;
-        //alert(x);
-        //x = $scope.object.seriesExpireDate;
-        //alert(x);
-        //x = $scope.object.partValue;
-        //alert(x);
-        //x = $scope.object.seriesUnit;
-        //alert(x);
-        //x = $scope.object.seriesUnit.Id;
-        //alert(x);
-        //x = $scope.object.seriesUnit.Name;
-        //alert(x);
-
         var createDate = convertDateToString($scope.object.seriesCreateDate);
         var expireDate = convertDateToString($scope.object.seriesExpireDate);
 
@@ -689,20 +649,6 @@
             }
         }
         if ($scope.mode == 2) {
-            //$scope.product.ProductId = selectedObj.Id;
-            //$scope.product.NameRu = selectedObj.NameRu;
-            //$scope.product.NameKz = selectedObj.NameKz;
-            //$scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
-            //$scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
-            //$scope.product.CountryNameRu = selectedObj.CountryNameRu;
-            //$scope.product.CountryNameKz = selectedObj.CountryNameKz;
-            //$scope.product.TnvedCode = selectedObj.TnvedCode;
-            //$scope.product.KpvedCode = selectedObj.KpvedCode;
-            //$scope.product.Price = selectedObj.Price;
-            //$scope.product.Currency = selectedObj.Currency;
-            //$scope.productSeries.push.apply($scope.productSeries, selectedObj.Series);
-
-
             var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
             selectedObj.Id = $scope.product.Id;
             selectedObj.ProductId = $scope.product.ProductId;
@@ -728,24 +674,6 @@
                 }
             }
             $scope.calcTotalCostCalculator();
-
-            //for (var i = 0; i < $scope.addedProductServices.length; i++) {
-            //    var service = $scope.addedProductServices[i];
-            //    var newService = {
-            //        Id: service.Id,
-            //        ServiceName: service.ServiceName,
-            //        ServiceId: service.ServiceId,
-            //        UnitOfMeasurementName: service.UnitOfMeasurementName,
-            //        UnitOfMeasurementId: service.UnitOfMeasurementId,
-            //        PriceWithoutTax: service.PriceWithoutTax,
-            //        Count: service.Count,
-            //        FinalCostWithoutTax: service.FinalCostWithoutTax,
-            //        FinalCostWithTax: service.FinalCostWithTax,
-            //        ProductId: $scope.product.ProductId,
-            //        ProductName: $scope.product.NameRu
-            //    };
-            //    $scope.addedServices.push(newService);
-            //}
 
             $scope.saveProductInformation(selectedObj);
 
@@ -822,25 +750,6 @@
                 }
 
                 $scope.calcTotalCostCalculator();
-
-                //if ($scope.addedProductServices != null && $scope.addedProductServices.length > 0) {
-                //    for (var i = 0; i < $scope.addedProductServices.length; i++) {
-                //        var service = $scope.addedProductServices[i];
-                //        var newService = {
-                //            Id: service.Id,
-                //            ServiceName: service.ServiceName,
-                //            ServiceId: service.ServiceId,
-                //            UnitOfMeasurementName: service.UnitOfMeasurementName,
-                //            UnitOfMeasurementId: service.UnitOfMeasurementId,
-                //            PriceWithoutTax: service.PriceWithoutTax,
-                //            Count: service.Count,
-                //            FinalCostWithoutTax: service.FinalCostWithoutTax,
-                //            FinalCostWithTax: service.FinalCostWithTax,
-                //            ProductId: response.Id,
-                //            ProductName: null
-                //        };
-                //    }
-                //}
             });
         }
     }
@@ -917,14 +826,6 @@
         $scope.selectedMtParts.length = 0;
     }
 
-    //$scope.disableSelectingAddedProductsGrid = function disableSelectingAddedProductsGrid() {
-    //    $scope.addedProductsGridSelectable = false;
-    //}
-
-    //$scope.enableSelectingAddedProductsGrid = function enableSelectingAddedProductsGrid {
-    //    $scope.addedProductsGridSelectable = true;
-    //}
-
     $scope.resetMode = function resetMode() {
         $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
     }
@@ -964,42 +865,13 @@
             method: 'POST',
             data: { Guid: generatedGuid, contractViewModel: $scope.object }
         }).success(function (response) {
-            //debugger;
-
             $scope.object.Id = response.Id;
-            //$scope.object.Number = response.Number;
-            //$scope.object.CreatedDate = getDate(response.CreatedDate);
-            //$scope.object.Status = response.Status;
-            ////$scope.object.Contract.StatusId = response.Id;
-            ////$scope.object.Contract.ContractStatus = response;
-            console.log("SAVED...");
         });
-        //$scope.isSendProjectVisible = true;
-        //$scope.isEnableDownload = true;
     }
 
 
     $scope.companyChange = function (loadOrgData) {
-        //if ($scope.object.DeclarantId == "00000000-0000-0000-0000-000000000000") {
-        //    $scope.enableCompanyData = true;
-        //    $scope.showResidentsBlock = true;
-        //    $scope.showHideBin();
-        //    if (loadOrgData) {
-        //        $scope.loadOrganizationData(null);
-        //    }
-        //}
-        //else {
-        //    $scope.enableCompanyData = false;
-        //    $scope.showResidentsBlock = false;
-        //    $scope.hideBin();
-        //    var orgGuid = $scope.object.DeclarantId;
-        //    if (loadOrgData) {
-        //        $scope.loadOrganizationData(orgGuid);
-        //    }
-        //}
 
-
-        alert("Saved company!");
     }
 
     $scope.loadOrganizationData = function (id) {
@@ -1018,13 +890,6 @@
                     $scope.declarant.NameRu = resp.data.NameRu;
                     $scope.declarant.NameEn = resp.data.NameEn;
                     $scope.declarant.CountryId = resp.data.CountryId;
-
-                    //$scope.object.DeclarantOrganizationFormId = resp.data.OrganizationFormId;
-                    //$scope.object.DeclarantIsResident = resp.data.IsResident;
-                    //$scope.object.DeclarantNameKz = resp.data.NameKz;
-                    //$scope.object.DeclarantNameRu = resp.data.NameRu;
-                    //$scope.object.DeclarantNameEn = resp.data.NameEn;
-                    //$scope.object.DeclarantCountryId = resp.data.CountryId;
 
                     $scope.object.AddressLegalRu = resp.data.AddressLegalRu;
                     $scope.object.AddressLegalKz = resp.data.AddressLegalKz
@@ -1270,17 +1135,6 @@
                     }
                 });
 
-                //$scope.declarant.DeclarantId = resp.data.DeclarantId;
-                //$scope.declarant.DeclarantIsResident = resp.data.DeclarantIsResident;
-                //$scope.declarant.DeclarantOrganizationFormId = resp.data.DeclarantOrganizationFormId;
-                //$scope.declarant.DeclarantBin = resp.data.DeclarantBin;
-                //$scope.declarant.DeclarantNameKz = resp.data.DeclarantNameKz;
-                //$scope.declarant.DeclarantNameRu = resp.data.DeclarantNameRu;
-                //$scope.declarant.DeclarantNameEn = resp.data.DeclarantNameEn;
-                //$scope.declarant.DeclarantCountryId = resp.data.DeclarantCountryId;
-
-                //$scope.companyChange(false);
-
                 $scope.object.AddressLegalRu = resp.data.AddressLegalRu;
                 $scope.object.AddressLegalKz = resp.data.AddressLegalKz;
                 $scope.object.AddressFact = resp.data.AddressFact;
@@ -1500,7 +1354,17 @@
                 method: 'POST',
                 data: { guid: $scope.object.Id, declarantViewModel: $scope.declarant }
             }).success(function (response) {
-                $scope.declarant.Id = response;
+                if (!response.Exist) {
+                    $scope.declarant.Id = response.DeclarantId;
+                }
+                else {
+                    if (response.IsResident) {
+                        alert("Заявитель с указанным ИИН/БИН уже существует!");
+                    }
+                    else {
+                        alert("Заявитель с указанной страной и наименованием уже существует!");
+                    }
+                }
             });
         }
     }
@@ -1590,8 +1454,6 @@ function loadDictionaryMeasure($scope, $http) {
 
 function initCalculator($scope, $interval, $http) {
 
-    //loadServiceNames($scope);
-
     $scope.totalCostCalculator = 0;
 
     $scope.selectedServiceIndex = null;
@@ -1642,19 +1504,6 @@ function initCalculator($scope, $interval, $http) {
                 $scope.object.CountServices = selectedObj.Count;
                 $scope.object.ResultPriceWithoutTax = selectedObj.FinalCostWithoutTax;
                 $scope.object.ResultPriceWithTax = selectedObj.FinalCostWithTax;
-
-                //$scope.product.ProductId = selectedObj.Id;
-                //$scope.product.NameRu = selectedObj.NameRu;
-                //$scope.product.NameKz = selectedObj.NameKz;
-                //$scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
-                //$scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
-                //$scope.product.CountryNameRu = selectedObj.CountryNameRu;
-                //$scope.product.CountryNameKz = selectedObj.CountryNameKz;
-                //$scope.product.TnvedCode = selectedObj.TnvedCode;
-                //$scope.product.KpvedCode = selectedObj.KpvedCode;
-                //$scope.product.Price = selectedObj.Price;
-                //$scope.product.Currency = selectedObj.Currency;
-                //$scope.productSeries.push.apply($scope.productSeries, selectedObj.Series);
             }
 
         }
@@ -1824,13 +1673,7 @@ function initCalculator($scope, $interval, $http) {
     ];
 
 
-    //$scope.calcItems = [];
     $scope.gridOptionsCalculator.data = $scope.addedServices;
-
-    //var obj1 = { ServiceType: "Тип 1", UnitOfMeasurement: "м.", PriceWithoutTax: 10000, Count: 1, FinalCostWithoutTax: 10000, FinalCostWithTax: 11000  };
-
-    //$scope.calcItems.push(obj1);
-
 
     $scope.serviceTypeChange = function () {
         if ($scope.object.ServiceName && $scope.object.ServiceName.Id) {
@@ -2140,8 +1983,6 @@ function initProductServiceModule($scope, $http, $interval) {
 
 function initExample($scope, $interval) {
     $scope.gridOptionsExample = {
-        //enableRowSelection: true,
-        //enableRowHeaderSelection: false,
         enableCellEditOnFocus: true
     };
 

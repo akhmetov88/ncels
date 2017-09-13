@@ -255,8 +255,15 @@ namespace PW.Ncels.Controllers
         [HttpPost]
         public ActionResult ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel)
         {
-            var declarant = obkRepo.ContractDeclarantSave(guid, declarantViewModel);
-            return Json(declarant.Id);
+            bool exist;
+            Guid? declarantId = null;
+            var declarant = obkRepo.ContractDeclarantSave(guid, declarantViewModel, out exist);
+            if (declarant != null)
+            {
+                declarantId = declarant.Id;
+            }
+            object returnValue = new { Exist = exist, DeclarantId = declarantId, IsResident = declarantViewModel.IsResident };
+            return Json(returnValue);
         }
 
         [HttpPost]
