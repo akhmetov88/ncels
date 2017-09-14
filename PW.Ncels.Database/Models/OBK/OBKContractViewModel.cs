@@ -28,6 +28,7 @@ namespace PW.Ncels.Database.Models.OBK
         public string BossFirstName { get; set; }
         public string BossMiddleName { get; set; }
         public string BossPosition { get; set; }
+        public string BossPositionKz { get; set; }
         public Guid? BossDocType { get; set; }
         public bool IsHasBossDocNumber { get; set; }
         public string BossDocNumber { get; set; }
@@ -39,6 +40,7 @@ namespace PW.Ncels.Database.Models.OBK
         public string SignFirstName { get; set; }
         public string SignMiddleName { get; set; }
         public string SignPosition { get; set; }
+        public string SignPositionKz { get; set; }
         public Guid? SignDocType { get; set; }
         public bool IsHasSignDocNumber { get; set; }
         public string SignDocNumber { get; set; }

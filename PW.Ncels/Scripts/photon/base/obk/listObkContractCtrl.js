@@ -900,6 +900,7 @@
                     $scope.object.BossFirstName = resp.data.BossFirstName;
                     $scope.object.BossMiddleName = resp.data.BossMiddleName;
                     $scope.object.BossPosition = resp.data.BossPosition;
+                    $scope.object.BossPositionKz = resp.data.BossPositionKz;
                     $scope.object.BossDocType = resp.data.BossDocType;
                     $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                     $scope.object.BossDocNumber = resp.data.BossDocNumber;
@@ -911,6 +912,7 @@
                     $scope.object.SignFirstName = resp.data.SignFirstName;
                     $scope.object.SignMiddleName = resp.data.SignMiddleName;
                     $scope.object.SignPosition = resp.data.SignPosition;
+                    $scope.object.SignPositionKz = resp.data.SignPositionKz;
                     $scope.object.SignDocType = resp.data.SignDocType;
                     $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                     $scope.object.SignDocNumber = resp.data.SignDocNumber;
@@ -949,6 +951,7 @@
             $scope.object.BossFirstName = null;
             $scope.object.BossMiddleName = null;
             $scope.object.BossPosition = null;
+            $scope.object.BossPositionKz = null;
             $scope.object.BossDocType = null;
             $scope.object.IsHasBossDocNumber = null;
             $scope.object.BossDocNumber = null;
@@ -960,6 +963,7 @@
             $scope.object.SignFirstName = null;
             $scope.object.SignMiddleName = null;
             $scope.object.SignPosition = null;
+            $scope.object.SignPositionKz = null;
             $scope.object.SignDocType = null;
             $scope.object.IsHasSignDocNumber = null;
             $scope.object.SignDocNumber = null;
@@ -984,6 +988,7 @@
         $scope.object.BossFirstName = null;
         $scope.object.BossMiddleName = null;
         $scope.object.BossPosition = null;
+        $scope.object.BossPositionKz = null;
         $scope.object.BossDocType = null;
         $scope.object.IsHasBossDocNumber = null;
         $scope.object.BossDocNumber = null;
@@ -995,6 +1000,7 @@
         $scope.object.SignFirstName = null;
         $scope.object.SignMiddleName = null;
         $scope.object.SignPosition = null;
+        $scope.object.SignPositionKz = null;
         $scope.object.SignDocType = null;
         $scope.object.IsHasSignDocNumber = null;
         $scope.object.SignDocNumber = null;
@@ -1052,6 +1058,7 @@
             $scope.object.SignFirstName = $scope.object.BossFirstName;
             $scope.object.SignMiddleName = $scope.object.BossMiddleName;
             $scope.object.SignPosition = $scope.object.BossPosition;
+            $scope.object.SignPositionKz = $scope.object.BossPositionKz;
             $scope.object.SignDocType = $scope.object.BossDocType;
             $scope.object.SignDocUnlimited = $scope.object.BossDocUnlimited;
             $scope.object.IsHasSignDocNumber = $scope.object.IsHasBossDocNumber;
@@ -1148,6 +1155,7 @@
                 $scope.object.BossFirstName = resp.data.BossFirstName;
                 $scope.object.BossMiddleName = resp.data.BossMiddleName;
                 $scope.object.BossPosition = resp.data.BossPosition;
+                $scope.object.BossPositionKz = resp.data.BossPositionKz;
                 $scope.object.BossDocType = resp.data.BossDocType;
                 $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                 $scope.object.BossDocNumber = resp.data.BossDocNumber;
@@ -1159,6 +1167,7 @@
                 $scope.object.SignFirstName = resp.data.SignFirstName;
                 $scope.object.SignMiddleName = resp.data.SignMiddleName;
                 $scope.object.SignPosition = resp.data.SignPosition;
+                $scope.object.SignPositionKz = resp.data.SignPositionKz;
                 $scope.object.SignDocType = resp.data.SignDocType;
                 $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                 $scope.object.SignDocNumber = resp.data.SignDocNumber;
@@ -1257,6 +1266,7 @@
                     $scope.object.BossFirstName = resp.data.BossFirstName;
                     $scope.object.BossMiddleName = resp.data.BossMiddleName;
                     $scope.object.BossPosition = resp.data.BossPosition;
+                    $scope.object.BossPositionKz = resp.data.BossPositionKz;
                     $scope.object.BossDocType = resp.data.BossDocType;
                     $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                     $scope.object.BossDocNumber = resp.data.BossDocNumber;
@@ -1268,6 +1278,7 @@
                     $scope.object.SignFirstName = resp.data.SignFirstName;
                     $scope.object.SignMiddleName = resp.data.SignMiddleName;
                     $scope.object.SignPosition = resp.data.SignPosition;
+                    $scope.object.SignPositionKz = resp.data.SignPositionKz;
                     $scope.object.SignDocType = resp.data.SignDocType;
                     $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                     $scope.object.SignDocNumber = resp.data.SignDocNumber;

@@ -185,6 +185,7 @@ namespace PW.Ncels.Database.Repository.OBK
             contactData.BossFirstName = contractViewModel.BossFirstName;
             contactData.BossMiddleName = contractViewModel.BossMiddleName;
             contactData.BossPosition = contractViewModel.BossPosition;
+            contactData.BossPositionKz = contractViewModel.BossPositionKz;
             contactData.BossDocType = contractViewModel.BossDocType;
             contactData.IsHasBossDocNumber = contractViewModel.IsHasBossDocNumber;
             contactData.BossDocNumber = contractViewModel.BossDocNumber;
@@ -196,6 +197,7 @@ namespace PW.Ncels.Database.Repository.OBK
             contactData.SignFirstName = contractViewModel.SignFirstName;
             contactData.SignMiddleName = contractViewModel.SignMiddleName;
             contactData.SignPosition = contractViewModel.SignPosition;
+            contactData.SignPositionKz = contractViewModel.SignPositionKz;
             contactData.SignDocType = contractViewModel.SignDocType;
             contactData.IsHasSignDocNumber = contractViewModel.IsHasSignDocNumber;
             contactData.SignDocNumber = contractViewModel.SignDocNumber;
@@ -318,6 +320,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 contractViewModel.BossFirstName = OBKContract.OBK_DeclarantContact.BossFirstName;
                 contractViewModel.BossMiddleName = OBKContract.OBK_DeclarantContact.BossMiddleName;
                 contractViewModel.BossPosition = OBKContract.OBK_DeclarantContact.BossPosition;
+                contractViewModel.BossPositionKz = OBKContract.OBK_DeclarantContact.BossPositionKz;
                 contractViewModel.BossDocType = OBKContract.OBK_DeclarantContact.BossDocType;
                 contractViewModel.IsHasBossDocNumber = OBKContract.OBK_DeclarantContact.IsHasBossDocNumber;
                 contractViewModel.BossDocNumber = OBKContract.OBK_DeclarantContact.BossDocNumber;
@@ -329,6 +332,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 contractViewModel.SignFirstName = OBKContract.OBK_DeclarantContact.SignFirstName;
                 contractViewModel.SignMiddleName = OBKContract.OBK_DeclarantContact.SignMiddleName;
                 contractViewModel.SignPosition = OBKContract.OBK_DeclarantContact.SignPosition;
+                contractViewModel.SignPositionKz = OBKContract.OBK_DeclarantContact.SignPositionKz;
                 contractViewModel.SignDocType = OBKContract.OBK_DeclarantContact.SignDocType;
                 contractViewModel.IsHasSignDocNumber = OBKContract.OBK_DeclarantContact.IsHasSignDocNumber;
                 contractViewModel.SignDocNumber = OBKContract.OBK_DeclarantContact.SignDocNumber;
@@ -815,6 +819,7 @@ namespace PW.Ncels.Database.Repository.OBK
                         declarantContact.BossFirstName = null;
                         declarantContact.BossMiddleName = null;
                         declarantContact.BossPosition = null;
+                        declarantContact.BossPositionKz = null;
                         declarantContact.BossDocType = null;
                         declarantContact.IsHasBossDocNumber = false;
                         declarantContact.BossDocNumber = null;
@@ -825,6 +830,7 @@ namespace PW.Ncels.Database.Repository.OBK
                         declarantContact.SignFirstName = null;
                         declarantContact.SignMiddleName = null;
                         declarantContact.SignPosition = null;
+                        declarantContact.SignPositionKz = null;
                         declarantContact.SignDocType = null;
                         declarantContact.IsHasSignDocNumber = false;
                         declarantContact.SignDocNumber = null;
