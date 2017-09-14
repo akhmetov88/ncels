@@ -191,6 +191,7 @@ namespace PW.Ncels.Database.Repository.OBK
             contactData.BossDocCreatedDate = contractViewModel.BossDocCreatedDate;
             contactData.BossDocEndDate = contractViewModel.BossDocEndDate;
             contactData.BossDocUnlimited = contractViewModel.BossDocUnlimited;
+            contactData.SignerIsBoss = contractViewModel.SignerIsBoss;
             contactData.SignLastName = contractViewModel.SignLastName;
             contactData.SignFirstName = contractViewModel.SignFirstName;
             contactData.SignMiddleName = contractViewModel.SignMiddleName;
@@ -323,6 +324,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 contractViewModel.BossDocCreatedDate = OBKContract.OBK_DeclarantContact.BossDocCreatedDate;
                 contractViewModel.BossDocEndDate = OBKContract.OBK_DeclarantContact.BossDocEndDate;
                 contractViewModel.BossDocUnlimited = OBKContract.OBK_DeclarantContact.BossDocUnlimited;
+                contractViewModel.SignerIsBoss = OBKContract.OBK_DeclarantContact.SignerIsBoss;
                 contractViewModel.SignLastName = OBKContract.OBK_DeclarantContact.SignLastName;
                 contractViewModel.SignFirstName = OBKContract.OBK_DeclarantContact.SignFirstName;
                 contractViewModel.SignMiddleName = OBKContract.OBK_DeclarantContact.SignMiddleName;

@@ -34,6 +34,7 @@ namespace PW.Ncels.Database.Models.OBK
         public DateTime? BossDocCreatedDate { get; set; }
         public DateTime? BossDocEndDate { get; set; }
         public bool BossDocUnlimited { get; set; }
+        public bool SignerIsBoss { get; set; }
         public string SignLastName { get; set; }
         public string SignFirstName { get; set; }
         public string SignMiddleName { get; set; }

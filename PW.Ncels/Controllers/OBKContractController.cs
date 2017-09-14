@@ -215,6 +215,7 @@ namespace PW.Ncels.Controllers
                         declarantContact.BossDocCreatedDate,
                         declarantContact.BossDocEndDate,
                         declarantContact.BossDocUnlimited,
+                        declarantContact.SignerIsBoss,
                         declarantContact.SignLastName,
                         declarantContact.SignFirstName,
                         declarantContact.SignMiddleName,
