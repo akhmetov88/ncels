@@ -194,7 +194,7 @@
                                                             @*declarant.Id = {{declarant.Id}} <br />*@
                                                             <input type="hidden" ng-model="declarant.Id" />
                                                             <label>Организационная форма</label>
-                                                            <ui-select ng-model="declarant.OrganizationFormId" theme="bootstrap" ng-disabled="!enableCompanyData" ng-change="editDeclarant();">
+                                                            <ui-select ng-model="declarant.OrganizationFormId" theme="bootstrap" ui-select-selected required ng-disabled="!enableCompanyData" ng-change="editDeclarant();">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in OpfType | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
@@ -215,7 +215,7 @@
                                                         </div>
                                                         <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                             <label>Страна</label>
-                                                            <ui-select ng-model="declarant.CountryId" theme="bootstrap" ng-disabled="!enableCompanyData || declarant.IsResident == false" ng-change="editDeclarant();">
+                                                            <ui-select ng-model="declarant.CountryId" theme="bootstrap" ui-select-selected required ng-disabled="!enableCompanyData || declarant.IsResident == false" ng-change="editDeclarant();">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in Country | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
