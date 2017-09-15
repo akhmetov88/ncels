@@ -246,10 +246,10 @@
                                                             <input ng-model="object.Email" placeholder="example@mail.ru" class="form-control" type="text" ui-select-selected required ng-blur="editProject();">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none;">
                                                         <h4>Руководитель</h4>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="row">
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
@@ -285,10 +285,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <h4>Действующее на основании</h4>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
@@ -310,7 +310,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Наличие номера *</label>
                                                             <ui-select ng-model="object.IsHasBossDocNumber" ui-select-selected required theme="bootstrap" ng-change="editProject();">
@@ -321,13 +321,13 @@
                                                             </ui-select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Номер документа</label>
                                                             <input ng-model="object.BossDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected required ng-blur="editProject();" ng-disabled="object.IsHasBossDocNumber != true">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
@@ -336,7 +336,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Дата окончания действия *</label>
                                                             <div class="input-group date">
@@ -348,7 +348,7 @@
                                                     <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
                                                         <h4>Подписывающее лицо</h4>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         @*<div class="col-lg-3">*@
                                                         <div class="form-group">
                                                             <div class="checkbox">
