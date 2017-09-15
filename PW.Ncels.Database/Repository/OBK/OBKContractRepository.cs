@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PW.Ncels.Database.Repository.OBK
@@ -30,31 +29,20 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             if (regNumber == null && tradeName == null)
                 return null;
-            //var reestr = AppContext.sr_register.Where(
-            //    x =>
-            //    (x.reg_type_id == regType) &&
-            //    ((string.IsNullOrEmpty(regNumber)) || x.reg_number == regNumber) &&
-            //    ((string.IsNullOrEmpty(tradeName)) || x.name == tradeName) &&
-            //    ((string.IsNullOrEmpty(manufacturer)) || x.C_producer_name == manufacturer)
-            //    ).Select(x => new OBK_ProductInfo { Id = x.id, RegNumber = x.reg_number, Name = x.name, RegTypeName = x.sr_reg_types.name, RegDate = x.reg_date, ExpireDate = x.expiration_date, ProducerName = x.C_producer_name, CountryName = x.C_country_name });
 
             var reestr = from register in AppContext.sr_register
-                         join d in AppContext.sr_register_drugs on register.id equals d.id into register_drugs
-                         from drugs in register_drugs.DefaultIfEmpty()
-                         join i in AppContext.sr_international_names on drugs.int_name_id equals i.id into registerdrugsintnames
-                         from intnames in registerdrugsintnames.DefaultIfEmpty()
-                         join obkp in AppContext.obk_products on register.id equals obkp.register_id into obkProducts
-                         from obkProduct in obkProducts.DefaultIfEmpty()
-                         join obkpc in AppContext.obk_product_cost on obkProduct.id equals obkpc.id into obkProductsCosts
-                         from obkProductCost in obkProductsCosts.DefaultIfEmpty()
-                         join obkc in AppContext.obk_currencies on obkProductCost.currency_id equals obkc.id into obkCurrencies
-                         from obkCurrency in obkCurrencies.DefaultIfEmpty()
+                             //join obkp in AppContext.obk_products on register.id equals obkp.register_id into obkProducts
+                             //from obkProduct in obkProducts.DefaultIfEmpty()
+                         let obkProduct = AppContext.obk_products
+                                            .Where(p => p.register_id == register.id)
+                                            .OrderBy(p => p.id)
+                                            .FirstOrDefault()
                          join srrmt in AppContext.sr_register_mt on register.id equals srrmt.id into srregistermtTable
                          from srregistermt in srregistermtTable.DefaultIfEmpty()
                          where register.reg_type_id == regType &&
                          (string.IsNullOrEmpty(regNumber) || register.reg_number.ToLower().Contains(regNumber.ToLower())) &&
                          (string.IsNullOrEmpty(tradeName) || register.name.ToLower().Contains(tradeName.ToLower())) &&
-                         ( 
+                         (
                             (!drugEndDateExpired && register.expiration_date != null && register.expiration_date >= DateTime.Now) ||
                             drugEndDateExpired
                          )
@@ -74,8 +62,6 @@ namespace PW.Ncels.Database.Repository.OBK
                              CountryNameKz = register.C_country_name_kz,
                              TnvedCode = obkProduct.tnved_code,
                              KpvedCode = obkProduct.kpved_code,
-                             Price = obkProductCost.cost,
-                             Currency = obkCurrency.currency_name,
                              DegreeRiskId = srregistermt.degree_risk_id
                          };
 
@@ -167,70 +153,10 @@ namespace PW.Ncels.Database.Repository.OBK
         private void FillContract(OBKContractViewModel contractViewModel, OBK_Contract obkContract)
         {
             obkContract.Type = contractViewModel.Type != 0 ? contractViewModel.Type : 1;
-            if (contractViewModel.DeclarantId == Guid.Empty)
-            {
-                OBK_Declarant obk_declarant = new OBK_Declarant();
-                obk_declarant.Id = Guid.NewGuid();
-                obk_declarant.IsConfirmed = false;
-                obk_declarant.IsDeleted = false;
-
-                obk_declarant.IsResident = contractViewModel.DeclarantIsResident;
-                obk_declarant.OrganizationFormId = contractViewModel.DeclarantOrganizationFormId; ;
-                obk_declarant.Bin = contractViewModel.DeclarantBin;
-                obk_declarant.NameKz = contractViewModel.DeclarantNameKz;
-                obk_declarant.NameRu = contractViewModel.DeclarantNameRu;
-                obk_declarant.NameEn = contractViewModel.DeclarantNameEn;
-                obk_declarant.CountryId = contractViewModel.DeclarantCountryId;
-                AppContext.OBK_Declarant.Add(obk_declarant);
-
-                obkContract.DeclarantId = obk_declarant.Id;
-            }
-            else
-            {
-                if (obkContract.DeclarantId != contractViewModel.DeclarantId)
-                {
-                    var obkExisting = AppContext.OBK_Declarant.Where(x => x.Id == obkContract.DeclarantId && x.IsConfirmed == false).FirstOrDefault();
-                    if (obkExisting != null)
-                    {
-                        AppContext.OBK_Declarant.Remove(obkExisting);
-                        AppContext.SaveChanges();
-                    }
-                    obkContract.DeclarantId = contractViewModel.DeclarantId;
-                }
-            }
             if (obkContract.DeclarantContactId != null)
             {
                 var contactData = AppContext.OBK_DeclarantContact.Where(x => x.Id == obkContract.DeclarantContactId).FirstOrDefault();
-                contactData.AddressLegalRu = contractViewModel.AddressLegalRu;
-                contactData.AddressLegalKz = contractViewModel.AddressLegalKz;
-                contactData.AddressFact = contractViewModel.AddressFact;
-                contactData.Phone = contractViewModel.Phone;
-                contactData.Email = contractViewModel.Email;
-                contactData.BossLastName = contractViewModel.BossLastName;
-                contactData.BossFirstName = contractViewModel.BossFirstName;
-                contactData.BossMiddleName = contractViewModel.BossMiddleName;
-                contactData.BossPosition = contractViewModel.BossPosition;
-                contactData.BossDocType = contractViewModel.BossDocType;
-                contactData.IsHasBossDocNumber = contractViewModel.IsHasBossDocNumber;
-                contactData.BossDocNumber = contractViewModel.BossDocNumber;
-                contactData.BossDocCreatedDate = contractViewModel.BossDocCreatedDate;
-                contactData.BossDocEndDate = contractViewModel.BossDocEndDate;
-                contactData.BossDocUnlimited = contractViewModel.BossDocUnlimited;
-                contactData.SignLastName = contractViewModel.SignLastName;
-                contactData.SignFirstName = contractViewModel.SignFirstName;
-                contactData.SignMiddleName = contractViewModel.SignMiddleName;
-                contactData.SignPosition = contractViewModel.SignPosition;
-                contactData.SignDocType = contractViewModel.SignDocType;
-                contactData.IsHasSignDocNumber = contractViewModel.IsHasSignDocNumber;
-                contactData.SignDocNumber = contractViewModel.SignDocNumber;
-                contactData.SignDocCreatedDate = contractViewModel.SignDocCreatedDate;
-                contactData.SignDocEndDate = contractViewModel.SignDocEndDate;
-                contactData.SignDocUnlimited = contractViewModel.SignDocUnlimited;
-                contactData.BankIik = contractViewModel.BankIik;
-                contactData.BankBik = contractViewModel.BankBik;
-                contactData.CurrencyId = contractViewModel.CurrencyId;
-                contactData.BankNameRu = contractViewModel.BankNameRu;
-                contactData.BankNameKz = contractViewModel.BankNameKz;
+                FillContactData(contractViewModel, contactData, obkContract);
                 AppContext.SaveChanges();
             }
             else
@@ -246,6 +172,44 @@ namespace PW.Ncels.Database.Repository.OBK
                 obkContract.DeclarantContactId = contactData.Id;
             }
             AppContext.SaveChanges();
+        }
+
+        private void FillContactData(OBKContractViewModel contractViewModel, OBK_DeclarantContact contactData, OBK_Contract obkContract)
+        {
+            contactData.AddressLegalRu = contractViewModel.AddressLegalRu;
+            contactData.AddressLegalKz = contractViewModel.AddressLegalKz;
+            contactData.AddressFact = contractViewModel.AddressFact;
+            contactData.Phone = contractViewModel.Phone;
+            contactData.Email = contractViewModel.Email;
+            contactData.BossLastName = contractViewModel.BossLastName;
+            contactData.BossFirstName = contractViewModel.BossFirstName;
+            contactData.BossMiddleName = contractViewModel.BossMiddleName;
+            contactData.BossPosition = contractViewModel.BossPosition;
+            contactData.BossPositionKz = contractViewModel.BossPositionKz;
+            contactData.BossDocType = contractViewModel.BossDocType;
+            contactData.IsHasBossDocNumber = contractViewModel.IsHasBossDocNumber;
+            contactData.BossDocNumber = contractViewModel.BossDocNumber;
+            contactData.BossDocCreatedDate = contractViewModel.BossDocCreatedDate;
+            contactData.BossDocEndDate = contractViewModel.BossDocEndDate;
+            contactData.BossDocUnlimited = contractViewModel.BossDocUnlimited;
+            contactData.SignerIsBoss = contractViewModel.SignerIsBoss;
+            contactData.SignLastName = contractViewModel.SignLastName;
+            contactData.SignFirstName = contractViewModel.SignFirstName;
+            contactData.SignMiddleName = contractViewModel.SignMiddleName;
+            contactData.SignPosition = contractViewModel.SignPosition;
+            contactData.SignPositionKz = contractViewModel.SignPositionKz;
+            contactData.SignDocType = contractViewModel.SignDocType;
+            contactData.IsHasSignDocNumber = contractViewModel.IsHasSignDocNumber;
+            contactData.SignDocNumber = contractViewModel.SignDocNumber;
+            contactData.SignDocCreatedDate = contractViewModel.SignDocCreatedDate;
+            contactData.SignDocEndDate = contractViewModel.SignDocEndDate;
+            contactData.SignDocUnlimited = contractViewModel.SignDocUnlimited;
+            contactData.BankIik = contractViewModel.BankIik;
+            contactData.BankBik = contractViewModel.BankBik;
+            contactData.CurrencyId = contractViewModel.CurrencyId;
+            contactData.BankNameRu = contractViewModel.BankNameRu;
+            contactData.BankNameKz = contractViewModel.BankNameKz;
+            contactData.DeclarantId = obkContract.DeclarantId;
         }
 
         public OBK_Declarant GetOrganizationData(Guid guid)
@@ -326,24 +290,25 @@ namespace PW.Ncels.Database.Repository.OBK
             contractViewModel.Id = OBKContract.Id;
             contractViewModel.Type = OBKContract.Type;
 
-            if (OBKContract.DeclarantId != null)
-            {
-                if (OBKContract.OBK_Declarant.IsConfirmed)
-                {
-                    contractViewModel.DeclarantId = OBKContract.DeclarantId;
-                }
-                else
-                {
-                    contractViewModel.DeclarantId = Guid.Empty;
-                }
-                contractViewModel.DeclarantIsResident = OBKContract.OBK_Declarant.IsResident;
-                contractViewModel.DeclarantOrganizationFormId = OBKContract.OBK_Declarant.OrganizationFormId;
-                contractViewModel.DeclarantBin = OBKContract.OBK_Declarant.Bin;
-                contractViewModel.DeclarantNameKz = OBKContract.OBK_Declarant.NameKz;
-                contractViewModel.DeclarantNameRu = OBKContract.OBK_Declarant.NameRu;
-                contractViewModel.DeclarantNameEn = OBKContract.OBK_Declarant.NameEn;
-                contractViewModel.DeclarantCountryId = OBKContract.OBK_Declarant.CountryId;
-            }
+            //if (OBKContract.DeclarantId != null)
+            //{
+            //    if (OBKContract.OBK_Declarant.IsConfirmed)
+            //    {
+            //        contractViewModel.DeclarantId = OBKContract.DeclarantId;
+            //    }
+            //    else
+            //    {
+            //        contractViewModel.DeclarantId = Guid.Empty;
+            //    }
+            //    contractViewModel.DeclarantIsResident = OBKContract.OBK_Declarant.IsResident;
+            //    contractViewModel.DeclarantOrganizationFormId = OBKContract.OBK_Declarant.OrganizationFormId;
+            //    contractViewModel.DeclarantBin = OBKContract.OBK_Declarant.Bin;
+            //    contractViewModel.DeclarantNameKz = OBKContract.OBK_Declarant.NameKz;
+            //    contractViewModel.DeclarantNameRu = OBKContract.OBK_Declarant.NameRu;
+            //    contractViewModel.DeclarantNameEn = OBKContract.OBK_Declarant.NameEn;
+            //    contractViewModel.DeclarantCountryId = OBKContract.OBK_Declarant.CountryId;
+            //}
+
             if (OBKContract.DeclarantContactId != null)
             {
                 contractViewModel.AddressLegalRu = OBKContract.OBK_DeclarantContact.AddressLegalRu;
@@ -355,16 +320,19 @@ namespace PW.Ncels.Database.Repository.OBK
                 contractViewModel.BossFirstName = OBKContract.OBK_DeclarantContact.BossFirstName;
                 contractViewModel.BossMiddleName = OBKContract.OBK_DeclarantContact.BossMiddleName;
                 contractViewModel.BossPosition = OBKContract.OBK_DeclarantContact.BossPosition;
+                contractViewModel.BossPositionKz = OBKContract.OBK_DeclarantContact.BossPositionKz;
                 contractViewModel.BossDocType = OBKContract.OBK_DeclarantContact.BossDocType;
                 contractViewModel.IsHasBossDocNumber = OBKContract.OBK_DeclarantContact.IsHasBossDocNumber;
                 contractViewModel.BossDocNumber = OBKContract.OBK_DeclarantContact.BossDocNumber;
                 contractViewModel.BossDocCreatedDate = OBKContract.OBK_DeclarantContact.BossDocCreatedDate;
                 contractViewModel.BossDocEndDate = OBKContract.OBK_DeclarantContact.BossDocEndDate;
                 contractViewModel.BossDocUnlimited = OBKContract.OBK_DeclarantContact.BossDocUnlimited;
+                contractViewModel.SignerIsBoss = OBKContract.OBK_DeclarantContact.SignerIsBoss;
                 contractViewModel.SignLastName = OBKContract.OBK_DeclarantContact.SignLastName;
                 contractViewModel.SignFirstName = OBKContract.OBK_DeclarantContact.SignFirstName;
                 contractViewModel.SignMiddleName = OBKContract.OBK_DeclarantContact.SignMiddleName;
                 contractViewModel.SignPosition = OBKContract.OBK_DeclarantContact.SignPosition;
+                contractViewModel.SignPositionKz = OBKContract.OBK_DeclarantContact.SignPositionKz;
                 contractViewModel.SignDocType = OBKContract.OBK_DeclarantContact.SignDocType;
                 contractViewModel.IsHasSignDocNumber = OBKContract.OBK_DeclarantContact.IsHasSignDocNumber;
                 contractViewModel.SignDocNumber = OBKContract.OBK_DeclarantContact.SignDocNumber;
@@ -394,6 +362,9 @@ namespace PW.Ncels.Database.Repository.OBK
                 DeleteSeries(productInfo.Id);
                 SaveSeries(productInfo.Id, product.Series);
 
+                DeleteMtParts(productInfo.Id);
+                SaveMtParts(productInfo.Id, product.MtParts);
+
                 r.Id = productInfo.Id;
             }
             else
@@ -405,6 +376,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 AppContext.SaveChanges();
 
                 SaveSeries(productInfo.Id, product.Series);
+                SaveMtParts(productInfo.Id, product.MtParts);
 
                 r.Id = productInfo.Id;
             }
@@ -416,6 +388,7 @@ namespace PW.Ncels.Database.Repository.OBK
             var product = AppContext.OBK_RS_Products.Where(x => x.Id == productId).FirstOrDefault();
             if (product != null)
             {
+                AppContext.OBK_MtPart.RemoveRange(AppContext.OBK_MtPart.Where(x => x.ProductId == productId));
                 AppContext.OBK_Procunts_Series.RemoveRange(AppContext.OBK_Procunts_Series.Where(x => x.OBK_RS_ProductsId == productId));
                 AppContext.OBK_ContractPrice.RemoveRange(AppContext.OBK_ContractPrice.Where(x => x.ProductId == productId));
                 AppContext.OBK_RS_Products.Remove(product);
@@ -442,6 +415,9 @@ namespace PW.Ncels.Database.Repository.OBK
                 KpvedCode = x.KpvedCode,
                 TnvedCode = x.TnvedCode,
                 Price = x.Price,
+                DrugFormBoxCount = x.DrugFormBoxCount,
+                DrugFormFullName = x.DrugFormFullName,
+                DrugFormFullNameKz = x.DrugFormFullNameKz,
                 Series = AppContext.OBK_Procunts_Series.Where(y => y.OBK_RS_ProductsId == x.Id).Select(y => new OBKContractSeriesViewModel
                 {
                     Id = y.Id,
@@ -451,6 +427,19 @@ namespace PW.Ncels.Database.Repository.OBK
                     Part = y.SeriesParty,
                     UnitId = y.SeriesMeasureId,
                     UnitName = y.sr_measures.short_name
+                }).ToList()
+                ,
+                MtParts = AppContext.OBK_MtPart.Where(y => y.ProductId == x.Id).Select(y => new OBKContractMtPartViewModel
+                {
+                    Id = y.Id,
+                    PartNumber = y.PartNumber,
+                    Model = y.Model,
+                    Specification = y.Specification,
+                    SpecificationKz = y.SpecificationKz,
+                    ProducerName = y.ProducerName,
+                    CountryName = y.CountryName,
+                    ProducerNameKz = y.ProducerNameKz,
+                    CountryNameKz = y.CountryNameKz
                 }).ToList()
             }).ToList();
         }
@@ -525,6 +514,36 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
         }
 
+        private void SaveMtParts(int productId, List<OBKContractMtPartViewModel> list)
+        {
+            if (list != null && list.Count > 0)
+            {
+                foreach (OBKContractMtPartViewModel item in list)
+                {
+                    OBK_MtPart mtPart = new OBK_MtPart();
+                    mtPart.Id = Guid.NewGuid();
+                    mtPart.ProductId = productId;
+                    mtPart.PartNumber = item.PartNumber;
+                    mtPart.Model = item.Model;
+                    mtPart.Specification = item.Specification;
+                    mtPart.SpecificationKz = item.SpecificationKz;
+                    mtPart.ProducerName = item.ProducerName;
+                    mtPart.CountryName = item.CountryName;
+                    mtPart.ProducerNameKz = item.ProducerNameKz;
+                    mtPart.CountryNameKz = item.CountryNameKz;
+
+                    AppContext.OBK_MtPart.Add(mtPart);
+                    AppContext.SaveChanges();
+                }
+            }
+        }
+
+        private void DeleteMtParts(int productId)
+        {
+            AppContext.OBK_MtPart.RemoveRange(AppContext.OBK_MtPart.Where(x => x.ProductId == productId));
+            AppContext.SaveChanges();
+        }
+
         private void FillProduct(OBK_RS_Products productInfo, OBKContractProductViewModel product)
         {
             productInfo.RegTypeId = product.RegTypeId;
@@ -538,6 +557,9 @@ namespace PW.Ncels.Database.Repository.OBK
             productInfo.KpvedCode = product.KpvedCode;
             productInfo.TnvedCode = product.TnvedCode;
             productInfo.Price = product.Price;
+            productInfo.DrugFormBoxCount = product.DrugFormBoxCount;
+            productInfo.DrugFormFullName = product.DrugFormFullName;
+            productInfo.DrugFormFullNameKz = product.DrugFormFullNameKz;
         }
 
         public List<OBKContractServiceViewModel> GetContractPrices(Guid contractId)
@@ -558,6 +580,334 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             ).ToList();
             return list;
+        }
+
+        public OBK_Declarant FindOrganization(string bin)
+        {
+            var declarant = AppContext.OBK_Declarant.FirstOrDefault(x => x.Bin == bin && x.IsConfirmed && x.IsResident);
+            return declarant;
+        }
+
+        public OBK_Declarant ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel, out bool declarantAlreadyExist)
+        {
+            declarantAlreadyExist = false;
+
+            if (declarantViewModel.Id != null)
+            {
+                OBK_Declarant declarant = AppContext.OBK_Declarant.Where(x => x.Id == declarantViewModel.Id).FirstOrDefault();
+                if (declarant != null && !declarant.IsConfirmed)
+                {
+                    declarant.OrganizationFormId = declarantViewModel.OrganizationFormId;
+                    declarant.NameKz = declarantViewModel.NameKz;
+                    declarant.NameRu = declarantViewModel.NameRu;
+                    declarant.NameEn = declarantViewModel.NameEn;
+                    declarant.CountryId = declarantViewModel.CountryId;
+                    declarant.IsResident = declarantViewModel.IsResident;
+                    if (declarant.IsResident)
+                    {
+                        declarant.Bin = declarantViewModel.Bin;
+                    }
+                    else
+                    {
+                        declarant.Bin = null;
+                    }
+
+                    AppContext.SaveChanges();
+                    return declarant;
+                }
+            }
+            else
+            {
+                if (declarantViewModel.IsResident)
+                {
+                    declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.Bin);
+                }
+                else
+                {
+                    declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.CountryId);
+                }
+
+                if (!declarantAlreadyExist)
+                {
+                    var contract = AppContext.OBK_Contract.Where(x => x.Id == guid).FirstOrDefault();
+                    if (contract != null)
+                    {
+                        if (contract.DeclarantId != null)
+                        {
+                            var existingDeclarant = AppContext.OBK_Declarant.Where(x => x.Id == contract.DeclarantId).FirstOrDefault();
+                            if (!existingDeclarant.IsConfirmed)
+                            {
+                                AppContext.OBK_Declarant.Remove(existingDeclarant);
+                                contract.DeclarantId = null;
+                                AppContext.SaveChanges();
+                            }
+                        }
+
+                        OBK_Declarant declarant = new OBK_Declarant();
+                        declarant.Id = Guid.NewGuid();
+                        declarant.IsConfirmed = false;
+                        declarant.OrganizationFormId = declarantViewModel.OrganizationFormId;
+                        declarant.NameKz = declarantViewModel.NameKz;
+                        declarant.NameRu = declarantViewModel.NameRu;
+                        declarant.NameEn = declarantViewModel.NameEn;
+                        declarant.CountryId = declarantViewModel.CountryId;
+                        declarant.IsResident = declarantViewModel.IsResident;
+                        if (declarant.IsResident)
+                        {
+                            declarant.Bin = declarantViewModel.Bin;
+                        }
+                        else
+                        {
+                            declarant.Bin = null;
+                        }
+                        AppContext.OBK_Declarant.Add(declarant);
+                        AppContext.SaveChanges();
+                        contract.DeclarantId = declarant.Id;
+                        var contact = AppContext.OBK_DeclarantContact.Where(x => x.Id == contract.DeclarantContactId).FirstOrDefault();
+                        if (contact != null)
+                        {
+                            contact.DeclarantId = contract.DeclarantId;
+                        }
+                        AppContext.SaveChanges();
+                        return declarant;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private bool DeclarantExist(Guid? id, string bin)
+        {
+            var exist = false;
+            if (!string.IsNullOrEmpty(bin))
+            {
+                var declrant = id != null ?
+                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin && x.IsResident == true && x.Id != id).FirstOrDefault()
+                    :
+                    AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.Bin == bin && x.IsResident == true).FirstOrDefault();
+                if (declrant != null)
+                {
+                    exist = true;
+                }
+            }
+            return exist;
+        }
+
+        private bool DeclarantExist(Guid? id, string nameRu, Guid? countryId)
+        {
+            var exist = false;
+            var declarant = id != null ?
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.IsResident == false && x.Id != id).FirstOrDefault()
+                :
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.IsResident == false).FirstOrDefault();
+            if (declarant != null)
+            {
+                exist = true;
+            }
+            return exist;
+        }
+
+        public bool SaveDeclarant(Guid contractId, Guid declarantId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            if (contract != null)
+            {
+                if (contract.DeclarantId != null)
+                {
+                    var existingDeclarant = AppContext.OBK_Declarant.Where(x => x.Id == contract.DeclarantId).FirstOrDefault();
+                    if (!existingDeclarant.IsConfirmed)
+                    {
+                        var contacts = AppContext.OBK_DeclarantContact.Where(x => x.DeclarantId == contract.DeclarantId);
+                        foreach (var contact in contacts)
+                        {
+                            contact.DeclarantId = null;
+                        }
+
+                        AppContext.OBK_Declarant.Remove(existingDeclarant);
+                        contract.DeclarantId = null;
+                        AppContext.SaveChanges();
+                    }
+                }
+
+                contract.DeclarantId = declarantId;
+
+                if (contract.DeclarantContactId != null)
+                {
+                    var contact = AppContext.OBK_DeclarantContact.Where(x => x.Id == contract.DeclarantContactId).FirstOrDefault();
+                    if (contact != null)
+                    {
+                        contact.DeclarantId = contract.DeclarantId;
+                    }
+                }
+
+                AppContext.SaveChanges();
+            }
+            return true;
+        }
+
+        public bool DeleteDeclarant(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            if (contract != null)
+            {
+                bool declarantRemoved = false;
+                if (contract.DeclarantId != null)
+                {
+                    var existingDeclarant = AppContext.OBK_Declarant.Where(x => x.Id == contract.DeclarantId).FirstOrDefault();
+                    if (!existingDeclarant.IsConfirmed)
+                    {
+                        var contacts = AppContext.OBK_DeclarantContact.Where(x => x.DeclarantId == contract.DeclarantId);
+                        foreach (var contact in contacts)
+                        {
+                            contact.DeclarantId = null;
+                        }
+
+                        AppContext.OBK_Declarant.Remove(existingDeclarant);
+                        contract.DeclarantId = null;
+                        AppContext.SaveChanges();
+                        declarantRemoved = true;
+                    }
+                }
+
+                if (!declarantRemoved)
+                {
+                    contract.DeclarantId = null;
+                    var contacts = AppContext.OBK_DeclarantContact.Where(x => x.DeclarantId == contract.DeclarantId);
+                    foreach (var contact in contacts)
+                    {
+                        contact.DeclarantId = null;
+                    }
+
+                    AppContext.SaveChanges();
+                }
+            }
+            return true;
+        }
+
+        public object GetNamesNonResidents(Guid? countryId)
+        {
+            var noData = new { Id = Guid.Empty, Name = "Нет данных", NameKz = "Нет данных" };
+            if (countryId != null)
+            {
+                var obkDeclarants = AppContext.OBK_Declarant.Where(x => x.CountryId == countryId && x.IsConfirmed == true && x.IsResident == false).OrderBy(x => x.NameRu).Select(x => new { x.Id, Name = x.NameRu, x.NameKz }).ToList();
+                var list = new[] { noData }.ToList().Concat(obkDeclarants);
+                return list;
+            }
+            else
+            {
+                var list = new[] { noData }.ToList();
+                return list;
+            }
+        }
+
+        public bool ClearContactData(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            if (contract != null)
+            {
+                if (contract.DeclarantContactId != null)
+                {
+                    var declarantContact = AppContext.OBK_DeclarantContact.Where(x => x.Id == contract.DeclarantContactId).FirstOrDefault();
+                    if (declarantContact != null)
+                    {
+                        declarantContact.AddressLegalRu = null;
+                        declarantContact.AddressLegalKz = null;
+                        declarantContact.AddressFact = null;
+                        declarantContact.Phone = null;
+                        declarantContact.Email = null;
+                        declarantContact.BossLastName = null;
+                        declarantContact.BossFirstName = null;
+                        declarantContact.BossMiddleName = null;
+                        declarantContact.BossPosition = null;
+                        declarantContact.BossPositionKz = null;
+                        declarantContact.BossDocType = null;
+                        declarantContact.IsHasBossDocNumber = false;
+                        declarantContact.BossDocNumber = null;
+                        declarantContact.BossDocCreatedDate = null;
+                        declarantContact.BossDocEndDate = null;
+                        declarantContact.BossDocUnlimited = false;
+                        declarantContact.SignLastName = null;
+                        declarantContact.SignFirstName = null;
+                        declarantContact.SignMiddleName = null;
+                        declarantContact.SignPosition = null;
+                        declarantContact.SignPositionKz = null;
+                        declarantContact.SignDocType = null;
+                        declarantContact.IsHasSignDocNumber = false;
+                        declarantContact.SignDocNumber = null;
+                        declarantContact.SignDocCreatedDate = null;
+                        declarantContact.SignDocEndDate = null;
+                        declarantContact.SignDocUnlimited = false;
+                        declarantContact.BankIik = null;
+                        declarantContact.BankBik = null;
+                        declarantContact.CurrencyId = null;
+                        declarantContact.BankNameRu = null;
+                        declarantContact.BankNameKz = null;
+                        declarantContact.DeclarantId = null;
+                        AppContext.SaveChanges();
+                    }
+                }
+            }
+            return true;
+        }
+
+        public OBKDeclarantViewModel GetDeclarant(Guid contractId)
+        {
+            OBKDeclarantViewModel declarantViewModel = null;
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            if (contract != null && contract.DeclarantId != null)
+            {
+                var declarant = AppContext.OBK_Declarant.Where(x => x.Id == contract.DeclarantId).FirstOrDefault();
+                if (declarant != null)
+                {
+                    declarantViewModel = new OBKDeclarantViewModel()
+                    {
+                        Id = declarant.Id,
+                        OrganizationFormId = declarant.OrganizationFormId,
+                        NameKz = declarant.NameKz,
+                        NameRu = declarant.NameRu,
+                        NameEn = declarant.NameEn,
+                        CountryId = declarant.CountryId,
+                        Bin = declarant.Bin,
+                        IsResident = declarant.IsResident,
+                        IsConfirmed = declarant.IsConfirmed
+                    };
+                }
+            }
+            return declarantViewModel;
+        }
+
+        public List<OBKDrugFormViewModel> GetDrugForms(int productId)
+        {
+            var drugForms = AppContext.sr_drug_forms.Where(x => x.register_id == productId).Select(y => new OBKDrugFormViewModel
+            {
+                Id = y.id,
+                RegisterId = y.register_id,
+                BoxCount = y.box_count,
+                FullName = y.full_name,
+                FullNameKz = y.full_name_kz
+            }).ToList();
+            return drugForms;
+        }
+
+        public List<OBKMtPartViewModel> GetMtParts(int productId)
+        {
+            var meParts = AppContext.sr_register_mt_parts.Where(x => x.register_id == productId).Select(y => new OBKMtPartViewModel
+            {
+                Id = y.id,
+                RegisterId = y.register_id,
+                Name = y.name,
+                NameKz = y.name_kz,
+                PartNumber = y.part_number,
+                Model = y.model,
+                Specification = y.specification,
+                SpecificationKz = y.specification_kz,
+                ProducerName = y.producer_name,
+                CountryName = y.country_name,
+                ProducerNameKz = y.producer_name_kz,
+                CountryNameKz = y.country_name_kz,
+
+            }).ToList();
+            return meParts;
         }
     }
 }

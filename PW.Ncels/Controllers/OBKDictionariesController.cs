@@ -1,4 +1,5 @@
-﻿using PW.Ncels.Database.DataModel;
+﻿using PW.Ncels.Database.Constants;
+using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using System;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PW.Ncels.Controllers
         [HttpGet]
         public ActionResult GetObkContractTypes()
         {
-            var contractTypes = db.OBK_Ref_Type.OrderBy(x => x.Id).Select(o => new { o.Id, Name = o.NameRu, o.Code, o.NameKz });
+            var contractTypes = db.OBK_Ref_Type.Where(x => x.ViewOption == CodeConstManager.OBK_VIEW_OPTION_SHOW_ON_CREATE).OrderBy(x => x.Id).Select(o => new { o.Id, Name = o.NameRu, o.Code, o.NameKz });
             return Json(contractTypes.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -25,7 +26,7 @@ namespace PW.Ncels.Controllers
             //var obkOrganizations = db.OBK_Organization.Select(o => new { o.Id, Name = o.NameRu, o.NameKz });
             //return Json(obkOrganizations, JsonRequestBehavior.AllowGet);
 
-            var obkDeclarants = db.OBK_Declarant.Where(o => o.IsConfirmed == true).Select(o => new { o.Id, Name = o.NameKz, o.NameKz }).ToList();
+            var obkDeclarants = db.OBK_Declarant.Where(o => o.IsConfirmed == true).Select(o => new { o.Id, Name = o.NameRu, o.NameKz }).ToList();
             var noData = new { Id = Guid.Empty, Name = "Нет данных", NameKz = "Нет данных" };
             var list = new[] { noData }.ToList().Concat(obkDeclarants);
 
@@ -34,9 +35,17 @@ namespace PW.Ncels.Controllers
 
         [Authorize()]
         [HttpGet]
+        public ActionResult GetOBKContractDocumentTypeDictionary()
+        {
+            var values = db.OBK_Ref_ContractDocumentType.Select(x => new { Id = x.Id, Name = x.NameRu, NameKz = x.NameKz, x.NameGenitiveRu, x.NameGenitiveKz });
+            return Json(values, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize()]
+        [HttpGet]
         public ActionResult GetMeasureDictionary()
         {
-            var srMeasures = db.sr_measures.Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz });
+            var srMeasures = db.sr_measures.Where(x => x.block_sign == true).Select(x => new { Id = x.id, Name = x.short_name, NameKz = x.short_name_kz });
             return Json(srMeasures, JsonRequestBehavior.AllowGet);
         }
 
@@ -84,10 +93,22 @@ namespace PW.Ncels.Controllers
                     break;
             }
 
-            var names = db.OBK_Ref_PriceList.Where(x => 
-            x.TypeId == type && 
+            var names = db.OBK_Ref_PriceList.Where(x =>
+            x.TypeId == type &&
             (x.ServiceTypeId == productTypeGuid || productTypeGuid == Guid.Empty) &&
             (x.DegreeRiskId == degreeRiskGuid || degreeRiskGuid == Guid.Empty)
+            ).Select(x => new { x.Id, Name = x.NameRu });
+            return Json(names, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetServiceNamesServiceTypeDocument(int type)
+        {
+            // Документ/Экспертиза
+            Guid serviceType = new Guid("9106d5e8-35dc-4178-8882-b30166de4c80");
+
+            var names = db.OBK_Ref_PriceList.Where(x =>
+            x.TypeId == type &&
+            (x.ServiceTypeId == serviceType)
             ).Select(x => new { x.Id, Name = x.NameRu });
             return Json(names, JsonRequestBehavior.AllowGet);
         }

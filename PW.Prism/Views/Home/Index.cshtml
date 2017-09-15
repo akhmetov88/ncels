@@ -1,4 +1,5 @@
 ﻿@using System.Collections.Concurrent
+@using PW.Ncels.Database.Constants
 @{
     ViewBag.Title = "Home Page";
 }
@@ -372,7 +373,10 @@
                 url = "/Notification/Index";
             }
             if (parametr === 'SafetyAssessmentList') {
-                url = "/SafetyAssessment/Index";
+                url = "/SafetyAssessment/Index?type=" + @CodeConstManager.STAGE_OBK_COZ;
+            }
+            if (parametr === 'SafetyExpertiseList') {
+                url = "/SafetyAssessment/Index?type=" + @CodeConstManager.STAGE_OBK_EXPERTISE_DOC;
             }
             if (url != '' && url != 'Profile') {
                 var name = guidGen();

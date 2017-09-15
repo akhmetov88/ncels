@@ -46,6 +46,7 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <returns></returns>
         public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId)
         {
+            //todo надо добавить фильтр для договоро и отображать только подписанные и активные
             return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId);
         }
 
@@ -120,6 +121,14 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             return AppContext.OBK_Ref_StageStatus.FirstOrDefault(e => e.Id == id);
         }
+        /// <summary>
+        /// основание для УОБК
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<OBK_Ref_Reason> GetRefReasons(bool expResult)
+        {
+            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted && e.ExpertiseResult == expResult);
+        }
 
         /// <summary>
         /// валюта
@@ -155,6 +164,11 @@ namespace PW.Ncels.Database.Repository.OBK
         public IEnumerable<Dictionary> GetOrganizationForm()
         {
             return AppContext.Dictionaries.Where(x => x.Type == "OpfType").ToList();
+        }
+
+        public IEnumerable<OBK_Ref_CertificateType> GetCertificateType()
+        {
+            return AppContext.OBK_Ref_CertificateType.Where(e => !e.IsDeleted).ToList();
         }
 
         /// <summary>
@@ -533,6 +547,15 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
         }
         /// <summary>
+        /// Сохранение этапов заявления
+        /// </summary>
+        /// <param name="stage"></param>
+        public void SaveStage(OBK_AssessmentStage stage)
+        {
+            AppContext.OBK_AssessmentStage.AddOrUpdate(stage);
+            AppContext.SaveChanges();
+        }
+        /// <summary>
         /// Отправка этапов ОБК в работу выбранным исполнителям
         /// </summary>
         /// <param name="stageIds"></param>
@@ -648,6 +671,16 @@ namespace PW.Ncels.Database.Repository.OBK
             var query =
                 AppContext.OBK_AssessmentDeclarationRegisterView.Where(e=>e.ExecutorId == userId && e.StageCode == stage.ToString());
             return query;
+        }
+
+        /// <summary>
+        /// сохранение результата экспертизы документов
+        /// </summary>
+        /// <param name="expDocument"></param>
+        public void SaveExpDocument(OBK_StageExpDocument expDocument)
+        {
+            AppContext.OBK_StageExpDocument.Add(expDocument);
+            AppContext.SaveChanges();
         }
 
         #endregion

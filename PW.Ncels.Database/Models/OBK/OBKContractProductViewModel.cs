@@ -19,6 +19,10 @@ namespace PW.Ncels.Database.Models.OBK
         public string KpvedCode { get; set; }
         public string Price { get; set; }
         public Guid? Currency { get; set; }
+        public string DrugFormBoxCount { get; set; }
+        public string DrugFormFullName { get; set; }
+        public string DrugFormFullNameKz { get; set; }
         public List<OBKContractSeriesViewModel> Series { get; set; }
+        public List<OBKContractMtPartViewModel> MtParts { get; set; }
     }
 }

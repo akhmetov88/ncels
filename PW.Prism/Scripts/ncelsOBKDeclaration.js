@@ -156,7 +156,47 @@ function panelAssessmentDecalarationSelect(e) {
 }
 
 
+function getDeclarationDetails(parameters, number, controllerName) {
+    if (docArray.indexOf(parameters.toLowerCase()) !== -1)
+        docArray.splice(docArray.indexOf(parameters.toLowerCase()), 1);
+    var element = document.getElementById(parameters);
+    if (element === null) {
+        var tabStrip = $("#tabstrip").data("kendoTabStrip");
+        var content = '<div id="' + parameters + '"> </div>';
+        var idContent = '#' + parameters;
+        tabStrip.append({
+            text: 'Заявление: № ' + number,
+            content: content
 
+        });
+
+        tabStrip.select(tabStrip.items().length - 1);
+
+        var gridElement = $(idContent);
+
+        gridElement.height($(window).height() - 100);
+
+        $.ajax({
+            url: "/" + controllerName + "/Edit?id=" + parameters,
+            //type: "POST",
+            success: function (result) {
+                // refreshes partial view
+                $(idContent).html(result);
+                $('.mark-check-found').each(function () {
+                    var idcontrol = $(this).attr('idCheck');
+                    $("#" + idcontrol).prop("checked", true);
+                });
+            }
+        });
+    } else {
+
+        var itesm = $('#' + parameters)[0].parentElement.getAttribute('id').split('-')[1];
+        if (itesm) {
+            $("#tabstrip").data("kendoTabStrip").select(itesm - 1);
+        }
+    }
+    //alert(parameters);
+}
 
 
 
@@ -238,20 +278,14 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
             contentType: 'application/json; charset=utf-8',
             success: function (result) {
                 result = JSON.parse(result);
-                // alert(JSON.stringify(result));
                 viewModel.set("document", result);
                 viewModel.initButton();
-                //viewModel.person = JSON.stringify(result);
                 InitializePropertyIncoming(name, viewModel);
                 kendo.bind($("#inDocForm" + name), viewModel);
-                // validator.validate();
 
                 kendo.ui.progress($('#loader' + name), false);
             },
             complete: function () {
-                //validator.validate();
-                //  alert('Success! User Loaded!');
-                //                InitializeStatusBar(name, viewModel);
             }
         });
     }
@@ -266,12 +300,12 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
             actions: ["Close"]
         });
 
-        window.data("kendoWindow").title('Отправить на первичную экспертизу');
+        window.data("kendoWindow").title('Отправить на первичную документов');
         window.data("kendoWindow").setOptions({
             width: 550,
             height: 'auto'
         });
-        window.data("kendoWindow").refresh('/DrugDeclaration/DocumentReview?id=' + stageId);
+        window.data("kendoWindow").refresh('/SafetyAssessment/DocumentReview?id=' + stageId);
 
         window.data("kendoWindow").center();
         window.data("kendoWindow").open();

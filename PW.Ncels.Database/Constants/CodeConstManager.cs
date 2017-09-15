@@ -403,6 +403,11 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const int STAGE_OBK_COZ = 1;
 
+        /// <summary>
+        /// ЭКСПЕРТИЗА ДОКУМЕНТОВ
+        /// </summary>
+        public const int STAGE_OBK_EXPERTISE_DOC = 2;
+
         #endregion
 
         #region Статусы
@@ -418,7 +423,7 @@ namespace PW.Ncels.Database.Constants
         public const int STATUS_OBK_SEND_ID = 2;
 
         /// <summary>
-        /// Передана на экспертизу
+        /// Передана на экспертизу докуметов
         /// </summary>
         public const int STATUS_OBK_EXP_SEND_ID = 3;
 
@@ -456,6 +461,17 @@ namespace PW.Ncels.Database.Constants
         ///// </summary>
         //public const int DRUG_OBK_REGISTER_ID = 1;
 
+        #endregion
+
+        #region Настройка отображения типов ОБК
+       /// <summary>
+       /// Отображать тип ОБК при создании формы
+       /// </summary>
+        public const int OBK_VIEW_OPTION_SHOW_ON_CREATE = 1;
+        /// <summary>
+        /// Отображать тип ОБК при продлении срока, оформлении компии, оформлении копии
+        /// </summary>
+        public const int OBK_VIEW_OPTION_SHOW_IN_PROCESS = 2;
         #endregion
 
         #endregion
