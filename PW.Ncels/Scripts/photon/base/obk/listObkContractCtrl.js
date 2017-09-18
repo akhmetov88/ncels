@@ -900,16 +900,19 @@
                     $scope.object.BossFirstName = resp.data.BossFirstName;
                     $scope.object.BossMiddleName = resp.data.BossMiddleName;
                     $scope.object.BossPosition = resp.data.BossPosition;
+                    $scope.object.BossPositionKz = resp.data.BossPositionKz;
                     $scope.object.BossDocType = resp.data.BossDocType;
                     $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                     $scope.object.BossDocNumber = resp.data.BossDocNumber;
                     $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
                     $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
                     $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
+                    $scope.object.SignerIsBoss = resp.data.SignerIsBoss;
                     $scope.object.SignLastName = resp.data.SignLastName;
                     $scope.object.SignFirstName = resp.data.SignFirstName;
                     $scope.object.SignMiddleName = resp.data.SignMiddleName;
                     $scope.object.SignPosition = resp.data.SignPosition;
+                    $scope.object.SignPositionKz = resp.data.SignPositionKz;
                     $scope.object.SignDocType = resp.data.SignDocType;
                     $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                     $scope.object.SignDocNumber = resp.data.SignDocNumber;
@@ -948,16 +951,19 @@
             $scope.object.BossFirstName = null;
             $scope.object.BossMiddleName = null;
             $scope.object.BossPosition = null;
+            $scope.object.BossPositionKz = null;
             $scope.object.BossDocType = null;
             $scope.object.IsHasBossDocNumber = null;
             $scope.object.BossDocNumber = null;
             $scope.object.BossDocCreatedDate = getDate(null);
             $scope.object.BossDocEndDate = getDate(null);
             $scope.object.BossDocUnlimited = false;
+            $scope.object.SignerIsBoss = false;
             $scope.object.SignLastName = null;
             $scope.object.SignFirstName = null;
             $scope.object.SignMiddleName = null;
             $scope.object.SignPosition = null;
+            $scope.object.SignPositionKz = null;
             $scope.object.SignDocType = null;
             $scope.object.IsHasSignDocNumber = null;
             $scope.object.SignDocNumber = null;
@@ -982,16 +988,19 @@
         $scope.object.BossFirstName = null;
         $scope.object.BossMiddleName = null;
         $scope.object.BossPosition = null;
+        $scope.object.BossPositionKz = null;
         $scope.object.BossDocType = null;
         $scope.object.IsHasBossDocNumber = null;
         $scope.object.BossDocNumber = null;
         $scope.object.BossDocCreatedDate = getDate(null);
         $scope.object.BossDocEndDate = getDate(null);
         $scope.object.BossDocUnlimited = false;
+        $scope.object.SignerIsBoss = false;
         $scope.object.SignLastName = null;
         $scope.object.SignFirstName = null;
         $scope.object.SignMiddleName = null;
         $scope.object.SignPosition = null;
+        $scope.object.SignPositionKz = null;
         $scope.object.SignDocType = null;
         $scope.object.IsHasSignDocNumber = null;
         $scope.object.SignDocNumber = null;
@@ -1044,11 +1053,12 @@
     }
 
     $scope.signerIsLeaderCheckBoxChanged = function () {
-        if ($scope.object.SignerIsLeader == true) {
+        if ($scope.object.SignerIsBoss == true) {
             $scope.object.SignLastName = $scope.object.BossLastName;
             $scope.object.SignFirstName = $scope.object.BossFirstName;
             $scope.object.SignMiddleName = $scope.object.BossMiddleName;
             $scope.object.SignPosition = $scope.object.BossPosition;
+            $scope.object.SignPositionKz = $scope.object.BossPositionKz;
             $scope.object.SignDocType = $scope.object.BossDocType;
             $scope.object.SignDocUnlimited = $scope.object.BossDocUnlimited;
             $scope.object.IsHasSignDocNumber = $scope.object.IsHasBossDocNumber;
@@ -1056,6 +1066,7 @@
             $scope.object.SignDocCreatedDate = $scope.object.BossDocCreatedDate;
             $scope.object.SignDocEndDate = $scope.object.BossDocEndDate;
         }
+        $scope.editProject();
     }
 
     initProductServiceModule($scope, $http, $interval);
@@ -1144,16 +1155,19 @@
                 $scope.object.BossFirstName = resp.data.BossFirstName;
                 $scope.object.BossMiddleName = resp.data.BossMiddleName;
                 $scope.object.BossPosition = resp.data.BossPosition;
+                $scope.object.BossPositionKz = resp.data.BossPositionKz;
                 $scope.object.BossDocType = resp.data.BossDocType;
                 $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                 $scope.object.BossDocNumber = resp.data.BossDocNumber;
                 $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
                 $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
                 $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
+                $scope.object.SignerIsBoss = resp.data.SignerIsBoss;
                 $scope.object.SignLastName = resp.data.SignLastName;
                 $scope.object.SignFirstName = resp.data.SignFirstName;
                 $scope.object.SignMiddleName = resp.data.SignMiddleName;
                 $scope.object.SignPosition = resp.data.SignPosition;
+                $scope.object.SignPositionKz = resp.data.SignPositionKz;
                 $scope.object.SignDocType = resp.data.SignDocType;
                 $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                 $scope.object.SignDocNumber = resp.data.SignDocNumber;
@@ -1252,16 +1266,19 @@
                     $scope.object.BossFirstName = resp.data.BossFirstName;
                     $scope.object.BossMiddleName = resp.data.BossMiddleName;
                     $scope.object.BossPosition = resp.data.BossPosition;
+                    $scope.object.BossPositionKz = resp.data.BossPositionKz;
                     $scope.object.BossDocType = resp.data.BossDocType;
                     $scope.object.IsHasBossDocNumber = resp.data.IsHasBossDocNumber;
                     $scope.object.BossDocNumber = resp.data.BossDocNumber;
                     $scope.object.BossDocCreatedDate = getDate(resp.data.BossDocCreatedDate);
                     $scope.object.BossDocEndDate = getDate(resp.data.BossDocEndDate);
                     $scope.object.BossDocUnlimited = resp.data.BossDocUnlimited;
+                    $scope.object.SignerIsBoss = resp.data.SignerIsBoss;
                     $scope.object.SignLastName = resp.data.SignLastName;
                     $scope.object.SignFirstName = resp.data.SignFirstName;
                     $scope.object.SignMiddleName = resp.data.SignMiddleName;
                     $scope.object.SignPosition = resp.data.SignPosition;
+                    $scope.object.SignPositionKz = resp.data.SignPositionKz;
                     $scope.object.SignDocType = resp.data.SignDocType;
                     $scope.object.IsHasSignDocNumber = resp.data.IsHasSignDocNumber;
                     $scope.object.SignDocNumber = resp.data.SignDocNumber;
@@ -1674,7 +1691,7 @@ function initCalculator($scope, $interval, $http) {
 
     $scope.gridOptionsCalculator.columnDefs = [
         { name: 'Id', displayName: 'ИД', width: "*", visible: false },
-        { name: 'ServiceName', displayName: 'Тип услуги', width: "*" },
+        { name: 'ServiceName', displayName: 'Тип услуги', width: "*", cellTemplate: '<div class="ui-grid-cell-contents" >{{grid.getCellValue(row, col)}}</div>' },
 		{ name: 'ServiceId', displayName: 'Тип услуги - ИД', width: "*", visible: false },
         { name: "ProductId", displayName: "Продукция - ИД", width: "*", visible: false },
         { name: "ProductName", displayName: "Продукция", width: "*" },
