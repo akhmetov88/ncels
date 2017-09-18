@@ -101,8 +101,12 @@ WHERE ad.Id = @AssessmentDeclarationId</SqlCommand>
         <Dictionary isRef="1" />
         <Name>OBK_Declarant</Name>
         <NameInSource>ncelsProd</NameInSource>
-        <Parameters isList="true" count="0" />
-        <SqlCommand>select * from OBK_Declarant</SqlCommand>
+        <Parameters isList="true" count="1">
+          <value>AssessmentDeclarationId,AssessmentDeclarationId,14,0</value>
+        </Parameters>
+        <SqlCommand>select d.NameRu, d.NameKz, d.Bin from OBK_Declarant d
+inner join OBK_Contract c on d.Id = c.DeclarantId
+inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id =@AssessmentDeclarationId</SqlCommand>
       </OBK_Declarant>
       <OBK_DeclarantContact Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_DeclarantContact</Alias>
@@ -142,8 +146,12 @@ WHERE ad.Id = @AssessmentDeclarationId</SqlCommand>
         <Dictionary isRef="1" />
         <Name>OBK_DeclarantContact</Name>
         <NameInSource>ncelsProd</NameInSource>
-        <Parameters isList="true" count="0" />
-        <SqlCommand>select * from OBK_DeclarantContact</SqlCommand>
+        <Parameters isList="true" count="1">
+          <value>AssessmentDeclarationId,AssessmentDeclarationId,14,0</value>
+        </Parameters>
+        <SqlCommand>select dc.AddressLegalRu, dc.AddressFact, dc.Phone, dc.BankNameRu, dc.BankIik, dc.BankBik, dc.BossLastName, dc.BossFirstName, dc.BossMiddleName, dc.BossPosition from OBK_DeclarantContact dc 
+inner join OBK_Contract c on dc.Id = c.DeclarantContactId
+inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id = @AssessmentDeclarationId</SqlCommand>
       </OBK_DeclarantContact>
       <OBK_Ref_Type Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_Ref_Type</Alias>
@@ -159,8 +167,10 @@ WHERE ad.Id = @AssessmentDeclarationId</SqlCommand>
         <Dictionary isRef="1" />
         <Name>OBK_Ref_Type</Name>
         <NameInSource>ncelsProd</NameInSource>
-        <Parameters isList="true" count="0" />
-        <SqlCommand>select * from OBK_Ref_Type</SqlCommand>
+        <Parameters isList="true" count="1">
+          <value>AssessmentDeclarationId,AssessmentDeclarationId,14,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_Ref_Type rt inner join OBK_AssessmentDeclaration ad on rt.Id = ad.Type_Id where ad.Id = @AssessmentDeclarationId</SqlCommand>
       </OBK_Ref_Type>
       <OBK_RS_Products Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_RS_Products</Alias>
@@ -284,11 +294,11 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10,Bold</Font>
               <Guid>00a3139681984466a27a3f5417d662fc</Guid>
               <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text3</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
-              <Text>Заявление
+              <Text>Заявка
 на проведение оценки безопасности и качества продукции</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -302,7 +312,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>6850c31033114621801e66a4534df1db</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text1</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -319,7 +329,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>3f58b4c9140b42529e9acefb10db70a3</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text2</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -336,7 +346,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>dc35606f4ab94f23ad52766e658a5f68</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text4</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -353,7 +363,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>f581e9a169f54556b2e84c9284467999</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text5</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -370,7 +380,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>47df3fd0a87a4965a126ba406a436cac</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text6</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -387,7 +397,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>13e2a127c3be4567bb69a1a84838ce3b</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text7</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -406,7 +416,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>f4ec68ffd65b47e7997580a07c95e902</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text8</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -423,7 +433,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>05ed6016b4094a28a32bd8f732254785</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text9</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -440,13 +450,14 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>017c0add5e054a3c9f5081fc01c9c1c6</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text10</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
               <Text>{OBK_DeclarantContact.BankNameRu}
 ИИК: {OBK_DeclarantContact.BankIik}
-БИК: {OBK_DeclarantContact.BankBik}</Text>
+БИК: {OBK_DeclarantContact.BankBik}
+БИН: {OBK_Declarant.Bin}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
@@ -459,7 +470,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>55028f8cbb184a1eb2b54feea72509c9</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text11</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -476,7 +487,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>600aa2dce6e74f619e1838c7076a665c</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text12</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -493,7 +504,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>1656870a57304adda028592bf9d43c01</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text13</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -510,7 +521,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>38cfb6095636428aa865f7e2de656d85</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text14</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -527,7 +538,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>748ba8a15a3a41f59b5b9db9d482c86e</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text15</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -544,7 +555,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>2565a4f5fce64e6481d7194fe4b439e3</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text18</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -561,7 +572,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>3853a9e9103147f588d90d73c025a554</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text19</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -578,7 +589,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>0702cf5c2d5948f7ae052908d13dc6ad</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text20</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -595,7 +606,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>ed1cb0102d8d42df881eca7fc28d48c1</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text21</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -612,7 +623,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>668c30bb985f46e580725fdb17f858e4</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text22</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -629,7 +640,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>f43e36ebd2264d95a47876acc734d35d</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text23</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -648,7 +659,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>ba43b6c1979e471296d9ebe8c35ebb2a</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text29</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -664,7 +675,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>0b46f3f2c80a4c4985e3678123988ea3</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text39</Name>
               <Page isRef="13" />
               <Parent isRef="14" />
@@ -695,7 +706,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>738ec12f81f24c64bee60eb979e99d35</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text16</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -712,7 +723,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,9</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>4ba1b7c9d0564ef0beaa916d0767bb2b</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text17</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -730,7 +741,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>c9625129576945d09959c2d111ec88ef</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text24</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -748,7 +759,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>a8cd88011f52437ead101a1393b0a426</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text25</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -766,7 +777,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>adb9f50d38c84a2c8d950d4320727bba</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text26</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -784,7 +795,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>4bf72b3321264d52bae0fc39b4c64c8e</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text28</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -802,7 +813,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>a8356585733a445189cc7f5cfb1c4224</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text30</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -820,7 +831,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Font>Times New Roman,9</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>d65480d655464c45bcae9c0a3f074d16</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text27</Name>
               <Page isRef="13" />
               <Parent isRef="38" />
@@ -851,7 +862,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>e1f5ae36f8bb4343a91f0423e51356ea</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text32</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -868,7 +879,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>91ef1ea0f928467b9241af1e987afa2d</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text33</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -892,7 +903,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>3863878f8adb437881945a0406fde1f8</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text34</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -909,7 +920,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>8f4cd5c971534957890fa12fed7fe355</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text35</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -926,7 +937,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>4737e867d63140eeb04335e96f249137</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text36</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -942,7 +953,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>f46cf3f541874e0d8fdd74f0877dc4ee</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text37</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -959,7 +970,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>c4613c917b4b4199baa06225508590e1</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text38</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
@@ -977,14 +988,14 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>daabf08f132140c195a9dca4c6cc55a4</Guid>
-              <Margins>0,0,0,0</Margins>
+              <Margins>2,2,2,2</Margins>
               <Name>Text31</Name>
               <Page isRef="13" />
               <Parent isRef="47" />
-              <Text>{OBK_AssessmentDeclaration.CreatedDate}</Text>
+              <Text>{Format("{0:dd.MM.yyyy}", OBK_AssessmentDeclaration.CreatedDate)}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text31>
           </Components>
@@ -1022,10 +1033,10 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/8/2017 6:30:43 PM</ReportChanged>
+  <ReportChanged>9/14/2017 2:53:41 PM</ReportChanged>
   <ReportCreated>8/4/2017 9:31:50 AM</ReportCreated>
   <ReportFile>F:\Projects\ncels\PW.Ncels\Reports\Mrts\SafetyAssessmentDeclaration.mrt</ReportFile>
-  <ReportGuid>2acdef68102d4366b9ac29c35027cc98</ReportGuid>
+  <ReportGuid>29ce97659a614506954ff652c3c73417</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

@@ -2231,6 +2231,7 @@
     <Content Include="Views\OBKContract\ContractAddition.cshtml" />
     <Content Include="Views\SafetyAssessment\ShowComment.cshtml" />
     <Content Include="Views\SafetyAssessment\HistoriesView.cshtml" />
+    <Content Include="Reports\Mrts\SafetyAssessmentDeclaration.mrt" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

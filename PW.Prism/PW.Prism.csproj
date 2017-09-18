@@ -978,6 +978,8 @@
     <Content Include="Reports\List\PpArchiveCountsReport.mrt" />
     <Content Include="Reports\List\MonitoringRef.mrt" />
     <Content Include="Reports\List\MonitoringExp.mrt" />
+    <Content Include="Reports\Mrts\OBKExpDocument.mrt" />
+    <Content Include="Reports\Mrts\SafetyAssessmentDeclaration.mrt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2283,8 +2285,9 @@
     <Content Include="Views\SafetyAssessment\SetExecuter.cshtml" />
     <Content Include="Views\SafetyAssessment\ConfirmeRefuseSafety.cshtml" />
     <Content Include="Views\SafetyAssessment\DocumentReview.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpertiseDocView.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpertiseDocDeclarationView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpDocView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpDocResponseView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpDocDecResponseView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

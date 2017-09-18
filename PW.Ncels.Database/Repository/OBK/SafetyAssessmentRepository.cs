@@ -125,9 +125,9 @@ namespace PW.Ncels.Database.Repository.OBK
         /// основание для УОБК
         /// </summary>
         /// <returns></returns>
-        public IQueryable<OBK_Ref_Reason> GetRefReasons(bool expResult)
+        public IQueryable<OBK_Ref_Reason> GetRefReasons()
         {
-            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted && e.ExpertiseResult == expResult);
+            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted);
         }
 
         /// <summary>
@@ -683,7 +683,7 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
         }
 
-        public OBK_StageExpDocument GetStageExpDocument(int prodSerId)
+        public OBK_StageExpDocument GetStageExpDocument(int? prodSerId)
         {
             return AppContext.OBK_StageExpDocument.FirstOrDefault(e => e.ProductSeriesId == prodSerId);
         }

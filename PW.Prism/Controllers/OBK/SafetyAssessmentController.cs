@@ -12,6 +12,7 @@ using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
+using PW.Ncels.Database.Models.Expertise;
 using PW.Ncels.Database.Repository.Common;
 using PW.Ncels.Database.Repository.Expertise;
 using PW.Ncels.Database.Repository.OBK;
@@ -106,6 +107,33 @@ namespace PW.Prism.Controllers.OBK
             return File(stream, "application/pdf", name);
         }
 
+        public ActionResult ExpDocumentExportFilePdf(string productSeriesId, Guid id)
+        {
+            var db = new ncelsEntities();
+            string name = "Заключение о безопасности и качества.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(Server.MapPath("~/Reports/Mrts/OBKExpDocument.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["StageExpDocumentId"].ValueObject = Convert.ToInt32(productSeriesId);
+                report.Dictionary.Variables["AssessmentDeclarationId"].ValueObject = id;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            var stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+            return File(stream, "application/pdf", name);
+        }
 
         /// <summary>
         /// прикрепленные файлы
@@ -163,30 +191,6 @@ namespace PW.Prism.Controllers.OBK
                 prod.TnvedCode = product.TnvedCode;
                 prod.KpvedCode = product.KpvedCode;
                 prod.Price = product.Price;
-                //var obkStageExpDocument = product.OBK_StageExpDocument.FirstOrDefault(e => e.ProductId == product.Id && e.ProductSeriesId == null);
-                //if (obkStageExpDocument != null)
-                //{
-                //    prod.ExpId = obkStageExpDocument.Id;
-                //    prod.ProductId = obkStageExpDocument.ProductId;
-                //    prod.ExpResult = obkStageExpDocument.ExpResult;
-                //    prod.ExpResultTitle = obkStageExpDocument.ExpResult
-                //        ? "Соответствует требованиям"
-                //        : "Не соответствует требованиям";
-                //    prod.ExpStartDate = string.Format("{0:dd.MM.yyyy}", obkStageExpDocument.ExpStartDate);
-                //    prod.ExpEndDate = string.Format("{0:dd.MM.yyyy}", obkStageExpDocument.ExpEndDate);
-                //    prod.ExpReasonNameRu = obkStageExpDocument.ExpReasonNameRu;
-                //    prod.ExpReasonNameKz = obkStageExpDocument.ExpReasonNameKz;
-                //    prod.ExpProductNameRu = obkStageExpDocument.ExpProductNameRu;
-                //    prod.ExpProductNameKz = obkStageExpDocument.ExpProductNameKz;
-                //    prod.ExpNomenclatureRu = obkStageExpDocument.ExpNomenclatureRu;
-                //    prod.ExpNomenclatureKz = obkStageExpDocument.ExpNomenclatureKz;
-                //    prod.ExpAddInfoRu = obkStageExpDocument.ExpAddInfoRu;
-                //    prod.ExpAddInfoKz = obkStageExpDocument.ExpAddInfoKz;
-                //    prod.ExpConclusionNumber = obkStageExpDocument.ExpConclusionNumber;
-                //    prod.ExpBlankNumber = obkStageExpDocument.ExpBlankNumber;
-                //    prod.ExpApplication = obkStageExpDocument.ExpApplication;
-                //    prod.ExpApplicationNumber = obkStageExpDocument.ExpApplicationNumber;
-                //}
                 foreach (var productSeries in product.OBK_Procunts_Series)
                 {
                     var prodSeries = new OBK_Procunts_Series();
@@ -340,7 +344,7 @@ namespace PW.Prism.Controllers.OBK
             return Json("Ok!", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ExpertiseDocView(Guid id)
+        public ActionResult ExpDocView(Guid id)
         {
             var stage = GetAssessmentStage(id);
             var model = stage.OBK_AssessmentDeclaration;
@@ -348,68 +352,36 @@ namespace PW.Prism.Controllers.OBK
             //Результат
             var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
             ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
-
-            var nomeclature = new AssessmentStageRepository().GetRefNomenclature();
-            ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id","NameRu");
-
-            //var reasons = new SafetyAssessmentRepository().GetRefReasons();
-            //ViewData["ReasonResult"] = new SelectList(reasons, "ExpertiseResult", "NameRu");
-            
-            return PartialView(model);
-        }
-
-        public ActionResult ExpertiseDocDeclarationView(Guid id)
-        {
-            var stage = GetAssessmentStage(id);
-            var model = stage.OBK_AssessmentDeclaration;
-
-            //Результат
-            var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
-            ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
-
+            // номерклатура
             var nomeclature = new AssessmentStageRepository().GetRefNomenclature();
             ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id", "NameRu");
-
-            //var reasons = new SafetyAssessmentRepository().GetRefReasons();
-            //ViewData["ReasonResult"] = new SelectList(reasons, "ExpertiseResult", "NameRu");
+            //основание
+            var reasons = new SafetyAssessmentRepository().GetRefReasons();
+            ViewData["UObkReasons"] = new SelectList(reasons, "Id", "Name", "ExpertiseResult");
 
             return PartialView(model);
         }
 
-        public ActionResult GetReasons(bool expResult)
+        public ActionResult GetSaveExpDoc(OBK_StageExpDocument expData)
         {
-            var reasons = new SafetyAssessmentRepository().GetRefReasons(expResult);
-            var result = reasons.Select(x => new {
-                x.Id,
-                x.NameRu,
-                x.NameKz
-            });
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public ActionResult GetSaveExpDoc(int prodSeriesId, bool expResult, DateTime? expStartDate, DateTime? expEndDate, string expReasonNameRu, string expReasonNameKz,
-            string expProNameRu, string expProNameKz, string expNomenclatureRu, string expNomenclatureKz, string addInfoExpertiseRu, string addInfoExpertiseKz,
-            string expConclusionNumber, string expBlankNumber, string expApplicationNumber)
-        {
-            var series = new SafetyAssessmentRepository().GetStageExpDocument(prodSeriesId);
+            var series = new SafetyAssessmentRepository().GetStageExpDocument(expData.ProductSeriesId);
             if (series != null)
             {
-                series.ProductSeriesId = prodSeriesId;
-                series.ExpResult = expResult;
-                series.ExpStartDate = expStartDate;
-                series.ExpEndDate = expEndDate;
-                series.ExpReasonNameRu = expReasonNameRu;
-                series.ExpReasonNameKz = expReasonNameKz;
-                series.ExpProductNameRu = expProNameRu;
-                series.ExpProductNameKz = expProNameKz;
-                series.ExpNomenclatureRu = expNomenclatureRu;
-                series.ExpNomenclatureKz = expNomenclatureKz;
-                series.ExpAddInfoRu = addInfoExpertiseRu;
-                series.ExpAddInfoKz = addInfoExpertiseKz;
-                series.ExpConclusionNumber = expConclusionNumber;
-                series.ExpBlankNumber = expBlankNumber;
-                series.ExpApplicationNumber = expApplicationNumber;
+                series.ProductSeriesId = expData.ProductSeriesId;
+                series.ExpResult = expData.ExpResult;
+                series.ExpStartDate = expData.ExpStartDate;
+                series.ExpEndDate = expData.ExpEndDate;
+                series.ExpReasonNameRu = expData.ExpReasonNameRu;
+                series.ExpReasonNameKz = expData.ExpReasonNameKz;
+                series.ExpProductNameRu = expData.ExpProductNameRu;
+                series.ExpProductNameKz = expData.ExpProductNameKz;
+                series.ExpNomenclatureRu = expData.ExpNomenclatureRu;
+                series.ExpNomenclatureKz = expData.ExpNomenclatureKz;
+                series.ExpAddInfoRu = expData.ExpAddInfoRu;
+                series.ExpAddInfoKz = expData.ExpAddInfoKz;
+                series.ExpConclusionNumber = expData.ExpConclusionNumber;
+                series.ExpBlankNumber = expData.ExpBlankNumber;
+                series.ExpApplicationNumber = expData.ExpApplicationNumber;
                 series.ExecutorId = UserHelper.GetCurrentEmployee().Id;
                 series.ExpApplication = true;
                 new SafetyAssessmentRepository().SaveExpDocument(series);
@@ -419,21 +391,21 @@ namespace PW.Prism.Controllers.OBK
                 var expDoc = new OBK_StageExpDocument()
                 {
                     Id = Guid.NewGuid(),
-                    ProductSeriesId = prodSeriesId,
-                    ExpResult = expResult,
-                    ExpStartDate = expStartDate,
-                    ExpEndDate = expEndDate,
-                    ExpReasonNameRu = expReasonNameRu,
-                    ExpReasonNameKz = expReasonNameKz,
-                    ExpProductNameRu = expProNameRu,
-                    ExpProductNameKz = expProNameKz,
-                    ExpNomenclatureRu = expNomenclatureRu,
-                    ExpNomenclatureKz = expNomenclatureKz,
-                    ExpAddInfoRu = addInfoExpertiseRu,
-                    ExpAddInfoKz = addInfoExpertiseKz,
-                    ExpConclusionNumber = expConclusionNumber,
-                    ExpBlankNumber = expBlankNumber,
-                    ExpApplicationNumber = expApplicationNumber,
+                    ProductSeriesId = expData.ProductSeriesId,
+                    ExpResult = expData.ExpResult,
+                    ExpStartDate = expData.ExpStartDate,
+                    ExpEndDate = expData.ExpEndDate,
+                    ExpReasonNameRu = expData.ExpReasonNameRu,
+                    ExpReasonNameKz = expData.ExpReasonNameKz,
+                    ExpProductNameRu = expData.ExpProductNameRu,
+                    ExpProductNameKz = expData.ExpProductNameKz,
+                    ExpNomenclatureRu = expData.ExpNomenclatureRu,
+                    ExpNomenclatureKz = expData.ExpNomenclatureKz,
+                    ExpAddInfoRu = expData.ExpAddInfoRu,
+                    ExpAddInfoKz = expData.ExpAddInfoKz,
+                    ExpConclusionNumber = expData.ExpConclusionNumber,
+                    ExpBlankNumber = expData.ExpBlankNumber,
+                    ExpApplicationNumber = expData.ExpApplicationNumber,
                     ExecutorId = UserHelper.GetCurrentEmployee().Id,
                     ExpApplication = true
                 };

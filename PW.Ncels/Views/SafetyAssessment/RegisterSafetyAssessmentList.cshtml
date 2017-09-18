@@ -11,7 +11,7 @@
                 <a href="@Url.Action("Index", "Home")">Домашняя страница</a>
             </li>
             <li>
-                <a>Заявления</a>
+                <a>Заявки</a>
             </li>
             <li class="active">
                 <strong>Все</strong>
@@ -27,7 +27,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>
-                        Список всех заявлений
+                        Список всех заявок
                     </h5>
                     <div ibox-tools></div>
                 </div>
@@ -35,16 +35,16 @@
                     <div class="note-font btn-group">
                         <div class="btn-group" role="group">
                             @*<div class="note-font btn-group">
-                        <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" onclick="location.href='@Url.Action("Create", "SafetyAssessment")'"><i class="fa fa-file-text-o"></i> Создать заявление</button>
+                        <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" onclick="location.href='@Url.Action("Create", "SafetyAssessment")'"><i class="fa fa-file-text-o"></i> Создать заявку</button>
                     </div>*@
                             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-file-text-o"></i> Создать заявление
+                                <i class="fa fa-file-text-o"></i> Создать заявку
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type= @CodeConstManager.OBK_SA_SERIAL })">Заявление на серийную оценку безопасности и качества</a></li>
-                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type= @CodeConstManager.OBK_SA_PARTY })">Заявление на оценку безопасности и качества каждой серии(партии)</a></li>
-                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type = @CodeConstManager.OBK_SA_DECLARATION })">Заявление на оценку безопасности и качества путем декларирования</a></li>
+                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type= @CodeConstManager.OBK_SA_SERIAL })">Заявка на серийную оценку безопасности и качества</a></li>
+                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type= @CodeConstManager.OBK_SA_PARTY })">Заявка на оценку безопасности и качества каждой серии(партии)</a></li>
+                                <li><a href="@Url.Action("Create", "SafetyAssessment", new {type = @CodeConstManager.OBK_SA_DECLARATION })">Заявка на оценку безопасности и качества путем декларирования</a></li>
                             </ul>
                         </div>
                     </div>

@@ -1,0 +1,82 @@
+﻿
+@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
+
+@{
+    var @expertiseStartDate = DateTime.Now.ToShortDateString();
+}
+
+
+<div id="resultRowId" style="display: block">
+    <div class="form-group">
+        <div class="col-lg-6" id="expertiseStartDateId">
+            <label class="control-label">Дата регистрации:</label>
+            <input class="form-control date-control" type="text" id="expertiseStartDate" value="@expertiseStartDate">
+        </div>
+        <div class="col-lg-6" id="expertiseEndDateId">
+            <label class="control-label">Дата истечения:</label>
+            <input class="form-control date-control" type="text" id="expertiseEndDate">
+        </div>
+    </div>
+    <div id="showreasonId">
+        @*<div class="form-group">
+            <div class="col-lg-11">
+                <label class="control-label">Основание</label>
+                @Html.DropDownList("ReasonResult", (IEnumerable<SelectListItem>)ViewData["UObkReasons"],
+                    String.Empty, new { @class = "form-control" })
+            </div>
+        </div>*@
+        <div class="form-group">
+            <div class="col-lg-6">
+                <label class="control-label">Основание на русском языке*</label>
+                <textarea rows="4" id="expReasonNameRu" name="expReasonNameRu" type="text" class="form-control"></textarea>
+            </div>
+            <div class="col-lg-6">
+                <label class="control-label">Основание на казахском языке*</label>
+                <textarea rows="4" id="expReasonNameKz" name="expReasonNameKz" type="text" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="displayShow" style="display: block">
+        <div class="form-group">
+            <div class="col-lg-6">
+                <label class="control-label">Наименование на русском языке*</label>
+                <textarea rows="5" id="expProNameRu" name="expProNameRu" type="text" class="form-control"></textarea>
+            </div>
+            <div class="col-lg-6">
+                <label class="control-label">Наименование на казахском языке*</label>
+                <textarea rows="5" id="expProNameKz" name="expProNameKz" type="text" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <label class="control-label">Доп. информация на русском языке</label>
+                <textarea id="addInfoExpertiseRu" name="addInfoExpertiseRu" type="text" class="form-control"></textarea>
+            </div>
+            <div class="col-lg-6">
+                <label class="control-label">Доп. информация на казахском языке</label>
+                <textarea id="addInfoExpertiseKz" name="addInfoExpertiseKz" type="text" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <label class="control-label">№ заключения*</label>
+                <input id="expConclusionNumber" name="expConclusionNumber" type="text" class="form-control">
+            </div>
+            <div class="col-lg-6">
+                <label class="control-label">№ бланка*</label>
+                <input id="expBlankNumber" name="expBlankNumber" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <label class="control-label">Тип заключения</label><br />
+                <input type="radio" name="radiobutton" checked="checked" id="expNotApplication" onchange="hide()"> без приложения
+                <input type="radio" name="radiobutton" id="expApplication" onchange="show()"> с приложением
+            </div>
+            <div class="col-lg-6" id="expApplicationNumber" style="display:none">
+                <label class="control-label">№ бланка приложения</label>
+                <input id="expApplicationNumber1" name="expApplicationNumber" type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>

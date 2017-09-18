@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PW.Ncels.Database.DataModel
 {
-    public partial class OBK_RS_Products
+    public partial class OBK_Ref_Reason
     {
-        public List<OBK_Procunts_Series> Obk_Products_Series { get; set; }
+        public string Name => NameRu + "/" + NameKz;
     }
 }

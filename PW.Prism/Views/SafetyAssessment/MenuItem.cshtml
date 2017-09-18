@@ -72,27 +72,11 @@
         });*@
     }
 
-    function showExpertiseDoc(event) {
+    function showExpDoc(event) {
         var itemId = '@Model.Id';
         window.Showbusy(event);
         $.ajax({
-            url: "/SafetyAssessment/ExpertiseDocView?Id=" + itemId,
-            success: function (result) {
-                $("#page" + '@Model.Id').html(result);
-                $("#loading").hide();
-            },
-            error: function () {
-                $("#loading").hide();
-                ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
-            }
-        });
-    }
-
-    function showExpertiseDocDeclaration(event) {
-        var itemId = '@Model.Id';
-        window.Showbusy(event);
-        $.ajax({
-            url: "/SafetyAssessment/ExpertiseDocDeclarationView?Id=" + itemId,
+            url: "/SafetyAssessment/ExpDocView?Id=" + itemId,
             success: function (result) {
                 $("#page" + '@Model.Id').html(result);
                 $("#loading").hide();
@@ -111,15 +95,7 @@
         <a href="#" onclick="showAttachFile(event)" class="list-group-item"><span class="glyphicon glyphicon-folder-open"></span> Перечень документов</a>
         @if (Model.StageId == CodeConstManager.STAGE_OBK_EXPERTISE_DOC)
         {
-            if (Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code == CodeConstManager.OBK_SA_SERIAL) {
-                <a href="#" onclick="showExpertiseDocDeclaration(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>
-            }
-            if (Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code == CodeConstManager.OBK_SA_PARTY) {
-                <a href="#" onclick="showExpertiseDocDeclaration(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>
-            }
-            if (Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code == CodeConstManager.OBK_SA_DECLARATION) {
-                <a href="#" onclick="showExpertiseDocDeclaration(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>
-            }
+            <a href="#" onclick="showExpDoc(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>
         }
         @if(@Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code != CodeConstManager.OBK_SA_DECLARATION) {
             <a href="#" onclick="showMaterial(event)" class="list-group-item"><span class="glyphicon glyphicon-briefcase"></span> Образцы</a>
