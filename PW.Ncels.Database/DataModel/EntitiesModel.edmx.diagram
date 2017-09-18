@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="85">
+      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="30">
         <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
@@ -749,6 +749,11 @@
         <AssociationConnector Association="ncelsModel.FK_OBK_StageExpDocument_OBK_Procunts_Series" />
         <AssociationConnector Association="ncelsModel.FK_OBK_StageExpDocument_OBK_RS_Products" />
         <EntityTypeShape EntityType="ncelsModel.OBK_Ref_CertificateType" Width="1.5" PointX="64.375" PointY="71.875" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_MtPart" Width="1.5" PointX="88.375" PointY="13.75" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_MtPart_ProductId_OBK_RS_Products_Id" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ContractDocumentType" Width="1.5" PointX="66.375" PointY="71.75" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_Dictionaries" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
