@@ -71,13 +71,11 @@
                             @switch (Model.OBK_Ref_Type.Code)
                             {
                                 case CodeConstManager.OBK_SA_PARTY:
-                                    @Html.Partial("~/Views/SafetyAssessment/ExpDocResponseView.cshtml", Model);
-                                    break;
                                 case CodeConstManager.OBK_SA_SERIAL:
-                                    @Html.Partial("~/Views/SafetyAssessment/ExpDocResponseView.cshtml", Model);
+                                    @Html.Partial("~/Views/SafetyAssessment/ExpDocResponseView.cshtml", Model)
                                     break;
                                 case CodeConstManager.OBK_SA_DECLARATION:
-                                    @Html.Partial("~/Views/SafetyAssessment/ExpDocDecResponseView.cshtml", Model);
+                                    @Html.Partial("~/Views/SafetyAssessment/ExpDocDecResponseView.cshtml", Model)
                                     break;
                             }
                         </div>
@@ -94,6 +92,7 @@
 <script type="text/javascript">
     var productSeriesId = null;
     var tabRow = null;
+    var selectedExpertiseResult = null;
 
     $("#viewBtn").click(function () {
         if (productSeriesId == null)
@@ -211,7 +210,7 @@
 
     $("#ExpertiseResult").change(function() {
         debugger;
-        var selectedExpertiseResult = $(this).val();
+        selectedExpertiseResult = $(this).val();
         if (@typeCode === 3) {
         }
         showExpResult(selectedExpertiseResult);
@@ -239,7 +238,7 @@
     function rowClear() {
         debugger;
         if (@typeCode === 3) {
-            var qw =  $("#ExpertiseResult").val();
+            $("#ExpertiseResult").val(selectedExpertiseResult);
         }else{
             $("#ExpertiseResult").val("");
         }
@@ -328,9 +327,10 @@
                             $(this.parentNode).addClass('pw-row-selected');
                             var massSeries = tabSeries.row('.pw-row-selected').data();
                             showRows(true);
+                            debugger;
                             // если на серию
                             if (massSeries.ProductSeriesId != null) {
-                                if (massSeries.ExpResult) {
+                                if (massSeries.ExpResult === "True") {
                                     $("#viewBtn").attr("disabled", false);
                                     showExpResult('True');
                                     productSeriesId = massSeries.Id;

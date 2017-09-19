@@ -291,8 +291,57 @@ namespace PW.Ncels.Database.Repository.OBK
                 {
                     return UpdateMain(isNew, model, fieldName, fieldValue, userId, fieldDisplay);
                 }
+                case "product":
+                {
+                    return UpdateProduct(model, recordId, fieldName, fieldValue, userId, fieldDisplay);
+                }
             }
             return null;
+        }
+
+        private SubUpdateField UpdateProduct(OBK_AssessmentDeclaration model, long? recordId, string fieldName,
+            string fieldValue, string userId, string fieldDisplay)
+        {
+            OBK_RS_Products entity = null;
+            if (recordId > 0)
+            {
+                entity = AppContext.Set<OBK_RS_Products>().FirstOrDefault(e => e.Id == recordId);
+            }
+
+            var property = entity.GetType().GetProperty(fieldName);
+            if (property != null)
+            {
+                var t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+                object safeValue;
+                if (string.IsNullOrEmpty(fieldValue))
+                {
+                    fieldValue = null;
+                }
+                if (t == typeof(Guid))
+                {
+                    safeValue = fieldValue == null ? null : Convert.ChangeType(new Guid(fieldValue), t);
+                }
+                else
+                {
+                    safeValue = fieldValue == null ? null : Convert.ChangeType(fieldValue, t);
+
+                }
+                property.SetValue(entity, safeValue, null);
+            }
+            if (entity.Id == 0)
+            {
+                AppContext.OBK_RS_Products.Add(entity);
+            }
+            AppContext.SaveChanges();
+
+            SaveHistoryField(model.Id, fieldName, fieldValue, new Guid(userId), fieldDisplay);
+            
+            var subUpdateField = new SubUpdateField();
+            subUpdateField.ModelId = model.ObjectId;
+            subUpdateField.RecordId = entity.Id;
+
+            return subUpdateField;
         }
 
         private SubUpdateField UpdateMain(bool isNew, OBK_AssessmentDeclaration model, string fieldName,

@@ -419,6 +419,10 @@ namespace PW.Ncels.Controllers
                 prod.TnvedCode = product.TnvedCode;
                 prod.KpvedCode = product.KpvedCode;
                 prod.Price = product.Price;
+                prod.CurrencyId = product.CurrencyId;
+                prod.DrugFormBoxCount = product.DrugFormBoxCount;
+                prod.DrugFormFullName = product.DrugFormFullName;
+                prod.RegTypeId = product.RegTypeId;
                 foreach (var productSeries in product.OBK_Procunts_Series)
                 {
                     var prodSeries = new OBK_Procunts_Series();
@@ -429,6 +433,16 @@ namespace PW.Ncels.Controllers
                     prodSeries.SeriesParty = productSeries.SeriesParty;
                     prodSeries.SeriesShortNameRu = productSeries.sr_measures.short_name;
                     prod.OBK_Procunts_Series.Add(prodSeries);
+                }
+                foreach (var mtPart in product.OBK_MtPart)
+                {
+                    var mtParts = new OBK_MtPart();
+                    mtParts.PartNumber = mtPart.PartNumber;
+                    mtParts.Model = mtPart.Model;
+                    mtParts.Specification = mtPart.Specification;
+                    mtParts.ProducerName = mtPart.ProducerName;
+                    mtParts.CountryName = mtPart.CountryName;
+                    prod.OBK_MtPart.Add(mtParts);
                 }
                 resultProducts.Add(prod);
             }

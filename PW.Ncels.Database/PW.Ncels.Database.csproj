@@ -1992,6 +1992,7 @@
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBK_Procunts_Series.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
+    <Compile Include="Models\OBK\OBK_Ref_Nomenclature.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Reason.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Result.cs" />
     <Compile Include="Models\OBK\OBK_RS_Products.cs" />
@@ -2167,7 +2168,9 @@
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recources\ResourceSetting.resx" />
+    <EmbeddedResource Include="Recources\ResourceSetting.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ncels.Helpers\Ncels.Helpers.csproj">

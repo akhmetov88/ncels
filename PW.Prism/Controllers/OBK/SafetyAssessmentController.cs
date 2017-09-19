@@ -205,7 +205,7 @@ namespace PW.Prism.Controllers.OBK
                     {
                         prodSeries.ExpId = obkStageExpDocumentSeries.Id;
                         prodSeries.ProductSeriesId = obkStageExpDocumentSeries.ProductSeriesId;
-                        prodSeries.ExpResult = obkStageExpDocumentSeries.ExpResult;
+                        prodSeries.ExpResult = obkStageExpDocumentSeries.ExpResult ? "True" : "False";
                         prodSeries.ExpResultTitle = obkStageExpDocumentSeries.ExpResult
                             ? "Соответствует требованиям"
                             : "Не соответствует требованиям";
@@ -354,10 +354,10 @@ namespace PW.Prism.Controllers.OBK
             ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
             // номерклатура
             var nomeclature = new AssessmentStageRepository().GetRefNomenclature();
-            ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id", "NameRu");
+            ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id", "Name");
             //основание
             var reasons = new SafetyAssessmentRepository().GetRefReasons();
-            ViewData["UObkReasons"] = new SelectList(reasons, "Id", "Name", "ExpertiseResult");
+            ViewData["UObkReasons"] = new SelectList(reasons, "ExpertiseResult", "Name");
 
             return PartialView(model);
         }
