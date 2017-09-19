@@ -2963,12 +2963,12 @@ warning 6002: The table/view 'ncelsProd.dbo.LinkDictionaries' does not have a pr
           <Property Name="KpvedCode" Type="nvarchar" MaxLength="20" />
           <Property Name="Price" Type="nvarchar" MaxLength="20" />
           <Property Name="ContractId" Type="uniqueidentifier" />
-          <Property Name="CurrencyId" Type="int" />
           <Property Name="RegTypeId" Type="int" Nullable="false" />
           <Property Name="DegreeRiskId" Type="int" />
           <Property Name="DrugFormBoxCount" Type="nvarchar" MaxLength="255" />
           <Property Name="DrugFormFullName" Type="nvarchar" MaxLength="4000" />
           <Property Name="DrugFormFullNameKz" Type="nvarchar" MaxLength="4000" />
+          <Property Name="CurrencyId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="OBK_StageExpDocument">
           <Key>
@@ -32060,18 +32060,18 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           </AssociationSet>
           <EntitySet Name="OBK_Ref_CertificateType" EntityType="ncelsModel.OBK_Ref_CertificateType" />
           <EntitySet Name="OBK_MtPart" EntityType="ncelsModel.OBK_MtPart" />
-          <AssociationSet Name="FK_OBK_MtPart_ProductId_OBK_RS_Products_Id" Association="ncelsModel.FK_OBK_MtPart_ProductId_OBK_RS_Products_Id">
-            <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
-            <End Role="OBK_MtPart" EntitySet="OBK_MtPart" />
-          </AssociationSet>
           <EntitySet Name="OBK_Ref_ContractDocumentType" EntityType="ncelsModel.OBK_Ref_ContractDocumentType" />
+          <AssociationSet Name="FK_OBK_AssessmentDeclaration_Dictionaries" Association="ncelsModel.FK_OBK_AssessmentDeclaration_Dictionaries">
+            <End Role="Dictionary" EntitySet="Dictionaries" />
+            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
+          </AssociationSet>
           <AssociationSet Name="FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType" Association="ncelsModel.FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType">
             <End Role="OBK_Ref_CertificateType" EntitySet="OBK_Ref_CertificateType" />
             <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
           </AssociationSet>
-          <AssociationSet Name="FK_OBK_AssessmentDeclaration_Dictionaries" Association="ncelsModel.FK_OBK_AssessmentDeclaration_Dictionaries">
-            <End Role="Dictionary" EntitySet="Dictionaries" />
-            <End Role="OBK_AssessmentDeclaration" EntitySet="OBK_AssessmentDeclaration" />
+          <AssociationSet Name="FK_OBK_MtPart_ProductId_OBK_RS_Products_Id" Association="ncelsModel.FK_OBK_MtPart_ProductId_OBK_RS_Products_Id">
+            <End Role="OBK_RS_Products" EntitySet="OBK_RS_Products" />
+            <End Role="OBK_MtPart" EntitySet="OBK_MtPart" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Registery">
@@ -44551,8 +44551,8 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="CertificateStartDate" Type="DateTime" Precision="3" />
           <Property Name="CertificateTypeId" Type="Int32" />
           <Property Name="InvoiceContractDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OBK_Ref_CertificateType" Relationship="ncelsModel.FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_Ref_CertificateType" />
           <NavigationProperty Name="Dictionary" Relationship="ncelsModel.FK_OBK_AssessmentDeclaration_Dictionaries" FromRole="OBK_AssessmentDeclaration" ToRole="Dictionary" />
+          <NavigationProperty Name="OBK_Ref_CertificateType" Relationship="ncelsModel.FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType" FromRole="OBK_AssessmentDeclaration" ToRole="OBK_Ref_CertificateType" />
         </EntityType>
         <EntityType Name="OBK_Ref_Type">
           <Key>
@@ -44623,7 +44623,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <NavigationProperty Name="OBK_Procunts_Series" Relationship="ncelsModel.FK_OBK_RS_Products_Procunts_Series" FromRole="OBK_RS_Products" ToRole="OBK_Procunts_Series" />
           <Property Name="Price" Type="String" Unicode="true" FixedLength="false" MaxLength="20" />
           <Property Name="ContractId" Type="Guid" />
-          <Property Name="CurrencyId" Type="Int32" />
           <NavigationProperty Name="OBK_Contract" Relationship="ncelsModel.FK_OBK_RS_Products_OBK_Contract" FromRole="OBK_RS_Products" ToRole="OBK_Contract" />
           <NavigationProperty Name="OBK_ContractPrice" Relationship="ncelsModel.FK_OBK_ContractPrice_ProductId__OBK_RS_Products_Id" FromRole="OBK_RS_Products" ToRole="OBK_ContractPrice" />
           <Property Name="RegTypeId" Type="Int32" Nullable="false" />
@@ -44633,6 +44632,7 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="DrugFormFullName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="DrugFormFullNameKz" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OBK_MtPart" Relationship="ncelsModel.FK_OBK_MtPart_ProductId_OBK_RS_Products_Id" FromRole="OBK_RS_Products" ToRole="OBK_MtPart" />
+          <Property Name="CurrencyId" Type="Guid" />
         </EntityType>
         <EntityType Name="OBK_Procunts_Series">
           <Key>
@@ -45357,18 +45357,6 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="CountryNameKz" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OBK_RS_Products" Relationship="ncelsModel.FK_OBK_MtPart_ProductId_OBK_RS_Products_Id" FromRole="OBK_MtPart" ToRole="OBK_RS_Products" />
         </EntityType>
-        <Association Name="FK_OBK_MtPart_ProductId_OBK_RS_Products_Id">
-          <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="1" />
-          <End Type="ncelsModel.OBK_MtPart" Role="OBK_MtPart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBK_RS_Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OBK_MtPart">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="OBK_Ref_ContractDocumentType">
           <Key>
             <PropertyRef Name="Id" />
@@ -45379,6 +45367,18 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <Property Name="NameGenitiveRu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="NameGenitiveKz" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <Association Name="FK_OBK_AssessmentDeclaration_Dictionaries">
+          <End Type="ncelsModel.Dictionary" Role="Dictionary" Multiplicity="0..1" />
+          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dictionary">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OBK_AssessmentDeclaration">
+              <PropertyRef Name="CertificateCountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType">
           <End Type="ncelsModel.OBK_Ref_CertificateType" Role="OBK_Ref_CertificateType" Multiplicity="0..1" />
           <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="*" />
@@ -45391,15 +45391,15 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBK_AssessmentDeclaration_Dictionaries">
-          <End Type="ncelsModel.Dictionary" Role="Dictionary" Multiplicity="0..1" />
-          <End Type="ncelsModel.OBK_AssessmentDeclaration" Role="OBK_AssessmentDeclaration" Multiplicity="*" />
+        <Association Name="FK_OBK_MtPart_ProductId_OBK_RS_Products_Id">
+          <End Type="ncelsModel.OBK_RS_Products" Role="OBK_RS_Products" Multiplicity="1" />
+          <End Type="ncelsModel.OBK_MtPart" Role="OBK_MtPart" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dictionary">
+            <Principal Role="OBK_RS_Products">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OBK_AssessmentDeclaration">
-              <PropertyRef Name="CertificateCountryId" />
+            <Dependent Role="OBK_MtPart">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -56586,12 +56586,12 @@ warning 6002: The table/view 'ncelsProd.dbo.vw_aspnet_WebPartState_User' does no
           <EntitySetMapping Name="OBK_RS_Products">
             <EntityTypeMapping TypeName="IsTypeOf(ncelsModel.OBK_RS_Products)">
               <MappingFragment StoreEntitySet="OBK_RS_Products">
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="DrugFormFullNameKz" ColumnName="DrugFormFullNameKz" />
                 <ScalarProperty Name="DrugFormFullName" ColumnName="DrugFormFullName" />
                 <ScalarProperty Name="DrugFormBoxCount" ColumnName="DrugFormBoxCount" />
                 <ScalarProperty Name="DegreeRiskId" ColumnName="DegreeRiskId" />
                 <ScalarProperty Name="RegTypeId" ColumnName="RegTypeId" />
-                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="KpvedCode" ColumnName="KpvedCode" />
