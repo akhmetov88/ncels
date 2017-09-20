@@ -306,14 +306,14 @@ namespace PW.Ncels.Controllers
         [HttpGet]
         public ActionResult GetDrugForms(int productId)
         {
-            var drugForms = obkRepo.GetDrugForms(productId);
+            List<OBKDrugFormViewModel> drugForms = obkRepo.GetDrugForms(productId);
             return Json(drugForms, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult GetMtParts(int productId)
         {
-            var mtParts = obkRepo.GetMtParts(productId);
+            List<OBKMtPartViewModel> mtParts = obkRepo.GetMtParts(productId);
             return Json(mtParts, JsonRequestBehavior.AllowGet);
         }
 

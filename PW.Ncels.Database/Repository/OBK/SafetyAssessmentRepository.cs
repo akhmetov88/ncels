@@ -44,10 +44,10 @@ namespace PW.Ncels.Database.Repository.OBK
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns></returns>
-        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId)
+        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId, int type)
         {
             //todo надо добавить фильтр для договоро и отображать только подписанные и активные
-            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId);
+            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId && e.Type == type);
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace PW.Ncels.Database.Repository.OBK
         /// </summary>
         /// <param name="employeeId">владелец</param>
         /// <returns></returns>
-        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId)
+        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId, int type)
         {
-            var list = GetContractsByStatuses(employeeId).OrderBy(e => e.StartDate);
+            var list = GetContractsByStatuses(employeeId, type).OrderBy(e => e.StartDate);
 
             foreach (var contract in list)
             {
@@ -125,9 +125,9 @@ namespace PW.Ncels.Database.Repository.OBK
         /// основание для УОБК
         /// </summary>
         /// <returns></returns>
-        public IQueryable<OBK_Ref_Reason> GetRefReasons(bool expResult)
+        public IQueryable<OBK_Ref_Reason> GetRefReasons()
         {
-            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted && e.ExpertiseResult == expResult);
+            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted);
         }
 
         /// <summary>
@@ -291,8 +291,57 @@ namespace PW.Ncels.Database.Repository.OBK
                 {
                     return UpdateMain(isNew, model, fieldName, fieldValue, userId, fieldDisplay);
                 }
+                case "product":
+                {
+                    return UpdateProduct(model, recordId, fieldName, fieldValue, userId, fieldDisplay);
+                }
             }
             return null;
+        }
+
+        private SubUpdateField UpdateProduct(OBK_AssessmentDeclaration model, long? recordId, string fieldName,
+            string fieldValue, string userId, string fieldDisplay)
+        {
+            OBK_RS_Products entity = null;
+            if (recordId > 0)
+            {
+                entity = AppContext.Set<OBK_RS_Products>().FirstOrDefault(e => e.Id == recordId);
+            }
+
+            var property = entity.GetType().GetProperty(fieldName);
+            if (property != null)
+            {
+                var t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+                object safeValue;
+                if (string.IsNullOrEmpty(fieldValue))
+                {
+                    fieldValue = null;
+                }
+                if (t == typeof(Guid))
+                {
+                    safeValue = fieldValue == null ? null : Convert.ChangeType(new Guid(fieldValue), t);
+                }
+                else
+                {
+                    safeValue = fieldValue == null ? null : Convert.ChangeType(fieldValue, t);
+
+                }
+                property.SetValue(entity, safeValue, null);
+            }
+            if (entity.Id == 0)
+            {
+                AppContext.OBK_RS_Products.Add(entity);
+            }
+            AppContext.SaveChanges();
+
+            SaveHistoryField(model.Id, fieldName, fieldValue, new Guid(userId), fieldDisplay);
+            
+            var subUpdateField = new SubUpdateField();
+            subUpdateField.ModelId = model.ObjectId;
+            subUpdateField.RecordId = entity.Id;
+
+            return subUpdateField;
         }
 
         private SubUpdateField UpdateMain(bool isNew, OBK_AssessmentDeclaration model, string fieldName,
@@ -679,8 +728,13 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="expDocument"></param>
         public void SaveExpDocument(OBK_StageExpDocument expDocument)
         {
-            AppContext.OBK_StageExpDocument.Add(expDocument);
+            AppContext.OBK_StageExpDocument.AddOrUpdate(expDocument);
             AppContext.SaveChanges();
+        }
+
+        public OBK_StageExpDocument GetStageExpDocument(int? prodSerId)
+        {
+            return AppContext.OBK_StageExpDocument.FirstOrDefault(e => e.ProductSeriesId == prodSerId);
         }
 
         #endregion

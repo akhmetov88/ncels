@@ -12,7 +12,7 @@ namespace PW.Ncels.Database.DataModel
         public Guid? ExpId { get; set; }
         public int? ProductId { get; set; }
         public int? ProductSeriesId { get; set; }
-        public bool ExpResult { get; set; }
+        public string ExpResult { get; set; }
         public string ExpResultTitle { get; set; }
         public string ExpStartDate { get; set; }
         public string ExpEndDate { get; set; }

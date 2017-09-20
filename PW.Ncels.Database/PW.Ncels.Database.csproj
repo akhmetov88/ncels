@@ -969,9 +969,6 @@
     <Compile Include="DataModel\OBK_MtPart.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\OBK_Organization.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -982,6 +979,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_CertificateType.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_ContractDocumentType.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_DegreeRisk.cs">
@@ -1992,6 +1992,8 @@
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBK_Procunts_Series.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
+    <Compile Include="Models\OBK\OBK_Ref_Nomenclature.cs" />
+    <Compile Include="Models\OBK\OBK_Ref_Reason.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Result.cs" />
     <Compile Include="Models\OBK\OBK_RS_Products.cs" />
     <Compile Include="Models\PermissionRoleModel.cs" />
@@ -2166,7 +2168,9 @@
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recources\ResourceSetting.resx" />
+    <EmbeddedResource Include="Recources\ResourceSetting.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ncels.Helpers\Ncels.Helpers.csproj">
