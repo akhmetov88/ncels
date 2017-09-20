@@ -869,7 +869,9 @@
     }
 
     $scope.saveBtnClick = function () {
-        $scope.checkFileValidation();
+        var formValid = $scope.contractCreateForm.$valid;
+        var filesValid = $scope.checkFileValidation();
+        $scope.editProject();
     }
 
     $scope.editProject = function () {
@@ -1435,30 +1437,7 @@
 
     $scope.sendWithoutDigitalSign = function () {
         var formValid = $scope.contractCreateForm.$valid;
-
-        //alert(JSON.stringify($scope.contractCreateForm.$error.required));
-
-        //console.log($scope.contractCreateForm.$error);
-
-        //alert("$scope.contractCreateForm.$error.length = " + $scope.contractCreateForm.$error.required.length);
-
-        //for (var index = 0; index < $scope.contractCreateForm.$error.required.length; index++) {
-        //    alert($scope.contractCreateForm.$error.required[index].$name + ' is required.');
-        //}
-
-        ////for (var key in $scope.contractCreateForm.$error) {
-        ////    for (var index = 0; index < $scope.contractCreateForm.$error[key].length; index++) {
-        ////        alert($scope.contractCreateForm.$error[key][index].$name + ' is required.');
-        ////    }
-        ////}
-
-        //for (var key in $scope.contractCreateForm.$error) {
-        //    alert(key + "=" + $scope.contractCreateForm.$error);
-        //}
-
-        alert("formValid = " + formValid);
         var filesValid = $scope.checkFileValidation();
-        alert("filesValid = " + filesValid);
         if (formValid && filesValid) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/Project/Agreement',

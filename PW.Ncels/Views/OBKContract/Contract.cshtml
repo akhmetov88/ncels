@@ -250,10 +250,10 @@
                                                             <input ng-model="object.Email" placeholder="example@mail.ru" class="form-control" type="text" ui-select-selected name="Email" ng-disabled="object.viewMpde" required ng-blur="editProject();">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none;">
-                                                        <h4>Руководитель</h4>
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                        <h4>Подписывающее лицо</h4>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
                                                         <div class="row">
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
@@ -289,10 +289,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
                                                         <h4>Действующее на основании</h4>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
@@ -314,7 +314,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Наличие номера *</label>
                                                             <ui-select ng-model="object.IsHasBossDocNumber" ui-select-selected name="IsHasBossDocNumber" required theme="bootstrap" ng-change="editProject();" ng-disabled="object.viewMpde">
@@ -325,13 +325,13 @@
                                                             </ui-select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Номер документа</label>
                                                             <input ng-model="object.BossDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="BossDocNumber" ng-required="object.IsHasBossDocNumber == true" ng-blur="editProject();" ng-disabled="object.IsHasBossDocNumber != true || object.viewMpde">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
@@ -340,7 +340,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                         <div class="form-group">
                                                             <label>Дата окончания действия *</label>
                                                             <div class="input-group date">
@@ -349,7 +349,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <h4>Подписывающее лицо</h4>
                                                     </div>
                                                     <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
@@ -361,7 +361,7 @@
                                                         </div>
                                                         @*</div>*@
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="row">
                                                             <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
                                                                 <div class="form-group">
@@ -397,10 +397,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <h4>Действующее на основании</h4>
                                                     </div>
-                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
@@ -422,7 +422,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Наличие номера *</label>
                                                             <ui-select ng-model="object.IsHasSignDocNumber" ui-select-selected name="IsHasSignDocNumber" ng-disabled="object.viewMpde" required theme="bootstrap" ng-change="editProject();">
@@ -433,13 +433,13 @@
                                                             </ui-select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Номер документа</label>
                                                             <input ng-model="object.SignDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignDocNumber" ng-required="object.IsHasSignDocNumber == true" ng-blur="editProject();" ng-disabled="object.IsHasSignDocNumber != true || object.viewMpde">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Дата начала действия *</label>
                                                             <div class="input-group date">
@@ -448,7 +448,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="form-group">
                                                             <label>Дата окончания действия *</label>
                                                             <div class="input-group date">
