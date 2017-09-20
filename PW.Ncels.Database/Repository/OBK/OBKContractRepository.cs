@@ -31,14 +31,18 @@ namespace PW.Ncels.Database.Repository.OBK
                 return null;
 
             var reestr = from register in AppContext.sr_register
-                             //join obkp in AppContext.obk_products on register.id equals obkp.register_id into obkProducts
-                             //from obkProduct in obkProducts.DefaultIfEmpty()
                          let obkProduct = AppContext.obk_products
                                             .Where(p => p.register_id == register.id)
                                             .OrderBy(p => p.id)
                                             .FirstOrDefault()
                          join srrmt in AppContext.sr_register_mt on register.id equals srrmt.id into srregistermtTable
                          from srregistermt in srregistermtTable.DefaultIfEmpty()
+                         join srregprod in AppContext.sr_register_producers on register.id equals srregprod.register_id into srregisterproducersTable
+                         from srregisterproducer in srregisterproducersTable.DefaultIfEmpty()
+                         join srprod in AppContext.sr_producers on srregisterproducer.producer_id equals srprod.id into srproducersTable
+                         from srproducers in srproducersTable.DefaultIfEmpty()
+                         join srcn in AppContext.sr_countries on srregisterproducer.country_id equals srcn.id into srcountriesTable
+                         from srcountries in srcountriesTable.DefaultIfEmpty()
                          where register.reg_type_id == regType &&
                          (string.IsNullOrEmpty(regNumber) || register.reg_number.ToLower().Contains(regNumber.ToLower())) &&
                          (string.IsNullOrEmpty(tradeName) || register.name.ToLower().Contains(tradeName.ToLower())) &&
@@ -46,6 +50,8 @@ namespace PW.Ncels.Database.Repository.OBK
                             (!drugEndDateExpired && register.expiration_date != null && register.expiration_date >= DateTime.Now) ||
                             drugEndDateExpired
                          )
+                         &&
+                         (srregisterproducer.producer_type_id == 1 || srregisterproducer.producer_type_id == null)
                          select new OBK_ProductInfo
                          {
                              ProductId = register.id,
@@ -56,10 +62,10 @@ namespace PW.Ncels.Database.Repository.OBK
                              RegTypeName = register.sr_reg_types.name,
                              RegDate = register.reg_date,
                              ExpireDate = register.expiration_date,
-                             ProducerName = register.C_producer_name,
-                             ProducerNameKz = register.C_producer_name_kz,
-                             CountryName = register.C_country_name,
-                             CountryNameKz = register.C_country_name_kz,
+                             ProducerName = srproducers.name,
+                             ProducerNameKz = srproducers.name_kz,
+                             CountryName = srcountries.name,
+                             CountryNameKz = srcountries.name_kz,
                              TnvedCode = obkProduct.tnved_code,
                              KpvedCode = obkProduct.kpved_code,
                              DegreeRiskId = srregistermt.degree_risk_id
