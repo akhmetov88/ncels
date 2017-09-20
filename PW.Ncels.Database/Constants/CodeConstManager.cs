@@ -432,6 +432,8 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const int STATUS_OBK_REJECT_ID = 4;
 
+        public const int STATUS_OBK_INPROCESSING = 5;
+
         ///// <summary>
         ///// Повторно
         ///// </summary>

@@ -857,6 +857,8 @@ namespace PW.Ncels.Database.Helpers
 
         #endregion
 
-
+        #region ОБК Договоры
+        public static bool IsMenuOBKContractVisibility { get { return true; return IsVisibility("IsMenuOBKContractVisibility"); } }
+        #endregion
     }
 }

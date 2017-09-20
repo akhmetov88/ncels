@@ -1,4 +1,4 @@
-﻿function obkContractForm($scope, $http, $interval) {
+﻿function obkContractForm($scope, $http, $interval, $uibModal) {
     $scope.ExpertOrganizations = [];
 
     $scope.showContactInformation = false;
@@ -17,6 +17,11 @@
     $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
     $scope.declarant = {};
     $scope.object = {};
+
+    $scope.object.Status = 1;
+
+    $scope.viewMpde = false;
+
     $scope.declarant.IsResident = true;
     $scope.object.seriesValue = "";
     $scope.object.seriesCreateDate = curDate.getTime();
@@ -142,6 +147,15 @@
         }
         else {
             $scope.removeItemFromSelectedMtParts(row.entity);
+        }
+    }
+
+    $scope.changeViewMode = function () {
+        if ($scope.object.Status == 1) {
+            $scope.object.viewMpde = false;
+        }
+        else {
+            $scope.object.viewMpde = true;
         }
     }
 
@@ -1088,6 +1102,9 @@
             if (resp.data) {
                 $scope.object.Id = resp.data.Id;
                 $scope.object.Type = resp.data.Type;
+                $scope.object.Status = resp.data.Status;
+                $scope.changeViewMode();
+
 
                 $scope.refTypeChange(false);
 
@@ -1220,18 +1237,29 @@
 
 
     $scope.checkFileValidation = function () {
-        $('.file-validation').text("");
-        $('.file-validation:visible').each(function () {
+        var invalidFiles = 0;
+
+        var containerName = "";
+        if ($scope.declarant.IsResident === true) {
+            containerName = "#filesResident";
+        }
+        else {
+            containerName = "#filesNonResident";
+        }
+
+        $(containerName + ' .file-validation').text("");
+        $(containerName + ' .file-validation').each(function () {
             var ct = $(this).attr('countFile');
             var attcode = $(this).attr('attcode');
             var count = parseInt(ct, 10) || 0;
             if (count === 0 && attcode === "1") {
                 $(this).text("Необходимо вложить файлы");
-                validFile = false;
+                invalidFiles++;
             } else {
                 $(this).text("");
             }
         });
+        return invalidFiles === 0;
     }
 
     $scope.findDeclarant = function () {
@@ -1404,6 +1432,64 @@
             }
         }
     }
+
+    $scope.sendWithoutDigitalSign = function () {
+        var formValid = $scope.contractCreateForm.$valid;
+
+        //alert(JSON.stringify($scope.contractCreateForm.$error.required));
+
+        //console.log($scope.contractCreateForm.$error);
+
+        //alert("$scope.contractCreateForm.$error.length = " + $scope.contractCreateForm.$error.required.length);
+
+        //for (var index = 0; index < $scope.contractCreateForm.$error.required.length; index++) {
+        //    alert($scope.contractCreateForm.$error.required[index].$name + ' is required.');
+        //}
+
+        ////for (var key in $scope.contractCreateForm.$error) {
+        ////    for (var index = 0; index < $scope.contractCreateForm.$error[key].length; index++) {
+        ////        alert($scope.contractCreateForm.$error[key][index].$name + ' is required.');
+        ////    }
+        ////}
+
+        //for (var key in $scope.contractCreateForm.$error) {
+        //    alert(key + "=" + $scope.contractCreateForm.$error);
+        //}
+
+        alert("formValid = " + formValid);
+        var filesValid = $scope.checkFileValidation();
+        alert("filesValid = " + filesValid);
+        if (formValid && filesValid) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/Project/Agreement',
+                controller: modalSendContract,
+                scope: $scope,
+                size: 'size-custom'
+            });
+        }
+    }
+}
+
+function modalSendContract($scope, $http, $uibModalInstance) {
+    $scope.sendProject = function () {
+        alert("send project");
+        var projectId = $scope.object.Id;
+        if (projectId) {
+            $http({
+                url: '/OBKContract/SendContractInProcessing',
+                method: 'POST',
+                data: { contractId: projectId }
+            }).success(function (response) {
+                $scope.object.Status = response;
+                $scope.changeViewMode();
+                $uibModalInstance.close();
+            });
+        }
+    };
+
+    $scope.cancelSend = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 }
 
 function getDate(value) {
@@ -2058,4 +2144,4 @@ function initExample($scope, $interval) {
 
 angular
     .module('app')
-    .controller('obkContractForm', ['$scope', '$http', '$interval', obkContractForm])
+    .controller('obkContractForm', ['$scope', '$http', '$interval', '$uibModal', obkContractForm])

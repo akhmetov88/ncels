@@ -222,6 +222,7 @@
     <Compile Include="Controllers\Lims\ApplicationPOAController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\CommissionController.cs" />
+    <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
     <Compile Include="Controllers\PriceProject\PriceProcessingController.cs" />
@@ -1604,6 +1605,7 @@
     <Content Include="Scripts\prismCorrespondenceReference.js" />
     <Content Include="Scripts\prismAllertMessage.js" />
     <Content Include="Scripts\prismActionLogsList.js" />
+    <Content Include="Scripts\prismObkContractList.js" />
     <Content Include="Scripts\prismVisit.js" />
     <Content Include="Scripts\prismCommission.js" />
     <Content Include="Scripts\prismVisitType.js" />
@@ -2283,6 +2285,8 @@
     <Content Include="Views\SafetyAssessment\ConfirmeRefuseSafety.cshtml" />
     <Content Include="Views\SafetyAssessment\DocumentReview.cshtml" />
     <Content Include="Views\SafetyAssessment\ExpertiseDocView.cshtml" />
+    <Content Include="Views\OBKContract\Contract.cshtml" />
+    <Content Include="Views\OBKContract\Index.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

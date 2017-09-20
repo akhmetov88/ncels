@@ -1,0 +1,505 @@
+﻿@using PW.Ncels.Database.Models.OBK
+@model OBKContractViewModel
+
+@{
+    var tab1 = "tab-1" + Model.Id;
+    var tab1b = "#" + tab1;
+    var tab2 = "tab-2" + Model.Id;
+    var tab2b = "#" + tab2;
+    var tab3 = "tab-3" + Model.Id;
+    var tab3b = "#" + tab3;
+}
+
+
+<div id="@("contractLoader" + ViewBag.UiId)"></div>
+
+@(Html.Kendo().Splitter()
+                        .HtmlAttributes(new { @class = "pwSplitter k-block" })
+            .Name(("splitter" + (string)ViewBag.UiId))
+            .Panes(panes =>
+            {
+            panes.Add()
+                .Size("300px")
+                .Collapsible(true)
+                .MaxSize("500px")
+                .MinSize("300px")
+                .Content(
+                @<div class="pwPanelBar">
+                    @(Html.Kendo().PanelBar().HtmlAttributes(new { @class = "pwPanelBar" })
+                               .Name("panelbar" + (string)ViewBag.UiId)
+                               .ExpandMode(PanelBarExpandMode.Multiple)
+                               .ExpandAll(true)
+                               .HtmlAttributes(new { style = "width:auto;", data_bind = "events: { select: contractCardTabSelect }" })
+                               .Items(panelbar =>
+                               {
+                                   panelbar.Add().Expanded(true);
+                                   panelbar.Add().Text("Структура договора")
+                                                                   .Items(projects =>
+                                                                   {
+                                                                       projects.Add().Text("Карточка договора").HtmlAttributes(new { TabId = "contractDataTab1" + ViewBag.UiId }).Selected(true);
+                                                                       projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab2" + ViewBag.UiId });
+                                                                   });
+
+                               })
+                    )
+                </div>
+                );
+
+                panes.Add().Scrollable(false).Size("100%").Content(
+                    @<div id="@("contractDataTabs" + ViewBag.UiId)" class="pwPageScrollable" style="background-color: white; margin-top: 10px">
+                        <div id="@("contractDataTab1" + ViewBag.UiId)" class="row">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="tabs-container">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="@tab1b">Общие сведения</a></li>
+                                                <li class=""><a data-toggle="tab" href="@tab2b">Информация о заявляемой продукции</a></li>
+                                                <li class=""><a data-toggle="tab" href="@tab3b">Стоимость работ</a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div id="@tab1" class="tab-pane active">
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 b-r">
+                                                                <div class="form-group">
+                                                                    <label>Тип договора *</label>
+                                                                    @Html.DropDownList("Contract_Id", (IEnumerable<SelectListItem>)(ViewBag.Countries),
+                                                                    String.Empty,
+                                                                    new
+                                                                    {
+                                                                        @class = "form-control edit-control main-control",
+                                                                        @disabled = "disabled"
+                                                                    })
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null">
+                                                                    @{ 
+                                                                        var @checkedResident = ViewBag.declarant.IsResident ? "checked" : "";
+                                                                        var @checkedNonResident = !ViewBag.declarant.IsResident ? "checked" : "";
+                                                                    }
+                                                                    <div class="radio-inline">
+                                                                        <label><input type="radio" name="declarantisresident" value="true" disabled="disabled" @checkedResident>Резидент РК</label>
+                                                                    </div>
+                                                                    <div class="radio-inline">
+                                                                        <label><input type="radio" name="declarantisresident" value="false" disabled="disabled" @checkedNonResident>Нерезидент РК</label>
+                                                                    </div>
+                                                                    <div class="radio-inline">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && declarant.IsResident == true">
+                                                                    <label>ИИН/БИН *</label>
+                                                                    <input class="form-control" type="text" readonly name="bin" value="@ViewBag.declarant.Bin">
+                                                                </div>
+                                                                @if (!ViewBag.declarant.IsResident)
+                                                                {
+                                                                    <div class="form-group" ng-show="declarant.IsResident == false">
+                                                                        <label>Страна</label>
+                                                                        <ui-select ng-model="object.Country" theme="bootstrap" ng-change="nonResidentCountryChange();">
+                                                                            <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                            <ui-select-choices repeat="item.Id as item in Country | filter: $select.search">
+                                                                                <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                    </div>
+                                                                    <div class="form-group" ng-show="declarant.IsResident == false">
+                                                                        <label>Наименование на русском языке *</label>
+                                                                        <ui-select ng-model="object.NameNonResident" theme="bootstrap" ng-disabled="object.Country == null" ng-change="nameNonResidentChange();">
+                                                                            <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                            <ui-select-choices repeat="item.Id as item in NamesNonResidents | filter: $select.search">
+                                                                                <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            <div class="col-lg-6 b-l">
+                                                                <div class="form-group">
+                                                                    <label>Экспертная организация</label>
+                                                                    <ui-select ng-model="object.ExpertOrganization" theme="bootstrap" ng-disabled="object.viewMpde">
+                                                                        <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                        <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
+                                                                            <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6 b-r">
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation" style="display: none;">
+                                                                    <h4></h4>
+                                                                    <label>Наименование</label>
+                                                                    <ui-select ng-model="object.DeclarantId" theme="bootstrap" ng-change="companyChange(true);" ng-disabled="object.viewMpde">
+                                                                        <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                        <ui-select-choices repeat="item.Id as item in Organizations | filter: $select.search">
+                                                                            <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <h4>&nbsp;</h4>
+                                                                    @*declarant.Id = {{declarant.Id}} <br />*@
+                                                                    <input type="hidden" ng-model="declarant.Id" />
+                                                                    <label>Организационная форма</label>
+                                                                    @Html.DropDownList("OrganizationForm", (IEnumerable<SelectListItem>)(ViewBag.OrganizationForms),
+                                                                   String.Empty,
+                                                                    new
+                                                                    {
+                                                                        @class = "form-control edit-control main-control",
+                                                                        @disabled = "disabled"
+                                                                    })
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Наименование на государственном языке *</label>
+                                                                    <input class="form-control" type="text" name="declarantNameKz" value="@ViewBag.declarant.NameKz">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Наименование на русском языке *</label>
+                                                                    <input class="form-control" type="text" name="declarantNameRu" value="@ViewBag.declarant.NameRu">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Наименование на английском языке</label>
+                                                                    <input class="form-control" type="text" name="declarantNameEn" value="@ViewBag.declarant.NameEn">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Страна</label>
+                                                                    @Html.DropDownList(
+                                                                   "Country",(IEnumerable<SelectListItem>)(ViewBag.Countries), string.Empty, new { @class = "form-control edit-control main-control", disabled = "disabled"}
+                                                                   )
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 b-l">
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <h4>Адрес</h4>
+                                                                    <label>Юридический адрес * </label>
+                                                                    <input ng-model="object.AddressLegalRu" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="AddressLegalRu" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Юридический адрес на казахском * </label>
+                                                                    <input ng-model="object.AddressLegalKz" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="AddressLegalKz" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Фактический адрес * </label>
+                                                                    <input ng-model="object.AddressFact" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="AddressFact" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Номер телефона * </label>
+                                                                    <input ng-model="object.Phone" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="Phone" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                                <div class="form-group" ng-show="object.Type != null && showContactInformation">
+                                                                    <label>Адрес электронной почты * </label>
+                                                                    <input ng-model="object.Email" placeholder="example@mail.ru" class="form-control" type="text" ui-select-selected name="Email" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none;">
+                                                                <h4>Руководитель</h4>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label>Фамилия *</label>
+                                                                            <input ng-model="object.BossLastName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();" ng-disabled="object.viewMpde">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label>Имя *</label>
+                                                                            <input ng-model="object.BossFirstName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();" ng-disabled="object.viewMpde">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label>Отчество</label>
+                                                                            <input ng-model="object.BossMiddleName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();" ng-disabled="object.viewMpde">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label>Должность на русском языке *</label>
+                                                                            <input ng-model="object.BossPosition" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();" ng-disabled="object.viewMpde">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label>Должность на казахском языке *</label>
+                                                                            <input ng-model="object.BossPositionKz" placeholder="Введите значение" class="form-control" type="text" ui-select-selected ng-blur="editProject();" ng-disabled="object.viewMpde">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <h4>Действующее на основании</h4>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label>Вид документа *</label>
+                                                                            <ui-select ng-model="object.BossDocType" ui-select-selected theme="bootstrap" ng-change="editProject();" ng-disabled="object.viewMpde">
+                                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                                <ui-select-choices repeat="item.Id as item in OBKContractDocumentType | filter: $select.search">
+                                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <div class="checkbox">
+                                                                                <label><input type="checkbox" value="" ng-model="object.BossDocUnlimited" ng-disabled="object.viewMpde">Бессрочный</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <div class="form-group">
+                                                                    <label>Наличие номера *</label>
+                                                                    <ui-select ng-model="object.IsHasBossDocNumber" ui-select-selected name="IsHasBossDocNumber" required theme="bootstrap" ng-change="editProject();" ng-disabled="object.viewMpde">
+                                                                        <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                        <ui-select-choices repeat="item.Id as item in BoolDic | filter: $select.search">
+                                                                            <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <div class="form-group">
+                                                                    <label>Номер документа</label>
+                                                                    <input ng-model="object.BossDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="BossDocNumber" ng-required="object.IsHasBossDocNumber == true" ng-blur="editProject();" ng-disabled="object.IsHasBossDocNumber != true || object.viewMpde">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <div class="form-group">
+                                                                    <label>Дата начала действия *</label>
+                                                                    <div class="input-group date">
+                                                                        <input ng-model="object.BossDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();" ng-disabled="object.viewMpde">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                <div class="form-group">
+                                                                    <label>Дата окончания действия *</label>
+                                                                    <div class="input-group date">
+                                                                        <input ng-model="object.BossDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();" ng-disabled="object.viewMpde">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <h4>Подписывающее лицо</h4>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
+                                                                @*<div class="col-lg-3">*@
+                                                                <div class="form-group">
+                                                                    <div class="checkbox">
+                                                                        <label><input type="checkbox" value="" ng-model="object.SignerIsBoss" ng-change="signerIsLeaderCheckBoxChanged();" ng-disabled="object.viewMpde">Является руководителем</label>
+                                                                    </div>
+                                                                </div>
+                                                                @*</div>*@
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="row">
+                                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                        <div class="form-group">
+                                                                            <label>Фамилия *</label>
+                                                                            <input ng-model="object.SignLastName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignLastName" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                        <div class="form-group">
+                                                                            <label>Имя *</label>
+                                                                            <input ng-model="object.SignFirstName" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignFirstName" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                        <div class="form-group">
+                                                                            <label>Отчество</label>
+                                                                            <input ng-model="object.SignMiddleName" placeholder="Введите значение" class="form-control" type="text" ng-disabled="object.viewMpde" ui-select-selected ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                        <div class="form-group">
+                                                                            <label>Должность на русском языке *</label>
+                                                                            <input ng-model="object.SignPosition" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignPosition" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                        <div class="form-group">
+                                                                            <label>Должность на казахском языке *</label>
+                                                                            <input ng-model="object.SignPositionKz" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignPositionKz" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <h4>Действующее на основании</h4>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label>Вид документа *</label>
+                                                                            <ui-select ng-model="object.SignDocType" ui-select-selected theme="bootstrap" name="SignDocType" ng-disabled="object.viewMpde" required ng-change="editProject();">
+                                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                                <ui-select-choices repeat="item.Id as item in OBKContractDocumentType | filter: $select.search">
+                                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <div class="checkbox">
+                                                                                <label><input type="checkbox" value="" ng-disabled="object.viewMpde" ng-model="object.SignDocUnlimited">Бессрочный</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>Наличие номера *</label>
+                                                                    <ui-select ng-model="object.IsHasSignDocNumber" ui-select-selected name="IsHasSignDocNumber" ng-disabled="object.viewMpde" required theme="bootstrap" ng-change="editProject();">
+                                                                        <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                        <ui-select-choices repeat="item.Id as item in BoolDic | filter: $select.search">
+                                                                            <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>Номер документа</label>
+                                                                    <input ng-model="object.SignDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignDocNumber" ng-required="object.IsHasSignDocNumber == true" ng-blur="editProject();" ng-disabled="object.IsHasSignDocNumber != true || object.viewMpde">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>Дата начала действия *</label>
+                                                                    <div class="input-group date">
+                                                                        <input ng-model="object.SignDocCreatedDate" class="form-control" placeholder="ДД.ММ.ГГГГ" name="SignDocCreatedDate" ng-disabled="object.viewMpde" required ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>Дата окончания действия *</label>
+                                                                    <div class="input-group date">
+                                                                        <input ng-model="object.SignDocEndDate" class="form-control" placeholder="ДД.ММ.ГГГГ" name="SignDocUnlimited" ng-disabled="object.viewMpde" ng-required="!object.SignDocUnlimited" ui-select-selected date-time auto-close="true" view="date" min-view="date" format="DD.MM.YYYY" ng-change="editProject();">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <h4>Банковские реквизиты</h4>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>ИИК (р/с) *</label>
+                                                                    <input ng-model="object.BankIik" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="BankIik" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>БИК *</label>
+                                                                    <input ng-model="object.BankBik" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="BankBik" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="form-group">
+                                                                    <label>Валюта *</label>
+                                                                    <ui-select ng-model="object.CurrencyId" ui-select-selected name="CurrencyId" ng-disabled="object.viewMpde" required theme="bootstrap" ng-change="editProject();">
+                                                                        <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                        <ui-select-choices repeat="item.Id as item in Currency | filter: $select.search">
+                                                                            <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label>Наименование банка *</label>
+                                                                            <input ng-model="object.BankNameRu" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="BankNameRu" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12" ng-show="object.Type != null && showContactInformation">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label>Наименование банка на казахском языке *</label>
+                                                                            <input ng-model="object.BankNameKz" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="BankNameKz" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="@tab2" class="tab-pane">
+                                                    2
+                                                </div>
+                                                <div id="@tab3" class="tab-pane">
+                                                    3
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="@("contractDataTab2" + ViewBag.UiId)" class="row hidden">
+                            <div class="row">
+                                @(Html.Kendo().Grid<PW.Ncels.Database.DataModel.FileLinkView>()
+                  .Name("contractAttachesGrid" + (string)ViewBag.UiId)
+                  .Columns(columns =>
+                  {
+                      columns.Bound(p => p.Category).Title("Категория").Hidden(true);
+                      columns.Bound(p => p.Version).Title("Версия").Width(200);
+                      columns.Bound(p => p.CreateDate).Format("{0:dd.MM.yyyy}").Title("Дата загрузки").Width(100);
+                      columns.Bound(p => p.FileName).Title("Файл").ClientTemplate("<a href='/Upload/FileDownload?path=#= DocumentId #&id=#= CategoryId #&fileId=#= FilePath #'>#= FileName #'</a>");
+                      columns.Bound(p => p.ParentFileName).Title("Название оригинала").Hidden(true);
+                  })
+
+                  .Resizable(resizable => resizable.Columns(true))
+                  .Scrollable(scrollable => scrollable.Enabled(false))
+                  .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                  .HtmlAttributes(new { @class = "pwGrid", style = "height: 500px" })
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(200)
+                      .Aggregates(aggregates =>
+                      {
+                          aggregates.Add(f => f.Version).Count();
+                      })
+                      .Group(g => g.Add(f => f.Category))
+                      .Sort(sort =>
+                      {
+                          sort.Add("ParentFileName").Ascending();
+                          sort.Add("Version").Ascending();
+                      })
+                      .Read(read => read.Action("ListAttaches", "OBKContract", new { contractId = Model.Id }))
+                  ))
+                            </div>
+                        </div>
+                    </div>
+                    );
+            }))
+
+
+<script>
+    $(document).ready(function () {
+        InitObkContractCard('@ViewBag.UiId');
+    });
+</script>

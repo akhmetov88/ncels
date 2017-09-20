@@ -316,5 +316,12 @@ namespace PW.Ncels.Controllers
             var mtParts = obkRepo.GetMtParts(productId);
             return Json(mtParts, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult SendContractInProcessing(Guid contractId)
+        {
+            var state = obkRepo.SendContractInProcessing(contractId);
+            return Json(state);
+        }
     }
 }

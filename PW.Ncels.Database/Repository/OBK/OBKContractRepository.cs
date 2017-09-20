@@ -289,6 +289,7 @@ namespace PW.Ncels.Database.Repository.OBK
             OBKContractViewModel contractViewModel = new OBKContractViewModel();
             contractViewModel.Id = OBKContract.Id;
             contractViewModel.Type = OBKContract.Type;
+            contractViewModel.Status = OBKContract.Status;
 
             //if (OBKContract.DeclarantId != null)
             //{
@@ -908,6 +909,29 @@ namespace PW.Ncels.Database.Repository.OBK
 
             }).ToList();
             return meParts;
+        }
+
+        public List<OBKContractViewModel> GetContracts()
+        {
+            List<OBKContractViewModel> list = AppContext.OBK_Contract.AsNoTracking().Where(x => x.Status == PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_INPROCESSING).Select(x =>
+            new OBKContractViewModel
+            {
+                Id = x.Id,
+                Number = x.Number,
+                CreatedDate = x.CreatedDate,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                DeclarantNameRu = x.OBK_Declarant.NameRu
+            }).ToList();
+            return list;
+        }
+
+        public int SendContractInProcessing(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            contract.Status = Constants.CodeConstManager.STATUS_OBK_INPROCESSING;
+            AppContext.SaveChanges();
+            return contract.Status;
         }
     }
 }

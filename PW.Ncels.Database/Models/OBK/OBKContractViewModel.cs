@@ -9,7 +9,13 @@ namespace PW.Ncels.Database.Models.OBK
     public class OBKContractViewModel
     {
         public Guid Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public string DeclarantNameRu { get; set; }
+        public string Number { get; set; }
         public int Type { get; set; }
+        public int Status { get; set; }
         //public Guid? DeclarantId { get; set; }
         //public bool DeclarantIsResident { get; set; }
         //public Guid? DeclarantOrganizationFormId { get; set; }
