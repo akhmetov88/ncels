@@ -13,6 +13,7 @@ using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.Models.Expertise;
+using PW.Ncels.Database.Notifications;
 using PW.Ncels.Database.Repository.Common;
 using PW.Ncels.Database.Repository.Expertise;
 using PW.Ncels.Database.Repository.OBK;
@@ -26,6 +27,8 @@ namespace PW.Prism.Controllers.OBK
     [Authorize]
     public class SafetyAssessmentController : PrimsSafetyAssessmentController
     {
+        private ncelsEntities db = UserHelper.GetCn();
+
         public ActionResult ListRegister([DataSourceRequest] DataSourceRequest request, string type, int stage, DeclarationRegistryFilter customFilter = null)
         {
             var stageName = GetName(stage);
@@ -188,9 +191,11 @@ namespace PW.Prism.Controllers.OBK
                 prod.ProducerNameKz = product.ProducerNameKz;
                 prod.CountryNameRu = product.CountryNameRu;
                 prod.CountryNameKZ = product.CountryNameKZ;
-                prod.TnvedCode = product.TnvedCode;
-                prod.KpvedCode = product.KpvedCode;
+                //prod.TnvedCode = product.TnvedCode;
+                //prod.KpvedCode = product.KpvedCode;
+                prod.CurrencyId = product.CurrencyId;
                 prod.Price = product.Price;
+                prod.RegTypeId = product.RegTypeId;
                 foreach (var productSeries in product.OBK_Procunts_Series)
                 {
                     var prodSeries = new OBK_Procunts_Series();
@@ -225,6 +230,16 @@ namespace PW.Prism.Controllers.OBK
                         prodSeries.ExpApplicationNumber = obkStageExpDocumentSeries.ExpApplicationNumber;
                     }
                     prod.OBK_Procunts_Series.Add(prodSeries);
+                }
+                foreach (var mtPart in product.OBK_MtPart)
+                {
+                    var mtParts = new OBK_MtPart();
+                    mtParts.PartNumber = mtPart.PartNumber;
+                    mtParts.Model = mtPart.Model;
+                    mtParts.Specification = mtPart.Specification;
+                    mtParts.ProducerName = mtPart.ProducerName;
+                    mtParts.CountryName = mtPart.CountryName;
+                    prod.OBK_MtPart.Add(mtParts);
                 }
                 resultProducts.Add(prod);
             }
@@ -273,6 +288,10 @@ namespace PW.Prism.Controllers.OBK
                         Note = model.DesignNote
                     };
                     new SafetyAssessmentRepository().SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
+
+                    new NotificationManager().SendNotification(
+                        string.Format("По Вашей заявке №{0} поступили замечания", model.Number),
+                        ObjectType.ObkDeclaration, model.Id, model.EmployeeId);
                 }
             }
             return Json("Ok!", JsonRequestBehavior.AllowGet);
@@ -411,7 +430,7 @@ namespace PW.Prism.Controllers.OBK
                 };
                 new SafetyAssessmentRepository().SaveExpDocument(expDoc);
             }
-            return Json(new {isSuccess = true});
+            return Json(new {isSuccess = true });
         }
     }
 }

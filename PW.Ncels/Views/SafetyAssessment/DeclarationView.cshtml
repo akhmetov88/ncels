@@ -289,13 +289,11 @@
             dataType: 'json',
             cache: false,
             success: function (data) {
-                debugger;
                 if (modelId === null) {
                     $("#modelId").val(data.modelId);
                     $("#loading").hide();
                 }
                 if (data.recordId > 0) {
-                    debugger;
                     var tabData = $('#tableProducts').DataTable().rows().data();
                     $.each(tabData, function(i, val) {
                         if (val.Id === recordId) {

@@ -163,6 +163,8 @@ namespace PW.Prism.Controllers.OBK
                 model.BankBik = declarantContact?.BankBik ?? "нет данных";
                 model.BankIik = declarantContact?.BankIik ?? "нет данных";
                 model.BankName = declarantContact?.BankNameRu ?? "нет данных";
+                model.ObkContracts = contract;
+                model.ObkContracts.ObkRsProductCount = products.Count();
 
                 var resultProducts = new List<OBK_RS_Products>();
                 foreach (var product in products)

@@ -166,6 +166,7 @@ namespace PW.Ncels.Database.Helpers
             // ОБК
             AddPermission("IsMenuSafetyAssessmentVisibility", @"Модуль 'ОБК'", "Вкладка 'ОБК Заявления' главная", "Доступ в главном меню ОБК");
             AddPermission("CanSafetyAssessmentExecutorsAssignment", @"Модуль 'ОБК'", "Распределение заявлений", "Работа с заявлениями ОБК");
+            AddPermission("CanSARejectAndReviewButton", @"Модуль 'ОБК'", "Функционал подверждения или отклонения заявки ЦОЗ", "Работа с заявлениями ОБК");
 
             RemoveNonActualKeys();
         }
@@ -854,7 +855,10 @@ namespace PW.Ncels.Database.Helpers
         /// показывать кнопку назначить исполнителя
         /// </summary>
         public static bool CanSafetyAssessmentExecutorsAssignment { get { return IsVisibility("CanSafetyAssessmentExecutorsAssignment"); } }
-
+        /// <summary>
+        /// ЦОЗ кнопки вернуть и следеющий этап в одельное право
+        /// </summary>
+        public static bool CanSARejectAndReviewButton { get { return IsVisibility("CanSARejectAndReviewButton"); } }
         #endregion
 
         #region ОБК Договоры
