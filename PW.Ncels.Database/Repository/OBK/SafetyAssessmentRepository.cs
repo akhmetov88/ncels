@@ -151,6 +151,11 @@ namespace PW.Ncels.Database.Repository.OBK
                 .ToList();
         }
 
+        public OBK_Procunts_Series GetProcuntsSeries(int? id)
+        {
+            return AppContext.OBK_Procunts_Series.FirstOrDefault(e => e.Id == id);
+        }
+
         public ReesrtObk GetSearchReestr(string regNumber, string tradeName, string manufacturer, string mnn)
         {
             var reestr = AppContext.sr_register.FirstOrDefault(x => x.reg_number == regNumber);

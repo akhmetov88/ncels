@@ -240,7 +240,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
     <Page1 Ref="9" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="13">
+      <Components isList="true" count="14">
         <Text3 Ref="10" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -358,7 +358,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <CanGrow>True</CanGrow>
-          <ClientRectangle>0,10.6,19,2</ClientRectangle>
+          <ClientRectangle>0,10.6,19,1.2</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Times New Roman,12</Font>
           <Guid>f329e49574b948bd8cc8703b1fe062f3</Guid>
@@ -366,10 +366,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Name>Text7</Name>
           <Page isRef="9" />
           <Parent isRef="9" />
-          <Text>&lt;b&gt;1. Настоящее заключение удостоверяет, что должным образом идентифицированная продукция&lt;/b&gt; {OBK_StageExpDocument.ExpProductNameRu} &lt;b&gt;изготовленная&lt;/b&gt; {OBK_RS_Products.ProducerNameRu} &lt;b&gt;соответствует требованиям безопасности и качества, установленным в&lt;/b&gt; {OBK_StageExpDocument.ExpNomenclatureRu}
-
-
-</Text>
+          <Text>&lt;b&gt;1. Настоящее заключение удостоверяет, что должным образом идентифицированная продукция&lt;/b&gt; {OBK_StageExpDocument.ExpProductNameRu} &lt;b&gt;изготовленная&lt;/b&gt; {OBK_RS_Products.ProducerNameRu}</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <TextQuality>Wysiwyg</TextQuality>
@@ -491,6 +488,27 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text13>
+        <Text27 Ref="23" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,11.8,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>839392d414a442078ed905f84976a894</Guid>
+          <HideZeros>True</HideZeros>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text27</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text> &lt;b&gt;соответствует требованиям безопасности и качества, установленным в&lt;/b&gt; {IIF(OBK_AssessmentDeclaration.Type_Id == 3, "-", OBK_StageExpDocument.ExpNomenclatureRu)}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text27>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>a6b8ed91887c41879a15a2b422d44209</Guid>
@@ -499,16 +517,16 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="23" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="24" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
-    <Page2 Ref="24" type="Page" isKey="true">
+    <Page2 Ref="25" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="13">
-        <Text14 Ref="25" type="Text" isKey="true">
+        <Text14 Ref="26" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <ClientRectangle>0,1.4,19,1.2</ClientRectangle>
@@ -518,15 +536,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text14</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>ҚАЗАҚСТАН РЕСПУБЛИКАСЫ ДЕНСАУЛЫҚ САҚТАУ МИНИСТРЛІГІ</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text14>
-        <Text15 Ref="26" type="Text" isKey="true">
+        <Text15 Ref="27" type="Text" isKey="true">
           <Border>Bottom;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -537,8 +555,8 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text15</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>ҚР ДСМ «Дәрілік заттарды, медициналық мақсаттағы бұйымдарды және медицина
 Сарапшы ұйымның атауы мен мекенжайы
 техникасын сараптау ұлттық орталығы» ШЖҚ РМК
@@ -548,7 +566,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text15>
-        <Text16 Ref="27" type="Text" isKey="true">
+        <Text16 Ref="28" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <ClientRectangle>0,6.2,19,0.6</ClientRectangle>
@@ -558,15 +576,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text16</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>ҚАУІПСІЗДІК ПЕН САПА ТУРАЛЫ ҚОРЫТЫНДЫ</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text16>
-        <Text17 Ref="28" type="Text" isKey="true">
+        <Text17 Ref="29" type="Text" isKey="true">
           <Border>Bottom;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -577,15 +595,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text17</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>{Format("{0:dd.MM.yyyy}", OBK_StageExpDocument.ExpStartDate)} ж.</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text17>
-        <Text18 Ref="29" type="Text" isKey="true">
+        <Text18 Ref="30" type="Text" isKey="true">
           <Border>Bottom;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -596,15 +614,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text18</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>№{OBK_StageExpDocument.ExpConclusionNumber}</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text18>
-        <Text19 Ref="30" type="Text" isKey="true">
+        <Text19 Ref="31" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <ClientRectangle>0,8.6,19,0.6</ClientRectangle>
@@ -614,15 +632,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text19</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>Сақтау шарттары сақталған жағдайда {Format("{0:dd.MM.yyyy}", OBK_StageExpDocument.ExpEndDate)} дейін жарамды</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text19>
-        <Text20 Ref="31" type="Text" isKey="true">
+        <Text20 Ref="32" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -633,8 +651,8 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Guid>df9332632cd0492bb49eed7acd8342d7</Guid>
           <Margins>1,1,1,1</Margins>
           <Name>Text20</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>&lt;b&gt;1.Осы қорытынды өнімнің тиісінше&lt;/b&gt; {OBK_StageExpDocument.ExpProductNameKz} &lt;b&gt;сәйкестендірілгенін растайды&lt;/b&gt; {OBK_RS_Products.ProducerNameKz} &lt;b&gt;дайындалған&lt;/b&gt; {OBK_StageExpDocument.ExpNomenclatureKz} &lt;b&gt;белгіленген қауіпсіздік және сапа талаптарына сәйкес келеді&lt;/b&gt;
 
 
@@ -645,7 +663,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text20>
-        <Text21 Ref="32" type="Text" isKey="true">
+        <Text21 Ref="33" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -656,8 +674,8 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Guid>3cbb10dda5644594a3ed6e62173b1163</Guid>
           <Margins>1,1,1,1</Margins>
           <Name>Text21</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>&lt;b&gt;2. Өтініш беруші&lt;/b&gt; {OBK_Declarant.NameKz} {OBK_DeclarantContact.BossLastName} {OBK_DeclarantContact.BossFirstName} {OBK_DeclarantContact.BossMiddleName} {OBK_DeclarantContact.AddressLegalKz}</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -665,7 +683,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text21>
-        <Text22 Ref="33" type="Text" isKey="true">
+        <Text22 Ref="34" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -676,8 +694,8 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Guid>d6b2b9e4884a4e59a6e3deb620fa1bd8</Guid>
           <Margins>1,1,1,1</Margins>
           <Name>Text22</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>&lt;b&gt;3. Өнімнің қауіпсіздігі мен сапасы туралы қорытынды&lt;/b&gt; {OBK_StageExpDocument.ExpReasonNameKz} &lt;b&gt;негізінде берілді&lt;/b&gt;</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -685,7 +703,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text22>
-        <Text23 Ref="34" type="Text" isKey="true">
+        <Text23 Ref="35" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
@@ -696,8 +714,8 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Guid>91eda49eca0449eeb695268235d96740</Guid>
           <Margins>1,1,1,1</Margins>
           <Name>Text23</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>&lt;b&gt;4. Қосымша ақпарат (инвойс, декларация болған жағдайда)&lt;/b&gt; {OBK_AssessmentDeclaration.InvoiceKz} {Format("{0:dd.MM.yyyy}", OBK_AssessmentDeclaration.InvoiceDate)} {OBK_AssessmentDeclaration.InvoiceContractKz}</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -705,7 +723,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text23>
-        <Text24 Ref="35" type="Text" isKey="true">
+        <Text24 Ref="36" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <ClientRectangle>0,6.8,19,0.6</ClientRectangle>
@@ -715,15 +733,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text24</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>берілген қауіпсіздік пен сапа қорытындылары тізілімінде тіркелген</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text24>
-        <Text25 Ref="36" type="Text" isKey="true">
+        <Text25 Ref="37" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <ClientRectangle>0,15.4,4.8,0.6</ClientRectangle>
@@ -733,15 +751,15 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text25</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>Мөрдің орны</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <Type>Expression</Type>
           <VertAlignment>Center</VertAlignment>
         </Text25>
-        <Text26 Ref="37" type="Text" isKey="true">
+        <Text26 Ref="38" type="Text" isKey="true">
           <Brush>Transparent</Brush>
           <CanBreak>True</CanBreak>
           <ClientRectangle>5.2,15.4,5.6,0.6</ClientRectangle>
@@ -751,8 +769,8 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
           <HorAlignment>Center</HorAlignment>
           <Margins>1,1,1,1</Margins>
           <Name>Text26</Name>
-          <Page isRef="24" />
-          <Parent isRef="24" />
+          <Page isRef="25" />
+          <Parent isRef="25" />
           <Text>Уәкілетті адамдардың қолы</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -767,13 +785,13 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="38" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="39" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page2>
   </Pages>
-  <PrinterSettings Ref="39" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="40" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -785,10 +803,10 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/14/2017 3:26:36 PM</ReportChanged>
+  <ReportChanged>9/20/2017 5:22:10 PM</ReportChanged>
   <ReportCreated>9/13/2017 11:46:41 AM</ReportCreated>
   <ReportFile>F:\Projects\ncels\PW.Prism\Reports\Mrts\OBKExpDocument.mrt</ReportFile>
-  <ReportGuid>441be2544cde47a6b108e30c2a656c6a</ReportGuid>
+  <ReportGuid>11e4d2baffcf4036b67e947070420087</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

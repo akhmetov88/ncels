@@ -83,7 +83,7 @@ namespace PW.Ncels.Controllers
                                 }
                             }
                             break;
-                }
+                        }
                     case "PriceProjects":
                         {
                             var project = db.PriceProjects.FirstOrDefault(e => e.Id == new Guid(model.ObjectId));
@@ -111,6 +111,17 @@ namespace PW.Ncels.Controllers
                             }
                             break;
                         }
+                    case "ObkDeclaration":
+                    {
+                        var safetyAssessment =
+                            db.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == new Guid(model.ObjectId));
+                        if (safetyAssessment != null)
+                        {
+                            return RedirectToAction("Edit", "SafetyAssessment", new { id = safetyAssessment.Id });
+                        }
+                        break;
+                    }
+
                 }
 
             }

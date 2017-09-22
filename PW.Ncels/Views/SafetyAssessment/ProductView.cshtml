@@ -98,15 +98,25 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-6">
+                                    <label>Цена</label>
                                     <div class="input-group">
-                                        <label>Цена</label>
-                                        <input id="Price" name="Price" type="text" class="form-control edit-control product-control" placeholder="Введите сумму" typeField = "float">
+                                        <input id="Price" name="Price" type="text" class="form-control edit-control product-control" placeholder="Введите сумму" typeField="float">
+                                        <span class="input-group-addon">
+                                            <a class="OBKcommentDialog" href="#">
+                                                <i class="glyphicon glyphicon-info-sign"></i>
+                                            </a>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
+                                    <label>Валюта</label>
                                     <div class="input-group">
-                                        <label>Валюта</label>
-                                        @Html.DropDownList("CurrencyId", (IEnumerable<SelectListItem>)(ViewData["Courrency"]), String.Empty, new { @class = "form-control edit-control product-control" })
+                                        @Html.DropDownList("CurrencyId", (IEnumerable<SelectListItem>) (ViewData["Courrency"]), String.Empty, new {@class = "form-control edit-control product-control"})
+                                        <span class="input-group-addon">
+                                            <a class="OBKcommentDialog" href="#">
+                                                <i class="glyphicon glyphicon-info-sign"></i>
+                                            </a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -177,6 +187,43 @@
                 { title: "Ед. измерения" }
             ]
         });
+
+        if (@count >= 1) {
+            debugger;
+            var val = '@Model.Contract_Id';
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetContract")',
+                data: { 'id': val },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.isSuccess) {
+                        $("#tableProducts").DataTable({
+                            data: data.result.ObkRsProductses,
+                            destroy: true,
+                            searching: false,
+                            iDisplayLength: 5,
+                            LengthMenu: false,
+                            bLengthChange: false,
+                            autoWidth: true,
+                            rowCallback: rowCallback,
+                            columns: [
+                                { data: "Id" },
+                                { data: "NameRu" },
+                                { data: "DrugFormFullName" },
+                                { data: "ProducerNameRu" },
+                                { data: "DrugFormBoxCount" },
+                                { data: "CountryNameRu" }
+                            ]
+                        });
+                    }
+                },
+                error: function () {
+                    alert("Connection Failed. Please Try Again");
+                }
+            });
+        }
 
         $(".product-control").change(function () {
             debugger;
