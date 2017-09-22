@@ -1435,9 +1435,26 @@
         }
     }
 
+    
     $scope.sendWithoutDigitalSign = function () {
         var formValid = $scope.contractCreateForm.$valid;
+        //alert("formValid = " + formValid);
+        var outputErrors = true;
+        if (!formValid && $scope.contractCreateForm.$error && outputErrors) {
+            //var errors = [];
+
+            //for (var key in $scope.contractCreateForm.$error) {
+            //    for (var index = 0; index < $scope.contractCreateForm.$error[key].length; index++) {
+            //        errors.push($scope.contractCreateForm.$error[key][index].$name + ' is required.');
+            //    }
+            //}
+
+            //for (var i = 0; i < errors.length; i++) {
+            //    alert(errors[i]);
+            //}
+        }
         var filesValid = $scope.checkFileValidation();
+        //alert("filesValid = " + filesValid);
         if (formValid && filesValid) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/Project/Agreement',

@@ -50,12 +50,13 @@ namespace PW.Prism.Controllers.OBKContract
 
             var countries = db.Dictionaries.Where(x => x.Type == "Country").ToList();
             var organizationForms = db.Dictionaries.Where(x => x.Type == "OpfType").ToList();
-          
+            var docTypes = db.Dictionaries.Where(x => x.Type == "OBKContractDocumentType").ToList();
+            var currencies = db.Dictionaries.Where(x => x.Type == "Currency").ToList();
+
 
             var contract = obkRepo.LoadContract(id.Value);
             var declarant = obkRepo.GetDeclarant(id.Value);
-
-
+  
             //declarant.NameEn
             //
 
@@ -64,6 +65,18 @@ namespace PW.Prism.Controllers.OBKContract
 
             ViewBag.Countries = new SelectList(countries, "Id", "Name", declarant.CountryId);
             ViewBag.OrganizationForms = new SelectList(organizationForms, "Id", "Name", declarant.OrganizationFormId);
+            Guid selectedNonResident = Guid.Empty;
+            if (declarant.IsConfirmed)
+            {
+                selectedNonResident = declarant.Id.Value;
+            }
+            ViewBag.NamesNonResidents = new SelectList((IEnumerable<object>)obkRepo.GetNamesNonResidents(declarant.CountryId), "Id", "Name", selectedNonResident);
+            ViewBag.DocTypes = new SelectList(docTypes, "Id", "Name", contract.BossDocType);
+            ViewBag.BoolValues = new SelectList(new List<SelectListItem> {
+                new SelectListItem { Selected = false, Text="Нет", Value = false.ToString()},
+                new SelectListItem { Selected = false, Text="Да", Value = true.ToString()},
+            }, "Value", "Text", contract.IsHasBossDocNumber.ToString());
+            ViewBag.Currencies = new SelectList(currencies, "Id", "Name", contract.CurrencyId);
             ViewBag.declarant = declarant;
             ViewBag.productInfo = productInfo;
             ViewBag.prices = prices;
@@ -88,6 +101,81 @@ namespace PW.Prism.Controllers.OBKContract
                 c.DocumentId,
                 c.ParentFileName
             }));
+        }
+
+        [HttpGet]
+        public ActionResult ShowComment(Guid modelId, string idControl)
+        {
+            var model = obkRepo.GetComments(modelId, idControl);
+            if (model == null)
+            {
+                model = new OBK_ContractCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+
+            return View(model);
+
+            //var repository = new SafetyAssessmentRepository();
+            //var model = repository.GetComments(modelId, idControl);
+            //if (model == null)
+            //{
+            //    model = new OBK_AssessmentDeclarationCom();
+            //}
+            //model.ObkAssessmentDeclarationFieldHistories = repository.GetFieldHistories(modelId, idControl);
+            //if (Request.IsAjaxRequest())
+            //{
+            //    return PartialView(model);
+            //}
+
+            //return View(model);
+        }
+        [HttpPost]
+        public virtual ActionResult SaveComment(string modelId, string idControl, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            obkRepo.SaveComment(modelId, idControl, isError, comment, fieldValue, userId, fieldDisplay);
+
+            //new SafetyAssessmentRepository().SaveComment(modelId, idControl, isError, comment, fieldValue, userId, fieldDisplay);
+
+            return Json(new { Success = true });
+
+        }
+
+        public ActionResult ShowCommentPrice(Guid contractPriceId)
+        {
+            var model = obkRepo.GetCommentsPrice(contractPriceId);
+            if (model == null)
+            {
+                model = new OBK_ContractPriceCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual ActionResult SaveCommentPrice(string contractPriceId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            obkRepo.SaveCommentPrice(contractPriceId, isError, comment, fieldValue, userId, fieldDisplay);
+
+            return Json(new { Success = true });
+        }
+
+        public ActionResult RequestView()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult GetContractPrices(Guid contractId)
+        {
+            var list = obkRepo.GetContractPrices(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -2292,6 +2292,10 @@
     <Content Include="Views\SafetyAssessment\ExpDocDecResponseView.cshtml" />
     <Content Include="Views\OBKContract\Contract.cshtml" />
     <Content Include="Views\OBKContract\Index.cshtml" />
+    <Content Include="Views\OBKContract\ShowComment.cshtml" />
+    <Content Include="Views\OBKContract\ProductView.cshtml" />
+    <Content Include="Views\OBKContract\Price.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentPrice.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

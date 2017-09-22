@@ -939,5 +939,83 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
             return contract.Status;
         }
+
+        public OBK_ContractCom GetComments(Guid modelId, string idControl)
+        {
+            return
+                AppContext.OBK_ContractCom.FirstOrDefault(
+                    e => e.ControlId == idControl && modelId == e.ContractId);
+        }
+
+        public void SaveComment(string modelId, string idControl, bool isError, string comment, string fieldValue,
+            string userId, string fieldDisplay)
+        {
+            var entityId = new Guid(modelId);
+            var model =
+                AppContext.OBK_ContractCom.FirstOrDefault(
+                    e => e.ControlId == idControl && e.ContractId.Equals(entityId)) ??
+                new OBK_ContractCom
+                {
+                    DateCreate = DateTime.Now,
+                    ContractId = entityId,
+                    ControlId = idControl,
+                };
+
+            model.IsError = isError;
+            model.OBK_ContractComRecord.Add(new OBK_ContractComRecord
+            {
+                Id = Guid.NewGuid(),
+                CreateDate = DateTime.Now,
+                Note = comment,
+                UserId = new Guid(userId),
+                OBK_ContractCom = model,
+                ValueField = fieldValue,
+                DisplayField = fieldDisplay
+            });
+            if (model.Id == null || model.Id == Guid.Empty)
+            {
+                model.Id = Guid.NewGuid();
+                AppContext.OBK_ContractCom.Add(model);
+            }
+            AppContext.SaveChanges();
+        }
+
+        public OBK_ContractPriceCom GetCommentsPrice(Guid contractPriceId)
+        {
+            return
+                AppContext.OBK_ContractPriceCom.FirstOrDefault(
+                    e => contractPriceId == e.ContractPriceId);
+        }
+
+        public void SaveCommentPrice(string contractPriceId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            var entityId = new Guid(contractPriceId);
+            var model =
+                AppContext.OBK_ContractPriceCom.FirstOrDefault(
+                    e => e.ContractPriceId.Equals(entityId)) ??
+                new OBK_ContractPriceCom
+                {
+                    DateCreate = DateTime.Now,
+                    ContractPriceId = entityId
+                };
+
+            model.IsError = isError;
+            model.OBK_ContractPriceComRecord.Add(new OBK_ContractPriceComRecord
+            {
+                Id = Guid.NewGuid(),
+                CreateDate = DateTime.Now,
+                Note = comment,
+                UserId = new Guid(userId),
+                OBK_ContractPriceCom = model,
+                ValueField = fieldValue,
+                DisplayField = fieldDisplay
+            });
+            if (model.Id == null || model.Id == Guid.Empty)
+            {
+                model.Id = Guid.NewGuid();
+                AppContext.OBK_ContractPriceCom.Add(model);
+            }
+            AppContext.SaveChanges();
+        }
     }
 }
