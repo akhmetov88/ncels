@@ -215,7 +215,8 @@ namespace PW.Ncels.Database.Constants
         public const string ATTACH_DRUG_FILE_CODE = "DrugDeclaration";
         public const string ATTACH_REMARK_FILE_CODE = "REMARK";
 
-
+        public const string ATTACH_CONTRACT_FILE_RESIDENT = "sysAttachOBKContractResident";
+        public const string ATTACH_CONTRACT_FILE_NON_RESIDENT = "sysAttachOBKContractNonResident";
 
 
         #region Вид файлов

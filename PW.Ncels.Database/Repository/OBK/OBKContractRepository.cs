@@ -1017,5 +1017,81 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             AppContext.SaveChanges();
         }
+
+        public OBK_RS_ProductsCom GetCommentsProduct(int productId)
+        {
+            return
+                AppContext.OBK_RS_ProductsCom.FirstOrDefault(
+                    e => productId == e.ProductId);
+        }
+
+        public void SaveCommentProduct(string productId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            var entityId = int.Parse(productId);
+            var model =
+                AppContext.OBK_RS_ProductsCom.FirstOrDefault(
+                    e => e.ProductId.Equals(entityId)) ??
+                new OBK_RS_ProductsCom
+                {
+                    DateCreate = DateTime.Now,
+                    ProductId = entityId
+                };
+
+            model.IsError = isError;
+            model.OBK_RS_ProductsComRecord.Add(new OBK_RS_ProductsComRecord
+            {
+                Id = Guid.NewGuid(),
+                CreateDate = DateTime.Now,
+                Note = comment,
+                UserId = new Guid(userId),
+                OBK_RS_ProductsCom = model,
+                ValueField = fieldValue,
+                DisplayField = fieldDisplay
+            });
+            if (model.Id == null || model.Id == Guid.Empty)
+            {
+                model.Id = Guid.NewGuid();
+                AppContext.OBK_RS_ProductsCom.Add(model);
+            }
+            AppContext.SaveChanges();
+        }
+
+        public OBK_Products_SeriesCom GetCommentsProductsSerie(int productSerieId)
+        {
+            return
+               AppContext.OBK_Products_SeriesCom.FirstOrDefault(
+                   e => productSerieId == e.ProductSerieId);
+        }
+
+        public void SaveCommentProductsSerie(string productSerieId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            var entityId = int.Parse(productSerieId);
+            var model =
+                AppContext.OBK_Products_SeriesCom.FirstOrDefault(
+                    e => e.ProductSerieId.Equals(entityId)) ??
+                new OBK_Products_SeriesCom
+                {
+                    DateCreate = DateTime.Now,
+                    ProductSerieId = entityId
+                };
+
+            model.IsError = isError;
+            model.OBK_Products_SeriesComRecord.Add(new OBK_Products_SeriesComRecord
+            {
+                Id = Guid.NewGuid(),
+                CreateDate = DateTime.Now,
+                Note = comment,
+                UserId = new Guid(userId),
+                OBK_Products_SeriesCom = model,
+                ValueField = fieldValue,
+                DisplayField = fieldDisplay
+            });
+            if (model.Id == null || model.Id == Guid.Empty)
+            {
+                model.Id = Guid.NewGuid();
+                AppContext.OBK_Products_SeriesCom.Add(model);
+            }
+            AppContext.SaveChanges();
+        }
     }
 }

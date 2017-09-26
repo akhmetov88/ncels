@@ -10,6 +10,7 @@
     var tab3b = "#" + tab3;
 }
 <script src="~/Scripts/js/custom/subform-comment.js"></script>
+<script src="~/Scripts/js/custom/atach-comment.js"></script>
 
 <div id="@("contractLoader" + ViewBag.UiId)"></div>
 
@@ -38,6 +39,7 @@
                                                                    {
                                                                        projects.Add().Text("Карточка договора").HtmlAttributes(new { TabId = "contractDataTab1" + ViewBag.UiId }).Selected(true);
                                                                        projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab2" + ViewBag.UiId });
+                                                                       projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab3" + ViewBag.UiId });
                                                                    });
 
                                })
@@ -533,6 +535,7 @@
                                                 </div>
                                                 <div id="@tab2" class="tab-pane">
                                                     @*@Html.Partial("~/Views/OBKContract/ProductView.cshtml", @Model)*@
+                                                    @Html.Partial("~/Views/SafetyAssessment/ProductView.cshtml", (PW.Ncels.Database.DataModel.OBK_Contract)ViewBag.Contract)
                                                 </div>
                                                 <div id="@tab3" class="tab-pane">
                                                     @Html.Partial("~/Views/OBKContract/Price.cshtml", @Model.Id)
@@ -544,6 +547,9 @@
                             </div>
                         </div>
                         <div id="@("contractDataTab2" + ViewBag.UiId)" class="row hidden">
+                            @Html.Partial("~/Views/SafetyAssessment/AttachFileView.cshtml", (IEnumerable<PW.Ncels.Database.Models.Common.FileGroup>)ViewBag.ListAttachments)
+                        </div>
+                        <div id="@("contractDataTab3" + ViewBag.UiId)" class="row hidden">
                             <div class="row">
                                 @(Html.Kendo().Grid<PW.Ncels.Database.DataModel.FileLinkView>()
                   .Name("contractAttachesGrid" + (string)ViewBag.UiId)

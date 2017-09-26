@@ -1,4 +1,5 @@
 ﻿@using PW.Ncels.Database.DataModel
+@using PW.Ncels.Database.Constants
 @model Guid?
 @{
     ViewBag.Title = "Contract";
@@ -1156,19 +1157,19 @@
                                                 <div ng-show="declarant.Id != null && declarant.IsResident == true" id="filesResident">
                                                     <div ng-show="!object.viewMpde">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="sysAttachOBKContractResident" path="@ModelGuid" />
+                                                        <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" path="@ModelGuid" />
                                                     </div>
                                                     <div ng-show="object.viewMpde">
-                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="sysAttachOBKContractResident" id="@ModelGuid" path="@ModelGuid" />
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
                                                 <div ng-show="declarant.Id != null && declarant.IsResident == false" id="filesNonResident">
                                                     <div ng-show="!object.viewMpde">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="sysAttachOBKContractNonResident" path="@ModelGuid" />
+                                                        <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" path="@ModelGuid" />
                                                     </div>
                                                     <div ng-show="object.viewMpde">
-                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="sysAttachOBKContractNonResident" id="@ModelGuid" path="@ModelGuid" />
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
                                             </div>

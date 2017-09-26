@@ -25,7 +25,7 @@
                                    panelbar.Add().Text(PW.Ncels.Database.Recources.Messages.Property_Постатусу_262__00)
                                                       .Items(projects =>
                                                       {
-                                                          projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "" }, { "ItemType", "StatusValue" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "" }, { "ItemType", "StatusValue" }, { "ModelId", Model.ToString() } }).Items(i => { i.Add().Text("1"); i.Add().Text("2"); });
                                                           projects.Add().Text("Распределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "0" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("На корректировке у заявителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "1" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("Доработанные заявителем").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "2" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });

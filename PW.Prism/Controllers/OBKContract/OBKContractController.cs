@@ -1,8 +1,10 @@
 ﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models.OBK;
+using PW.Ncels.Database.Repository.Common;
 using PW.Ncels.Database.Repository.OBK;
 using System;
 using System.Collections.Generic;
@@ -63,6 +65,9 @@ namespace PW.Prism.Controllers.OBKContract
             var productInfo = obkRepo.GetProducts(id.Value);
             var prices = obkRepo.GetContractPrices(id.Value);
 
+            var obkContract = db.OBK_Contract.Where(x => x.Id == id).FirstOrDefault();
+            obkContract.ObkRsProductCount = productInfo.Count;
+            ViewBag.Contract = obkContract;
             ViewBag.Countries = new SelectList(countries, "Id", "Name", declarant.CountryId);
             ViewBag.OrganizationForms = new SelectList(organizationForms, "Id", "Name", declarant.OrganizationFormId);
             Guid selectedNonResident = Guid.Empty;
@@ -77,9 +82,27 @@ namespace PW.Prism.Controllers.OBKContract
                 new SelectListItem { Selected = false, Text="Да", Value = true.ToString()},
             }, "Value", "Text", contract.IsHasBossDocNumber.ToString());
             ViewBag.Currencies = new SelectList(currencies, "Id", "Name", contract.CurrencyId);
+            ViewData["Courrency"] = new SelectList(currencies, "Id", "Name");
             ViewBag.declarant = declarant;
             ViewBag.productInfo = productInfo;
             ViewBag.prices = prices;
+
+            ViewBag.ShowProductComments = true;
+
+            #region Attachments
+            var repository = new UploadRepository();
+            string type = "";
+            if (declarant.IsResident)
+            {
+                type = CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT;
+            }
+            else
+            {
+                type = CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT;
+            }
+            var list = repository.GetAttachListEdit(id, type);
+            ViewBag.ListAttachments = list;
+            #endregion
 
             return PartialView("Contract", contract);
         }
@@ -162,6 +185,50 @@ namespace PW.Prism.Controllers.OBKContract
         public virtual ActionResult SaveCommentPrice(string contractPriceId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
         {
             obkRepo.SaveCommentPrice(contractPriceId, isError, comment, fieldValue, userId, fieldDisplay);
+
+            return Json(new { Success = true });
+        }
+
+        public ActionResult ShowCommentProduct(int productId)
+        {
+            var model = obkRepo.GetCommentsProduct(productId);
+            if (model == null)
+            {
+                model = new OBK_RS_ProductsCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveCommentProduct(string productId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            obkRepo.SaveCommentProduct(productId, isError, comment, fieldValue, userId, fieldDisplay);
+
+            return Json(new { Success = true });
+        }
+
+        public ActionResult ShowCommentProductsSerie(int productSerieId)
+        {
+            var model = obkRepo.GetCommentsProductsSerie(productSerieId);
+            if (model == null)
+            {
+                model = new OBK_Products_SeriesCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+    
+        [HttpPost]
+        public ActionResult SaveCommentProductsSerie(string productSerieId, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
+        {
+            obkRepo.SaveCommentProductsSerie(productSerieId, isError, comment, fieldValue, userId, fieldDisplay);
 
             return Json(new { Success = true });
         }
