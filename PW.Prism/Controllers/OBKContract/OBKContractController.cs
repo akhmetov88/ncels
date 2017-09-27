@@ -50,6 +50,9 @@ namespace PW.Prism.Controllers.OBKContract
             //}
             ViewBag.UiId = Guid.NewGuid().ToString();
 
+            var contractTypes = db.OBK_Ref_Type.Where(x => x.ViewOption == CodeConstManager.OBK_VIEW_OPTION_SHOW_ON_CREATE).OrderBy(x => x.Id).Select(o => new { o.Id, Name = o.NameRu, o.Code, o.NameKz });
+
+
             var countries = db.Dictionaries.Where(x => x.Type == "Country").ToList();
             var organizationForms = db.Dictionaries.Where(x => x.Type == "OpfType").ToList();
             var docTypes = db.Dictionaries.Where(x => x.Type == "OBKContractDocumentType").ToList();
@@ -68,6 +71,7 @@ namespace PW.Prism.Controllers.OBKContract
             var obkContract = db.OBK_Contract.Where(x => x.Id == id).FirstOrDefault();
             obkContract.ObkRsProductCount = productInfo.Count;
             ViewBag.Contract = obkContract;
+            ViewBag.ContractTypes = new SelectList(contractTypes, "Id", "Name", obkContract.Type);
             ViewBag.Countries = new SelectList(countries, "Id", "Name", declarant.CountryId);
             ViewBag.OrganizationForms = new SelectList(organizationForms, "Id", "Name", declarant.OrganizationFormId);
             Guid selectedNonResident = Guid.Empty;
