@@ -191,6 +191,9 @@ namespace PW.Prism.Controllers.OBK
                 prod.ProducerNameKz = product.ProducerNameKz;
                 prod.CountryNameRu = product.CountryNameRu;
                 prod.CountryNameKZ = product.CountryNameKZ;
+                prod.DrugFormFullName = product.DrugFormFullName;
+                prod.DrugFormFullNameKz = product.DrugFormFullNameKz;
+                prod.DrugFormBoxCount = product.DrugFormBoxCount;
                 //prod.TnvedCode = product.TnvedCode;
                 //prod.KpvedCode = product.KpvedCode;
                 prod.CurrencyId = product.CurrencyId;
