@@ -88,7 +88,7 @@ namespace PW.Prism.Controllers.OBKContract
             ViewBag.prices = prices;
 
             ViewBag.ShowProductComments = true;
-
+            ViewBag.HidePriceAndCurrency = true;
             #region Attachments
             var repository = new UploadRepository();
             string type = "";
@@ -243,6 +243,12 @@ namespace PW.Prism.Controllers.OBKContract
         {
             var list = obkRepo.GetContractPrices(contractId);
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult SetExecutor()
+        {
+            return PartialView(Guid.NewGuid());
         }
     }
 }
