@@ -101,7 +101,7 @@
                                                                     <div class="form-group">
                                                                         <label>ИИН/БИН *</label>
                                                                         <div class="input-group">
-                                                                            <input class="form-control" type="text" name="bin" disabled value="@ViewBag.declarant.Bin">
+                                                                            <input class="form-control edit-control" type="text" id="bin" name="bin" disabled value="@ViewBag.declarant.Bin">
                                                                             <span class="input-group-addon">
                                                                                 <a class="obkcontractdialog" href="#">
                                                                                     <i class="glyphicon glyphicon-info-sign"></i>
@@ -176,7 +176,7 @@
                                                                 <div class="form-group">
                                                                     <label>Наименование на государственном языке *</label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="declarantNameKz" disabled value="@ViewBag.declarant.NameKz">
+                                                                        <input class="form-control edit-control" type="text" id="declarantNameKz" name="declarantNameKz" disabled value="@ViewBag.declarant.NameKz">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -187,7 +187,7 @@
                                                                 <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                                     <label>Наименование на русском языке *</label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="declarantNameRu" disabled value="@ViewBag.declarant.NameRu">
+                                                                        <input class="form-control edit-control" type="text" id="declarantNameRu" name="declarantNameRu" disabled value="@ViewBag.declarant.NameRu">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -198,7 +198,7 @@
                                                                 <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                                     <label>Наименование на английском языке</label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="declarantNameEn" disabled value="@ViewBag.declarant.NameEn">
+                                                                        <input class="form-control edit-control" type="text" id="declarantNameEn" name="declarantNameEn" disabled value="@ViewBag.declarant.NameEn">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -225,7 +225,7 @@
                                                                     <h4>Адрес</h4>
                                                                     <label>Юридический адрес * </label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="AddressLegalRu" disabled value="@Model.AddressLegalRu">
+                                                                        <input class="form-control edit-control" type="text" id="AddressLegalRu" name="AddressLegalRu" disabled value="@Model.AddressLegalRu">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -236,7 +236,7 @@
                                                                 <div class="form-group">
                                                                     <label>Юридический адрес на казахском * </label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="AddressLegalKz" disabled value="@Model.AddressLegalKz">
+                                                                        <input class="form-control edit-control" type="text" id="AddressLegalKz" name="AddressLegalKz" disabled value="@Model.AddressLegalKz">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -247,7 +247,7 @@
                                                                 <div class="form-group">
                                                                     <label>Фактический адрес * </label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="AddressFact" disabled value="@Model.AddressFact">
+                                                                        <input class="form-control edit-control" type="text" id="AddressFact" name="AddressFact" disabled value="@Model.AddressFact">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -258,7 +258,7 @@
                                                                 <div class="form-group">
                                                                     <label>Номер телефона * </label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="Phone" disabled value="@Model.Phone">
+                                                                        <input class="form-control edit-control" type="text" id="Phone" name="Phone" disabled value="@Model.Phone">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -269,7 +269,7 @@
                                                                 <div class="form-group">
                                                                     <label>Адрес электронной почты * </label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="Email" disabled value="@Model.Email">
+                                                                        <input class="form-control edit-control" type="text" id="Email" name="Email" disabled value="@Model.Email">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -289,7 +289,7 @@
                                                                         <div class="form-group">
                                                                             <label>Фамилия *</label>
                                                                             <div class="input-group">
-                                                                                <input class="form-control" type="text" disabled value="@Model.BossLastName">
+                                                                                <input class="form-control edit-control" type="text" id="BossLastName" disabled value="@Model.BossLastName">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -302,7 +302,7 @@
                                                                         <div class="form-group">
                                                                             <label>Имя *</label>
                                                                             <div class="input-group">
-                                                                                <input class="form-control" type="text" disabled value="@Model.BossFirstName">
+                                                                                <input class="form-control edit-control" type="text" id="BossFirstName" disabled value="@Model.BossFirstName">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -315,7 +315,7 @@
                                                                         <div class="form-group">
                                                                             <label>Отчество</label>
                                                                             <div class="input-group">
-                                                                                <input class="form-control" type="text" disabled value="@Model.BossMiddleName">
+                                                                                <input class="form-control edit-control" type="text" id="BossMiddleName" disabled value="@Model.BossMiddleName">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -330,7 +330,7 @@
                                                                         <div class="form-group">
                                                                             <label>Должность на русском языке *</label>
                                                                             <div class="input-group">
-                                                                                <input ng-model="object.BossPosition" class="form-control" type="text" disabled value="@Model.BossPosition">
+                                                                                <input ng-model="object.BossPosition" class="form-control edit-control" id="BossPosition" type="text" disabled value="@Model.BossPosition">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -343,7 +343,7 @@
                                                                         <div class="form-group">
                                                                             <label>Должность на казахском языке *</label>
                                                                             <div class="input-group">
-                                                                                <input ng-model="object.BossPositionKz" class="form-control" type="text" disabled value="@Model.BossPositionKz">
+                                                                                <input ng-model="object.BossPositionKz" class="form-control edit-control" id="BossPositionKz" type="text" disabled value="@Model.BossPositionKz">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -389,73 +389,75 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <label>Наличие номера *</label>
-                                                                    <div class="input-group">
-                                                                        @Html.DropDownList("IsHasBossDocNumber", (IEnumerable<SelectListItem>)(ViewBag.BoolValues), string.Empty,
+                                                            <div class="row">
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group">
+                                                                        <label>Наличие номера *</label>
+                                                                        <div class="input-group">
+                                                                            @Html.DropDownList("IsHasBossDocNumber", (IEnumerable<SelectListItem>)(ViewBag.BoolValues), string.Empty,
                                                                            new
                                                                            {
                                                                                @class = "form-control edit-control main-control",
                                                                                @disabled = "disabled"
                                                                            })
-                                                                        <span class="input-group-addon">
-                                                                            <a class="obkcontractdialog" href="#">
-                                                                                <i class="glyphicon glyphicon-info-sign"></i>
-                                                                            </a>
-                                                                        </span>
+                                                                            <span class="input-group-addon">
+                                                                                <a class="obkcontractdialog" href="#">
+                                                                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                                                                </a>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group">
+                                                                        <label>Номер документа</label>
+                                                                        <div class="input-group">
+                                                                            <input class="form-control edit-control" type="text" id="BossDocNumber" name="BossDocNumber" disabled value="@Model.BossDocNumber">
+                                                                            <span class="input-group-addon">
+                                                                                <a class="obkcontractdialog" href="#">
+                                                                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                                                                </a>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group">
+                                                                        <label>Дата начала действия *</label>
+                                                                        <div class="input-group date">
+                                                                            <input class="form-control edit-control" id="BossDocCreatedDate" disabled value="@(Model.BossDocCreatedDate != null ? @Model.BossDocCreatedDate.Value.ToString("dd.MM.yyyy") : "")">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                            <span class="input-group-addon">
+                                                                                <a class="obkcontractdialog" href="#">
+                                                                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                                                                </a>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <div class="form-group">
+                                                                        <label>Дата окончания действия *</label>
+                                                                        <div class="input-group date">
+                                                                            <input class="form-control edit-control" id="BossDocEndDate" disabled value="@(Model.BossDocEndDate != null ? @Model.BossDocEndDate.Value.ToString("dd.MM.yyyy") : "")">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                            <span class="input-group-addon">
+                                                                                <a class="obkcontractdialog" href="#">
+                                                                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                                                                </a>
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <label>Номер документа</label>
-                                                                    <div class="input-group">
-                                                                        <input class="form-control" type="text" name="BossDocNumber" disabled value="@Model.BossDocNumber">
-                                                                        <span class="input-group-addon">
-                                                                            <a class="obkcontractdialog" href="#">
-                                                                                <i class="glyphicon glyphicon-info-sign"></i>
-                                                                            </a>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <label>Дата начала действия *</label>
-                                                                    <div class="input-group date">
-                                                                        <input class="form-control" disabled value="@(Model.BossDocCreatedDate != null ? @Model.BossDocCreatedDate.Value.ToString("dd.MM.yyyy") : "")">
-                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                        <span class="input-group-addon">
-                                                                            <a class="obkcontractdialog" href="#">
-                                                                                <i class="glyphicon glyphicon-info-sign"></i>
-                                                                            </a>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <label>Дата окончания действия *</label>
-                                                                    <div class="input-group date">
-                                                                        <input class="form-control" disabled value="@(Model.BossDocEndDate != null ? @Model.BossDocEndDate.Value.ToString("dd.MM.yyyy") : "")">
-                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                        <span class="input-group-addon">
-                                                                            <a class="obkcontractdialog" href="#">
-                                                                                <i class="glyphicon glyphicon-info-sign"></i>
-                                                                            </a>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-12">
+                                                                <div class="col-lg-12">
                                                                 <h4>Банковские реквизиты</h4>
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
                                                                     <label>ИИК (р/с) *</label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="BankIik" disabled value="@Model.BankIik">
+                                                                        <input class="form-control edit-control" type="text" id="BankIik" name="BankIik" disabled value="@Model.BankIik">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -468,7 +470,7 @@
                                                                 <div class="form-group">
                                                                     <label>БИК *</label>
                                                                     <div class="input-group">
-                                                                        <input class="form-control" type="text" name="BankBik" disabled value="@Model.BankBik">
+                                                                        <input class="form-control edit-control" type="text" id="BankBik" name="BankBik" disabled value="@Model.BankBik">
                                                                         <span class="input-group-addon">
                                                                             <a class="obkcontractdialog" href="#">
                                                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -502,7 +504,7 @@
                                                                         <div class="form-group">
                                                                             <label>Наименование банка *</label>
                                                                             <div class="input-group">
-                                                                                <input class="form-control" type="text" name="BankNameRu" disabled value="@Model.BankNameRu">
+                                                                                <input class="form-control edit-control" type="text" id="BankNameRu" name="BankNameRu" disabled value="@Model.BankNameRu">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -519,7 +521,7 @@
                                                                         <div class="form-group">
                                                                             <label>Наименование банка на казахском языке *</label>
                                                                             <div class="input-group">
-                                                                                <input class="form-control" type="text" name="BankNameKz" disabled value="@Model.BankNameKz">
+                                                                                <input class="form-control edit-control" type="text" id="BankNameKz" name="BankNameKz" disabled value="@Model.BankNameKz">
                                                                                 <span class="input-group-addon">
                                                                                     <a class="obkcontractdialog" href="#">
                                                                                         <i class="glyphicon glyphicon-info-sign"></i>
