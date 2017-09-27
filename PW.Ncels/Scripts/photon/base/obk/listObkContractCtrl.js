@@ -1468,7 +1468,6 @@
 
 function modalSendContract($scope, $http, $uibModalInstance) {
     $scope.sendProject = function () {
-        alert("send project");
         var projectId = $scope.object.Id;
         if (projectId) {
             $http({
