@@ -443,6 +443,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     Model = y.Model,
                     Specification = y.Specification,
                     SpecificationKz = y.SpecificationKz,
+                    Name = y.Name,
+                    NameKz = y.NameKz,
                     ProducerName = y.ProducerName,
                     CountryName = y.CountryName,
                     ProducerNameKz = y.ProducerNameKz,
@@ -534,6 +536,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     mtPart.Model = item.Model;
                     mtPart.Specification = item.Specification;
                     mtPart.SpecificationKz = item.SpecificationKz;
+                    mtPart.Name = item.Name;
+                    mtPart.NameKz = item.NameKz;
                     mtPart.ProducerName = item.ProducerName;
                     mtPart.CountryName = item.CountryName;
                     mtPart.ProducerNameKz = item.ProducerNameKz;
