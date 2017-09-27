@@ -39,7 +39,7 @@
                                                                    {
                                                                        projects.Add().Text("Карточка договора").HtmlAttributes(new { TabId = "contractDataTab1" + ViewBag.UiId }).Selected(true);
                                                                        projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab2" + ViewBag.UiId });
-                                                                       projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab3" + ViewBag.UiId });
+                                                                       //projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab3" + ViewBag.UiId });
                                                                    });
 
                                })
@@ -591,5 +591,6 @@
 <script>
     $(document).ready(function () {
         InitObkContractCard('@ViewBag.UiId');
+
     });
 </script>
