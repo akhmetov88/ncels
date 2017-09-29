@@ -228,7 +228,7 @@
         $scope.gridOptionsSelectedMtPartApi = gridApi;
 
         $scope.gridOptionsSelectedMtPartApi.selection.on.rowSelectionChanged($scope, function (row) {
-            alert("Selected MtPart Selected");
+            //alert("Selected MtPart Selected");
         });
     };
 
