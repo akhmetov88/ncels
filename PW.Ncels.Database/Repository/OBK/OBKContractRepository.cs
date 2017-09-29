@@ -160,6 +160,8 @@ namespace PW.Ncels.Database.Repository.OBK
         private void FillContract(OBKContractViewModel contractViewModel, OBK_Contract obkContract)
         {
             obkContract.Type = contractViewModel.Type != 0 ? contractViewModel.Type : 1;
+            obkContract.ExpertOrganization= contractViewModel.ExpertOrganization;
+            obkContract.Signer = contractViewModel.Signer;
             if (obkContract.DeclarantContactId != null)
             {
                 var contactData = AppContext.OBK_DeclarantContact.Where(x => x.Id == obkContract.DeclarantContactId).FirstOrDefault();
@@ -296,6 +298,8 @@ namespace PW.Ncels.Database.Repository.OBK
             OBKContractViewModel contractViewModel = new OBKContractViewModel();
             contractViewModel.Id = OBKContract.Id;
             contractViewModel.Type = OBKContract.Type;
+            contractViewModel.ExpertOrganization = OBKContract.ExpertOrganization;
+            contractViewModel.Signer = OBKContract.Signer;
             contractViewModel.Status = OBKContract.Status;
 
             //if (OBKContract.DeclarantId != null)
@@ -936,9 +940,9 @@ namespace PW.Ncels.Database.Repository.OBK
             //}).ToList();
 
             var emp = UserHelper.GetCurrentEmployee();
-             
+
             var list = AppContext.OBK_ContractRegisterView.Where(x => x.ExecutorId == emp.Id).AsQueryable();
- 
+
             //var stages = AppContext.OBK_ContractStage.Where(x => x.Employees.Contains(emp)).AsQueryable();
 
 
@@ -1186,6 +1190,27 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var count = AppContext.OBK_ContractPrice.Where(e => e.ContractId == contractId).ToList();
             return count.Sum(e => e.PriceWithTax).ToString();
+        }
+
+        public IQueryable<object> GetSigners()
+        {
+            string[] signerCodes = { "ncels_deputyceo", "ncels_ceo" };
+            var items = AppContext.Employees.Where(e => signerCodes.Contains(e.Position.Code)).Select(e => new
+            {
+                e.Id,
+                Name = e.Position.ShortName + " " + e.ShortName
+            });
+            return items;
+        }
+
+        public IQueryable<object> GetExpertOrganizations()
+        {
+            var items = AppContext.Units.Where(x => x.Code == "00").Select(x => new
+            {
+                Id = x.Id,
+                Name = x.ShortName
+            });
+            return items;
         }
     }
 }

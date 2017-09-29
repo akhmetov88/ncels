@@ -367,5 +367,17 @@ namespace PW.Ncels.Controllers
             stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");
         }
+
+        public ActionResult GetSigners()
+        {
+            var signers = obkRepo.GetSigners();
+            return Json(signers.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetExpertOrganizations()
+        {
+            var expertOrganizations = obkRepo.GetExpertOrganizations();
+            return Json(expertOrganizations.ToList(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

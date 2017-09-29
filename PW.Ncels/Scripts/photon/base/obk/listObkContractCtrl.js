@@ -1,5 +1,6 @@
 ﻿function obkContractForm($scope, $http, $interval, $uibModal) {
     $scope.ExpertOrganizations = [];
+    $scope.ContractSigners = [];
 
     $scope.showContactInformation = false;
 
@@ -377,6 +378,8 @@
     $scope.searchResults = null;
 
 
+    loadExpertOrganizations($scope, $http);
+    loadContractSigners($scope, $http);
     loadDictionary($scope, 'Currency', $http);
     loadObkRefTypes($scope, $http);
     loadObkOrganizations($scope, $http);
@@ -1104,6 +1107,8 @@
             if (resp.data) {
                 $scope.object.Id = resp.data.Id;
                 $scope.object.Type = resp.data.Type;
+                $scope.object.ExpertOrganization = resp.data.ExpertOrganization;
+                $scope.object.Signer = resp.data.Signer;
                 $scope.object.Status = resp.data.Status;
                 $scope.changeViewMode();
 
@@ -1538,6 +1543,26 @@ function convertDateToStringDDMMYYYY(value) {
         return dd + "." + mm + "." + yyyy;
     }
     return "";
+}
+
+function loadExpertOrganizations($scope, $http) {
+    $http({
+        method: "GET",
+        url: "/OBKContract/GetExpertOrganizations",
+        data: "JSON"
+    }).success(function (result) {
+        $scope.ExpertOrganizations = result;
+    });
+}
+
+function loadContractSigners($scope, $http) {
+    $http({
+        method: "GET",
+        url: "/OBKContract/GetSigners",
+        data: "JSON"
+    }).success(function (result) {
+        $scope.ContractSigners = result;
+    });
 }
 
 function loadObkRefTypes($scope, $http) {

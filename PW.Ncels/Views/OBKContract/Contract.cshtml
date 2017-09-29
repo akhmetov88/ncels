@@ -163,10 +163,19 @@
                                                     </div>
                                                     <div class="col-lg-6 b-l">
                                                         <div class="form-group">
-                                                            <label>Экспертная организация</label>
-                                                            <ui-select ng-model="object.ExpertOrganization" theme="bootstrap" ng-disabled="object.viewMpde">
+                                                            <label>Экспертная организация *</label>
+                                                            <ui-select ng-model="object.ExpertOrganization" ui-select-selected required theme="bootstrap" ng-change="editProject();" ng-disabled="object.viewMpde">
                                                                 <ui-select-match>{{$select.selected.Name}}</ui-select-match>
                                                                 <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
+                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Подписывающее лицо *</label>
+                                                            <ui-select ng-model="object.Signer" ui-select-selected required theme="bootstrap" ng-change="editProject();" ng-disabled="object.viewMode">
+                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                <ui-select-choices repeat="item.Id as item in ContractSigners | filter: $select.search">
                                                                     <div ng-bind-html="item.Name| highlight: $select.search"></div>
                                                                 </ui-select-choices>
                                                             </ui-select>
