@@ -168,6 +168,12 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("CanSafetyAssessmentExecutorsAssignment", @"Модуль 'ОБК'", "Распределение заявлений", "Работа с заявлениями ОБК");
             AddPermission("CanSARejectAndReviewButton", @"Модуль 'ОБК'", "Функционал подверждения или отклонения заявки ЦОЗ", "Работа с заявлениями ОБК");
 
+            // ОБК Договоры
+            AddPermission("IsMenuOBKContractVisibility", @"Модуль 'ОБК' 'Договоры'", "Вкладка 'ОБК Договоры' главная", "Доступ в главном меню ОБК Договоры");
+            AddPermission("CanViewNotAssignedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр нераспределенных договоров", "Работа с договорами ОБК");
+            AddPermission("CanAssignOBKContract", @"Модуль 'ОБК' 'Договоры'", "Функционал распределения договоров", "Работа с договорами ОБК");
+            AddPermission("CanViewMeetAndNotMeetRqrmntsBtnObkContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Соответствует требованиям\"/\"Не соответствует требованиям\"", "Работа с договорами ОБК");
+
             RemoveNonActualKeys();
         }
 
@@ -391,7 +397,7 @@ namespace PW.Ncels.Database.Helpers
         {
             get { return IsVisibility("IsMenuDocumentMainVisibility"); }
         }
-        
+
         /// <summary>
         /// Модуль служебные записки департамента
         /// </summary>
@@ -862,7 +868,23 @@ namespace PW.Ncels.Database.Helpers
         #endregion
 
         #region ОБК Договоры
-        public static bool IsMenuOBKContractVisibility { get { return true; return IsVisibility("IsMenuOBKContractVisibility"); } }
+        /// <summary>
+        /// Отображать модуль ОБК Договоры
+        /// </summary>
+        public static bool IsMenuOBKContractVisibility { get { return IsVisibility("IsMenuOBKContractVisibility"); } }
+        /// <summary>
+        /// Отображать нераспределенные договоры
+        /// </summary>
+        public static bool CanViewNotAssignedOBKContracts { get { return IsVisibility("CanViewNotAssignedOBKContracts"); } }
+        /// <summary>
+        /// Имеет возможность распределять договоры
+        /// </summary>
+        public static bool CanAssignOBKContract { get { return IsVisibility("CanAssignOBKContract"); } }
+
+        /// <summary>
+        /// Отображать кнопки "Соответствует требованиям"/"Не соответствует требованиям"
+        /// </summary>
+        public static bool CanViewMeetAndNotMeetRqrmntsBtnObkContract { get { return IsVisibility("CanViewMeetAndNotMeetRqrmntsBtnObkContract"); } }
         #endregion
     }
 }

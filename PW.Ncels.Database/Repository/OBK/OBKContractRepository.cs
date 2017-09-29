@@ -1,4 +1,5 @@
-﻿using PW.Ncels.Database.DataModel;
+﻿using PW.Ncels.Database.Constants;
+using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.Models.OBK;
@@ -921,18 +922,26 @@ namespace PW.Ncels.Database.Repository.OBK
             return meParts;
         }
 
-        public List<OBKContractViewModel> GetContracts()
+        public IQueryable<OBK_ContractRegisterView> GetContracts()
         {
-            List<OBKContractViewModel> list = AppContext.OBK_Contract.AsNoTracking().Where(x => x.Status == PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_INPROCESSING).Select(x =>
-            new OBKContractViewModel
-            {
-                Id = x.Id,
-                Number = x.Number,
-                CreatedDate = x.CreatedDate,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
-                DeclarantNameRu = x.OBK_Declarant.NameRu
-            }).ToList();
+            //List<OBKContractViewModel> list = AppContext.OBK_Contract.AsNoTracking().Where(x => x.Status == PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_INPROCESSING).Select(x =>
+            //new OBKContractViewModel
+            //{
+            //    Id = x.Id,
+            //    Number = x.Number,
+            //    CreatedDate = x.CreatedDate,
+            //    StartDate = x.StartDate,
+            //    EndDate = x.EndDate,
+            //    DeclarantNameRu = x.OBK_Declarant.NameRu
+            //}).ToList();
+
+            var emp = UserHelper.GetCurrentEmployee();
+
+            var list = AppContext.OBK_ContractRegisterView.Where(x => x.ExecutorId == emp.Id).AsQueryable();
+ 
+            //var stages = AppContext.OBK_ContractStage.Where(x => x.Employees.Contains(emp)).AsQueryable();
+
+
             return list;
         }
 
@@ -940,7 +949,47 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
             contract.Status = Constants.CodeConstManager.STATUS_OBK_INPROCESSING;
+
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.New);
+
+            var obkContractStageCoz = new OBK_ContractStage()
+            {
+                Id = Guid.NewGuid(),
+                ContractId = contractId,
+                StageId = CodeConstManager.STAGE_OBK_COZ,
+                StageStatusId = stageStatus.Id,
+                ParentStageId = null,
+                ResultId = null
+            };
+
+            Guid bossCozGuid = new Guid("3100E850-F7D8-48A4-A5AC-4BF5D50D98D2");
+            var bossCozEmployee = AppContext.Employees.Where(x => x.Id == bossCozGuid).FirstOrDefault();
+
+            obkContractStageCoz.Employees.Add(bossCozEmployee);
+
+            AppContext.OBK_ContractStage.Add(obkContractStageCoz);
+
             AppContext.SaveChanges();
+
+            var obkContractStageUOBK = new OBK_ContractStage()
+            {
+                Id = Guid.NewGuid(),
+                ContractId = contractId,
+                StageId = CodeConstManager.STAGE_OBK_UOBK,
+                StageStatusId = stageStatus.Id,
+                ParentStageId = obkContractStageCoz.Id,
+                ResultId = null
+            };
+
+            Guid bossUobkGuid = new Guid("E99E0165-81D5-41B3-9586-8ECFF3DD8727");
+            var bossUobkEmployee = AppContext.Employees.Where(x => x.Id == bossUobkGuid).FirstOrDefault();
+
+            obkContractStageUOBK.Employees.Add(bossUobkEmployee);
+
+            AppContext.OBK_ContractStage.Add(obkContractStageUOBK);
+
+            AppContext.SaveChanges();
+
             return contract.Status;
         }
 
@@ -1095,6 +1144,20 @@ namespace PW.Ncels.Database.Repository.OBK
                 model.Id = Guid.NewGuid();
                 AppContext.OBK_Products_SeriesCom.Add(model);
             }
+            AppContext.SaveChanges();
+        }
+
+        public OBK_Ref_StageStatus GetStageStatusByCode(string code)
+        {
+            return AppContext.OBK_Ref_StageStatus.AsNoTracking().FirstOrDefault(e => e.Code == code);
+        }
+
+        public void SendToWork(Guid stageId, Guid executorId)
+        {
+            var stage = AppContext.OBK_ContractStage.Where(x => x.Id == stageId).FirstOrDefault();
+            var executor = AppContext.Employees.Where(x => x.Id == executorId).FirstOrDefault();
+            stage.Employees.Add(executor);
+            stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
             AppContext.SaveChanges();
         }
     }

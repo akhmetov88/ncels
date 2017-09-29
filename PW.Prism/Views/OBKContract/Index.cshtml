@@ -18,15 +18,19 @@
                                .ExpandMode(PanelBarExpandMode.Multiple)
                                .ExpandAll(true)
                                .HtmlAttributes(new { style = "width:auto;" })
-                               .Events(e => e.Select("panelContractSelect"))
+                               .Events(e => e.Select("panelObkContractSelect"))
                                .Items(panelbar =>
                                {
                                    panelbar.Add().Expanded(true);
                                    panelbar.Add().Text(PW.Ncels.Database.Recources.Messages.Property_Постатусу_262__00)
                                                       .Items(projects =>
                                                       {
-                                                          projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "" }, { "ItemType", "StatusValue" }, { "ModelId", Model.ToString() } }).Items(i => { i.Add().Text("1"); i.Add().Text("2"); });
-                                                          projects.Add().Text("Распределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "0" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
+                                                          if (EmployePermissionHelper.CanViewNotAssignedOBKContracts)
+                                                          {
+                                                              projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.New }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(true).Items(i => { i.Add().Text("1"); i.Add().Text("2"); });
+                                                          }
+
+                                                          projects.Add().Text("В работе").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork}, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewNotAssignedOBKContracts);
                                                           projects.Add().Text("На корректировке у заявителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "1" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("Доработанные заявителем").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "2" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("Требуют согласования").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
@@ -70,6 +74,13 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                    .SelectedIndex(0)
                 )
             </div>
+            @if (true || EmployePermissionHelper.CanAssignOBKContract)
+            {
+                <div>
+                    @(Html.Kendo().Button().Name("toWork" + Model).HtmlAttributes(new { @class = "pwWidth100" })
+                                   .Content("Распределить"))
+                </div>
+            }
             <div id="pwThree">
                 @(Html.Kendo().Button().Name("find" + Model).HtmlAttributes(new { @class = "pwWidth100" })
                                    .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
@@ -86,19 +97,19 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                                     .Content("")
                                .ImageUrl("/Content/images/reload.png"))
         </div>
-        @(Html.Kendo().Grid<PW.Ncels.Database.Models.OBK.OBKContractViewModel>()
+        @(Html.Kendo().Grid<PW.Ncels.Database.DataModel.OBK_ContractRegisterView>()
                                    .Name("gridContractAll" + Model)
                            .Columns(columns =>
                            {
-                               columns.Bound(p => p.Number).Width(150).ClientTemplate(
+                               columns.Bound(p => p.ContractNumber).Width(150).ClientTemplate(
                                    "<div class=\"btn-group btn-group-xs\" style='height:14px;margin-top: -9px;'>" +
-                                        "<button type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getObkContractDetails('#=Id#', '#=Number#',);\"><span style=\"color:rgb(66,139,202);\">#=Number#</span></button>" +
+                                        "<button type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getObkContractDetails('#=ContractId#', '#=ContractNumber#',);\"><span style=\"color:rgb(66,139,202);\">#=ContractNumber#</span></button>" +
                                     "</div>"
                                    ).Title(PW.Ncels.Database.Recources.Messages.Property_Номер_373__00).ClientFooterTemplate(PW.Ncels.Database.Recources.Messages.Property_Всего_356__00 + "#=count#").Locked(true).Lockable(false);
-                               columns.Bound(p => p.CreatedDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датадоговора_100).Width(100);
-                               columns.Bound(p => p.StartDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Дата_начала_18).Width(100);
-                               columns.Bound(p => p.EndDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датаокончания_101).Width(100);
-                               columns.Bound(p => p.DeclarantNameRu).Title(PW.Ncels.Database.Recources.Messages.Ncels_Просрочен_102).Width(100);
+                               columns.Bound(p => p.ContractCreatedDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датадоговора_100).Width(100);
+                               columns.Bound(p => p.ContractStartDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Дата_начала_18).Width(100);
+                               columns.Bound(p => p.ContractEndDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датаокончания_101).Width(100);
+                               columns.Bound(p => p.DeclarantNameRu).Title("Заявитель").Width(100);
                            })
 
                            .Reorderable(reorderable => reorderable.Columns(true))
@@ -112,16 +123,20 @@ panes.Add().Scrollable(false).Size("100%").Content(
                            .HtmlAttributes(new { @class = "pwGrid" })
                            .DataSource(dataSource => dataSource
                                .Ajax()
-                               .Aggregates(aggregates => { aggregates.Add(p => p.Number).Count(); })
-                               .Sort(sort => { sort.Add("CreatedDate").Descending(); })
+                               .Aggregates(aggregates => { aggregates.Add(p => p.ContractNumber).Count(); })
+                               .Sort(sort => { sort.Add("ContractCreatedDate").Descending(); })
                                .PageSize(50)
                                .Read(read => read.Action("ListContract", "OBKContract"))
-                           ) )
+                           )
+                            )
     </div>
              );
             }))
 
 
 <script>
-    resizeGrid('@("#gridContractAll" + Model)');
+    $(document).ready(function () {
+        resizeGrid('@("#gridContractAll" + Model)');
+        initFilterOBKContract('@Model.ToString()');
+    });
 </script>

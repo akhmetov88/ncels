@@ -33,7 +33,8 @@ namespace PW.Prism.Controllers.OBKContract
 
         public ActionResult ListContract([DataSourceRequest] DataSourceRequest request)
         {
-            List<OBKContractViewModel> query = obkRepo.GetContracts();
+            IQueryable<OBK_ContractRegisterView> query = obkRepo.GetContracts();
+            var xxx = Json(query.ToDataSourceResult(request));
             return Json(query.ToDataSourceResult(request));
         }
 
@@ -108,7 +109,83 @@ namespace PW.Prism.Controllers.OBKContract
             ViewBag.ListAttachments = list;
             #endregion
 
+
+            ViewBag.ShowMeetsRequirementsBtn = IsMeetsRequirementsBtnAllowed(id.Value);
+            ViewBag.ShowDoesNotMeetRequirementsBtn = ViewBag.ShowMeetsRequirementsBtn;
+            ViewBag.ShowReturnToApplicantBtn = true;
+            ViewBag.ShowSendToBossForApprovalBtn = true;
+
+
+
             return PartialView("Contract", contract);
+        }
+
+        private bool IsMeetsRequirementsBtnAllowed(Guid contractId)
+        {
+            bool result = false;
+
+            if (EmployePermissionHelper.CanViewMeetAndNotMeetRqrmntsBtnObkContract)
+            {
+                var employeeId = UserHelper.GetCurrentEmployee().Id;
+
+                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && x.StageStatusCode == OBK_Ref_StageStatus.InWork);
+
+                bool coz = false;
+                Guid cozStageId = Guid.Empty;
+                foreach (var item in stages)
+                {
+                    if (item.ContractStageStageId == CodeConstManager.STAGE_OBK_COZ)
+                    {
+                        coz = true;
+                        cozStageId = item.ContractStageId;
+                        break;
+                    }
+                }
+
+                if (coz && cozStageId != Guid.Empty)
+                {
+                    var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
+                    var childStages = db.OBK_ContractStage.Where(x => x.ParentStageId == cozStageId);
+
+                    int notFinishedCount = 0;
+                    foreach (var childStage in childStages)
+                    {
+                        if (childStage.ResultId == 0 || childStage.ResultId == null)
+                        {
+                            notFinishedCount++;
+                        }
+                    }
+
+                    if (notFinishedCount == 0)
+                    {
+                        if (stageObk.ResultId == null && stageObk.ResultId == 0)
+                        {
+                            result = true;
+                        }
+                    }
+                }
+                else
+                {
+                    Guid stageId = Guid.Empty;
+                    foreach (var item in stages)
+                    {
+                        if (item.ContractStageStageId == CodeConstManager.STAGE_OBK_UOBK)
+                        {
+                            stageId = item.ContractStageId;
+                            break;
+                        }
+                    }
+                    if (stageId != Guid.Empty)
+                    {
+                        var stage = db.OBK_ContractStage.Where(x => x.Id == stageId).FirstOrDefault();
+                        if (stage.ResultId == null || stage.ResultId == 0)
+                        {
+                            result = true;
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         public ActionResult ListAttaches([DataSourceRequest] DataSourceRequest request, Guid contractId)
@@ -253,6 +330,13 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult SetExecutor()
         {
             return PartialView(Guid.NewGuid());
+        }
+
+        [HttpPost]
+        public ActionResult SetExecutor(Guid executorId, Guid stageId)
+        {
+            obkRepo.SendToWork(stageId, executorId);
+            return Json("OK");
         }
     }
 }

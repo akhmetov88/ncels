@@ -409,6 +409,11 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const int STAGE_OBK_EXPERTISE_DOC = 2;
 
+        /// <summary>
+        /// УОБК
+        /// </summary>
+        public const int STAGE_OBK_UOBK = 3;
+
         #endregion
 
         #region Статусы
