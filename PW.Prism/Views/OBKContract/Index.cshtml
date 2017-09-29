@@ -27,7 +27,13 @@
                                                       {
                                                           if (EmployePermissionHelper.CanViewNotAssignedOBKContracts)
                                                           {
-                                                              projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.New }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(true).Items(i => { i.Add().Text("1"); i.Add().Text("2"); });
+                                                              projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.New }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(true)
+                                                              .Items(i =>
+                                                              {
+                                                                  //i.Add().Text("1");
+                                                                  //i.Add().Text("2");
+                                                              }
+                                                              );
                                                           }
 
                                                           projects.Add().Text("В работе").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork}, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewNotAssignedOBKContracts);

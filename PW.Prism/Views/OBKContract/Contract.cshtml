@@ -163,13 +163,38 @@
                                                             </div>
                                                             <div class="col-lg-6 b-l">
                                                                 <div class="form-group">
-                                                                    <label>Экспертная организация</label>
-                                                                    @*<ui-select ng-model="object.ExpertOrganization" theme="bootstrap" ng-disabled="object.viewMpde">
-                                                                            <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                            <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
-                                                                                <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                            </ui-select-choices>
-                                                                        </ui-select>*@
+                                                                    <label>Экспертная организация *</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("ExpertOrganization", (IEnumerable<SelectListItem>)(ViewBag.ExpertOrganizations),
+                                                                    String.Empty,
+                                                                    new
+                                                                    {
+                                                                        @class = "form-control edit-control main-control",
+                                                                        @disabled = "disabled"
+                                                                    })
+                                                                        <span class="input-group-addon">
+                                                                            <a class="obkcontractdialog" href="#">
+                                                                                <i class="glyphicon glyphicon-info-sign"></i>
+                                                                            </a>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Подписывающее лицо *</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("Signer", (IEnumerable<SelectListItem>)(ViewBag.Signers),
+                                                                    String.Empty,
+                                                                    new
+                                                                    {
+                                                                        @class = "form-control edit-control main-control",
+                                                                        @disabled = "disabled"
+                                                                    })
+                                                                        <span class="input-group-addon">
+                                                                            <a class="obkcontractdialog" href="#">
+                                                                                <i class="glyphicon glyphicon-info-sign"></i>
+                                                                            </a>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
