@@ -2298,7 +2298,7 @@
     <Content Include="Views\OBKContract\ShowCommentPrice.cshtml" />
     <Content Include="Views\OBKContract\ShowCommentProduct.cshtml" />
     <Content Include="Views\OBKContract\ShowCommentProductsSerie.cshtml" />
-    <Content Include="Views\OBKContract\SetExecutor.cshtml" />
+    <Content Include="Views\OBKContract\ContractTemplate.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

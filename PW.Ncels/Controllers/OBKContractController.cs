@@ -4,10 +4,16 @@ using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.OBK;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Aspose.Words;
+using Ncels.Helpers;
+using PW.Ncels.Database.Helpers;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dictionary;
 
 namespace PW.Ncels.Controllers
 {
@@ -322,6 +328,44 @@ namespace PW.Ncels.Controllers
         {
             var state = obkRepo.SendContractInProcessing(contractId);
             return Json(state);
+        }
+
+        public ActionResult ContractTemplate(Guid id)
+        {
+            return PartialView(id);
+        }
+
+        public ActionResult GetContractTemplatePdf(Guid id)
+        {
+            var db = new ncelsEntities();
+            string name = "Договор_на_проведение_оценки_безопасности_и_качества.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(obkRepo.GetContractTemplatePath(id));//(Server.MapPath("~/Reports/Mrts/OBK/ObkContractDec.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["ContractId"].ValueObject = id;
+
+                var price = new OBKContractRepository().GetPriceCount(id);
+                report.Dictionary.Variables["PriceCount"].ValueObject = price;
+
+                var priceText = RuDateAndMoneyConverter.ToTextTenge(Convert.ToDouble(price), false);
+                report.Dictionary.Variables["PriceCountName"].ValueObject = priceText;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            Stream stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+            return new FileStreamResult(stream, "application/pdf");
         }
     }
 }

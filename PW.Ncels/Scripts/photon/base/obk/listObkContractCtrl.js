@@ -1464,6 +1464,29 @@
             });
         }
     }
+
+    $scope.viewContract = function (id) {
+        debugger;
+        if ($scope.object.Type == null) {
+            alert("Выберите тип договра");
+            return;
+        }
+        var modalInstance = $uibModal.open({
+            templateUrl: '/OBKContract/ContractTemplate?id=' + id,
+            controller: ModalRegisterInstanceCtrl
+        });
+    };
+}
+
+function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {
+    debugger;
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 }
 
 function modalSendContract($scope, $http, $uibModalInstance) {

@@ -1,0 +1,1969 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <ncelsProd Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
+        <Alias>ncelsProd</Alias>
+        <ConnectionStringEncrypted>+RK1SclX0wlFR9Hc6njke94otevGdvPIy0m5nP+EYhvCfNmJTgXzvGp67YB6XHeb0zTBL11M813LUblM6ewi48VwwYhXA/vZe0kZBOnYd2c=</ConnectionStringEncrypted>
+        <Name>ncelsProd</Name>
+      </ncelsProd>
+    </Databases>
+    <DataSources isList="true" count="8">
+      <Dictionaries Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>Dictionaries</Alias>
+        <Columns isList="true" count="16">
+          <value>Id,System.Int64</value>
+          <value>IsGuide,System.Boolean</value>
+          <value>OrganizationId,System.Int64</value>
+          <value>Code,System.String</value>
+          <value>Name,System.String</value>
+          <value>Type,System.String</value>
+          <value>ExpireDate,System.String</value>
+          <value>Year,System.String</value>
+          <value>Note,System.String</value>
+          <value>DepartmentsId,System.String</value>
+          <value>DepartmentsValue,System.String</value>
+          <value>ParentId,System.Int64</value>
+          <value>DisplayName,System.String</value>
+          <value>EmployeesValue,System.String</value>
+          <value>EmployeesId,System.String</value>
+          <value>NameKz,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Dictionaries</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select * from Dictionaries</SqlCommand>
+      </Dictionaries>
+      <OBK_Contract Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_Contract</Alias>
+        <Columns isList="true" count="12">
+          <value>Id,System.Int64</value>
+          <value>Number,System.String</value>
+          <value>Type,System.Int32</value>
+          <value>Status,System.Int32</value>
+          <value>CreatedDate,System.DateTime</value>
+          <value>StartDate,System.DateTime</value>
+          <value>EndDate,System.DateTime</value>
+          <value>EmployeeId,System.Int64</value>
+          <value>DeclarantId,System.Int64</value>
+          <value>DeclarantContactId,System.Int64</value>
+          <value>ParentId,System.Int64</value>
+          <value>ContractType,System.Int64</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_Contract</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>ContractId,ContractId,14,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_Contract where Id=@ContractId</SqlCommand>
+      </OBK_Contract>
+      <OBK_ContractPrice Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_ContractPrice</Alias>
+        <Columns isList="true" count="7">
+          <value>Id,System.Int64</value>
+          <value>PriceRefId,System.Int64</value>
+          <value>Count,System.Int32</value>
+          <value>PriceWithoutTax,System.Single</value>
+          <value>PriceWithTax,System.Single</value>
+          <value>ContractId,System.Int64</value>
+          <value>ProductId,System.Int32</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_ContractPrice</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select * from OBK_ContractPrice</SqlCommand>
+      </OBK_ContractPrice>
+      <OBK_Declarant Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_Declarant</Alias>
+        <Columns isList="true" count="11">
+          <value>Id,System.Int64</value>
+          <value>IsConfirmed,System.Boolean</value>
+          <value>IsDeleted,System.Boolean</value>
+          <value>IsResident,System.Boolean</value>
+          <value>NameKz,System.String</value>
+          <value>NameRu,System.String</value>
+          <value>NameEn,System.String</value>
+          <value>CountryId,System.Int64</value>
+          <value>Iin,System.String</value>
+          <value>Bin,System.String</value>
+          <value>OrganizationFormId,System.Int64</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_Declarant</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>ContractId,ContractId,14,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_Declarant where Id in(select DeclarantId from OBK_Contract where Id=@ContractId)</SqlCommand>
+      </OBK_Declarant>
+      <OBK_DeclarantContact Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_DeclarantContact</Alias>
+        <Columns isList="true" count="38">
+          <value>SignDocUnlimited,System.Boolean</value>
+          <value>BossDocUnlimited,System.Boolean</value>
+          <value>SignerIsBoss,System.Boolean</value>
+          <value>Id,System.Int64</value>
+          <value>IsHasBossDocNumber,System.Boolean</value>
+          <value>SignType,System.Boolean</value>
+          <value>IsHasSignDocNumber,System.Boolean</value>
+          <value>CreateDate,System.DateTime</value>
+          <value>SignDocEndDate,System.DateTime</value>
+          <value>SignDocNumber,System.String</value>
+          <value>SignDocCreatedDate,System.DateTime</value>
+          <value>SignLastName,System.String</value>
+          <value>SignFirstName,System.String</value>
+          <value>SignMiddleName,System.String</value>
+          <value>SignPosition,System.String</value>
+          <value>SignDocType,System.Int64</value>
+          <value>BossDocCreatedDate,System.DateTime</value>
+          <value>DeclarantId,System.Int64</value>
+          <value>AddressLegalRu,System.String</value>
+          <value>AddressLegalKz,System.String</value>
+          <value>AddressFact,System.String</value>
+          <value>Phone,System.String</value>
+          <value>Email,System.String</value>
+          <value>BankNameRu,System.String</value>
+          <value>BankNameKz,System.String</value>
+          <value>BankIik,System.String</value>
+          <value>BankBik,System.String</value>
+          <value>CurrencyId,System.Int64</value>
+          <value>BossFio,System.String</value>
+          <value>BossPosition,System.String</value>
+          <value>BossLastName,System.String</value>
+          <value>BossFirstName,System.String</value>
+          <value>BossMiddleName,System.String</value>
+          <value>BossDocNumber,System.String</value>
+          <value>BossDocType,System.Int64</value>
+          <value>SignPositionKz,System.String</value>
+          <value>BossPositionKz,System.String</value>
+          <value>BossDocEndDate,System.DateTime</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_DeclarantContact</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>ContractId,ContractId,14,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_DeclarantContact where Id in(select DeclarantContactId from OBK_Contract where Id=@ContractId)</SqlCommand>
+      </OBK_DeclarantContact>
+      <OBK_Procunts_Series Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_Procunts_Series</Alias>
+        <Columns isList="true" count="7">
+          <value>Id,System.Int32</value>
+          <value>OBK_RS_ProductsId,System.Int32</value>
+          <value>SeriesMeasureId,System.Int64</value>
+          <value>Series,System.String</value>
+          <value>SeriesStartdate,System.String</value>
+          <value>SeriesEndDate,System.String</value>
+          <value>SeriesParty,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_Procunts_Series</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select * from OBK_Procunts_Series</SqlCommand>
+      </OBK_Procunts_Series>
+      <OBK_RS_Products Ref="9" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_RS_Products</Alias>
+        <Columns isList="true" count="17">
+          <value>Id,System.Int32</value>
+          <value>RegTypeId,System.Int32</value>
+          <value>DegreeRiskId,System.Int32</value>
+          <value>DrugFormBoxCount,System.String</value>
+          <value>DrugFormFullName,System.String</value>
+          <value>DrugFormFullNameKz,System.String</value>
+          <value>CurrencyId,System.Int64</value>
+          <value>NameRu,System.String</value>
+          <value>NameKz,System.String</value>
+          <value>ProducerNameRu,System.String</value>
+          <value>ProducerNameKz,System.String</value>
+          <value>CountryNameRu,System.String</value>
+          <value>CountryNameKZ,System.String</value>
+          <value>TnvedCode,System.String</value>
+          <value>KpvedCode,System.String</value>
+          <value>Price,System.String</value>
+          <value>ContractId,System.Int64</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_RS_Products</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>ContractId,ContractId,14,0</value>
+        </Parameters>
+        <SqlCommand>select
+	(case RegTypeId
+	when 1
+	then NameRu
+	when 2
+	then NameRu + ' ' + 
+(select s.pName from 
+(select ProductId, (
+	select a.Name + N', '
+				from dbo.OBK_MtPart AS a 
+				where mp.ProductId = a.ProductId 
+				for xml path('')) as pName
+		from OBK_MtPart as mp 
+		group by ProductId) as s)
+	end) as NameRu,
+ p.Id, ps.OBK_RS_ProductsId, ps.Id, ps.Series, ps.SeriesEndDate, SeriesParty, p.CountryNameRu, p.ProducerNameRu, s.short_name
+	from OBK_RS_Products p inner join OBK_Procunts_Series ps on p.Id = ps.OBK_RS_ProductsId
+inner join OBK_Contract c on c.Id = p.ContractId
+inner join sr_measures s on ps.SeriesMeasureId = s.id
+where c.Id=@ContractId</SqlCommand>
+      </OBK_RS_Products>
+      <sr_measures Ref="10" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>sr_measures</Alias>
+        <Columns isList="true" count="6">
+          <value>id,System.Int64</value>
+          <value>block_sign,System.Boolean</value>
+          <value>name,System.String</value>
+          <value>name_kz,System.String</value>
+          <value>short_name,System.String</value>
+          <value>short_name_kz,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>sr_measures</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select * from sr_measures</SqlCommand>
+      </sr_measures>
+    </DataSources>
+    <Relations isList="true" count="5">
+      <DecDic Ref="11" type="DataRelation" isKey="true">
+        <Alias>DecDic</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>OrganizationFormId</value>
+        </ChildColumns>
+        <ChildSource isRef="6" />
+        <Dictionary isRef="1" />
+        <Name>DecDic</Name>
+        <NameInSource>DecDic</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>Id</value>
+        </ParentColumns>
+        <ParentSource isRef="3" />
+      </DecDic>
+      <DocConDic Ref="12" type="DataRelation" isKey="true">
+        <Alias>DocConDic</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>BossDocType</value>
+        </ChildColumns>
+        <ChildSource isRef="7" />
+        <Dictionary isRef="1" />
+        <Name>DocConDic</Name>
+        <NameInSource>DocConDic</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>Id</value>
+        </ParentColumns>
+        <ParentSource isRef="3" />
+      </DocConDic>
+      <DecDicCountry Ref="13" type="DataRelation" isKey="true">
+        <Alias>DecDicCountry</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>CountryId</value>
+        </ChildColumns>
+        <ChildSource isRef="6" />
+        <Dictionary isRef="1" />
+        <Name>DecDicCountry</Name>
+        <NameInSource>DecDicCountry</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>Id</value>
+        </ParentColumns>
+        <ParentSource isRef="3" />
+      </DecDicCountry>
+      <RelationProductSeries Ref="14" type="DataRelation" isKey="true">
+        <Alias>RelationProductSeries</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>Id</value>
+        </ChildColumns>
+        <ChildSource isRef="9" />
+        <Dictionary isRef="1" />
+        <Name>RelationProductSeries</Name>
+        <NameInSource>RelationProductSeries</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>OBK_RS_ProductsId</value>
+        </ParentColumns>
+        <ParentSource isRef="8" />
+      </RelationProductSeries>
+      <RelationMeasures Ref="15" type="DataRelation" isKey="true">
+        <Alias>RelationMeasures</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>SeriesMeasureId</value>
+        </ChildColumns>
+        <ChildSource isRef="8" />
+        <Dictionary isRef="1" />
+        <Name>RelationMeasures</Name>
+        <NameInSource>RelationMeasures</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>id</value>
+        </ParentColumns>
+        <ParentSource isRef="10" />
+      </RelationMeasures>
+    </Relations>
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="3">
+      <value>,ContractId,ContractId,,System.Guid,,False,False,False,False</value>
+      <value>,PriceCount,PriceCount,,System.String,,False,False,False,False</value>
+      <value>,PriceCountName,PriceCountName,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="6">
+    <Page1 Ref="16" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="11">
+        <Text5 Ref="17" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>9.6,118,9.4,3.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>723f1b76788f4c17818eef43d747598f</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text5</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>&lt;b&gt;Заявитель&lt;/b&gt;
+&lt;br&gt;{OBK_Declarant.DecDic.Name} {OBK_Declarant.NameRu}
+&lt;br&gt;{OBK_Declarant.DecDicCountry.Name} {OBK_DeclarantContact.AddressLegalRu}
+&lt;br&gt;&lt;b&gt;БИН&lt;/b&gt; {OBK_Declarant.Bin}
+&lt;br&gt;&lt;b&gt;БИК&lt;/b&gt; {OBK_DeclarantContact.BankBik}
+&lt;br&gt;&lt;b&gt;ИИК&lt;/b&gt; {OBK_DeclarantContact.BankIik} (KZT)
+&lt;br&gt;{OBK_DeclarantContact.BankNameRu}
+</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+        </Text5>
+        <Text6 Ref="18" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>9.6,121.4,9.4,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>1b8eab02553f46bd94a61fcbee3f9efc</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text6</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>«Заявитель»
+</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text6>
+        <Text7 Ref="19" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>9.6,122,2.8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>85249a737f684ff19a6eea788910c63f</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text7</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>{OBK_DeclarantContact.BossPosition}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text7>
+        <Text8 Ref="20" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>12.4,122,2.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>493305b49a0048ada8ef77722ce76916</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text8</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>_____________</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text8>
+        <Text9 Ref="21" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>15,122,4,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>fef3ec4db99845c5a22d91e5562dbb7c</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text9</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>{OBK_DeclarantContact.BossLastName} {OBK_DeclarantContact.BossFirstName} {OBK_DeclarantContact.BossMiddleName}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text9>
+        <Text10 Ref="22" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>12.4,122.6,2.6,0.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,8</Font>
+          <Guid>a1b4f07807424aa5823661f13f051f4e</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text10</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Text>подпись</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text10>
+        <DataBand1 Ref="23" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,2</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text1 Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,0,9.4,2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="16" />
+              <Parent isRef="23" />
+              <Text>ДОГОВОР  №{OBK_Contract.Number}
+на проведение оценки безопасности и качества 
+лекарственных средств (изделий медицинского 
+назначения) путем декларирования
+</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+            <Text4 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <ClientRectangle>0,0,9.2,2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>85326498322548f3be0bc30322e5992b</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="16" />
+              <Parent isRef="23" />
+              <Text>Дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасына бағалау жүргізуге арналған
+№{OBK_Contract.Number} ШАРТ</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <StartPointPrimitive1 Ref="26" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,0,0,0</ClientRectangle>
+              <Name>StartPointPrimitive1</Name>
+              <Page isRef="16" />
+              <Parent isRef="23" />
+              <ReferenceToGuid>e1fb690175fc4624a28c296fb85f78a9</ReferenceToGuid>
+            </StartPointPrimitive1>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <DataBand4 Ref="27" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3.2,19,0.8</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text2 Ref="28" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,4.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="16" />
+              <Parent isRef="27" />
+              <Text>Алматы қ.</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text3 Ref="29" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,0,4.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>44820f13d8e24a5891de0e612667f6ce</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="16" />
+              <Parent isRef="27" />
+              <Text>{Format("{0:MM.dd.yyyy}", OBK_Contract.StartDate)}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+            <Text18 Ref="30" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,0,4.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>38167e38bfee423bb64589cf1cffc5b9</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="16" />
+              <Parent isRef="27" />
+              <Text>г. Алматы                          </Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text18>
+            <Text19 Ref="31" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.2,0,4.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>ea3b649b5ad640ceb217d1565df110f7</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="16" />
+              <Parent isRef="27" />
+              <Text>{Format("{0:MM.dd.yyyy}", OBK_Contract.StartDate)}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text19>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand4</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+        <DataBand2 Ref="32" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4.8,19,20.8</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text11 Ref="33" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.4,20.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>7001253c7ab64976bd37394ae0a89fe3</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="16" />
+              <Parent isRef="32" />
+              <Text>Республиканское государственное предприятие на праве хозяйственного ведения «Национальный центр экспертизы лекарственных средств, изделий медицинского назначения и медицинской техники» Министерства здравоохранения Республики Казахстан, именуемое в дальнейшем Исполнитель, в лице ______________________________________________, действующего (ей) на основании  _________________________________________________, с одной стороны, и {OBK_Declarant.DecDic.Name} {OBK_Declarant.NameRu} именуемый в дальнейшем Заявитель в лице {OBK_DeclarantContact.BossPosition} {OBK_DeclarantContact.BossLastName} {OBK_DeclarantContact.BossFirstName} {OBK_DeclarantContact.BossMiddleName}, действующего (ей) на основании {OBK_DeclarantContact.DocConDic.Name} №{OBK_DeclarantContact.BossDocNumber} от {Format("{0:MM.dd.yyyy}", OBK_DeclarantContact.BossDocCreatedDate)}, с другой стороны, именуемые в дальнейшем Стороны, а по отдельности Сторона, заключили настоящий договор о нижеследующем:
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;1.	Предмет договора&lt;/b&gt;
+&lt;br&gt;1.1	Предметом настоящего договора является выполнение Исполнителем по заявке Заявителя работ по проведению оценки безопасности и качества лекарственных средств (изделий медицинского назначения) путем декларирования (далее – Работы) в соответствии с приложением к настоящему договору.
+&lt;br&gt;1.2	Работы проводятся Исполнителем в соответствии с действующим законодательством Республики Казахстан, включая приказ МЗСР РК от 26 ноября 2014 года № 269 «Об утверждении Правил проведения оценки безопасности и качества лекарственных средств и изделий медицинского назначения, зарегистрированных в Республике Казахстан» (далее – Правила).
+&lt;br&gt;1.3	Оценка безопасности и качества осуществляется до выпуска продукции в обращение на территории Республики Казахстан.
+&lt;br&gt;1.4	Работы по настоящему договору считаются выполненными после подписания уполномоченными представителями Сторон Акта выполненных работ (оказанных услуг) в соответствии с условиями настоящего Договора.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;2.	Стоимость работ и порядок расчета&lt;/b&gt;
+&lt;br&gt;2.1	Стоимость выполняемых работ по настоящему договору определяется в соответствии с ценами, установленными уполномоченным органом в области здравоохранения по согласованию с антимонопольным органом, и составляет {PriceCount} ({PriceCountName})тенге с учетом НДС согласно приложению к настоящему договору. </Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text11>
+            <Text16 Ref="34" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,9.2,20.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>dad835ffbd824b4cbb4358d3c10e5ecb</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="16" />
+              <Parent isRef="32" />
+              <Text>Бұдан әрі, «Орындаушы» деп аталатын Қазақстан Республикасы Денсаулық сақтау  министрлігі «Дәрілік заттарды, медициналық мақсаттағы бұйымдарды және медицина техникасын сараптау үлттық орталығы»  шаруашылық жүргізу құқығындағы республикалық мемлекеттік кәсіпорны атынан  31.05.2017ж. № 058   сенімхаты негізінде  әрекет етуші Бас директордың орынбасары                      А.У. Уразбагамбетова бірінші жақтан және бұдан әрі «Тапсырыс беруші» деп аталатын_____________________________________________________________негізінде 
+әрекет етуші _________________________________________
+занды тұлғаның атауы                                                                                          
+ екінші жақтан _________________________________________
+                         басшының лауазымы, аты-жөні 
+әрі қарай "Тараптар" деп аталып  төмендегідей шарт жасасты: 
+
+1  Шарттың мазмұны
+1.1. «Өтініш беруші» тапсырады, ал  «Орындаушы» дәрілік заттар мен медициналық мақсаттағы бұйымдарды әкелу және өндіруде, сондай-ақ Қазақстан Республикасының фармацевтикалық  нарығында оларды қолдану процесінде айналымға енгізу мақсатында белгіленген талаптарға дәрілік заттардың, медициналық мақсаттағы бұйымдардың (бұдан ары – өнім) қауіпсіздігі мен сапасына бағалау жүргізуге жұмыстарды орындауды өз міндетіне алады.
+1.2. «Орындаушы» зертхананың сынақ орталығының Аккредитациялау аттестатының бар екенін растайды.
+1.3.Қауіпсіздігі мен сапасын бағалау өнім айналысқа шығарылғанға дейін жүзеге асырылады.
+2 Жұмыстардың бағасы мен есеп айырысу тәртібі
+2.1. Осы шарт бойынша орындалатын жұмыстардың құны «Орындаушының» бағалар анықтамалығына сәйкес белгіленеді.   
+2.2. «Өтініш беруші» нәтижелеріне қарамастан, жұмыстың толық бағасын жүргізеді.
+2.3. «Өтініш беруші» төлемді «Орындаушының» есептік  шотына төлемге есеп-шот ұсынылған сәттен бастап 5 (бес) банктік күн ішінде жүргізеді.
+3. Тараптардың міндеттері 
+3.1. «Тараптар» дәрілік заттар айналысы саласындағы Қазақстан Республикасы заңнамасында бекітілген ережелерді сақтауға міндеттеледі.
+3.2. Орындалатын жұмыс мерзімі сынақ жүргізу мерзіміне байланысты белгіленеді. Сынақтар нормативтік құжаттардағы сынақ әдістемесімен қарастырылған мерзімде жүргізіледі.
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text16>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <VerticalLinePrimitive1 Ref="35" type="VerticalLinePrimitive" isKey="true">
+          <ClientRectangle>9.4,0.4,0.0254,27.2</ClientRectangle>
+          <Color>Black</Color>
+          <EndCap Ref="36" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>e1fb690175fc4624a28c296fb85f78a9</Guid>
+          <Name>VerticalLinePrimitive1</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <Size>2</Size>
+          <StartCap Ref="37" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive1>
+        <EndPointPrimitive1 Ref="38" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+          <ClientRectangle>9.4,27.6,0,0</ClientRectangle>
+          <Name>EndPointPrimitive1</Name>
+          <Page isRef="16" />
+          <Parent isRef="16" />
+          <ReferenceToGuid>e1fb690175fc4624a28c296fb85f78a9</ReferenceToGuid>
+        </EndPointPrimitive1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>dd52bb843a07486c840bd7234ffc7901</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="39" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+    <Page2 Ref="40" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <DataBand5 Ref="41" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,27.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text12 Ref="42" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,9.2,27.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>0b1ffcfaff0c4b6e8bc1bb11d8454f91</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="40" />
+              <Parent isRef="41" />
+              <Text>3.3 Егер сынақ мерзімі нормативтік құжаттарда қарастырылмаса, онда сынақ қауіпсіздігі мен сапасын бағалау үшін үлгілер сынамасын алған сәттен бастап күнтізбелік 20 күн ішінде жүргізіледі. 
+ 
+4.  «Орындаушы» міндетті: 
+4.1 Тиісті дистрибьюторлық практика стандарты (GDP) талаптарына сәйкес "Өтініш берушіде" тиісті дистрибьюторлық практика сертификаты болмаған жағдайда өтінішті ресімдегеннен кейін екі жұмыс күні ішінде өнімнің қауіпсіздігі мен сапасына баға беру үшін үлгілерге іріктеу жүргізуге.
+4.2 Іріктеліп алынған үлгілерді сол жерде қаптап, мөрлеуге. 
+4.3 Аккредиттелген сынақ зертханаларында жүргізілген сынақтар негізінде және «Өтініш беруші» ұсынған құжаттар негізінде мәлімделген өнімнің сәйкестігіне объективті баға беруді қамтамасыз етуге.
+4.4 Өнім белгіленген талаптарға сәйкес келген жағдайда жұмыстың толық құны төленгеннен кейін өнімнің қауіпсіздігі мен сапасы туралы қорытынды беруге.
+4.5 Сынақтарға арналған өнім үлгілері мен құжаттардың сақталуын қамтамасыз етуге.
+4.6 Дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасын бағалау жөніндегі жұмыстар жүргізу барысында объективтілікті және бейтараптылықты қамтамасыз етуге.
+4.7 Өнімнің белгіленген талаптарға сәйкес еместігі немесе оның тұтынушыға әлеуетті қауіптілігі туралы мәліметтен басқа,  коммерциялық құпия болып табылатын ақпараттардың құпиялығын сақтауды қамтамасыз етуге міндетті. 
+
+
+5  «Өтініш беруші» міндетті:
+5.1 Дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасын бағалау тәртібін  міндетті түрде орындауға.
+5.2 «Орындаушыға» бекітілген тізбеге сәйкес құжаттарды, сондай-ақ қажет болғанда мәлімделген өнім туралы қосымша ақпаратты (өнімді сәйкестендіруге және оның белгіленген талаптарға сәйкестігіне баға беруге мүмкіндік беретін, өнімге қойылатын талапты белгілейтін нормативтік және басқа да құжаттарды) ұсынуға. 
+5.3 Бағалау жүргізу үшін, оның ішінде қолданыстағы нормативтік құжаттарға сәйкес құжаттаманы тексеру, үлгілерді іріктеу үшін барлық қажетті жағдайларды жасауға, бағалау (бақылау, қайталап баға беру) мақсатында барлық учаскелерге, хаттамаларға (ішкі тексерулер туралы есептерді қосқанда) және қызметкерлерге жол берілуін қамтамасыз етуге.
+5.4.Үлгілерді сапасы мен қауіпсіздігін бақылау жөніндегі нормативтік құжаттарда қарастырылған көрсеткіштер бойынша сынақтар жүргізуге қажетті мөлшерде ұсынуға.
+5.5 Тиісті дистрибьюторлық практика стандарты (GDP) талаптарына сәйкес тиісті дистрибьюторлық практика сертификаты бар көтерме сауда қоймасында сақталатын немесе  GMP сертификаты бар өндірушінің қоймасында сақталатын "Орындаушымен" келісілген мөлшерде Қабылдау-беру актісі бойынша өнімнің үлгілерін ұсынуға және іріктеу жүргізуге.
+5.6 Өнімге қатысты дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасы туралы қорытындының қолданылуы тоқтатылған немесе кері қайтарылған жағдайда оған сілтеме берілген жарнама материалдарын пайдалануды тоқтатуға.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text12>
+            <Text17 Ref="43" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.4,27.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>a0c162299563452fb209ee2a28254e31</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="40" />
+              <Parent isRef="41" />
+              <Text>2.2	Заявитель обязуется произвести оплату Работ по настоящему договору в размере 100% (сто процентов) в порядке предоплаты путем перечисления денежных средств на расчетный счет Исполнителя в течение 5 (пяти) рабочих дней с момента выставления счета на оплату. Денежные средства перечисляются по реквизитам, указанным в разделе 11 настоящего договора, если иные реквизиты не указаны в выставленном Исполнителем счете на оплату. В случае непоступления оплаты в указанный срок Исполнитель не принимает от Заявителя заявку на проведение оценки безопасности и качества продукции. 
+&lt;br&gt;2.3	В случае отказа Заявителя от проведения Работ на любой стадии Исполнитель удерживает 50% от произведенной 100% предоплаты по настоящему договору, с удержанием комиссии банка.
+&lt;br&gt;2.4	Документами, подтверждающими исполнение договора, являются Акт выполненных работ (оказанных услуг), счет-фактура, заключение о безопасности и качестве продукции либо мотивированный отказ.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;3.	Взаимные обязанности Сторон&lt;/b&gt;
+&lt;br&gt;3.1	Стороны пришли к соглашению о взаимной обязанности соблюдать Правила, а также иные требования, установленные законодательством Республики Казахстан в сфере обращения лекарственных средств, изделий медицинского назначения и медицинской техники.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;4.	Исполнитель обязуется:&lt;/b&gt;
+&lt;br&gt;4.1	Принять в Работу заявку от Заявителя на проведение Работ после поступления оплаты в полном объеме в соответствии с п.2.2. настоящего договора.
+&lt;br&gt;4.2	Провести Работы по оценке безопасности и качества в порядке и сроки, установленные Правилами.
+&lt;br&gt;4.3	Обеспечить объективную оценку соответствия заявленной продукции на основании представленных Заявителем документов.
+&lt;br&gt;4.4	Обеспечить соблюдение конфиденциальности информации, полученной в ходе исполнения настоящего договора, за исключением сведений о несоответствии продукции установленным требованиям или ее потенциальной опасности для потребителя в соответствии с Правилами.
+&lt;br&gt;4.5	В случае соответствия продукции установленным требованиям выдать заключение о безопасности и качестве продукции после подписания Заявителем акта выполненных работ (оказанных услуг).
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;5.	Заявитель обязуется:&lt;/b&gt;
+&lt;br&gt;5.1	Соблюдать законодательство в сфере обращения лекарственных средств, изделий медицинского назначения и медицинской техники.
+&lt;br&gt;5.2	Предоставить Исполнителю документы, предусмотренные Правилами, в полном объеме, включая заявку на выполнение Работ, после произведения оплаты в соответствии с п. 2.2. настоящего договора.
+&lt;br&gt;5.3	Нести ответственность за полноту и достоверность предоставленных документов. 
+&lt;br&gt;5.4	Обеспечить стабильность показателей (характеристик) заявленной продукции.
+&lt;br&gt;5.5	Нести ответственность за качество выпускаемой (реализуемой) продукции.
+&lt;br&gt;5.6	Своевременно извещать Исполнителя об изменениях в составе продукции, конструктивных и технологических изменениях продукции и процессе ее производства, а также изменениях юридического адреса и платежных реквизитов. 
+&lt;br&gt;5.7	Предоставлять Исполнителю информацию о рекламациях на продукцию, прошедшую оценку безопасности и качества, в течение срока действия заключения о безопасности и качестве. 
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text17>
+            <StartPointPrimitive2 Ref="44" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,0,0,0</ClientRectangle>
+              <Name>StartPointPrimitive2</Name>
+              <Page isRef="40" />
+              <Parent isRef="41" />
+              <ReferenceToGuid>a06c670c1c894558be00325366f2ac62</ReferenceToGuid>
+            </StartPointPrimitive2>
+            <EndPointPrimitive2 Ref="45" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,27.6,0,0</ClientRectangle>
+              <Name>EndPointPrimitive2</Name>
+              <Page isRef="40" />
+              <Parent isRef="41" />
+              <ReferenceToGuid>a06c670c1c894558be00325366f2ac62</ReferenceToGuid>
+            </EndPointPrimitive2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand5</Name>
+          <Page isRef="40" />
+          <Parent isRef="40" />
+          <Sort isList="true" count="0" />
+        </DataBand5>
+        <VerticalLinePrimitive2 Ref="46" type="VerticalLinePrimitive" isKey="true">
+          <ClientRectangle>9.4,0.4,0.0254,27.6</ClientRectangle>
+          <Color>Black</Color>
+          <EndCap Ref="47" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>a06c670c1c894558be00325366f2ac62</Guid>
+          <Name>VerticalLinePrimitive2</Name>
+          <Page isRef="40" />
+          <Parent isRef="40" />
+          <Size>2</Size>
+          <StartCap Ref="48" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive2>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>d6066357e71a4dfd9e58119ae3a7943b</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page2</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="49" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page2>
+    <Page3 Ref="50" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="3">
+        <DataBand6 Ref="51" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,27</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text13 Ref="52" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,9.2,27</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>41c8a1f24572409d841c2e19f47fb53f</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="50" />
+              <Parent isRef="51" />
+              <Text>5.7 Өнімнің Қазақстан Республикасы заңнамасының белгіленген талаптарына сәйкестігіне қауіпсіздігін бағалаудан өткенін растау үшін дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасы туралы қорытындыны пайдалануға.
+5.8. Дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасы туралы қорытындыға ақпарат құралдарында (құжаттарда, брошюраларда немесе жарнама материалдарында) сілтеме берілген жағдайда Қазақстан Республикасы заңнамасының талаптарын басшылыққа алуға.  
+5.9 Осы Шарттың 2.3.тармағына сәйкес «Орындаушыға» есеп шоты бойынша уақытында төлем жүргізуді жүзеге асыруға. 
+5.10 Қолданыстағы нормативтік құжаттарға сәйкес көз және инъекциялық ерітінділердегі механикалық қоспаны бақылауды қамтамасыз етуге.
+5.11  Қауіпсіздігі мен сапасы туралы қорытындының қолданылу мерзімі немесе өнімнің жарамдылық мерзімі өткенге дейін тиісті жағдайларда бақылау үлгілерінің сақталуын қамтамасыз етуге. 
+5.12 Мәлімделген өнімнің көрсеткіштерінің (сипаттамасының) тұрақтылығын қамтамасыз етуге.
+5.13 Шығарылатын (өткізілетін) өнімнің сапасы үшін жауапкершілік артуға.
+5.14 Өнімнің конструктивтік және технологиялық өзгерістері мен оны өндіру процестері, сондай-ақ, заңды мекенжайы мен төлем деректемелерінің өзгергені туралы «Орындаушыны» дер кезінде хабардар етуге. 
+5.15 Дәрілік заттардың, медициналық мақсаттағы бұйымдардың қауіпсіздігі мен сапасын бағалаудан өткен өнімге рекламация жинақтауды қамтамасыз етуге. 
+5.16 Тапсырылған құжаттардың дұрыстығы үшін жауапкершілік жүктеуге міндетті.
+
+6 Тараптардың жауапкершілігі
+6.1 Осы шарт бойынша міндеттемелердің орындалмағаны немесе тиісінше орындалмағаны үшін  «Тараптар» Қазақстан Республикасының қолданыстағы заңнамасына сәйкес жауап береді. 
+
+7 Еңсерілмейтін күш жағдайлары
+(Форс-мажор)
+
+7.1 Тараптар олардың еркінен тыс орын алған белгілі бір жағдайларда жауапкершіліктен босатылуы мүмкін.
+Мұндай жағдайларға міндеттемелерді толық немесе ішінеара орындауға кедергі келтіретін әскери қимылдар, табиғи апаттар, жаппай тәртіпсіздіктер, мемлекеттік органдардың тыйым салатын немесе шектейтін заң шешімдері жатады, осыған байланысты міндеттерді орындау аталған оқиғалардың әрекет ету мерзіміне созылады.
+7.2 Көрсетілген оқиғаларға байланысты Шарт бойынша қандай да бір міндеттемелерді орындау мүмкін болмаған Тарап бұл туралы екінші тарапқа дереу (10 тәуліктен асырмай) хабарлауға міндетті. Осындай хабарламаларда болған фактілер құзіретті мемлекеттік органдармен расталған болуы қажет.
+7.3 Төніп отырған еңсерілмейтін күш жағдайлары туралы хабарламау немесе уақытында мәлімдемеу тиісті Тарапты осылардың қандай да бірін шарт міндеттемелерін орындаудан босататын негіздеме ретінде арқа сүйеу құқығынан айырады.
+7.4 Егер еңсерілмейтін күш жағдайлары бір айдан артық жалғаса берсе, кез келген Тарап қабылданған шешім туралы екінші Тарапқа хабарлай отырып, толығымен немесе бөлшектеп шартты бұзу құқығына ие.
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text13>
+            <Text20 Ref="53" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.4,27</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>ad7e3d5ccbc345dfb1d96957873e733c</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="50" />
+              <Parent isRef="51" />
+              <Text>5.8	Наряду с государственным органом в сфере обращения лекарственных средств, изделий медицинского назначения и медицинской техники письменно уведомить Исполнителя после исполнения решения о необходимости уничтожения (утилизации) или вывоза недоброкачественной продукции о принятых мерах в сроки, установленные Правилами.
+&lt;br&gt;5.9	Использовать заключение о безопасности и качестве лекарственных средств, изделий медицинского назначения исключительно в целях подтверждения прохождения продукции оценки безопасности и качества путем декларирования, на соответствие установленным требованиям законодательства Республики Казахстан.
+&lt;br&gt;5.10	Своевременно произвести оплату Исполнителю по выставленному счету согласно п.2.2 настоящего Договора.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;6.	Порядок сдачи и приемки работ&lt;/b&gt;
+&lt;br&gt;6.1	При положительных результатах оценки безопасности и качества формой завершения Работ является заключение о безопасности и качестве продукции.
+&lt;br&gt;6.2	При отрицательных результатах оценки безопасности и качества продукции формой завершения Работ является мотивированный отказ.
+&lt;br&gt;6.3	Исполнитель в течение 5 (пяти) рабочих дней с даты завершения Работ оформляет акт выполненных работ (оказанных услуг) в 2-х экземплярах и счет-фактуру для Заявителя.
+&lt;br&gt;6.4	Заявитель обязан в течение 5 (пяти) рабочих дней с момента предоставления Исполнителем Акта выполненных работ (оказанных услуг) независимо от результатов выполнения Работ по настоящему договору подписать его и вернуть 1 (один) экземпляр Исполнителю.
+&lt;br&gt;6.5	Выдача документов, указанных в пунктах 6.1. и 6.2. настоящего договора осуществляется после подписания Заявителем акта выполненных работ (оказанных услуг) и предоставления его Исполнителю.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;7.	Ответственность сторон&lt;/b&gt;
+&lt;br&gt;7.1	За неисполнение либо ненадлежащее исполнение принятых на себя обязательств, Стороны несут ответственность в соответствии с действующим законодательством Республики Казахстан.
+&lt;br&gt;7.2	Споры и разногласия, которые могут возникнуть при исполнении настоящего Договора, разрешаются путем переговоров между Сторонами. 
+&lt;br&gt;7.3	Если в течение 21 (двадцати одного) календарного дня после начала таких переговоров Исполнитель и Заявитель не могут разрешить спор по настоящему договору, любая из сторон может потребовать решения этого вопроса в соответствии с законодательством Республики Казахстан.
+&lt;br&gt;7.4	По всем другим вопросам, не оговоренным в настоящем договоре, Стороны руководствуются действующим законодательством Республики Казахстан.
+&lt;br&gt;7.5	В случае возврата Заявителю излишне и (или) ошибочно перечисленных им денежных средств на расчетный счет Исполнителя, Исполнитель удерживает сумму комиссии за услуги банка по переводу денежных средств, согласно тарифам банка.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;8.	Конфиденциальность&lt;/b&gt;
+&lt;br&gt;8.1	Стороны соглашаются обеспечить конфиденциальность всей информации, связанной с условиями настоящего договора или полученной в связи с ним. Каждая Сторона обязуется предпринимать все необходимые меры во избежание раскрытия такой конфиденциальной информации третьим сторонам без предварительного прямого письменного согласия других Сторон. </Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text20>
+            <StartPointPrimitive3 Ref="54" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,0,0,0</ClientRectangle>
+              <Name>StartPointPrimitive3</Name>
+              <Page isRef="50" />
+              <Parent isRef="51" />
+              <ReferenceToGuid>260d4d5d23144c83ba52d130d4a06521</ReferenceToGuid>
+            </StartPointPrimitive3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Guid>6dc5ed6d2bba46ab9900e39b68c5f1f4</Guid>
+          <Name>DataBand6</Name>
+          <Page isRef="50" />
+          <Parent isRef="50" />
+          <Sort isList="true" count="0" />
+        </DataBand6>
+        <VerticalLinePrimitive3 Ref="55" type="VerticalLinePrimitive" isKey="true">
+          <ClientRectangle>9.4,0.4,0.0254,27.2</ClientRectangle>
+          <Color>Black</Color>
+          <EndCap Ref="56" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>260d4d5d23144c83ba52d130d4a06521</Guid>
+          <Name>VerticalLinePrimitive3</Name>
+          <Page isRef="50" />
+          <Parent isRef="50" />
+          <Size>2</Size>
+          <StartCap Ref="57" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive3>
+        <EndPointPrimitive3 Ref="58" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+          <ClientRectangle>9.4,27.6,0,0</ClientRectangle>
+          <Name>EndPointPrimitive3</Name>
+          <Page isRef="50" />
+          <Parent isRef="50" />
+          <ReferenceToGuid>260d4d5d23144c83ba52d130d4a06521</ReferenceToGuid>
+        </EndPointPrimitive3>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>ae52e6c7a2a642e7a3969d103b35c2e5</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page3</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="59" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page3>
+    <Page4 Ref="60" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="3">
+        <DataBand7 Ref="61" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,27</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text14 Ref="62" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,9.2,27</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>aa145efb09524af8a29bbe4af204d52a</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="60" />
+              <Parent isRef="61" />
+              <Text>Бұл жағдайларда Өтініш беруші Орындаушымен тек нақты орындалған жұмыстар мен келтірілген шығын бойынша өзара есеп жүргізеді.
+
+8 Шарттың қолданылу мерзімі 
+
+8.1. Шарт қол қойылған сәттен бастап күшіне енеді және 12 ай бойы қолданылады. 
+8.2. Шартты біржақты тәртіпте мерзімінен бұрын бұзу Тараптардың бірінің бұзу күніне дейін бір ай бұрын жазбаша хабарламасы арқылы ғана орындалады.  Егер тараптардың бірі шарттың аяқталуына қарай шарттың бұзылуы жөнінде хабарламаса, онда Шарт сол талаптармен және сол мерзімге ұзартылады.
+8.3. Осы шартқа қатысты барлық өзгертулер мен толықтырулар егер олар жазбаша түрде жасалса, Тараптардың уәкілетті өкілдері қол қойса және мөр басылған жағдайда заңды күшке ие болады.
+8.4. Осы Шарт мемлекеттік және орыс тілдерінде 2 данада, әрбір тарапқа бір-бірден жасалған, екі дананың да заңды күші бірдей.
+
+
+9. Тараптардың мекенжайлары және деректемелері:
+«Орындаушы»								
+ҚР ДСМ “Дәрілік заттарды,
+медициналық мақсаттағы 
+бұйымдарды және медицина 
+техникасын сараптау ұлттық
+орталығы” ШЖҚ РМК
+ 050004,   Алматы қ,  Абылай хан даңғ., 63/110
+КБЕ 16, 
+БСН 980 240 003 251, Код 601, 
+БСП HSBKKZKX, 
+ӘЖК KZ706010131000118675, 
+Алматыоблыстық филиалы №139900                     
+ «Қазақстан халық банкі» Алматы қ.
+Орындаушы»                                                                      
+Бас директордың орынбасары
+________________ А.У. Уразбагамбетов		
+М.О.
+«Өтініш беруші»
+(өтініш берушінің деректемелері)
+
+
+
+	«Өтініш беруші»
+___________________________________
+                                                                                қолы
+
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text14>
+            <Text21 Ref="63" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.4,27</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>d2aa773d54a347ee8b70b0b98801a41d</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="60" />
+              <Parent isRef="61" />
+              <Text>Указанное выше обязательство соблюдения конфиденциальности будет оставаться в силе в течение всего срока действия договора и в течение 5 (пяти) лет после его окончания, при этом Стороны не обязаны соблюдать конфиденциальность информации, которая:
+&lt;br&gt;-	является или становится доступной широкому кругу лиц не в результате нарушения положений настоящего договора и не в результате вины какой-либо из Сторон настоящего договора;
+&lt;br&gt;-	является или становится известной получающей стороне не от какой-либо из Сторон настоящего договора, и источник такой информации не несет обязательств перед какими-либо из Сторон настоящего договора по обеспечению конфиденциальности такой информации;
+&lt;br&gt;-	должна быть раскрыта в соответствии с законодательством Республики Казахстан, распоряжением судебного органа или иного законного органа;
+&lt;br&gt;-	раскрывается профессиональным консультантам и/или финансовым учреждениям на конфиденциальной основе; или раскрытие которой было предварительно согласовано Сторонами.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;9.	Обстоятельства непреодолимой силы (Форс-мажор)&lt;/b&gt;
+&lt;br&gt;9.1	Стороны освобождаются от ответственности за частичное или полное невыполнение своих обязательств по договору в случае, если невыполнение обусловлено чрезвычайными обстоятельствами, которые произошли независимо от воли Сторон. К таким случаям относятся военные действия, стихийные бедствия, массовые беспорядки, запретительные или ограничительные законодательные решения государственных органов, препятствующие полному или частичному исполнению обязательств, в силу которых исполнение обязательств продлевается на время действия указанных обстоятельств.
+&lt;br&gt;9.2	Сторона, для которой в силу указанных обстоятельств создалась невозможность исполнения каких-либо обязательств по договору, обязана незамедлительно (не позднее 10 суток) известить о том другую Сторону. Факты, содержащиеся в таком извещении, должны быть документально подтверждены компетентными государственными органами.
+&lt;br&gt;9.3	Неуведомление или несвоевременное извещение о наступивших обстоятельствах непреодолимой силы, лишает соответствующую из Сторон права ссылаться на какие либо из них в качестве основания, освобождающего ее от ответственности за неисполнение договорных обязательств.
+&lt;br&gt;9.4	Если обстоятельства непреодолимой силы продолжают действовать более одного месяца, любая из Сторон имеет право расторгнуть договор полностью или частично, сообщив о принятом решении другой Стороне. В этом случае Заявитель производит взаиморасчеты с Исполнителем только по фактически выполненным работам и понесенным расходам.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;10.	Срок действия договора и порядок расторжения&lt;/b&gt;
+&lt;br&gt;10.1	Настоящий договор вступает в силу с даты его подписания уполномоченными представителями Сторон и внесения Заявителем предоплаты на расчетный счет Исполнителя в размере и сроки, установленные договором, и действует до полного исполнения Сторонами своих обязательств.
+&lt;br&gt;10.2	Договор может быть прекращен (односторонний отказ от исполнения договора), в случае, неисполнения одной из Сторон договорных обязательств в порядке, предусмотренном законодательством Республики Казахстан.
+&lt;br&gt;10.3	Настоящий Договор может быть расторгнут:
+&lt;br&gt;а) по взаимному согласию Сторон;
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text21>
+            <StartPointPrimitive4 Ref="64" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,0,0,0</ClientRectangle>
+              <Name>StartPointPrimitive4</Name>
+              <Page isRef="60" />
+              <Parent isRef="61" />
+              <ReferenceToGuid>cf27e9e9b44447dc8720ebfd4f5755f1</ReferenceToGuid>
+            </StartPointPrimitive4>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Guid>24da033826f5469fa3f7fe4feeab596b</Guid>
+          <Name>DataBand7</Name>
+          <Page isRef="60" />
+          <Parent isRef="60" />
+          <Sort isList="true" count="0" />
+        </DataBand7>
+        <VerticalLinePrimitive4 Ref="65" type="VerticalLinePrimitive" isKey="true">
+          <ClientRectangle>9.4,0.4,0.0254,27.2</ClientRectangle>
+          <Color>Black</Color>
+          <EndCap Ref="66" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>cf27e9e9b44447dc8720ebfd4f5755f1</Guid>
+          <Name>VerticalLinePrimitive4</Name>
+          <Page isRef="60" />
+          <Parent isRef="60" />
+          <Size>2</Size>
+          <StartCap Ref="67" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive4>
+        <EndPointPrimitive4 Ref="68" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+          <ClientRectangle>9.4,27.6,0,0</ClientRectangle>
+          <Name>EndPointPrimitive4</Name>
+          <Page isRef="60" />
+          <Parent isRef="60" />
+          <ReferenceToGuid>cf27e9e9b44447dc8720ebfd4f5755f1</ReferenceToGuid>
+        </EndPointPrimitive4>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>3d42e016192a4bf3b147d72a9433176f</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page4</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="69" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page4>
+    <Page5 Ref="70" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <DataBand3 Ref="71" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,27</ClientRectangle>
+          <Components isList="true" count="14">
+            <Text22 Ref="72" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.4,17.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>ca5d2e9e5f1048079bb310d89227d31b</Guid>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>б) по требованию одной из Сторон с предварительным уведомлением другой Стороны не позднее 30 (тридцати) календарных дней до предполагаемой даты расторжения настоящего Договора. При этом Стороны обязаны не позднее 10 (десяти) рабочих дней со дня расторжения настоящего Договора, произвести полный взаиморасчет. Когда Договор аннулируется в силу вышеуказанных обстоятельств,
+Исполнитель имеет право на оплату фактических затрат, связанных с выполнением работ по Договору, на день расторжения.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;11.	Заключительные положения&lt;/b&gt;
+&lt;br&gt;11.1	Все изменения и дополнения к настоящему договору будут иметь юридическую силу в случае, если они совершены в письменной форме, подписаны уполномоченными представителями Сторон и скреплены печатью.
+&lt;br&gt;11.2	Исполнитель направляет информацию в государственный орган в сфере обращения лекарственных средств, изделий медицинского назначения и медицинской техники при выдаче решения об отказе в выдаче заключения о безопасности и качестве продукции в порядке и сроки, установленные Правилами.
+&lt;br&gt;11.3	Настоящий Договор составлен в 2-х экземплярах на государственном и русском языках, имеющих одинаковую юридическую силу по одному для каждой из Сторон.
+&lt;br&gt;
+&lt;br&gt;&lt;b&gt;12.	Юридические адреса и банковские реквизиты:&lt;/b&gt;
+&lt;br&gt;12.1	В целях полного и своевременного исполнения взаимных обязательств по настоящему Договору Стороны обязаны информировать друг друга об изменении адресов и/или банковских реквизитов, а также о реорганизации или ликвидации своих компаний не позднее 5 (пяти) календарных дней со дня их изменения.
+&lt;br&gt;
+&lt;br&gt;Исполнитель
+&lt;br&gt;РГП на ПХВ «Национальный центр экспертизы лекарственных средств, изделий медицинского назначения и медицинской  техники» Министерства здравоохранения Республики Казахстан 
+&lt;br&gt;г. Алматы, пр. Абылай хана, 63/110
+&lt;br&gt;БИН 980 240 003 251
+&lt;br&gt;БИК HSBKKZKX
+&lt;br&gt;ИИК KZ706010131000118675
+&lt;br&gt;АО «Народный Банк Казахстана» г. Алматы
+                                                                                                                                 </Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text22>
+            <Text15 Ref="73" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,21.2,9.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>87e30f1f26de4d449c65f871a0228f79</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>Заявитель</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text15>
+            <Text50 Ref="74" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <ClientRectangle>9.6,21.8,9.4,3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>c61be199b1034313a4d6518856ae4cc8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text50</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>{OBK_Declarant.DecDic.Name} {OBK_Declarant.NameRu}
+{OBK_Declarant.DecDicCountry.Name} {OBK_DeclarantContact.AddressLegalRu}
+БИН {OBK_Declarant.Bin}
+БИК {OBK_DeclarantContact.BankBik}
+ИИК {OBK_DeclarantContact.BankIik} (KZT)
+{OBK_DeclarantContact.BankNameRu}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text50>
+            <Text52 Ref="75" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,25.6,3.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>9e23d61d3797402c9d437370b4bd0325</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text52</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>_________________</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text52>
+            <Text53 Ref="76" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,26.2,3.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,8,Italic</Font>
+              <Guid>0556a5def54147feade448c92bd47e19</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text53</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>подпись</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text53>
+            <Text54 Ref="77" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,25,9.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>f911d09fbeb14338a0afd78fde5abaf9</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text54</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>{OBK_DeclarantContact.BossPosition}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text54>
+            <Text55 Ref="78" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13,25.6,6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>eb751344fa5348b29a9b3ed72f9c6d18</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text55</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>{OBK_DeclarantContact.BossLastName} {Substring(OBK_DeclarantContact.BossFirstName,0,1)}. {Substring(OBK_DeclarantContact.BossMiddleName,0,1)}.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text55>
+            <Text56 Ref="79" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,17.8,9.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>78aa62b2578040cdb8efbad0718de5dd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text56</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>Исполнитель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text56>
+            <Text57 Ref="80" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,19,3.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>07bef8e2766c4eac88f9344f1edd3951</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text57</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>_________________</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text57>
+            <Text58 Ref="81" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,19.6,3.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,8,Italic</Font>
+              <Guid>9df9adb7efbb4b2fa04cce7995ea2190</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text58</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>подпись</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text58>
+            <Text59 Ref="82" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,18.4,9.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>b3da5d5968254163a403686526c730ef</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text59</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>Должность уполномоченного лица</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text59>
+            <Text60 Ref="83" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,20.2,3.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,8,Italic</Font>
+              <Guid>3d97783d1f814a71a2bdba8b779a462e</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text60</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <Text>м.п.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text60>
+            <StartPointPrimitive5 Ref="84" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,0,0,0</ClientRectangle>
+              <Name>StartPointPrimitive5</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <ReferenceToGuid>e4e226395d55424f92b719c017bc79d7</ReferenceToGuid>
+            </StartPointPrimitive5>
+            <EndPointPrimitive5 Ref="85" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>9.4,27,0,0</ClientRectangle>
+              <Name>EndPointPrimitive5</Name>
+              <Page isRef="70" />
+              <Parent isRef="71" />
+              <ReferenceToGuid>e4e226395d55424f92b719c017bc79d7</ReferenceToGuid>
+            </EndPointPrimitive5>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Guid>c8631c1d22224f5098995278a9abd10b</Guid>
+          <Name>DataBand3</Name>
+          <Page isRef="70" />
+          <Parent isRef="70" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+        <VerticalLinePrimitive5 Ref="86" type="VerticalLinePrimitive" isKey="true">
+          <ClientRectangle>9.4,0.4,0.0254,27</ClientRectangle>
+          <Color>Black</Color>
+          <EndCap Ref="87" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </EndCap>
+          <Guid>e4e226395d55424f92b719c017bc79d7</Guid>
+          <Name>VerticalLinePrimitive5</Name>
+          <Page isRef="70" />
+          <Parent isRef="70" />
+          <Size>2</Size>
+          <StartCap Ref="88" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </StartCap>
+        </VerticalLinePrimitive5>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>664e80c83bb6440983f8998e727b5155</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page5</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="89" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page5>
+    <Page6 Ref="90" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="4">
+        <DataBand8 Ref="91" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,4.8</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text23 Ref="92" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11,1,8,2.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>9420eed177c64ed3afbe7372175d6913</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="90" />
+              <Parent isRef="91" />
+              <Text>Приложение
+к договору на проведение
+оценки безопасности и качества 
+лекарственных средств (изделий медицинского назначения) путем декларирования
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text23>
+            <Text24 Ref="93" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11,3.2,8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>effa1b0f5e094b8c9d528bfbc7521054</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="90" />
+              <Parent isRef="91" />
+              <Text>№{OBK_Contract.Number} от {Format("{0:MM.dd.yyyy}", OBK_Contract.StartDate)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text24>
+            <Text25 Ref="94" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,4,19,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>bf39c00f970d4d58be5d3192b2609e7d</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="90" />
+              <Parent isRef="91" />
+              <Text>Оценка безопасности и качества путем декларирования</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text25>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand8</Name>
+          <Page isRef="90" />
+          <Parent isRef="90" />
+          <Sort isList="true" count="0" />
+        </DataBand8>
+        <DataBand9 Ref="95" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,6,19,1.2</ClientRectangle>
+          <Components isList="true" count="8">
+            <Text26 Ref="96" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>7a32a30dd316457d9c7040af0f765615</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Информация о заявляемой продукции</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text26>
+            <Text27 Ref="97" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.6,0.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>7611c5b8c9f64f37bd2494495c9a4b13</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>№</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text27>
+            <Text28 Ref="98" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.6,0.6,4.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>6e2398f166ed46d8ae85015f193ffa8d</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text28</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Торговое название</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text28>
+            <Text29 Ref="99" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.4,0.6,2.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>f3d3c4adad844b6ab85acf7ad509bccf</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text29</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Номер серии</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text29>
+            <Text30 Ref="100" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.6,0.6,2.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>1a5310cf42d643f58252a495d03824a4</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Срок годности</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text30>
+            <Text31 Ref="101" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10,0.6,2.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>98e9f780ebb043e1b2adcc38b520b19f</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Размер партии</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text31>
+            <Text32 Ref="102" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.4,0.6,3,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>512cfbb95e724d458eaffc832f5b4f62</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Производитель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text32>
+            <Text33 Ref="103" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.4,0.6,3.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>4633eb71fa434bf3b855821e5c14ef5c</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <Page isRef="90" />
+              <Parent isRef="95" />
+              <Text>Страна-производитель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text33>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand9</Name>
+          <Page isRef="90" />
+          <Parent isRef="90" />
+          <Sort isList="true" count="0" />
+        </DataBand9>
+        <DataBand10 Ref="104" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,8,19,2.6</ClientRectangle>
+          <Components isList="true" count="7">
+            <Text34 Ref="105" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,0.6,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>9e13ec46e50b4feda13e8f7b4761937a</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{Line}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text34>
+            <Text35 Ref="106" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.6,0,4.8,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>c9bc6f2d824b4e5883ca8380fff3548a</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{OBK_RS_Products.NameRu}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text35>
+            <Text36 Ref="107" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.4,0,2.2,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>7634385d5e3643338f777502cc428fbe</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text36</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{OBK_RS_Products.RelationProductSeries.Series}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text36>
+            <Text37 Ref="108" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.6,0,2.4,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>331ffece45b541f89ecac82642fcf047</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{OBK_RS_Products.RelationProductSeries.SeriesEndDate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text37>
+            <Text38 Ref="109" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10,0,2.4,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>0795f768a133462b8d8991d8497b1ece</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{OBK_RS_Products.RelationProductSeries.SeriesParty} {OBK_RS_Products.RelationProductSeries.RelationMeasures.short_name}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text38>
+            <Text39 Ref="110" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.4,0,3,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>1a472b4762f3425f8e13cce1eb3a1e2f</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text39</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{OBK_RS_Products.ProducerNameRu}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text39>
+            <Text40 Ref="111" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.4,0,3.6,2.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>6b42226976384d7aaf3c2ac3bc5e11fc</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text40</Name>
+              <Page isRef="90" />
+              <Parent isRef="104" />
+              <Text>{OBK_RS_Products.CountryNameRu}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text40>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>OBK_RS_Products</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand10</Name>
+          <Page isRef="90" />
+          <Parent isRef="90" />
+          <Sort isList="true" count="0" />
+        </DataBand10>
+        <DataBand11 Ref="112" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,11.4,19,4</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text41 Ref="113" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.8,1,8.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>158885fd97744a77b971de8dda15c6d2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text41</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>Исполнитель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text41>
+            <Text42 Ref="114" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.4,1,8.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>ba6752c51b9d4673898bfa642a7e6a48</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text42</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>Заявитель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text42>
+            <Text43 Ref="115" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.4,2.2,3.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>2c3b325146994cb49921e59f744f18fd</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text43</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>_________________</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text43>
+            <Text44 Ref="116" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.8,2.2,3.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>4c2cbac6a0434f64a00befd150e0515e</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text44</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>_________________</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text44>
+            <Text45 Ref="117" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.4,2.8,3.2,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,8,Italic</Font>
+              <Guid>076577c105774253b9d3fd6260699ffc</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text45</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>подпись</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text45>
+            <Text46 Ref="118" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.8,2.8,3.2,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,8,Italic</Font>
+              <Guid>395294a1c3364b5b89595c242f5f2dcb</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text46</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>подпись</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text46>
+            <Text47 Ref="119" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.4,1.6,8.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>7f3da36303a644fd96db29139de34283</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text47</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>{OBK_DeclarantContact.BossPosition}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text47>
+            <Text48 Ref="120" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.8,1.6,8.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>aa0665039bc840cfb294445b3311e641</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text48</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>Должность уполномоченного лица</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text48>
+            <Text49 Ref="121" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.6,2.2,5.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <Guid>0d4994079f344e8eb8550bd7cb999394</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text49</Name>
+              <Page isRef="90" />
+              <Parent isRef="112" />
+              <Text>{Substring(OBK_DeclarantContact.BossFirstName,0,1)}. {OBK_DeclarantContact.BossLastName}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text49>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand11</Name>
+          <Page isRef="90" />
+          <Parent isRef="90" />
+          <Sort isList="true" count="0" />
+        </DataBand11>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>233cc60199d04ec9ad3d94805f65d914</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page6</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="122" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page6>
+  </Pages>
+  <PrinterSettings Ref="123" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>9/27/2017 6:51:29 PM</ReportChanged>
+  <ReportCreated>9/26/2017 6:42:08 PM</ReportCreated>
+  <ReportFile>F:\Projects\ncels\PW.Ncels\Reports\Mrts\OBK\ObkContractDeclaration.mrt</ReportFile>
+  <ReportGuid>885ada92267f45cf804a04878b63c56e</ReportGuid>
+  <ReportImage isNull="true" />
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2017.1.7.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

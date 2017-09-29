@@ -2232,6 +2232,10 @@
     <Content Include="Views\SafetyAssessment\ShowComment.cshtml" />
     <Content Include="Views\SafetyAssessment\HistoriesView.cshtml" />
     <Content Include="Reports\Mrts\SafetyAssessmentDeclaration.mrt" />
+    <Content Include="Views\OBKContract\ContractTemplate.cshtml" />
+    <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

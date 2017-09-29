@@ -1,5 +1,4 @@
 ﻿function actionsObkContractListHtmlAction(data, type, full, meta, $scope) {
-    debugger;
     return '<a  class="pw-task-link" href="/OBKContract/Contract?id=' + full.Id + '" >' + data + '</a>';
 }
 
@@ -11,7 +10,9 @@ function dateformatHtml(data, type, full, meta) {
     return date.getDate() + "." + (month.length > 1 ? month : "0" + month) + "." + date.getFullYear();
 
 }
-function obkContractGrid($scope, DTColumnBuilder) {
+
+function obkContractGrid($scope, $http, DTColumnBuilder) {
+
     function renderNumFunc(data, type, full, meta) {
         return actionsObkContractListHtmlAction(data, type, full, meta, $scope);
     };
@@ -25,8 +26,21 @@ function obkContractGrid($scope, DTColumnBuilder) {
         DTColumnBuilder.newColumn("EndDate", "Дата истечения договора").withOption('name', 'EndDate').renderWith(dateformatHtml)
     ];
 
+    $scope.viewContract = function () {
+        if ($scope.row === undefined) {
+            alert("Выберите договор!");
+            return;
+        }
+        var rowId = $scope.row.Id;
+        $http({
+            method: 'GET',
+            url: '/SafetyAssessment/EditContract?id=' + rowId
+        }).success(function (result) {
+            window.location.href = "/SafetyAssessment/Edit/" + result;
+        });;
+    };
 }
 
 angular
     .module('app')
-    .controller('obkContractGrid', ['$scope', 'DTColumnBuilder', obkContractGrid]);
+    .controller('obkContractGrid', ['$scope', '$http', 'DTColumnBuilder', obkContractGrid]);

@@ -987,9 +987,6 @@
     <Compile Include="DataModel\OBK_MtPart.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\OBK_Organization.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1919,6 +1916,7 @@
     <Compile Include="Helpers\ContractServices.cs" />
     <Compile Include="Helpers\ActionLogger.cs" />
     <Compile Include="Helpers\CommissionHelper.cs" />
+    <Compile Include="Helpers\PriceHelper.cs" />
     <Compile Include="Helpers\VisitServices.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />

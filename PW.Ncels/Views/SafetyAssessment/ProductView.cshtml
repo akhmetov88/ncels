@@ -100,7 +100,7 @@
                                 <div class="col-lg-6">
                                     <label>Цена</label>
                                     <div class="input-group">
-                                        <input id="Price" name="Price" type="text" class="form-control edit-control product-control" placeholder="Введите сумму" typeField="float">
+                                        <input id="Price" name="Price" type="text" class="form-control edit-control product-control" placeholder="Введите сумму" typeField="float" readonly="readonly">
                                         <span class="input-group-addon">
                                             <a class="OBKcommentDialog" href="#">
                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -146,7 +146,7 @@
 <script type="text/javascript">
     var productId = null;
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#mtPartsId").hide();
 
         $('#tableProducts').DataTable({
@@ -251,7 +251,6 @@
             tab.$('tr.pw-row-selected').removeClass('pw-row-selected');
             $(this.parentNode).addClass('pw-row-selected');
             var mass = tab.row('.pw-row-selected').data();
-            debugger;
 
             if (mass.RegTypeId === 2)
                 $("#mtPartsId").show();
@@ -262,6 +261,8 @@
             $("#NameRu").val(mass.NameRu);
             $("#NameKz").val(mass.NameKz);
             $("#Price").val(mass.Price);
+            $("#Price").removeAttr("readonly");
+            $("#CurrencyId select[disabled='disabled']").prop('disabled',false);
             $("#CurrencyId option[value='']").prop('selected', 'selected');
             $("#CurrencyId option[value=" + mass.CurrencyId + "]").prop('selected', 'selected');
             $("#ProducerNameRu").val(mass.ProducerNameRu);

@@ -54,19 +54,6 @@ namespace PW.Ncels.Controllers
             model.CertificateDate = null;
             model.CreatedDate = DateTime.Now;
 
-            //продукты
-            //if (model.ObkRsProductses.Count == 0) {
-            //    model.ObkRsProductses = new List<OBK_RS_Products> { new OBK_RS_Products
-            //    {
-            //        Obk_Products_Series = new List<OBK_Procunts_Series> { new OBK_Procunts_Series()}
-            //    }};
-            //}
-
-            //договора
-            //if (model.ObkContracts.Count == 0) {
-            //    model.ObkContracts.Add(new OBK_Contract());
-            //}
-
             var safetyRepository = new SafetyAssessmentRepository(false);
 
             if (type == CodeConstManager.OBK_SA_SERIAL)
@@ -166,6 +153,7 @@ namespace PW.Ncels.Controllers
                 Aspose.Words.Document doc = new Aspose.Words.Document();
                 doc.InserQrCodesToEnd("ExecutorSign", assessmentDeclarationHistory.XmlSign);
                 var pdfFile = new MemoryStream();
+                doc.Save(pdfFile, Aspose.Words.SaveFormat.Pdf);
                 pdfFile.Position = 0;
                 stream.Close();
 
@@ -187,6 +175,29 @@ namespace PW.Ncels.Controllers
         {
             var model = GetSaDeclarationById(id);
             return View("Create", model);
+        }
+
+        [HttpGet]
+        public ActionResult EditContract(string id)
+        {
+            var repository = new SafetyAssessmentRepository();
+            var contract = repository.GetContractById(new Guid(id));
+            var model = repository.FindDeclarationByContract(new Guid(id));
+            if (model == null) {
+                model = new OBK_AssessmentDeclaration {
+                    EmployeeId = UserHelper.GetCurrentEmployee().Id,
+                    Type_Id = contract.OBK_Ref_Type.Id,
+                    Id = Guid.NewGuid(),
+                    CreatedDate = DateTime.Now,
+                    StatusId = CodeConstManager.STATUS_DRAFT_ID,
+                    CertificateDate = DateTime.Now,
+                    Contract_Id = contract.Id,
+                    IsDeleted = false
+                    //CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
+                };
+                repository.SaveAssessmentDeclaration(model);
+            }
+            return Json(model.Id, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -230,7 +241,7 @@ namespace PW.Ncels.Controllers
 
                 //справочник стран
                 var countries = safetyRepository.GetCounties();
-                if (declarant.CountryId == null) {
+                if (declarant?.CountryId == null) {
                     ViewData["Counties"] = new SelectList(countries, "Id", "Name");
                 }
                 else {
@@ -240,7 +251,7 @@ namespace PW.Ncels.Controllers
 
                 //Валюта
                 var currency = safetyRepository.GetObkCurrencies();
-                if (declarantContact.CurrencyId == null) {
+                if (declarantContact?.CurrencyId == null) {
                     ViewData["Courrency"] = new SelectList(currency, "Id", "Name");
                 }
                 else {
@@ -263,7 +274,7 @@ namespace PW.Ncels.Controllers
 
                 //организационная форма
                 var orgForm = safetyRepository.GetOrganizationForm();
-                if (declarant.OrganizationFormId == null) {
+                if (declarant?.OrganizationFormId == null) {
                     ViewData["OrganizationForm"] = new SelectList(orgForm, "Id", "Name");
                 }
                 else {

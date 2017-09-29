@@ -33,7 +33,7 @@
                 <div class="ibox-content ibox-heading">
                     <div class="note-font btn-group" style="width: 100%">
                         <button class="btn btn-info btn-sm" type="button" security bp-type="project" bp-action="edit" onclick="location.href='@Url.Action("RegisterSafetyAssessmentList", "SafetyAssessment")'"><i class="fa fa-arrow-left"></i> Вернуться в список</button>
-                    </div>
+                        <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" id="viewBtn"><i class="fa fa-eye"></i> Просмотр </button></div>
                 </div>
                 <div id="safetyDeclarationDiv">
                     @Html.Partial("~/Views/SafetyAssessment/DeclarationView.cshtml", @Model)
@@ -46,6 +46,23 @@
 <script src="~/Scripts/js/custom/spin.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $("#viewBtn").click(function() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ExportFileTemplate", new { id = Model.Id })',
+                dataType: 'html',
+                cache: false,
+                success: function (data) {
+                    debugger;
+                    showReport(data);
+                },
+                error: function(data) {
+                    alert("Ошибка");
+                }
+            });
+        });
+
         setReadOnlyControl();
     });
 </script>

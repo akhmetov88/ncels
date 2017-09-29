@@ -169,12 +169,14 @@
         valid = validDeclaration && validAttach;
         return valid;
     }
+
     function checkValueFromIsNull(value) {
         if (value == null || value.length === 0) {
             return true;
         }
         return false;
     }
+
     function setMarkValidation(control, value) {
         if (checkValueFromIsNull(value)) {
             $(control).addClass("pw-select-invalid");
@@ -185,6 +187,7 @@
         }
         return true;
     }
+
     function checkWrapping() {
         var validFile = true;
         var contract = $("#Contract_Id").val();
@@ -219,27 +222,39 @@
             if (cerCountry === "") {
                 $("#CertificateCountryLabelId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateCountryLabelId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateCountryLabelId").css({ 'color': '#555' });
+            }
             if (cerOrgan === "") {
                 $("#CertificateOrganizationLabelId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateOrganizationLabelId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateOrganizationLabelId").css({ 'color': '#555' });
+            }
             if (certNumber === "") {
                 $("#CertificateId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateId").css({ 'color': '#555' });
+            }
             if (certType === "") {
                 $("#CertificateTypeLableId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateTypeLableId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateTypeLableId").css({ 'color': '#555' });
+            }
             if (certStartDate === "") {
                 $("#CertificateStartDateId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateStartDateId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateStartDateId").css({ 'color': '#555' });
+            }
             if (certEndDate === "") {
                 $("#CertificateEndDateId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateEndDateId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateEndDateId").css({ 'color': '#555' });
+            }
         } else {
             $("#CertificateCountryLabelId").css({ 'color': '#555' });
             $("#CertificateOrganizationLabelId").css({ 'color': '#555' });
@@ -289,12 +304,29 @@
         }
         return validFile;
     }
+
     function checkAttachFile() {
         var validFile = true;
         $('.file-validation').each(function () {
+            debugger;
             var ct = $(this).attr('countFile');
             var attcode = $(this).attr('attcode');
+            var attId = $(this).attr('attId');
+            var dataq = $("#tableProducts").DataTable().data();
             var count = parseInt(ct, 10) || 0;
+
+            if (count === 0 && attcode === '@CodeConstManager.ATTACH_OPTIONAL_OBK_FILE_CODE' && (attId === '462110ce-fefd-451d-9c4c-ee05704ccfce' || attId === '7ed9da5a-45ec-4499-b713-2e503189db0b')) {
+                debugger;
+                dataq.each(function (val) {
+                    debugger;
+                    if (val.RegTypeId === 1 && attId === '462110ce-fefd-451d-9c4c-ee05704ccfce') {
+                        attcode = '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE';
+                    } if (val.RegTypeId === 2 && attId === '7ed9da5a-45ec-4499-b713-2e503189db0b') {
+                        attcode = '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE';
+                    }
+                });
+            }
+
             if (count === 0 && attcode === '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE') {
                 $(this).text("Необходимо вложить файлы");
                 validFile = false;

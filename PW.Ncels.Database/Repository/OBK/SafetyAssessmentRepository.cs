@@ -205,6 +205,18 @@ namespace PW.Ncels.Database.Repository.OBK
             return declaration;
         }
 
+        public void SaveAssessmentDeclaration(OBK_AssessmentDeclaration declaration)
+        {
+            AppContext.OBK_AssessmentDeclaration.Add(declaration);
+            AppContext.SaveChanges();
+        }
+
+        public OBK_AssessmentDeclaration FindDeclarationByContract(Guid contractId)
+        {
+            var model = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Contract_Id == contractId);
+            return model;
+        }
+
         /// <summary>
         /// загрузка списка заявлений
         /// </summary>
@@ -285,7 +297,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
                     CertificateDate = DateTime.Now,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    //CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
                 };
                 isNew = true;
             }
@@ -707,6 +720,38 @@ namespace PW.Ncels.Database.Repository.OBK
                     stageRepository.ToNextStage(entity.Id, null, new[] { CodeConstManager.STAGE_OBK_COZ }, out resultDescription);
             }
             return entity;
+        }
+
+        public IQueryable<Dictionary> GetAddRequeiredDocumentCode(IQueryable<Dictionary> dicListQuery, string id)
+        {
+            var request = GetById(id);
+            var contract = GetContractById(request.Contract_Id);
+            if (contract?.OBK_RS_Products.Count >= 1)
+            {
+                foreach (var product in contract.OBK_RS_Products)
+                {
+                    foreach (var dList in dicListQuery)
+                    {
+                        if (product.RegTypeId == 1)
+                        {
+                            if (dList.Id == new Guid("462110CE-FEFD-451D-9C4C-EE05704CCFCE"))
+                            {
+                                dList.Code = "1";
+                            }
+                        }
+                        if (product.RegTypeId == 2)
+                        {
+                            if (dList.Id == new Guid("7ED9DA5A-45EC-4499-B713-2E503189DB0B"))
+                            {
+                                dList.Code = "1";
+                            }
+                        }
+                    }
+
+                }
+            }
+            var result = dicListQuery;
+            return result;
         }
 
         #region внутренний портал

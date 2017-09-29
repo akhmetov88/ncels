@@ -89,7 +89,7 @@
                         <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMpde" >Подписать ЭЦП</button>
                         <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Отправить в ЦОЗ</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="sendWithoutDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Отправить в ЦОЗ без подписи</button>
-                        <button class="btn btn-default btn-sm" type="button"><i class="fa fa-eye"></i> Просмотр</button>
+                        <button class="btn btn-default btn-sm" type="button" ng-click="viewContract('@ModelGuid')"><i class="fa fa-eye"></i> Просмотр</button>
                     </div>
                 </div>
                 <form name="contractCreateForm">

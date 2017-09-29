@@ -1160,5 +1160,32 @@ namespace PW.Ncels.Database.Repository.OBK
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
             AppContext.SaveChanges();
         }
+
+        public string GetContractTemplatePath(Guid contractId)
+        {
+            string templateName = null;
+            var contract = AppContext.OBK_Contract.FirstOrDefault(e => e.Id == contractId);
+            if (contract == null)
+                return null;
+            switch (contract.Type)
+            {
+                case 1:
+                    templateName = "ObkContractSerial.mrt";
+                    break;
+                case 2:
+                    templateName = "ObkContractParty.mrt";
+                    break;
+                case 3:
+                    templateName = "ObkContractDeclaration.mrt";
+                    break;
+            }
+            return System.Web.HttpContext.Current.Server.MapPath("~/Reports/Mrts/OBK/" + templateName);
+        }
+
+        public string GetPriceCount(Guid contractId)
+        {
+            var count = AppContext.OBK_ContractPrice.Where(e => e.ContractId == contractId).ToList();
+            return count.Sum(e => e.PriceWithTax).ToString();
+        }
     }
 }
