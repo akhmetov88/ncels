@@ -936,7 +936,7 @@ namespace PW.Ncels.Database.Repository.OBK
             //}).ToList();
 
             var emp = UserHelper.GetCurrentEmployee();
-
+             
             var list = AppContext.OBK_ContractRegisterView.Where(x => x.ExecutorId == emp.Id).AsQueryable();
  
             //var stages = AppContext.OBK_ContractStage.Where(x => x.Employees.Contains(emp)).AsQueryable();
