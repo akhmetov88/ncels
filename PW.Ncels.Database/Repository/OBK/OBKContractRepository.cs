@@ -966,6 +966,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 ResultId = null
             };
 
+            // Руководитель ЦОЗ
             Guid bossCozGuid = new Guid("3100E850-F7D8-48A4-A5AC-4BF5D50D98D2");
             var bossCozEmployee = AppContext.Employees.Where(x => x.Id == bossCozGuid).FirstOrDefault();
 
@@ -985,7 +986,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 ResultId = null
             };
 
-            Guid bossUobkGuid = new Guid("E99E0165-81D5-41B3-9586-8ECFF3DD8727");
+            // Руководитель УОБК
+            Guid bossUobkGuid = new Guid("14D1A1F0-9501-4232-9C29-E9C394D88784");
             var bossUobkEmployee = AppContext.Employees.Where(x => x.Id == bossUobkGuid).FirstOrDefault();
 
             obkContractStageUOBK.Employees.Add(bossUobkEmployee);
