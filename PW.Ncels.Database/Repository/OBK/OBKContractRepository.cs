@@ -1214,5 +1214,101 @@ namespace PW.Ncels.Database.Repository.OBK
             });
             return items;
         }
+
+        public bool MeetsRequirements(Guid contractId)
+        {
+            var employee = UserHelper.GetCurrentEmployee();
+            var employeeId = employee.Id;
+            var contractViews = AppContext.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId).ToList();
+            foreach (var contractView in contractViews)
+            {
+                //var stageStatusCompleted = GetStageStatusByCode(OBK_Ref_StageStatus.Completed);
+                var stage = AppContext.OBK_ContractStage.Where(x => x.Id == contractView.ContractStageId).FirstOrDefault();
+                stage.ResultId = CodeConstManager.OBK_RESULT_ID_MEETS_REQUIREMENTS;
+                //stage.StageStatusId = stageStatusCompleted.Id;
+
+                if (stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
+                {
+                    CreateStageDef(contractId, stage);
+                }
+
+                AppContext.SaveChanges();
+            }
+            return true;
+        }
+
+        public bool DoestNotMeetRequirements(Guid contractId)
+        {
+            var employee = UserHelper.GetCurrentEmployee();
+            var employeeId = employee.Id;
+            var contractViews = AppContext.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId).ToList();
+            foreach (var contractView in contractViews)
+            {
+                //var stageStatusCompleted = GetStageStatusByCode(OBK_Ref_StageStatus.Completed);
+                var stage = AppContext.OBK_ContractStage.Where(x => x.Id == contractView.ContractStageId).FirstOrDefault();
+                stage.ResultId = CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS;
+                //stage.StageStatusId = stageStatusCompleted.Id;
+
+                if (stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
+                {
+                    CreateStageDef(contractId, stage);
+                }
+
+                AppContext.SaveChanges();
+            }
+            return true;
+        }
+
+        private void CreateStageDef(Guid contractId, OBK_ContractStage parentStage)
+        {
+            var stageStatusInWork = GetStageStatusByCode(OBK_Ref_StageStatus.InWork);
+            OBK_ContractStage stageDef = new OBK_ContractStage()
+            {
+                Id = Guid.NewGuid(),
+                ContractId = contractId,
+                StageId = CodeConstManager.STAGE_OBK_DEF,
+                StageStatusId = stageStatusInWork.Id,
+                ParentStageId = parentStage.Id,
+                ResultId = null
+            };
+
+            // Руководитель ДЭФ
+            var bossDefGuid = new Guid("C9746027-F617-4791-8EEE-1CD80F2EDD5B");
+            var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
+
+            stageDef.Employees.Add(bossDefEmployee);
+            AppContext.OBK_ContractStage.Add(stageDef);
+        }
+
+        public bool ReturnToApplicant(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            contract.Status = CodeConstManager.STATUS_OBK_ONCORRECTION;
+
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.OnCorrection);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
+
+            AppContext.SaveChanges();
+
+            return true;
+        }
+
+        public bool SendToBossForApproval(Guid contractId)
+        {
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.OnAgreement);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
+
+            AppContext.SaveChanges();
+
+            return true;
+        }
     }
 }

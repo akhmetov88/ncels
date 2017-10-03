@@ -414,6 +414,11 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const int STAGE_OBK_UOBK = 3;
 
+        /// <summary>
+        /// ДЭФ
+        /// </summary>
+        public const int STAGE_OBK_DEF = 4;
+
         #endregion
 
         #region Статусы
@@ -437,8 +442,25 @@ namespace PW.Ncels.Database.Constants
         /// Возврат
         /// </summary>
         public const int STATUS_OBK_REJECT_ID = 4;
-
+        /// <summary>
+        /// В обработке
+        /// </summary>
         public const int STATUS_OBK_INPROCESSING = 5;
+
+        /// <summary>
+        /// В работе
+        /// </summary>
+        public const int STATUS_OBK_WORK = 6;
+
+        /// <summary>
+        /// На корректировке у заявителя
+        /// </summary>
+        public const int STATUS_OBK_ONCORRECTION = 7;
+
+        /// <summary>
+        /// Активный
+        /// </summary>
+        public const int STATUS_OBK_ACTIVE = 8;
 
         ///// <summary>
         ///// Повторно
@@ -480,6 +502,12 @@ namespace PW.Ncels.Database.Constants
         /// Отображать тип ОБК при продлении срока, оформлении компии, оформлении копии
         /// </summary>
         public const int OBK_VIEW_OPTION_SHOW_IN_PROCESS = 2;
+        #endregion
+
+        #region RESULT STATUS
+        public const int OBK_RESULT_ID_NOT_STARTED = 0;
+        public const int OBK_RESULT_ID_MEETS_REQUIREMENTS = 1;
+        public const int OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS = 2;
         #endregion
 
         #endregion

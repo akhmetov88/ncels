@@ -48,16 +48,69 @@ function InitObkContractCard(uiId) {
             $('#' + tabid).removeClass("hidden");
         },
         meetsRequirements: function (e) {
-            alert("meetsRequirements clicked");
+            var modelId = $("#modelId").val();
+            kendo.ui.progress($("#loader" + uiId), true);
+            $.ajax({
+                type: 'POST',
+                url: '/OBKContract/MeetsRequirements',
+                data: JSON.stringify({ contractId: modelId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $(e.target).hide();
+                    $("#doesNotMeetRequirementsBtn" + uiId).hide();
+                },
+                complete: function () {
+                    kendo.ui.progress($("#loader" + uiId), false);
+                }
+            });
+
         },
         doesNotMeetRequirements: function (e) {
-            alert("doesNotMeetRequirements clicked");
+            var modelId = $("#modelId").val();
+            kendo.ui.progress($("#loader" + uiId), true);
+            $.ajax({
+                type: 'POST',
+                url: '/OBKContract/DoesNotMeetRequirements',
+                data: JSON.stringify({ contractId: modelId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $(e.target).hide();
+                    $("#meetsRequirementsBtn" + uiId).hide();
+                },
+                complete: function () {
+                    kendo.ui.progress($("#loader" + uiId), false);
+                }
+            });
         },
         returnToApplicant: function (e) {
-            alert("returnToApplicant clicked");
+            var modelId = $("#modelId").val();
+            $.ajax({
+                type: 'POST',
+                url: '/OBKContract/ReturnToApplicant',
+                data: JSON.stringify({ contractId: modelId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $(e.target).hide();
+                },
+                complete: function () {
+
+                }
+            });
         },
-        sendToBossForApproval: function(e) {
-            alert("sendToBossForApproval clicked");
+        sendToBossForApproval: function (e) {
+            var modelId = $("#modelId").val();
+            $.ajax({
+                type: 'POST',
+                url: '/OBKContract/SendToBossForApproval',
+                data: JSON.stringify({ contractId: modelId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $(e.target).hide();
+                },
+                complete: function () {
+
+                }
+            });
         }
     });
     kendo.bind($("#splitter" + uiId), viewModel);
@@ -79,7 +132,7 @@ function initFilterOBKContract(uiId) {
             });
             window.data("kendoWindow").stageId = selectedItem.ContractStageId;
             window.data("kendoWindow").dialogCallback = function () {
-                //grid.dataSource.read();
+                grid.dataSource.read();
             };
             window.data("kendoWindow").title('Согласовать');
             window.data("kendoWindow").setOptions({

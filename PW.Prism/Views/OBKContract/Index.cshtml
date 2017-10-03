@@ -37,9 +37,9 @@
                                                           }
 
                                                           projects.Add().Text("В работе").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork}, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewNotAssignedOBKContracts);
-                                                          projects.Add().Text("На корректировке у заявителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "1" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("На корректировке у заявителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.OnCorrection }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("Доработанные заявителем").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "2" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
-                                                          projects.Add().Text("Требуют согласования").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Требуют согласования").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.OnAgreement }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("Согласованные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("Отказанные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
                                                           projects.Add().Text("На подписании у руководителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
@@ -80,7 +80,7 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                    .SelectedIndex(0)
                 )
             </div>
-            @if (true || EmployePermissionHelper.CanAssignOBKContract)
+            @if (EmployePermissionHelper.CanAssignOBKContract)
             {
                 <div>
                     @(Html.Kendo().Button().Name("toWork" + Model).HtmlAttributes(new { @class = "pwWidth100" })

@@ -24,5 +24,13 @@ namespace PW.Ncels.Database.DataModel
         /// Статус "Выполнен"
         /// </summary>
         public const string Completed = "completed";
+        /// <summary>
+        /// На корректировке у заявителя
+        /// </summary>
+        public const string OnCorrection = "onCorrection";
+        /// <summary>
+        /// На согласовании у руководителя
+        /// </summary>
+        public const string OnAgreement = "onAgreement";
     }
 }

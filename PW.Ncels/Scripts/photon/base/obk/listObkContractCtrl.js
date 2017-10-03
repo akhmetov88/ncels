@@ -152,6 +152,8 @@
     }
 
     $scope.changeViewMode = function () {
+        // 1 Черновик
+        // 7 На корректировке у заявителя
         if ($scope.object.Status == 1) {
             $scope.object.viewMpde = false;
         }

@@ -173,6 +173,7 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("CanViewNotAssignedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр нераспределенных договоров", "Работа с договорами ОБК");
             AddPermission("CanAssignOBKContract", @"Модуль 'ОБК' 'Договоры'", "Функционал распределения договоров", "Работа с договорами ОБК");
             AddPermission("CanViewMeetAndNotMeetRqrmntsBtnObkContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Соответствует требованиям\"/\"Не соответствует требованиям\"", "Работа с договорами ОБК");
+            AddPermission("CanViewReturnToApplicantAndSendToBossForApproval", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Вернуть на доработку\"/\"На согласование руководителю\"", "Работа с договорами ОБК");
 
             RemoveNonActualKeys();
         }
@@ -885,6 +886,10 @@ namespace PW.Ncels.Database.Helpers
         /// Отображать кнопки "Соответствует требованиям"/"Не соответствует требованиям"
         /// </summary>
         public static bool CanViewMeetAndNotMeetRqrmntsBtnObkContract { get { return IsVisibility("CanViewMeetAndNotMeetRqrmntsBtnObkContract"); } }
+        /// <summary>
+        /// Отображать кнопки "Вернуть на доработку"/"На согласование руководителю"
+        /// </summary>
+        public static bool CanViewReturnToApplicantAndSendToBossForApproval { get { return IsVisibility("CanViewReturnToApplicantAndSendToBossForApproval"); } }
         #endregion
     }
 }
