@@ -1809,6 +1809,15 @@
     <Compile Include="DataModel\Unit.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\UnitsAddress.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\UnitsBank.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\UnitSigner.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\UpdateScript.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2059,6 +2068,9 @@
     <Compile Include="Models\TmcViewModel.cs" />
     <Compile Include="Models\RefTreeItemModel.cs" />
     <Compile Include="Models\ProjectRequestsTreeItemModel.cs" />
+    <Compile Include="Models\UnitAddress.cs" />
+    <Compile Include="Models\UnitBankModel.cs" />
+    <Compile Include="Models\UnitSignerModel.cs" />
     <Compile Include="Models\VisitModel.cs" />
     <Compile Include="Models\VisitTypeModel.cs" />
     <Compile Include="Models\UnitModel.cs" />

@@ -1791,4 +1791,7 @@
   <data name="PassedDays" xml:space="preserve">
     <value>Срок устранения замечаний</value>
   </data>
+  <data name="Property_БИН" xml:space="preserve">
+    <value>БИН</value>
+  </data>
 </root>

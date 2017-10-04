@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
+using PW.Ncels.Database.Models.Expertise;
 
 namespace PW.Prism.Controllers
 {
@@ -183,7 +184,7 @@ namespace PW.Prism.Controllers
             return Json(data.ToDataSourceResult(request));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+	    [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EmployeePermissionRoleCreate([DataSourceRequest] DataSourceRequest request, PermissionRoleModel dictionary, Guid employeeId)
         {
             if (dictionary != null)
@@ -389,6 +390,300 @@ namespace PW.Prism.Controllers
                     });
             return Json(data.ToDataSourceResult(request));
         }
+
+
+	    public ActionResult UnitsSignerRead([DataSourceRequest] DataSourceRequest request, Guid modelId)
+	    {
+            var data = db.UnitSigners.Where(o=>o.UnitsId==modelId && o.IsDeleted == false)
+                .Join(db.Employees, x=>x.SignerId, x=>x.Id, (us, e)=>new {USigner = us, Emp = e})
+                .Select(o=> new UnitSignerModel
+                {
+                    UnitSignerId = o.USigner.Id,
+                    DocNumber = o.USigner.DocNumber,
+                    DocumentType = o.USigner.DocumentType,
+                    StartDate = o.USigner.StartDate,
+                    EndDate = o.USigner.EndDate,
+                    SignerId = o.Emp.Id,
+                    Signer = o.Emp.DisplayName
+                });
+	        return Json(data.ToDataSourceResult(request, ModelState));
+        }
+
+	    public ActionResult UnitsSignerValueList(Guid modelId)
+	    {
+	        var data = db.Employees.Where(e => e.OrganizationId == modelId)
+	            .Select(o => new {Id = o.Id, Name = o.DisplayName})
+	            .OrderBy(x => x.Name)
+	            .ToList();
+	        return Json(data, JsonRequestBehavior.AllowGet);
+	    }
+
+	    public ActionResult UnitsSignerDocTypeList()
+	    {
+	        var data = db.OBK_Ref_ContractDocumentType.Select(o => new { Id = o.Id, Name = o.NameRu }).OrderBy(x => x.Name).ToList();
+	        return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+	    public ActionResult UnitsSignerDocAvailableList()
+	    {
+            var list = new List<BoolDocType>();
+	        list.Add(new BoolDocType { Type = false, Name = "Нет" });
+	        list.Add(new BoolDocType { Type = true, Name = "Да" });
+	        return Json(list, JsonRequestBehavior.AllowGet);
+	    }
+
+        public class BoolDocType {
+            public bool Type { get; set; }
+            public string Name { get; set; }
+        }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsSignerCreate([DataSourceRequest] DataSourceRequest request,
+	        UnitSignerModel unitSignerModel, Guid modelId)
+	    {
+	        //var dbUSigner = db.UnitSigners.Where(x => x.UnitsId == modelId && x.StartDate<= DateTime.Now && x.EndDate>=DateTime.Now).ToList();
+	        //if (dbUSigner.Count > 1)
+	        //    return Content("Подписывающий уже определен");
+
+            if (unitSignerModel != null)
+	        {
+	            var dbUnitsSigner = new UnitSigner();
+	            dbUnitsSigner.Id = Guid.NewGuid();
+	            dbUnitsSigner.UnitsId = modelId;
+	            dbUnitsSigner.IsDeleted = false;
+	            dbUnitsSigner.CreatedDate = DateTime.Now;
+	            dbUnitsSigner.SignerId = unitSignerModel.SignerId;
+	            dbUnitsSigner.DocNumber = unitSignerModel.DocNumber;
+	            dbUnitsSigner.DocumentType = unitSignerModel.DocumentType;
+	            dbUnitsSigner.StartDate = unitSignerModel.StartDate;
+	            dbUnitsSigner.EndDate = unitSignerModel.EndDate;
+	            db.UnitSigners.Add(dbUnitsSigner);
+	            db.SaveChanges();
+	        }
+	        return Json(new[] { unitSignerModel }.ToDataSourceResult(request, ModelState));
+	    }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsSignerUpdate([DataSourceRequest] DataSourceRequest request,
+	        UnitSignerModel unitSignerModel, Guid modelId)
+	    {
+	        if (unitSignerModel != null && ModelState.IsValid)
+	        {
+	            var dbUnitsSigner = db.UnitSigners.SingleOrDefault(x => x.Id == unitSignerModel.UnitSignerId);
+	            if (dbUnitsSigner != null)
+	            {
+	                dbUnitsSigner.DocNumber = unitSignerModel.DocNumber;
+	                dbUnitsSigner.DocumentType = unitSignerModel.DocumentType;
+	                dbUnitsSigner.SignerId = unitSignerModel.SignerId;
+	                dbUnitsSigner.StartDate = unitSignerModel.StartDate;
+	                dbUnitsSigner.EndDate = unitSignerModel.EndDate;
+	                db.SaveChanges();
+	            }
+	        }
+	        return Json(new[] { unitSignerModel }.ToDataSourceResult(request, ModelState));
+	    }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsSignerDestroy([DataSourceRequest] DataSourceRequest request,
+	        UnitSignerModel unitSignerModel, Guid modelId)
+	    {
+	        if (unitSignerModel != null)
+	        {
+	            var dbUnitsSigner = db.UnitSigners.SingleOrDefault(x => x.Id == unitSignerModel.UnitSignerId);
+	            if (dbUnitsSigner != null)
+	            {
+	                dbUnitsSigner.IsDeleted = true;
+	                db.SaveChanges();
+	            }
+	        }
+	        return Json(new[] { unitSignerModel }.ToDataSourceResult(request, ModelState));
+	    }
+
+
+        public ActionResult UnitsBankRead([DataSourceRequest] DataSourceRequest request, Guid modelId)
+	    {
+	        var data = db.UnitsBanks.Where(o => o.UnitsId == modelId && o.IsDeleted == false)
+	            .Join(db.Dictionaries, x => x.CurrencyId, x => x.Id, (ub, d) => new {UBank = ub, Dic = d})
+	            .Select(o => new UnitBankModel
+	            {
+	                UnitBankId = o.UBank.Id,
+                    BankNameRu = o.UBank.BankNameRu,
+                    BankNameKz = o.UBank.BankNameKz,
+	                KBE = o.UBank.KBE,
+	                Code = o.UBank.Code,
+	                SWIFT = o.UBank.SWIFT,
+	                IIK = o.UBank.IIK,
+	                CorrespondentBank = o.UBank.CorrespondentBank,
+	                CorrespondentAccount = o.UBank.CorrespondentAccount,
+	                SWIFT1 = o.UBank.SWIFT1,
+	                CorrespondentAccount1 = o.UBank.CorrespondentAccount1,
+	                SWIFT2 = o.UBank.SWIFT2,
+                    CurrencyId = o.Dic.Id,
+                    CurrencyName = o.Dic.Name,
+                    StartDate = o.UBank.StartDate,
+                    EndDate = o.UBank.EndDate
+                });
+	        return Json(data.ToDataSourceResult(request, ModelState));
+        }
+
+	    public ActionResult UnitsBankValueList()
+	    {
+	        var data = db.Dictionaries.Where(e => e.Type == "Currency").Select(o => new { Id = o.Id, Name = o.Name }).OrderBy(x => x.Name).ToList();
+	        return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsBankCreate([DataSourceRequest] DataSourceRequest request,
+	        UnitBankModel unitBankModel, Guid modelId)
+	    {
+	        if (unitBankModel != null)
+	        {
+	            var dbUnitsBanks = new UnitsBank();
+	            dbUnitsBanks.Id = Guid.NewGuid();
+	            dbUnitsBanks.UnitsId = modelId;
+	            dbUnitsBanks.IsDeleted = false;
+	            dbUnitsBanks.CreatedDate = DateTime.Now;
+	            dbUnitsBanks.BankNameRu = unitBankModel.BankNameRu;
+	            dbUnitsBanks.BankNameKz = unitBankModel.BankNameKz;
+	            dbUnitsBanks.CurrencyId = unitBankModel.CurrencyId;
+	            dbUnitsBanks.Code = unitBankModel.Code;
+	            dbUnitsBanks.CorrespondentAccount1 = unitBankModel.CorrespondentAccount1;
+	            dbUnitsBanks.CorrespondentAccount = unitBankModel.CorrespondentAccount;
+	            dbUnitsBanks.CorrespondentBank = unitBankModel.CorrespondentBank;
+	            dbUnitsBanks.IIK = unitBankModel.IIK;
+	            dbUnitsBanks.KBE = unitBankModel.KBE;
+	            dbUnitsBanks.SWIFT = unitBankModel.SWIFT;
+	            dbUnitsBanks.SWIFT1 = unitBankModel.SWIFT1;
+	            dbUnitsBanks.SWIFT2 = unitBankModel.SWIFT2;
+                dbUnitsBanks.StartDate = unitBankModel.StartDate;
+	            dbUnitsBanks.EndDate = unitBankModel.EndDate;
+	            db.UnitsBanks.Add(dbUnitsBanks);
+	            db.SaveChanges();
+	        }
+	        return Json(new[] { unitBankModel }.ToDataSourceResult(request, ModelState));
+	    }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsBankUpdate([DataSourceRequest] DataSourceRequest request,
+	        UnitBankModel unitBankModel, Guid modelId)
+	    {
+	        if (unitBankModel != null && ModelState.IsValid)
+	        {
+	            var dbUnitsBank = db.UnitsBanks.SingleOrDefault(x => x.Id == unitBankModel.UnitBankId);
+	            if (dbUnitsBank != null)
+	            {
+	                dbUnitsBank.BankNameRu = unitBankModel.BankNameRu;
+	                dbUnitsBank.BankNameKz = unitBankModel.BankNameKz;
+                    dbUnitsBank.CurrencyId = unitBankModel.CurrencyId;
+	                dbUnitsBank.Code = unitBankModel.Code;
+	                dbUnitsBank.CorrespondentAccount1 = unitBankModel.CorrespondentAccount1;
+	                dbUnitsBank.CorrespondentAccount = unitBankModel.CorrespondentAccount;
+	                dbUnitsBank.CorrespondentBank = unitBankModel.CorrespondentBank;
+	                dbUnitsBank.IIK = unitBankModel.IIK;
+	                dbUnitsBank.KBE = unitBankModel.KBE;
+	                dbUnitsBank.SWIFT = unitBankModel.SWIFT;
+	                dbUnitsBank.SWIFT1 = unitBankModel.SWIFT1;
+	                dbUnitsBank.SWIFT2 = unitBankModel.SWIFT2;
+                    dbUnitsBank.StartDate = unitBankModel.StartDate;
+	                dbUnitsBank.EndDate = unitBankModel.EndDate;
+                    db.SaveChanges();
+	            }
+	        }
+	        return Json(new[] { unitBankModel }.ToDataSourceResult(request, ModelState));
+	    }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsBankDestroy([DataSourceRequest] DataSourceRequest request,
+	        UnitBankModel unitBankModel, Guid modelId)
+	    {
+	        if (unitBankModel != null)
+	        {
+	            var dbUnitsBank = db.UnitsBanks.SingleOrDefault(x => x.Id == unitBankModel.UnitBankId);
+	            if (dbUnitsBank != null)
+	            {
+	                dbUnitsBank.IsDeleted = true;
+	                db.SaveChanges();
+	            }
+	        }
+	        return Json(new[] { unitBankModel }.ToDataSourceResult(request, ModelState));
+	    }
+
+
+        public ActionResult UnitsAddressRead([DataSourceRequest] DataSourceRequest request, Guid modelId)
+	    {
+	        var data = db.UnitsAddresses.Where(o => o.UnitsId == modelId && o.IsDeleted == false)
+	            .Join(db.Dictionaries, x => x.RegionId, x => x.Id, (ua, d) => new { UAddress = ua, Dic = d })
+	            .Select(o => new UnitAddress
+	            {
+	                UnitAddressId = o.UAddress.Id,
+	                RegionId = o.Dic.Id,
+	                RegionName = o.Dic.Name,
+	                AddressNameRu = o.UAddress.AddressNameRu,
+	                AddressNameKz = o.UAddress.AddressNameKz
+	            });
+	        return Json(data.ToDataSourceResult(request, ModelState));
+	    }
+
+	    public ActionResult UnitsAddressValueList()
+	    {
+	        ActionLogger.WriteInt("Получение списка регионов");
+	        var data = db.Dictionaries.Where(e => e.Type == "Kato").Select(o => new { Id = o.Id, Name = o.Name }).OrderBy(x => x.Name).ToList();
+	        return Json(data, JsonRequestBehavior.AllowGet);
+	    }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsAddressCreate([DataSourceRequest] DataSourceRequest request,
+	        UnitAddress unitsAddress, Guid modelId)
+	    {
+	        if (unitsAddress != null)
+	        {
+	            var dbUnitsAddress = new UnitsAddress();
+	            dbUnitsAddress.Id = Guid.NewGuid();
+	            dbUnitsAddress.UnitsId = modelId;
+	            dbUnitsAddress.IsDeleted = false;
+	            dbUnitsAddress.CreatedDate = DateTime.Now;
+	            dbUnitsAddress.AddressNameRu = unitsAddress.AddressNameRu;
+	            dbUnitsAddress.AddressNameKz = unitsAddress.AddressNameKz;
+	            dbUnitsAddress.RegionId = unitsAddress.RegionId;
+	            db.UnitsAddresses.Add(dbUnitsAddress);
+	            db.SaveChanges();
+	        }
+	        return Json(new[] { unitsAddress }.ToDataSourceResult(request, ModelState));
+	    }
+
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsAddressUpdate([DataSourceRequest] DataSourceRequest request,
+	        UnitAddress unitsAddress, Guid modelId)
+	    {
+	        if (unitsAddress != null && ModelState.IsValid)
+	        {
+	            var dbUnitsAddress = db.UnitsAddresses.SingleOrDefault(x => x.Id == unitsAddress.UnitAddressId);
+	            if (dbUnitsAddress != null)
+	            {
+	                dbUnitsAddress.AddressNameRu = unitsAddress.AddressNameRu;
+	                dbUnitsAddress.AddressNameKz = unitsAddress.AddressNameKz;
+	                dbUnitsAddress.RegionId = unitsAddress.RegionId;
+	                db.SaveChanges();
+	            }
+
+	        }
+	        return Json(new[] { unitsAddress }.ToDataSourceResult(request, ModelState));
+	    }
+	    [AcceptVerbs(HttpVerbs.Post)]
+	    public ActionResult UnitsAddressDestroy([DataSourceRequest] DataSourceRequest request,
+	        UnitAddress unitsAddress, Guid modelId)
+	    {
+	        if (unitsAddress != null)
+	        {
+	            var dbUnitsAddress = db.UnitsAddresses.SingleOrDefault(x => x.Id == unitsAddress.UnitAddressId);
+	            if (dbUnitsAddress != null)
+	            {
+	                dbUnitsAddress.IsDeleted = true;
+	                db.SaveChanges();
+	            }
+	        }
+	        return Json(new[] { unitsAddress }.ToDataSourceResult(request, ModelState));
+	    }
 
         public ActionResult ActionLogsList()
         {

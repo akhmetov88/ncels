@@ -1,9 +1,10 @@
-﻿function dateformatHtml(data, type, full, meta) {
+﻿function dateformatHtml1(data, type, full, meta) {
+    debugger;
     if (data == null)
         return '';
     var date = new Date(parseInt(data.slice(6, -2)));
     var month = date.getMonth() + 1;
-    return date.getDate() + "." + (month.length > 1 ? month : "0" + month) + "." + date.getFullYear();
+    return date.getDate() + "." + (month > 9 ? month : "0" + month) + "." + date.getFullYear();
 
 }
 $(document).ready(function () {
@@ -57,9 +58,9 @@ function safetyDeclataionGrid($scope, DTColumnBuilder) {
         DTColumnBuilder.newColumn("TypeName", "Тип заявление").withOption('name', 'TypeName'),
         DTColumnBuilder.newColumn("Number", "Номер").withOption('name', 'Number'),
         DTColumnBuilder.newColumn("StausName", "Текущий статус").withOption('name', 'StausName'),
-        DTColumnBuilder.newColumn("CreatedDate", "Дата начала").withOption('name', 'CreatedDate').renderWith(dateformatHtml),
-        DTColumnBuilder.newColumn("SendDate", "Дата отправки").withOption('name', 'SendDate').renderWith(dateformatHtml),
-        DTColumnBuilder.newColumn("SortDate", "Дата решение").withOption('name', 'SortDate').renderWith(dateformatHtml).notVisible(),
+        DTColumnBuilder.newColumn("CreatedDate", "Дата начала").withOption('name', 'CreatedDate').renderWith(dateformatHtml1),
+        DTColumnBuilder.newColumn("SendDate", "Дата отправки").withOption('name', 'SendDate').renderWith(dateformatHtml1),
+        DTColumnBuilder.newColumn("SortDate", "Дата решение").withOption('name', 'SortDate').renderWith(dateformatHtml1).notVisible(),
         DTColumnBuilder.newColumn("Id", "").withOption('name', 'Id').notSortable().renderWith(actionsSafetyDeclarationHtmlAction)
     ];
 
