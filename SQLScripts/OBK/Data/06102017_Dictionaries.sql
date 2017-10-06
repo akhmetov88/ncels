@@ -1,4 +1,4 @@
-﻿DECLARE @Id uniqueidentifier
+﻿DECLARE @Id uniqueidentifier 
 DECLARE @Code nvarchar(4000)
 DECLARE @Name nvarchar(4000)
 DECLARE @Type nvarchar(4000)
