@@ -20,9 +20,6 @@ namespace PW.Ncels.Database.DataModel
         public Nullable<System.Guid> CurrencyId { get; set; }
         public string BankNameRu { get; set; }
         public string BankNameKz { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
         public string KBE { get; set; }
         public string Code { get; set; }
         public string SWIFT { get; set; }
@@ -32,5 +29,8 @@ namespace PW.Ncels.Database.DataModel
         public string SWIFT1 { get; set; }
         public string CorrespondentAccount1 { get; set; }
         public string SWIFT2 { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     }
 }

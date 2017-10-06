@@ -16,10 +16,10 @@ namespace PW.Ncels.Database.DataModel
     {
         public System.Guid Id { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public System.Guid UnitsId { get; set; }
         public System.Guid RegionId { get; set; }
         public string AddressNameRu { get; set; }
         public string AddressNameKz { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
-        public System.Guid UnitsId { get; set; }
     }
 }
