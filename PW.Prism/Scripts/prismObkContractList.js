@@ -91,6 +91,7 @@ function InitObkContractCard(uiId) {
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
                     $(e.target).hide();
+                    $("#sendToBossForApprovalBtn" + uiId).hide();
                 },
                 complete: function () {
 
@@ -106,14 +107,140 @@ function InitObkContractCard(uiId) {
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
                     $(e.target).hide();
+                    $("#returnToApplicantBtn" + uiId).hide();
                 },
                 complete: function () {
 
                 }
             });
+        },
+        doApprovement: function (e) {
+            var modelId = $("#modelId").val();
+            $.ajax({
+                type: 'POST',
+                url: '/OBKContract/DoApprovement',
+                data: JSON.stringify({ contractId: modelId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    $(e.target).hide();
+                    $("#refuseApprovementBtn" + uiId).hide();
+                },
+                complete: function () {
+
+                }
+            });
+        },
+        refuseApprovement: function (e) {
+            var modelId = $("#modelId").val();
+            var window = $("#TaskCommandWindow");
+            window.kendoWindow({
+                width: "550px",
+                height: "auto",
+                modal: true,
+                resizable: false,
+                close: onCloseCommandWindow,
+                actions: ["Close"]
+            });
+            window.data("kendoWindow").contractId = modelId;
+            window.data("kendoWindow").dialogCallback = function () {
+                $(e.target).hide();
+                $("#doApprovementBtn" + uiId).hide();
+            };
+            window.data("kendoWindow").title('Основание отказа');
+            window.data("kendoWindow").setOptions({
+                width: 550,
+                height: 'auto'
+            });
+            window.data("kendoWindow").refresh('/OBKContract/RefuseReasonDlg');
+            window.data("kendoWindow").center();
+            window.data("kendoWindow").open();
+        },
+        showRefuseReason: function (e) {
+            var modelId = $("#modelId").val();
+            var window = $("#TaskCommandWindow");
+            window.kendoWindow({
+                width: "550px",
+                height: "auto",
+                modal: true,
+                resizable: false,
+                close: onCloseCommandWindow,
+                actions: ["Close"]
+            });
+            window.data("kendoWindow").title('Основание отказа');
+            window.data("kendoWindow").setOptions({
+                width: 550,
+                height: 'auto'
+            });
+            window.data("kendoWindow").refresh('/OBKContract/ShowRefuseReasonDlg?contractId=' + modelId);
+            window.data("kendoWindow").center();
+            window.data("kendoWindow").open();
+        },
+        register: function (e) {
+            if (!$(e.target).hasClass("disabled")) {
+                var modelId = $("#modelId").val();
+                $(e.target).addClass("disabled");
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKContract/RegisterContract',
+                    data: JSON.stringify({ contractId: modelId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $(e.target).hide();
+                        $("#attachContractBtn" + uiId).removeClass("disabled");
+                        var window = $("#WindowContractRegistered" + uiId);
+                        $("#registeredNumber").text(result);
+                        window.kendoWindow({
+                            width: "400px",
+                            height: "auto",
+                            modal: true,
+                            resizable: false,
+                            actions: ["Close"]
+                        });
+                        window.data("kendoWindow").title('Сообщение');
+                        window.data("kendoWindow").setOptions({
+                            width: 400,
+                            height: 'auto'
+                        });
+                        window.data("kendoWindow").center();
+                        window.data("kendoWindow").open();
+                    },
+                    complete: function () {
+                        $(e.target).removeClass("disabled");
+                    }
+                });
+            }
+        },
+        attachContract: function (e) {
+            if (!$(e.target).hasClass("disabled")) {
+                alert("attachContract");
+
+                var modelId = $("#modelId").val();
+                var window = $("#TaskCommandWindow");
+                window.kendoWindow({
+                    width: "550px",
+                    height: "auto",
+                    modal: true,
+                    resizable: false,
+                    actions: ["Close"]
+                });
+                window.data("kendoWindow").title('Прикрепление документа');
+                window.data("kendoWindow").setOptions({
+                    width: 550,
+                    height: 'auto'
+                });
+                window.data("kendoWindow").refresh('/OBKContract/UploadContract?contractId=' + modelId);
+                window.data("kendoWindow").center();
+                window.data("kendoWindow").open();
+            }
+            else {
+                alert("Зарегистрируйте договор");
+            }
         }
     });
     kendo.bind($("#splitter" + uiId), viewModel);
+    $("#WindowContractRegisteredCancel" + uiId).click(function () {
+        $("#WindowContractRegistered" + uiId).data("kendoWindow").close();
+    });
 }
 
 function initFilterOBKContract(uiId) {

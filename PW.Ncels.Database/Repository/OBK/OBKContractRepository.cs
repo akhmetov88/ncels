@@ -118,7 +118,7 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 contract.Id = Guid.NewGuid();
                 contract.CreatedDate = DateTime.Now;
-                contract.Number = "б/н";
+                contract.Number = CodeConstManager.OBK_CONTRACT_NO_NUMBER;
                 contract.Status = 1;
 
                 AppContext.OBK_Contract.Add(contract);
@@ -142,7 +142,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 OBK_Contract contract = new OBK_Contract();
                 contract.Id = guid;
                 contract.CreatedDate = DateTime.Now;
-                contract.Number = "б/н";
+                contract.Number = CodeConstManager.OBK_CONTRACT_NO_NUMBER;
                 contract.Status = 1;
 
                 var employeeId = UserHelper.GetCurrentEmployee().Id;
@@ -160,7 +160,7 @@ namespace PW.Ncels.Database.Repository.OBK
         private void FillContract(OBKContractViewModel contractViewModel, OBK_Contract obkContract)
         {
             obkContract.Type = contractViewModel.Type != 0 ? contractViewModel.Type : 1;
-            obkContract.ExpertOrganization= contractViewModel.ExpertOrganization;
+            obkContract.ExpertOrganization = contractViewModel.ExpertOrganization;
             obkContract.Signer = contractViewModel.Signer;
             if (obkContract.DeclarantContactId != null)
             {
@@ -1164,6 +1164,9 @@ namespace PW.Ncels.Database.Repository.OBK
             var executor = AppContext.Employees.Where(x => x.Id == executorId).FirstOrDefault();
             stage.Employees.Add(executor);
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
+            contract.Status = CodeConstManager.STATUS_OBK_WORK;
             AppContext.SaveChanges();
         }
 
@@ -1308,6 +1311,121 @@ namespace PW.Ncels.Database.Repository.OBK
 
             AppContext.SaveChanges();
 
+            return true;
+        }
+
+        public bool ApproveContract(Guid contractId)
+        {
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.RequiresRegistration);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
+
+            AppContext.SaveChanges();
+            return true;
+        }
+
+        public bool RefuseApprovement(Guid contractId, string reason)
+        {
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.NotAgreed);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
+
+            AddHistoryRefused(contractId, reason);
+
+            AppContext.SaveChanges();
+
+            return true;
+        }
+
+        private void AddHistoryRefused(Guid contractId, string reason)
+        {
+            var currentEmployee = UserHelper.GetCurrentEmployee();
+
+            var status = GetContractHistoryStatusByCode(OBK_Ref_ContractHistoryStatus.Refused);
+
+            var unitName = GetParentUnitName(currentEmployee);
+
+            var history = new OBK_ContractHistory()
+            {
+                Id = Guid.NewGuid(),
+                Created = DateTime.Now,
+                RefuseReason = reason,
+                ContractId = contractId,
+                EmployeeId = currentEmployee.Id,
+                UnitName = unitName,
+                StatusId = status.Id,
+            };
+            AppContext.OBK_ContractHistory.Add(history);
+        }
+
+        public OBK_Ref_ContractHistoryStatus GetContractHistoryStatusByCode(string code)
+        {
+            return AppContext.OBK_Ref_ContractHistoryStatus.Where(x => x.Code == code).FirstOrDefault();
+        }
+
+        private string GetParentUnitName(Employee employee)
+        {
+            string unitName = null;
+            if (employee.Units != null && employee.Units.Count > 0)
+            {
+                foreach (var unit in employee.Units)
+                {
+                    if (unit.Parent != null)
+                    {
+                        unitName = unit.Parent.ShortName;
+                    }
+                    break;
+                }
+            }
+            return unitName;
+        }
+
+        public string GetRefuseReason(Guid contractId)
+        {
+            OBK_Ref_ContractHistoryStatus status = GetContractHistoryStatusByCode(OBK_Ref_ContractHistoryStatus.Refused);
+            var history = AppContext.OBK_ContractHistory.Where(x => x.ContractId == contractId && x.StatusId == status.Id).OrderByDescending(x => x.Created).FirstOrDefault();
+            if (history != null)
+            {
+                return history.RefuseReason;
+            }
+            return null;
+        }
+
+        public string RegisterContract(Guid contractId)
+        {
+            string number = GetLastNumberOfContract();
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            contract.Number = number;
+            AppContext.SaveChanges();
+            return contract.Number;
+        }
+
+        private string GetLastNumberOfContract()
+        {
+            string number = "1";
+            //var contract = AppContext.OBK_Contract.Where(x => x.Number != null).OrderByDescending(x => int.Parse(x.Number)).FirstOrDefault();
+            var numbers = AppContext.OBK_Contract.Select(x => x.Number).ToList();
+            int temp;
+            int contractNumber = numbers.Select(n => int.TryParse(n, out temp) ? temp : 0).Max();
+            contractNumber++;
+            number = contractNumber.ToString();
+            return number;
+        }
+
+        public bool UploadContract(Guid contractId)
+        {
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.Active);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
             return true;
         }
     }

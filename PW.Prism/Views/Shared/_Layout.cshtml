@@ -276,7 +276,7 @@
               .ImageUrl(Url.Content("~/Content/images/menuItem.png"))
               .Items(children =>
               {
-                  children.Add().Text("Договоры").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKContractList" } });
+                  children.Add().Text("ОБК Договоры").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKContractList" } });
               });
 
           items.Add().Text(UserHelper.GetCurrentName()).HtmlAttributes(new { @style = "float: right", @class = "sys-notification-menu-item" })

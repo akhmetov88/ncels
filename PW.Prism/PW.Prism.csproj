@@ -2300,6 +2300,9 @@
     <Content Include="Views\OBKContract\ShowCommentProductsSerie.cshtml" />
     <Content Include="Views\OBKContract\ContractTemplate.cshtml" />
     <Content Include="Views\OBKContract\SetExecutor.cshtml" />
+    <Content Include="Views\OBKContract\RefuseReasonDlg.cshtml" />
+    <Content Include="Views\OBKContract\ShowRefuseReasonDlg.cshtml" />
+    <Content Include="Views\OBKContract\UploadContract.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -70,6 +70,31 @@
                                     {
                                         items.Add().Type(CommandType.Button).Template(string.Format("<a id='sendToBossForApprovalBtn{0}' class='k-button' data-bind='click: sendToBossForApproval'><span class='glyphicon glyphicon-share-alt'></span> На согласование руководителю</a>", (string)ViewBag.UiId));
                                     }
+                                    if (ViewBag.ShowDoApprovementBtn)
+                                    {
+                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='doApprovementBtn{0}' class='k-button' data-bind='click: doApprovement'><span class='glyphicon glyphicon-ok-circle'></span> Согласовать</a>", (string)ViewBag.UiId));
+                                    }
+                                    if (ViewBag.ShowRefuseApprovementBtn)
+                                    {
+                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='refuseApprovementBtn{0}' class='k-button' data-bind='click: refuseApprovement'><span class='glyphicon glyphicon-ban-circle'></span> Отказать в согласовании</a>", (string)ViewBag.UiId));
+                                    }
+                                    if (ViewBag.ShowShowRefuseReasonBtn)
+                                    {
+                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='showRefuseReasonBtn{0}' class='k-button' data-bind='click: showRefuseReason'>>Отобразить основание отказа</a>", (string)ViewBag.UiId));
+                                    }
+                                    if (ViewBag.ShowRegisterBtn)
+                                    {
+                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='registerBtn{0}' class='k-button' data-bind='click: register'><span class='glyphicon glyphicon-ok-circle'></span> Зарегистрировать</a>", (string)ViewBag.UiId));
+                                    }
+                                    if (ViewBag.ShowAttachContractBtn)
+                                    {
+                                        var disabled = "";
+                                        if (Model.Number == null && Model.Number == PW.Ncels.Database.Constants.CodeConstManager.OBK_CONTRACT_NO_NUMBER)
+                                        {
+                                            disabled = "disabled";
+                                        }
+                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='attachContractBtn{0}' class='k-button {1}' data-bind='click: attachContract'><span class='glyphicon glyphicon-ok-circle'></span> Прикрепить договор</a>", (string)ViewBag.UiId, disabled));
+                                    }
                                 }))
                                 </div>
                                 <div class="row">
@@ -635,6 +660,23 @@
                     );
             }))
 
+
+<div id="@("WindowContractRegistered" + ViewBag.UiId)" style="display: none">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                Договор от "@(ViewBag.declarant.NameRu)" зарегистрирован под номером "<span id="registeredNumber"></span>"
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-toolbar" role="toolbar" style="margin-top: 20px">
+            <div class="btn-group pull-right" role="group" style="margin-left: 10px">
+                <button type="button" class="k-button k-primary" id="@("WindowContractRegisteredCancel" + ViewBag.UiId)">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
