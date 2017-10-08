@@ -1,4 +1,4 @@
-﻿function obkContractForm($scope, $http, $interval, $uibModal) {
+﻿function obkContractForm($scope, $http, $interval, $uibModal, $window) {
     $scope.ExpertOrganizations = [];
     $scope.ContractSigners = [];
 
@@ -1496,7 +1496,7 @@ function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {
     };
 }
 
-function modalSendContract($scope, $http, $uibModalInstance) {
+function modalSendContract($scope, $http, $window, $uibModalInstance) {
     $scope.sendProject = function () {
         var projectId = $scope.object.Id;
         if (projectId) {
@@ -1508,6 +1508,7 @@ function modalSendContract($scope, $http, $uibModalInstance) {
                 $scope.object.Status = response;
                 $scope.changeViewMode();
                 $uibModalInstance.close();
+                $window.location.href = '/OBKContract';
             });
         }
     };
@@ -2189,4 +2190,4 @@ function initExample($scope, $interval) {
 
 angular
     .module('app')
-    .controller('obkContractForm', ['$scope', '$http', '$interval', '$uibModal', obkContractForm])
+    .controller('obkContractForm', ['$scope', '$http', '$interval', '$uibModal', '$window', obkContractForm])
