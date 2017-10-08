@@ -511,8 +511,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 {
                     OBK_Procunts_Series newSerie = new OBK_Procunts_Series();
                     newSerie.Series = item.Series;
-                    newSerie.SeriesEndDate = item.CreateDate;
-                    newSerie.SeriesStartdate = item.ExpireDate;
+                    newSerie.SeriesStartdate = item.CreateDate;
+                    newSerie.SeriesEndDate = item.ExpireDate;
                     newSerie.SeriesParty = item.Part;
                     newSerie.SeriesMeasureId = item.UnitId;
                     newSerie.OBK_RS_ProductsId = productId;
@@ -1426,6 +1426,7 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
+            AppContext.SaveChanges();
             return true;
         }
     }

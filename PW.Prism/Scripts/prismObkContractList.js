@@ -212,8 +212,6 @@ function InitObkContractCard(uiId) {
         },
         attachContract: function (e) {
             if (!$(e.target).hasClass("disabled")) {
-                alert("attachContract");
-
                 var modelId = $("#modelId").val();
                 var window = $("#TaskCommandWindow");
                 window.kendoWindow({
@@ -223,6 +221,11 @@ function InitObkContractCard(uiId) {
                     resizable: false,
                     actions: ["Close"]
                 });
+                window.data("kendoWindow").dialogCallback = function (completed) {
+                    if (completed) {
+                        $(e.target).hide();
+                    }
+                };
                 window.data("kendoWindow").title('Прикрепление документа');
                 window.data("kendoWindow").setOptions({
                     width: 550,
@@ -235,6 +238,9 @@ function InitObkContractCard(uiId) {
             else {
                 alert("Зарегистрируйте договор");
             }
+        },
+        printForm: function (e) {
+            alert("Печать формы договора");
         }
     });
     kendo.bind($("#splitter" + uiId), viewModel);

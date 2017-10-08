@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -696,8 +697,14 @@ namespace PW.Prism.Controllers.OBKContract
                 bool saveMetadata = false;
                 string originField = null;
 
-                var xxxx = FileHelper.GetAttachListByDoc(db, path, code);
-
+                var list = FileHelper.GetAttachListByDoc(db, path, code);
+                foreach (var item in list)
+                {
+                    Type t = item.GetType();
+                    PropertyInfo p = t.GetProperty("AttachName");
+                    object attachName = p.GetValue(item, null);
+                    FileHelper.DeleteAttach(path, code, attachName.ToString());
+                }
                 FileHelper.SaveAttach(code, path, Request, saveMetadata, originField, db);
                 obkRepo.UploadContract(contractId);
                 return Json("OK");
