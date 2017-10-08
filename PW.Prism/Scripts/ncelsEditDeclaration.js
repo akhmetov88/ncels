@@ -281,7 +281,7 @@ function UpdateModel(code, recordId, fieldId, fieldName, fieldValue, type, field
                 fieldValue = fieldValue.replace(',', '.');
             }
             if (fieldValue !== '' && !$.isNumeric(fieldValue)) {
-                showWarning('Поле должно содержат числовое значение');
+                showWarning('Поле должно содержать числовое значение');
                 $('#' + fieldId).val("");
                 return false;
             }

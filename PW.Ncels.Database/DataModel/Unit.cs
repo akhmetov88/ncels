@@ -20,6 +20,7 @@ namespace PW.Ncels.Database.DataModel
             this.Employees1 = new HashSet<Employee>();
             this.Units1 = new HashSet<Unit>();
             this.DIC_Storages = new HashSet<DIC_Storages>();
+            this.OBK_Contract = new HashSet<OBK_Contract>();
         }
     
         public System.Guid Id { get; set; }
@@ -65,5 +66,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<Unit> Units1 { get; set; }
         public virtual Unit Parent { get; set; }
         public virtual ICollection<DIC_Storages> DIC_Storages { get; set; }
+        public virtual ICollection<OBK_Contract> OBK_Contract { get; set; }
     }
 }

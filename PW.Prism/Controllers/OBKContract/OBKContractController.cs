@@ -133,6 +133,8 @@ namespace PW.Prism.Controllers.OBKContract
             ViewBag.ShowRegisterBtn = IsRegisterBtnAllowed(id.Value);
             ViewBag.ShowAttachContractBtn = IsAttachContractBtnAllowed(id.Value);
 
+
+
             return PartialView("Contract", contract);
         }
 
@@ -241,8 +243,6 @@ namespace PW.Prism.Controllers.OBKContract
                 if (cozStageId != Guid.Empty)
                 {
                     var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
-                    if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.InWork)
-                    {
                         int notFinishedCount = 0;
                         int notApprovedCount = 0;
                         if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
@@ -284,12 +284,7 @@ namespace PW.Prism.Controllers.OBKContract
                             result = true;
                         }
                     }
-                    else if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.NotAgreed)
-                    {
-                        result = true;
                     }
-                }
-            }
 
             return result;
         }
@@ -302,7 +297,6 @@ namespace PW.Prism.Controllers.OBKContract
             {
                 var employeeId = UserHelper.GetCurrentEmployee().Id;
 
-                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && (x.StageStatusCode == OBK_Ref_StageStatus.InWork || x.StageStatusCode == OBK_Ref_StageStatus.NotAgreed));
 
                 Guid cozStageId = Guid.Empty;
                 foreach (var item in stages)
@@ -317,8 +311,6 @@ namespace PW.Prism.Controllers.OBKContract
                 if (cozStageId != Guid.Empty)
                 {
                     var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
-                    if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.InWork)
-                    {
                         int notFinishedCount = 0;
                         int notApprovedCount = 0;
                         if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
@@ -360,12 +352,7 @@ namespace PW.Prism.Controllers.OBKContract
                             result = true;
                         }
                     }
-                    else if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.NotAgreed)
-                    {
-                        result = true;
                     }
-                }
-            }
 
             return result;
         }
@@ -716,14 +703,8 @@ namespace PW.Prism.Controllers.OBKContract
             obkRepo.SendToBossForApproval(contractId);
             return Json("OK");
         }
-
-        [HttpPost]
-        public ActionResult DoApprovement(Guid contractId)
-        {
-            obkRepo.ApproveContract(contractId);
-            return Json("OK");
         }
-
+    }
         [HttpGet]
         public ActionResult RefuseReasonDlg()
         {

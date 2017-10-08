@@ -510,8 +510,6 @@ namespace PW.Ncels.Database.Constants
         public const int OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS = 2;
         #endregion
 
-        public const string OBK_CONTRACT_NO_NUMBER = "б/н";
-
         #endregion
     }
 }

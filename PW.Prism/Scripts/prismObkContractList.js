@@ -91,7 +91,6 @@ function InitObkContractCard(uiId) {
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
                     $(e.target).hide();
-                    $("#sendToBossForApprovalBtn" + uiId).hide();
                     $("#sendToBossForApprovalWithWarningBtn" + uiId).hide();
                 },
                 complete: function () {
@@ -108,7 +107,6 @@ function InitObkContractCard(uiId) {
                 contentType: 'application/json; charset=utf-8',
                 success: function (result) {
                     $(e.target).hide();
-                    $("#returnToApplicantBtn" + uiId).hide();
                 },
                 complete: function () {
 
@@ -264,9 +262,6 @@ function InitObkContractCard(uiId) {
         }
     });
     kendo.bind($("#splitter" + uiId), viewModel);
-    $("#WindowContractRegisteredCancel" + uiId).click(function () {
-        $("#WindowContractRegistered" + uiId).data("kendoWindow").close();
-    });
 }
 
 function initFilterOBKContract(uiId) {
