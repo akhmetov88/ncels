@@ -133,6 +133,17 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                .Sort(sort => { sort.Add("ContractCreatedDate").Descending(); })
                                .PageSize(50)
                                .Read(read => read.Action("ListContract", "OBKContract"))
+                               .Filter(filters =>
+                               {
+                                   if (EmployePermissionHelper.CanViewNotAssignedOBKContracts)
+                                   {
+                                       filters.Add(p => p.StageStatusCode).IsEqualTo(PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.New);
+                                   }
+                                   else
+                                   {
+                                       filters.Add(p => p.StageStatusCode).IsEqualTo(PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork);
+                                   }
+                               })
                            )
                             )
     </div>

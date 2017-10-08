@@ -35,8 +35,8 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult ListContract([DataSourceRequest] DataSourceRequest request)
         {
             IQueryable<OBK_ContractRegisterView> query = obkRepo.GetContracts();
-            var xxx = Json(query.ToDataSourceResult(request));
-            return Json(query.ToDataSourceResult(request));
+            var res = Json(query.ToDataSourceResult(request));
+            return Json(res);
         }
 
         public ActionResult Edit(Guid? id)
