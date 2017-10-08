@@ -184,11 +184,12 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("CanViewMenuItemActiveOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Активные\"", "Работа с договорами ОБК");
             AddPermission("CanViewMenuItemPastOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Истекшие\"", "Работа с договорами ОБК");
 
-
             // ОБК Договоры
             AddPermission("CanAssignOBKContract", @"Модуль 'ОБК' 'Договоры'", "Функционал распределения договоров", "Работа с договорами ОБК");
             AddPermission("CanViewMeetAndNotMeetRqrmntsBtnObkContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Соответствует требованиям\"/\"Не соответствует требованиям\"", "Работа с договорами ОБК");
             AddPermission("CanViewReturnToApplicantAndSendToBossForApproval", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Вернуть на доработку\"/\"На согласование руководителю\"", "Работа с договорами ОБК");
+            AddPermission("CanViewDoApprovementAndRefuseApprovement", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Согласовать\"/\"Отказать в согласовании\"", "Работа с договорами ОБК");
+            AddPermission("CanViewRegisterAndAttachContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Зарегистрировать\"/\"Прикрепить договор\"", "Работа с договорами ОБК");
 
             RemoveNonActualKeys();
         }
@@ -947,6 +948,12 @@ namespace PW.Ncels.Database.Helpers
         /// Отображать кнопки "Вернуть на доработку"/"На согласование руководителю"
         /// </summary>
         public static bool CanViewReturnToApplicantAndSendToBossForApproval { get { return IsVisibility("CanViewReturnToApplicantAndSendToBossForApproval"); } }
+        /// <summary>
+        /// Отображать кнопки "Согласовать"/"Отказать в согласовании"
+        /// </summary>
+        public static bool CanViewDoApprovementAndRefuseApprovement { get { return IsVisibility("CanViewDoApprovementAndRefuseApprovement"); } }
+        /// Отображать кнопки "Зарегистрировать"/"Прикрепить договор"
+        public static bool CanViewRegisterAndAttachContract { get { return IsVisibility("CanViewRegisterAndAttachContract"); } }
         #endregion
     }
 }

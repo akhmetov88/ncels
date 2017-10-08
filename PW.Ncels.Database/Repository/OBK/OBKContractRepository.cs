@@ -1310,11 +1310,6 @@ namespace PW.Ncels.Database.Repository.OBK
 
             return true;
         }
-            }
-
-            AppContext.SaveChanges();
-            return true;
-        }
 
         public bool RefuseApprovement(Guid contractId, string reason)
         {

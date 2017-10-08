@@ -36,7 +36,7 @@ namespace PW.Ncels.Database.Constants
         /// <summary>
         /// Возвращено с экспертизы
         /// </summary>
-        public const int STATUS_EXP_REJECT_ID =6;
+        public const int STATUS_EXP_REJECT_ID = 6;
 
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const string EXP_DrugPrimaryNTDCode = "ntd";
 
-             /// <summary>
+        /// <summary>
         ///  ОТД
         /// </summary>
         public const string EXP_DrugPrimaryOTDCode = "otd";
@@ -188,7 +188,7 @@ namespace PW.Ncels.Database.Constants
         public const string DIC_OPF_TYPE = "OpfType";
 
         public static readonly string[] LIST_COUNTY_CODE_FOR_PRICE = { "BY", "HU", "LV", "AT", "RU", "TR", "UA" };
-     
+
         #endregion
 
         #region Виды организации
@@ -197,7 +197,7 @@ namespace PW.Ncels.Database.Constants
         ///   Заявитель или представительство
         /// </summary>
         public const string ORG_APPLICANT_ID = "d82f2b62-ef6e-49e5-b04a-000000008184";
-        
+
         /// <summary>
         /// Производитель
         /// </summary>
@@ -494,9 +494,9 @@ namespace PW.Ncels.Database.Constants
         #endregion
 
         #region Настройка отображения типов ОБК
-       /// <summary>
-       /// Отображать тип ОБК при создании формы
-       /// </summary>
+        /// <summary>
+        /// Отображать тип ОБК при создании формы
+        /// </summary>
         public const int OBK_VIEW_OPTION_SHOW_ON_CREATE = 1;
         /// <summary>
         /// Отображать тип ОБК при продлении срока, оформлении компии, оформлении копии
@@ -509,6 +509,8 @@ namespace PW.Ncels.Database.Constants
         public const int OBK_RESULT_ID_MEETS_REQUIREMENTS = 1;
         public const int OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS = 2;
         #endregion
+
+        public const string OBK_CONTRACT_NO_NUMBER = "б/н";
 
         #endregion
     }
