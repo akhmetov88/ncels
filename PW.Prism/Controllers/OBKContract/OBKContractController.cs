@@ -36,8 +36,8 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult ListContract([DataSourceRequest] DataSourceRequest request)
         {
             IQueryable<OBK_ContractRegisterView> query = obkRepo.GetContracts();
-            var res = Json(query.ToDataSourceResult(request));
-            return Json(res);
+            //var xxx = Json(query.ToDataSourceResult(request));
+            return Json(query.ToDataSourceResult(request));
         }
 
         public ActionResult Edit(Guid? id)
@@ -243,43 +243,50 @@ namespace PW.Prism.Controllers.OBKContract
                 if (cozStageId != Guid.Empty)
                 {
                     var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
-                    int notFinishedCount = 0;
-                    int notApprovedCount = 0;
-                    if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                    if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.InWork)
                     {
-                        return result;
-                    }
-                    if (stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
-                    {
-                        notApprovedCount++;
-                    }
-                    var childStages = db.OBK_ContractStage.Where(x => x.ParentStageId == cozStageId).ToList();
-                    foreach (var childStage in childStages)
-                    {
-                        if (childStage.ResultId == null || childStage.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                        int notFinishedCount = 0;
+                        int notApprovedCount = 0;
+                        if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
                         {
-                            notFinishedCount++;
+                            return result;
                         }
-                        if (childStage.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
+                        if (stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
                         {
                             notApprovedCount++;
                         }
-
-                        var childStagesOfChild = db.OBK_ContractStage.Where(x => x.ParentStageId == childStage.Id).ToList();
-                        foreach (var childStageOfChild in childStagesOfChild)
+                        var childStages = db.OBK_ContractStage.Where(x => x.ParentStageId == cozStageId).ToList();
+                        foreach (var childStage in childStages)
                         {
-                            if (childStageOfChild.ResultId == null || childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                            if (childStage.ResultId == null || childStage.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
                             {
                                 notFinishedCount++;
                             }
-                            if (childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
+                            if (childStage.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
                             {
                                 notApprovedCount++;
                             }
+
+                            var childStagesOfChild = db.OBK_ContractStage.Where(x => x.ParentStageId == childStage.Id).ToList();
+                            foreach (var childStageOfChild in childStagesOfChild)
+                            {
+                                if (childStageOfChild.ResultId == null || childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                                {
+                                    notFinishedCount++;
+                                }
+                                if (childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
+                                {
+                                    notApprovedCount++;
+                                }
+                            }
+                        }
+
+                        if (notFinishedCount == 0 && notApprovedCount > 0)
+                        {
+                            result = true;
                         }
                     }
-
-                    if (notFinishedCount == 0 && notApprovedCount > 0)
+                    else if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.NotAgreed)
                     {
                         result = true;
                     }
@@ -709,6 +716,13 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult SendToBossForApproval(Guid contractId)
         {
             obkRepo.SendToBossForApproval(contractId);
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult DoApprovement(Guid contractId)
+        {
+            obkRepo.ApproveContract(contractId);
             return Json("OK");
         }
 

@@ -1164,6 +1164,8 @@ namespace PW.Ncels.Database.Repository.OBK
             var executor = AppContext.Employees.Where(x => x.Id == executorId).FirstOrDefault();
             stage.Employees.Add(executor);
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
+            contract.Status = CodeConstManager.STATUS_OBK_WORK;
             AppContext.SaveChanges();
         }
 
@@ -1308,6 +1310,19 @@ namespace PW.Ncels.Database.Repository.OBK
 
             AppContext.SaveChanges();
 
+            return true;
+        }
+
+        public bool ApproveContract(Guid contractId)
+        {
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.RequiresRegistration);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
+
+            AppContext.SaveChanges();
             return true;
         }
 
