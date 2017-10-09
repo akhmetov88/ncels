@@ -25,7 +25,7 @@
                                    panelbar.Add().Text(PW.Ncels.Database.Recources.Messages.Property_Постатусу_262__00)
                                                       .Items(projects =>
                                                       {
-                                                          if (EmployePermissionHelper.CanViewMenuItemNotAssignedOBKContracts)
+                                                          if (EmployePermissionHelper.CanViewNotAssignedOBKContracts)
                                                           {
                                                               projects.Add().Text("Нераспределенные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.New }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(true)
                                                               .Items(i =>
@@ -35,46 +35,17 @@
                                                               }
                                                               );
                                                           }
-                                                          if (EmployePermissionHelper.CanViewMenuItemInWorkOBKContracts)
-                                                          {
-                                                              projects.Add().Text("В работе").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewMenuItemNotAssignedOBKContracts);
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemOnCorrectionOBKContracts)
-                                                          {
-                                                              projects.Add().Text("На корректировке у заявителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.OnCorrection }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemOnAgreementOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Требуют согласования").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.OnAgreement }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
-                                                                                                                   }
-                                                          if (EmployePermissionHelper.CanViewMenuItemAgreedOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Согласованные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresRegistration }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemNotAgreedOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Несогласованные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.NotAgreed }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemRefusedOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Отказанные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.NotAgreed }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemRequiresSigningOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Требуют подписания").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresSigning }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewMenuItemNotAssignedOBKContracts && !EmployePermissionHelper.CanViewMenuItemInWorkOBKContracts);
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemRequiresRegistrationOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Требуют регистрации").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresRegistration }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemActiveOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Активные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.Active }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewMenuItemNotAssignedOBKContracts && !EmployePermissionHelper.CanViewMenuItemInWorkOBKContracts && !EmployePermissionHelper.CanViewMenuItemRequiresSigningOBKContracts);
-                                                          }
-                                                          if (EmployePermissionHelper.CanViewMenuItemPastOBKContracts)
-                                                          {
-                                                              projects.Add().Text("Истекшие").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
-                                                          }
+
+                                                          projects.Add().Text("В работе").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork}, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } }).Selected(!EmployePermissionHelper.CanViewNotAssignedOBKContracts);
+                                                          projects.Add().Text("На корректировке у заявителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.OnCorrection }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
+                                                          //projects.Add().Text("Доработанные заявителем").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "2" }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Требуют согласования").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.OnAgreement }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Согласованные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresRegistration }, { "ItemType", "Status" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Отказанные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.NotAgreed }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("На подписании у руководителя").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresSigning }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Требуют регистрации").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresRegistration }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Активные").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.Active }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
+                                                          projects.Add().Text("Истекшие").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "3" }, { "ItemType", "StageStatusCode" }, { "ModelId", Model.ToString() } });
                                                       });
 
                                })
@@ -162,27 +133,8 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                .Sort(sort => { sort.Add("ContractCreatedDate").Descending(); })
                                .PageSize(50)
                                .Read(read => read.Action("ListContract", "OBKContract"))
-                               .Filter(filters =>
-                               {
-                                   if (EmployePermissionHelper.CanViewMenuItemNotAssignedOBKContracts)
-                                   {
-                                       filters.Add(p => p.StageStatusCode).IsEqualTo(PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.New);
-                                   }
-                                   else if (EmployePermissionHelper.CanViewMenuItemInWorkOBKContracts)
-                                   {
-                                       filters.Add(p => p.StageStatusCode).IsEqualTo(PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.InWork);
-                                   }
-                                   else if (EmployePermissionHelper.CanViewMenuItemRequiresSigningOBKContracts)
-                                   {
-                                       filters.Add(p => p.StageStatusCode).IsEqualTo(PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.RequiresSigning);
-                                   }
-                                   else if (EmployePermissionHelper.CanViewMenuItemActiveOBKContracts)
-                                   {
-                                       filters.Add(p => p.StageStatusCode).IsEqualTo(PW.Ncels.Database.DataModel.OBK_Ref_StageStatus.Active);
-                                   }
-                               })
                            )
-        )
+                            )
     </div>
              );
             }))

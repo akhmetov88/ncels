@@ -70,10 +70,6 @@
                                     {
                                         items.Add().Type(CommandType.Button).Template(string.Format("<a id='sendToBossForApprovalBtn{0}' class='k-button' data-bind='click: sendToBossForApproval'><span class='glyphicon glyphicon-share-alt'></span> На согласование руководителю</a>", (string)ViewBag.UiId));
                                     }
-                                    else if (ViewBag.ShowSendToBossForApprovalWithWarningBtn)
-                                    {
-                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='sendToBossForApprovalWithWarningBtn{0}' class='k-button' data-bind='click: sendToBossForApprovalWithWarning'><span class='glyphicon glyphicon-share-alt'></span> На согласование руководителю</a>", (string)ViewBag.UiId));
-                                    }
                                     if (ViewBag.ShowDoApprovementBtn)
                                     {
                                         items.Add().Type(CommandType.Button).Template(string.Format("<a id='doApprovementBtn{0}' class='k-button' data-bind='click: doApprovement'><span class='glyphicon glyphicon-ok-circle'></span> Согласовать</a>", (string)ViewBag.UiId));
@@ -99,9 +95,7 @@
                                         }
                                         items.Add().Type(CommandType.Button).Template(string.Format("<a id='attachContractBtn{0}' class='k-button {1}' data-bind='click: attachContract'><span class='glyphicon glyphicon-ok-circle'></span> Прикрепить договор</a>", (string)ViewBag.UiId, disabled));
                                     }
-                                    items.Add().Type(CommandType.Button).Template(string.Format("<a id='printFormBtn{0}' class='k-button' data-bind='click: printForm'><span class='glyphicon glyphicon-print'></span> Печать формы договора</a>", (string)ViewBag.UiId));
                                 }))
-                                    <span id="@("question" + ViewBag.UiId)" style="display: none">@ViewBag.QuestionMessage</span>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -666,6 +660,7 @@
                     );
             }))
 
+
 <div id="@("WindowContractRegistered" + ViewBag.UiId)" style="display: none">
     <div class="row">
         <div class="col-lg-12">
@@ -682,6 +677,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function () {
         InitObkContractCard('@ViewBag.UiId');

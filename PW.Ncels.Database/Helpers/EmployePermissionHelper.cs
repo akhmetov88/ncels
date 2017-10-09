@@ -170,26 +170,13 @@ namespace PW.Ncels.Database.Helpers
 
             // ОБК Договоры
             AddPermission("IsMenuOBKContractVisibility", @"Модуль 'ОБК' 'Договоры'", "Вкладка 'ОБК Договоры' главная", "Доступ в главном меню ОБК Договоры");
-
-            // ОБК Договоры меню
-            AddPermission("CanViewMenuItemNotAssignedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Нераспределенные\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemInWorkOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"В работе\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemOnCorrectionOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"На корректировке у заявителя\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemOnAgreementOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Требуют согласования\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemAgreedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Согласованные\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemNotAgreedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Несогласованные\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemRefusedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Отказанные\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemRequiresSigningOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Требуют подписания\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemRequiresRegistrationOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Требуют регистрации\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemActiveOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Активные\"", "Работа с договорами ОБК");
-            AddPermission("CanViewMenuItemPastOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр пункта меню \"Истекшие\"", "Работа с договорами ОБК");
-
-            // ОБК Договоры
+            AddPermission("CanViewNotAssignedOBKContracts", @"Модуль 'ОБК' 'Договоры'", "Просмотр нераспределенных договоров", "Работа с договорами ОБК");
             AddPermission("CanAssignOBKContract", @"Модуль 'ОБК' 'Договоры'", "Функционал распределения договоров", "Работа с договорами ОБК");
             AddPermission("CanViewMeetAndNotMeetRqrmntsBtnObkContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Соответствует требованиям\"/\"Не соответствует требованиям\"", "Работа с договорами ОБК");
             AddPermission("CanViewReturnToApplicantAndSendToBossForApproval", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Вернуть на доработку\"/\"На согласование руководителю\"", "Работа с договорами ОБК");
             AddPermission("CanViewDoApprovementAndRefuseApprovement", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Согласовать\"/\"Отказать в согласовании\"", "Работа с договорами ОБК");
-            AddPermission("CanViewRegisterAndAttachContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Зарегистрировать\"/\"Прикрепить договор\"", "Работа с договорами ОБК");
+            AddPermission("CanViewRegisterAndAttachContract", @"Модуль 'ОБК' 'Договоры'", "Отоюражать кнопки \"Зарегистрировать\"/\"Прикрепить договор\"", "Работа с договорами ОБК");
+            AddPermission("CanOBKPayment", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопку \"Направление на оплату\"", "Работа с договорами ОБК");
 
             RemoveNonActualKeys();
         }
@@ -890,51 +877,9 @@ namespace PW.Ncels.Database.Helpers
         /// </summary>
         public static bool IsMenuOBKContractVisibility { get { return IsVisibility("IsMenuOBKContractVisibility"); } }
         /// <summary>
-        /// Просмотр пункта меню "Нераспределенные"
+        /// Отображать нераспределенные договоры
         /// </summary>
-        public static bool CanViewMenuItemNotAssignedOBKContracts { get { return IsVisibility("CanViewMenuItemNotAssignedOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "В работе"
-        /// </summary>
-        public static bool CanViewMenuItemInWorkOBKContracts { get { return IsVisibility("CanViewMenuItemInWorkOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "На корректировке у заявителя"
-        /// </summary>
-        public static bool CanViewMenuItemOnCorrectionOBKContracts { get { return IsVisibility("CanViewMenuItemOnCorrectionOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Требуют согласования"
-        /// </summary>
-        public static bool CanViewMenuItemOnAgreementOBKContracts { get { return IsVisibility("CanViewMenuItemOnAgreementOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Согласованные"
-        /// </summary>
-        public static bool CanViewMenuItemAgreedOBKContracts { get { return IsVisibility("CanViewMenuItemAgreedOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Несогласованные"
-        /// </summary>
-        public static bool CanViewMenuItemNotAgreedOBKContracts { get { return IsVisibility("CanViewMenuItemNotAgreedOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Отказанные"
-        /// </summary>
-        public static bool CanViewMenuItemRefusedOBKContracts { get { return IsVisibility("CanViewMenuItemRefusedOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Требуют подписания"
-        /// </summary>
-        public static bool CanViewMenuItemRequiresSigningOBKContracts { get { return IsVisibility("CanViewMenuItemRequiresSigningOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Требуют регистрации"
-        /// </summary>
-        public static bool CanViewMenuItemRequiresRegistrationOBKContracts { get { return IsVisibility("CanViewMenuItemRequiresRegistrationOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Активные"
-        /// </summary>
-        public static bool CanViewMenuItemActiveOBKContracts { get { return IsVisibility("CanViewMenuItemActiveOBKContracts"); } }
-        /// <summary>
-        /// Просмотр пункта меню "Истекшие"
-        /// </summary>
-        public static bool CanViewMenuItemPastOBKContracts { get { return IsVisibility("CanViewMenuItemPastOBKContracts"); } }
-
-
+        public static bool CanViewNotAssignedOBKContracts { get { return IsVisibility("CanViewNotAssignedOBKContracts"); } }
         /// <summary>
         /// Имеет возможность распределять договоры
         /// </summary>
@@ -949,11 +894,21 @@ namespace PW.Ncels.Database.Helpers
         /// </summary>
         public static bool CanViewReturnToApplicantAndSendToBossForApproval { get { return IsVisibility("CanViewReturnToApplicantAndSendToBossForApproval"); } }
         /// <summary>
-        /// Отображать кнопки "Согласовать"/"Отказать в согласовании"
+        /// Отоюражать кнопки "Согласовать"/"Отказать в согласовании"
         /// </summary>
         public static bool CanViewDoApprovementAndRefuseApprovement { get { return IsVisibility("CanViewDoApprovementAndRefuseApprovement"); } }
+        /// <summary>
         /// Отображать кнопки "Зарегистрировать"/"Прикрепить договор"
+        /// </summary>
         public static bool CanViewRegisterAndAttachContract { get { return IsVisibility("CanViewRegisterAndAttachContract"); } }
+        #endregion
+
+
+        #region ОБК опалата
+        /// <summary>
+        /// Отображать кнопку "Направление на опталу"
+        /// </summary>
+        public static bool CanOBKPayment { get { return IsVisibility("CanOBKPayment"); } }
         #endregion
     }
 }

@@ -92,7 +92,6 @@ function InitObkContractCard(uiId) {
                 success: function (result) {
                     $(e.target).hide();
                     $("#sendToBossForApprovalBtn" + uiId).hide();
-                    $("#sendToBossForApprovalWithWarningBtn" + uiId).hide();
                 },
                 complete: function () {
 
@@ -114,25 +113,6 @@ function InitObkContractCard(uiId) {
 
                 }
             });
-        },
-        sendToBossForApprovalWithWarning: function (e) {
-            var question = $("#question" + uiId).val();
-            if (confirm(question)) {
-                var modelId = $("#modelId").val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/OBKContract/SendToBossForApproval',
-                    data: JSON.stringify({ contractId: modelId }),
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                        $(e.target).hide();
-                        $("#returnToApplicantBtn" + uiId).hide();
-                    },
-                    complete: function () {
-
-                    }
-                });
-            }
         },
         doApprovement: function (e) {
             var modelId = $("#modelId").val();
@@ -232,6 +212,8 @@ function InitObkContractCard(uiId) {
         },
         attachContract: function (e) {
             if (!$(e.target).hasClass("disabled")) {
+                alert("attachContract");
+
                 var modelId = $("#modelId").val();
                 var window = $("#TaskCommandWindow");
                 window.kendoWindow({
@@ -241,11 +223,6 @@ function InitObkContractCard(uiId) {
                     resizable: false,
                     actions: ["Close"]
                 });
-                window.data("kendoWindow").dialogCallback = function (completed) {
-                    if (completed) {
-                        $(e.target).hide();
-                    }
-                };
                 window.data("kendoWindow").title('Прикрепление документа');
                 window.data("kendoWindow").setOptions({
                     width: 550,
@@ -258,9 +235,6 @@ function InitObkContractCard(uiId) {
             else {
                 alert("Зарегистрируйте договор");
             }
-        },
-        printForm: function (e) {
-            alert("Печать формы договора");
         }
     });
     kendo.bind($("#splitter" + uiId), viewModel);

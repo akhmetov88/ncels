@@ -10,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -36,7 +34,7 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult ListContract([DataSourceRequest] DataSourceRequest request)
         {
             IQueryable<OBK_ContractRegisterView> query = obkRepo.GetContracts();
-            //var xxx = Json(query.ToDataSourceResult(request));
+            var xxx = Json(query.ToDataSourceResult(request));
             return Json(query.ToDataSourceResult(request));
         }
 
@@ -119,21 +117,12 @@ namespace PW.Prism.Controllers.OBKContract
             ViewBag.ShowDoesNotMeetRequirementsBtn = ViewBag.ShowMeetsRequirementsBtn;
             ViewBag.ShowReturnToApplicantBtn = IsShowReturnToApplicantBtnAllowed(id.Value);
             ViewBag.ShowSendToBossForApprovalBtn = IsShowSendToBossForApprovalBtnAllowed(id.Value);
-            ViewBag.ShowSendToBossForApprovalWithWarningBtn = false;
-            string questionMessage = "";
-            if (ViewBag.ShowSendToBossForApprovalBtn == false)
-            {
-                ViewBag.ShowSendToBossForApprovalWithWarningBtn = IsShowSendToBossForApprovalBtnWithWarningAllowed(id.Value, out questionMessage);
-            }
-            ViewBag.QuestionMessage = questionMessage;
             var isShowDoApprovementBtnAndShowRefuseApprovementBtnAllowed = IsShowDoApprovementBtnAllowed(id.Value);
             ViewBag.ShowDoApprovementBtn = isShowDoApprovementBtnAndShowRefuseApprovementBtnAllowed;
             ViewBag.ShowRefuseApprovementBtn = isShowDoApprovementBtnAndShowRefuseApprovementBtnAllowed;
             ViewBag.ShowShowRefuseReasonBtn = IsShowRefuseReasonBtnAllowed(id.Value);
             ViewBag.ShowRegisterBtn = IsRegisterBtnAllowed(id.Value);
             ViewBag.ShowAttachContractBtn = IsAttachContractBtnAllowed(id.Value);
-
-
 
             return PartialView("Contract", contract);
         }
@@ -365,98 +354,6 @@ namespace PW.Prism.Controllers.OBKContract
                     else if (stageObk.OBK_Ref_StageStatus.Code == OBK_Ref_StageStatus.NotAgreed)
                     {
                         result = true;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private bool IsShowSendToBossForApprovalBtnWithWarningAllowed(Guid contractId, out string questionMessage)
-        {
-            questionMessage = "";
-            bool result = false;
-
-            var uobkResusedCount = 0;
-            var defRefusedCount = 0;
-
-            if (EmployePermissionHelper.CanViewReturnToApplicantAndSendToBossForApproval)
-            {
-                var employeeId = UserHelper.GetCurrentEmployee().Id;
-
-                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && (x.StageStatusCode == OBK_Ref_StageStatus.InWork));
-
-                Guid cozStageId = Guid.Empty;
-                foreach (var item in stages)
-                {
-                    if (item.ContractStageStageId == CodeConstManager.STAGE_OBK_COZ)
-                    {
-                        cozStageId = item.ContractStageId;
-                        break;
-                    }
-                }
-
-                if (cozStageId != Guid.Empty)
-                {
-                    var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
-                    int notFinishedCount = 0;
-                    int notApprovedCount = 0;
-                    if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
-                    {
-                        return result;
-                    }
-                    if (stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
-                    {
-                        notApprovedCount++;
-                    }
-                    var childStages = db.OBK_ContractStage.Where(x => x.ParentStageId == cozStageId).ToList();
-                    foreach (var childStage in childStages)
-                    {
-                        if (childStage.ResultId == null || childStage.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
-                        {
-                            notFinishedCount++;
-                        }
-                        if (childStage.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
-                        {
-                            notApprovedCount++;
-                            uobkResusedCount++;
-                        }
-
-                        var childStagesOfChild = db.OBK_ContractStage.Where(x => x.ParentStageId == childStage.Id).ToList();
-                        foreach (var childStageOfChild in childStagesOfChild)
-                        {
-                            if (childStageOfChild.ResultId == null || childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
-                            {
-                                notFinishedCount++;
-                            }
-                            if (childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
-                            {
-                                notApprovedCount++;
-                                defRefusedCount++;
-                            }
-                        }
-                    }
-
-                    if (notFinishedCount == 0 && notApprovedCount > 0)
-                    {
-                        result = true;
-
-                        StringBuilder messageStr = new StringBuilder();
-                        messageStr.Append("По выбранному договору на уровне ");
-                        if (uobkResusedCount > 0 && defRefusedCount > 0)
-                        {
-                            messageStr.Append("УОБК, ДЭФ ");
-                        }
-                        else if (defRefusedCount > 0)
-                        {
-                            messageStr.Append("ДЭФ ");
-                        }
-                        else
-                        {
-                            messageStr.Append("УОБК ");
-                        }
-                        messageStr.Append("было не соответствие требованиям. Вы подтверждаете действие \"Отправить на согласование руководителю\"?");
-                        questionMessage = messageStr.ToString();
                     }
                 }
             }
@@ -799,14 +696,8 @@ namespace PW.Prism.Controllers.OBKContract
                 bool saveMetadata = false;
                 string originField = null;
 
-                var list = FileHelper.GetAttachListByDoc(db, path, code);
-                foreach (var item in list)
-                {
-                    Type t = item.GetType();
-                    PropertyInfo p = t.GetProperty("AttachName");
-                    object attachName = p.GetValue(item, null);
-                    FileHelper.DeleteAttach(path, code, attachName.ToString());
-                }
+                var xxxx = FileHelper.GetAttachListByDoc(db, path, code);
+
                 FileHelper.SaveAttach(code, path, Request, saveMetadata, originField, db);
                 obkRepo.UploadContract(contractId);
                 return Json("OK");

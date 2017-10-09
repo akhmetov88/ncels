@@ -511,8 +511,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 {
                     OBK_Procunts_Series newSerie = new OBK_Procunts_Series();
                     newSerie.Series = item.Series;
-                    newSerie.SeriesStartdate = item.CreateDate;
-                    newSerie.SeriesEndDate = item.ExpireDate;
+                    newSerie.SeriesEndDate = item.CreateDate;
+                    newSerie.SeriesStartdate = item.ExpireDate;
                     newSerie.SeriesParty = item.Part;
                     newSerie.SeriesMeasureId = item.UnitId;
                     newSerie.OBK_RS_ProductsId = productId;
@@ -1164,6 +1164,7 @@ namespace PW.Ncels.Database.Repository.OBK
             var executor = AppContext.Employees.Where(x => x.Id == executorId).FirstOrDefault();
             stage.Employees.Add(executor);
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+
             var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
             contract.Status = CodeConstManager.STATUS_OBK_WORK;
             AppContext.SaveChanges();
@@ -1425,7 +1426,6 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
-            AppContext.SaveChanges();
             return true;
         }
     }
