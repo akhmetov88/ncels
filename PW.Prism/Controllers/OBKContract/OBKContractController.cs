@@ -1,13 +1,17 @@
 ﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Ncels.Helpers;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.Common;
 using PW.Ncels.Database.Repository.OBK;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dictionary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -812,6 +816,40 @@ namespace PW.Prism.Controllers.OBKContract
                 return Json("OK");
             }
             return HttpNotFound();
+        }
+
+        public ActionResult GetContractTemplatePdf(Guid id)
+        {
+            var db = new ncelsEntities();
+            string name = "Договор_на_проведение_оценки_безопасности_и_качества.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(obkRepo.GetContractTemplatePath(id));//(Server.MapPath("~/Reports/Mrts/OBK/ObkContractDec.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["ContractId"].ValueObject = id;
+
+                var price = new OBKContractRepository().GetPriceCount(id);
+                report.Dictionary.Variables["PriceCount"].ValueObject = price;
+
+                var priceText = RuDateAndMoneyConverter.ToTextTenge(Convert.ToDouble(price), false);
+                report.Dictionary.Variables["PriceCountName"].ValueObject = priceText;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            Stream stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+            //return new FileStreamResult(stream, "application/pdf");
+            return File(stream, "application/pdf", name);
         }
     }
 }

@@ -260,7 +260,8 @@ function InitObkContractCard(uiId) {
             }
         },
         printForm: function (e) {
-            alert("Печать формы договора");
+            var modelId = $("#modelId").val();
+            window.open('/OBKContract/GetContractTemplatePdf?id=' + modelId);
         }
     });
     kendo.bind($("#splitter" + uiId), viewModel);
