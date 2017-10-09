@@ -1426,6 +1426,8 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
             AppContext.SaveChanges();
             return true;
         }
