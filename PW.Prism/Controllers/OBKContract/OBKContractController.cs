@@ -376,6 +376,98 @@ namespace PW.Prism.Controllers.OBKContract
             return result;
         }
 
+        private bool IsShowSendToBossForApprovalBtnWithWarningAllowed(Guid contractId, out string questionMessage)
+        {
+            questionMessage = "";
+            bool result = false;
+
+            var uobkResusedCount = 0;
+            var defRefusedCount = 0;
+
+            if (EmployePermissionHelper.CanViewReturnToApplicantAndSendToBossForApproval)
+            {
+                var employeeId = UserHelper.GetCurrentEmployee().Id;
+
+                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && (x.StageStatusCode == OBK_Ref_StageStatus.InWork));
+
+                Guid cozStageId = Guid.Empty;
+                foreach (var item in stages)
+                {
+                    if (item.ContractStageStageId == CodeConstManager.STAGE_OBK_COZ)
+                    {
+                        cozStageId = item.ContractStageId;
+                        break;
+                    }
+                }
+
+                if (cozStageId != Guid.Empty)
+                {
+                    var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
+                    int notFinishedCount = 0;
+                    int notApprovedCount = 0;
+                    if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                    {
+                        return result;
+                    }
+                    if (stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
+                    {
+                        notApprovedCount++;
+                    }
+                    var childStages = db.OBK_ContractStage.Where(x => x.ParentStageId == cozStageId).ToList();
+                    foreach (var childStage in childStages)
+                    {
+                        if (childStage.ResultId == null || childStage.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                        {
+                            notFinishedCount++;
+                        }
+                        if (childStage.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
+                        {
+                            notApprovedCount++;
+                            uobkResusedCount++;
+                        }
+
+                        var childStagesOfChild = db.OBK_ContractStage.Where(x => x.ParentStageId == childStage.Id).ToList();
+                        foreach (var childStageOfChild in childStagesOfChild)
+                        {
+                            if (childStageOfChild.ResultId == null || childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
+                            {
+                                notFinishedCount++;
+                            }
+                            if (childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
+                            {
+                                notApprovedCount++;
+                                defRefusedCount++;
+                            }
+                        }
+                    }
+
+                    if (notFinishedCount == 0 && notApprovedCount > 0)
+                    {
+                        result = true;
+
+                        StringBuilder messageStr = new StringBuilder();
+                        messageStr.Append("По выбранному договору на уровне ");
+                        if (uobkResusedCount > 0 && defRefusedCount > 0)
+                        {
+                            messageStr.Append("УОБК, ДЭФ ");
+                        }
+                        else if (defRefusedCount > 0)
+                        {
+                            messageStr.Append("ДЭФ ");
+                        }
+                        else
+                        {
+                            messageStr.Append("УОБК ");
+                        }
+                        messageStr.Append("было не соответствие требованиям. Вы подтверждаете действие \"Отправить на согласование руководителю\"?");
+                        questionMessage = messageStr.ToString();
+                    }
+                }
+            }
+
+            return result;
+        }
+
         private bool IsShowDoApprovementBtnAllowed(Guid contractId)
         {
             bool result = false;
@@ -667,6 +759,7 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult RegisterContract(Guid contractId)
         {
             string regNumber = obkRepo.RegisterContract(contractId);
+            new OBKPaymentRepository().SavePayments(contractId);
             return Json(regNumber);
         }
 
