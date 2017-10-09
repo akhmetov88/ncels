@@ -243,7 +243,7 @@
             if (parametr == 'ActionLogsList') {
                 url = "/Employe/ActionLogsList";
             }
-            
+
             if (parametr == 'VisitType') {
                 url = "/Visit/VisitTypeList";
             }
@@ -258,20 +258,20 @@
             }
 
 
-             if (parametr == 'NomenklatureListDic') {
+            if (parametr == 'NomenklatureListDic') {
                 url = "/Reference/Nomenclature";
-             }
-             if (parametr == 'CorRefListDic') {
-                 url = "/Reference/Correspondent";
-             }
+            }
+            if (parametr == 'CorRefListDic') {
+                url = "/Reference/Correspondent";
+            }
 
-             if (parametr == 'Contacts') {
-                 url = "/Reference/ContactAsync";
-             }
+            if (parametr == 'Contacts') {
+                url = "/Reference/ContactAsync";
+            }
 
-             if (parametr == 'ReportListDic') {
-                 url = "/Report/Index";
-             }
+            if (parametr == 'ReportListDic') {
+                url = "/Report/Index";
+            }
 
             if (parametr == 'MyProjectListDoc') {
                 url = "/ProjectDoc/Index";
@@ -380,6 +380,9 @@
             }
             if (parametr === "OBKContractList") {
                 url = "/OBKContract/";
+            }
+            if (parametr === "OBKPaymentList") {
+                url = "/OBKPayment/Index";
             }
             if (url != '' && url != 'Profile') {
                 var name = guidGen();

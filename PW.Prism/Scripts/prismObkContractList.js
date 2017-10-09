@@ -232,6 +232,7 @@ function InitObkContractCard(uiId) {
         },
         attachContract: function (e) {
             if (!$(e.target).hasClass("disabled")) {
+
                 var modelId = $("#modelId").val();
                 var window = $("#TaskCommandWindow");
                 window.kendoWindow({

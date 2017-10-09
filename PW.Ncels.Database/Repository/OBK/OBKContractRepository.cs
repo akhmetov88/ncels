@@ -1164,6 +1164,7 @@ namespace PW.Ncels.Database.Repository.OBK
             var executor = AppContext.Employees.Where(x => x.Id == executorId).FirstOrDefault();
             stage.Employees.Add(executor);
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+
             var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
             contract.Status = CodeConstManager.STATUS_OBK_WORK;
             AppContext.SaveChanges();

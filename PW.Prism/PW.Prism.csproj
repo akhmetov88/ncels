@@ -223,6 +223,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\CommissionController.cs" />
     <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
+    <Compile Include="Controllers\OBKPayment\OBKPaymentController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
     <Compile Include="Controllers\PriceProject\PriceProcessingController.cs" />
@@ -2303,6 +2304,7 @@
     <Content Include="Views\OBKContract\SetExecutor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UnitBankModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UnitSignerModel.cshtml" />
+    <Content Include="Views\OBKPayment\Index.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
