@@ -9,8 +9,6 @@
                     kendo.ui.progress($("#loader" + uiId), true);
                     var reason = viewModel.get('model.Reason');
                     var contractId = viewModel.get('model.contractId');
-                    alert("season = " + reason);
-                    alert("contractId = " + contractId);
                     $.ajax({
                         type: 'POST',
                         url: '/OBKContract/RefuseApprovement',
