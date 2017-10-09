@@ -2305,6 +2305,9 @@
     <Content Include="Views\Shared\EditorTemplates\UnitBankModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UnitSignerModel.cshtml" />
     <Content Include="Views\OBKPayment\Index.cshtml" />
+    <Content Include="Views\OBKContract\RefuseReasonDlg.cshtml" />
+    <Content Include="Views\OBKContract\ShowRefuseReasonDlg.cshtml" />
+    <Content Include="Views\OBKContract\UploadContract.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
