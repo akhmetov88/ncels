@@ -379,5 +379,21 @@ namespace PW.Ncels.Controllers
             var expertOrganizations = obkRepo.GetExpertOrganizations();
             return Json(expertOrganizations.ToList(), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult ShowComment(Guid modelId, string idControl)
+        {
+            var model = obkRepo.GetComments(modelId, idControl);
+            if (model == null)
+            {
+                model = new OBK_ContractCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+
+            return View(model);
+        }
     }
 }

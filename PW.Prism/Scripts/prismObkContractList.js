@@ -116,7 +116,7 @@ function InitObkContractCard(uiId) {
             });
         },
         sendToBossForApprovalWithWarning: function (e) {
-            var question = $("#question" + uiId).val();
+            var question = $("#question" + uiId).text();
             if (confirm(question)) {
                 var modelId = $("#modelId").val();
                 $.ajax({

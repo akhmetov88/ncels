@@ -1272,6 +1272,7 @@
     <Content Include="Scripts\js\custom\common.js" />
     <Content Include="Scripts\js\custom\message-dialog-box.js" />
     <Content Include="Scripts\js\custom\alertMessage.js" />
+    <Content Include="Scripts\js\custom\obkcontractcomments.js" />
     <Content Include="Scripts\js\custom\spin.js" />
     <Content Include="Scripts\js\custom\subform-comment.js" />
     <Content Include="Scripts\js\directives.js" />
@@ -2236,6 +2237,7 @@
     <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
+    <Content Include="Views\OBKContract\ShowComment.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

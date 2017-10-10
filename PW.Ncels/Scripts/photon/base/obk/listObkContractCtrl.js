@@ -21,6 +21,7 @@
 
     $scope.object.Status = 1;
 
+    $scope.showComments = false;
     $scope.viewMpde = false;
 
     $scope.declarant.IsResident = true;
@@ -153,9 +154,13 @@
 
     $scope.changeViewMode = function () {
         // 1 Черновик
-        // 7 На корректировке у заявителя
         if ($scope.object.Status == 1) {
             $scope.object.viewMpde = false;
+        }
+        // 7 На корректировке у заявителя
+        else if ($scope.object.Status == 7) {
+            $scope.object.viewMpde = false;
+            $scope.showComments = true;
         }
         else {
             $scope.object.viewMpde = true;

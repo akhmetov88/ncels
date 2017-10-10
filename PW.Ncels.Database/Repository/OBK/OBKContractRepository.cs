@@ -952,49 +952,70 @@ namespace PW.Ncels.Database.Repository.OBK
         public int SendContractInProcessing(Guid contractId)
         {
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
-            contract.Status = Constants.CodeConstManager.STATUS_OBK_INPROCESSING;
 
-            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.New);
-
-            var obkContractStageCoz = new OBK_ContractStage()
+            if (contract.Status == CodeConstManager.STATUS_OBK_DRAFT_ID)
             {
-                Id = Guid.NewGuid(),
-                ContractId = contractId,
-                StageId = CodeConstManager.STAGE_OBK_COZ,
-                StageStatusId = stageStatus.Id,
-                ParentStageId = null,
-                ResultId = null
-            };
+                contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 
-            // Руководитель ЦОЗ
-            Guid bossCozGuid = new Guid("3100E850-F7D8-48A4-A5AC-4BF5D50D98D2");
-            var bossCozEmployee = AppContext.Employees.Where(x => x.Id == bossCozGuid).FirstOrDefault();
+                var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.New);
 
-            obkContractStageCoz.Employees.Add(bossCozEmployee);
+                var obkContractStageCoz = new OBK_ContractStage()
+                {
+                    Id = Guid.NewGuid(),
+                    ContractId = contractId,
+                    StageId = CodeConstManager.STAGE_OBK_COZ,
+                    StageStatusId = stageStatus.Id,
+                    ParentStageId = null,
+                    ResultId = null
+                };
 
-            AppContext.OBK_ContractStage.Add(obkContractStageCoz);
+                // Руководитель ЦОЗ
+                Guid bossCozGuid = new Guid("3100E850-F7D8-48A4-A5AC-4BF5D50D98D2");
+                var bossCozEmployee = AppContext.Employees.Where(x => x.Id == bossCozGuid).FirstOrDefault();
 
-            AppContext.SaveChanges();
+                obkContractStageCoz.Employees.Add(bossCozEmployee);
 
-            var obkContractStageUOBK = new OBK_ContractStage()
+                AppContext.OBK_ContractStage.Add(obkContractStageCoz);
+
+                AppContext.SaveChanges();
+
+                var obkContractStageUOBK = new OBK_ContractStage()
+                {
+                    Id = Guid.NewGuid(),
+                    ContractId = contractId,
+                    StageId = CodeConstManager.STAGE_OBK_UOBK,
+                    StageStatusId = stageStatus.Id,
+                    ParentStageId = obkContractStageCoz.Id,
+                    ResultId = null
+                };
+
+                // Руководитель УОБК
+                Guid bossUobkGuid = new Guid("14D1A1F0-9501-4232-9C29-E9C394D88784");
+                var bossUobkEmployee = AppContext.Employees.Where(x => x.Id == bossUobkGuid).FirstOrDefault();
+
+                obkContractStageUOBK.Employees.Add(bossUobkEmployee);
+
+                AppContext.OBK_ContractStage.Add(obkContractStageUOBK);
+
+                AppContext.SaveChanges();
+            }
+            else
             {
-                Id = Guid.NewGuid(),
-                ContractId = contractId,
-                StageId = CodeConstManager.STAGE_OBK_UOBK,
-                StageStatusId = stageStatus.Id,
-                ParentStageId = obkContractStageCoz.Id,
-                ResultId = null
-            };
+                contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 
-            // Руководитель УОБК
-            Guid bossUobkGuid = new Guid("14D1A1F0-9501-4232-9C29-E9C394D88784");
-            var bossUobkEmployee = AppContext.Employees.Where(x => x.Id == bossUobkGuid).FirstOrDefault();
+                var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+                var stageStatusInWorkId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+                foreach (var stage in stages)
+                {
+                    if (stage.StageId == CodeConstManager.STAGE_OBK_COZ || stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
+                    {
+                        stage.ResultId = null;
+                    }
+                    stage.StageStatusId = stageStatusInWorkId;
+                }
 
-            obkContractStageUOBK.Employees.Add(bossUobkEmployee);
-
-            AppContext.OBK_ContractStage.Add(obkContractStageUOBK);
-
-            AppContext.SaveChanges();
+                AppContext.SaveChanges();
+            }
 
             return contract.Status;
         }
@@ -1265,22 +1286,40 @@ namespace PW.Ncels.Database.Repository.OBK
         private void CreateStageDef(Guid contractId, OBK_ContractStage parentStage)
         {
             var stageStatusInWork = GetStageStatusByCode(OBK_Ref_StageStatus.InWork);
-            OBK_ContractStage stageDef = new OBK_ContractStage()
+
+            var stageChild = AppContext.OBK_ContractStage.Where(x => x.ParentStageId == parentStage.Id).FirstOrDefault();
+
+            if (stageChild == null)
             {
-                Id = Guid.NewGuid(),
-                ContractId = contractId,
-                StageId = CodeConstManager.STAGE_OBK_DEF,
-                StageStatusId = stageStatusInWork.Id,
-                ParentStageId = parentStage.Id,
-                ResultId = null
-            };
+                OBK_ContractStage stageDef = new OBK_ContractStage()
+                {
+                    Id = Guid.NewGuid(),
+                    ContractId = contractId,
+                    StageId = CodeConstManager.STAGE_OBK_DEF,
+                    StageStatusId = stageStatusInWork.Id,
+                    ParentStageId = parentStage.Id,
+                    ResultId = null
+                };
 
-            // Руководитель ДЭФ
-            var bossDefGuid = new Guid("C9746027-F617-4791-8EEE-1CD80F2EDD5B");
-            var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
+                // Руководитель ДЭФ
+                var bossDefGuid = new Guid("C9746027-F617-4791-8EEE-1CD80F2EDD5B");
+                var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
 
-            stageDef.Employees.Add(bossDefEmployee);
-            AppContext.OBK_ContractStage.Add(stageDef);
+                stageDef.Employees.Add(bossDefEmployee);
+                AppContext.OBK_ContractStage.Add(stageDef);
+            }
+            else
+            {
+                stageChild.StageStatusId = stageStatusInWork.Id;
+                stageChild.Employees.Clear();
+                stageChild.ResultId = null;
+
+                // Руководитель ДЭФ
+                var bossDefGuid = new Guid("C9746027-F617-4791-8EEE-1CD80F2EDD5B");
+                var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
+
+                stageChild.Employees.Add(bossDefEmployee);
+            }
         }
 
         public bool ReturnToApplicant(Guid contractId)
