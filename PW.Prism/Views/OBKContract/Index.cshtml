@@ -85,7 +85,7 @@
 panes.Add().Scrollable(false).Size("100%").Content(
     @<div class="pwPanelBar">
         <div class="pwBlockAdd k-block">
-            <div id="pwOne">
+            @*<div id="pwOne">
                 @(Html.Kendo().MaskedTextBox().Name("findText" + Model).Mask("").HtmlAttributes(new { @class = "pwWidth100" }))
             </div>
             <div id="pwTwo">
@@ -108,7 +108,7 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                    })
                                    .SelectedIndex(0)
                 )
-            </div>
+            </div>*@
             @if (EmployePermissionHelper.CanAssignOBKContract)
             {
                 <div>
@@ -116,11 +116,11 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                    .Content("Распределить"))
                 </div>
             }
-            <div id="pwThree">
+            @*<div id="pwThree">
                 @(Html.Kendo().Button().Name("find" + Model).HtmlAttributes(new { @class = "pwWidth100" })
                                    .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
                                    .ImageUrl("/Content/images/find.png"))
-            </div>
+            </div>*@
             <div id="pwFour">
                 @(Html.Kendo().Button().Name("export" + Model).HtmlAttributes(new { @class = "pwWidth100" })
                                    .Content(PW.Ncels.Database.Recources.Messages.Property_Экспорт_335__00)
