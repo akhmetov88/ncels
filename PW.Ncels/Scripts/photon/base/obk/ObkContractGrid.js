@@ -5,10 +5,13 @@
 function dateformatHtml(data, type, full, meta) {
     if (data == null)
         return '';
-    var date = new Date(parseInt(data.slice(6, -2)));
-    var month = date.getMonth() + 1;
-    return date.getDate() + "." + (month.length > 1 ? month : "0" + month) + "." + date.getFullYear();
+    var d = new Date(parseInt(data.slice(6, -2)));
 
+    var yyyy = d.getFullYear();
+    var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+    var dd = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+
+    return dd + "." + mm + "." + yyyy;
 }
 
 function obkContractGrid($scope, $http, DTColumnBuilder) {

@@ -1549,7 +1549,7 @@ function convertDateToStringDDMMYYYY(value) {
         var d = new Date(parseInt(value.substr(6)));
         var yyyy = d.getFullYear();
         var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
-        var dd = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+        var dd = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
         return dd + "." + mm + "." + yyyy;
     }
     return "";
