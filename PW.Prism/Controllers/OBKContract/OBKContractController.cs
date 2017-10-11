@@ -801,7 +801,7 @@ namespace PW.Prism.Controllers.OBKContract
                     code = codeId.ToString();
                 }
                 string path = contractId.ToString();
-                bool saveMetadata = false;
+                bool saveMetadata = true;
                 string originField = null;
 
                 var list = FileHelper.GetAttachListByDoc(db, path, code);
