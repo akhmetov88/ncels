@@ -93,7 +93,7 @@
                                     if (ViewBag.ShowAttachContractBtn)
                                     {
                                         var disabled = "";
-                                        if (Model.Number == null && Model.Number == PW.Ncels.Database.Constants.CodeConstManager.OBK_CONTRACT_NO_NUMBER)
+                                        if (Model.Number == null || Model.Number == PW.Ncels.Database.Constants.CodeConstManager.OBK_CONTRACT_NO_NUMBER)
                                         {
                                             disabled = "disabled";
                                         }

@@ -1441,6 +1441,7 @@ namespace PW.Ncels.Database.Repository.OBK
             string number = GetLastNumberOfContract();
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
             contract.Number = number;
+            contract.StartDate = DateTime.Now;
             AppContext.SaveChanges();
             return contract.Number;
         }
