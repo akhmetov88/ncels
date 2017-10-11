@@ -34,10 +34,8 @@
 }
 
 function InitObkContractCard(uiId) {
-    //alert("InitObkContractCard");
     var viewModel = kendo.observable({
         contractCardTabSelect: function (e) {
-            //alert("111");
             debugger;
             var tabid = $(e.item).attr('tabid');
             $('#contractDataTabs' + uiId + ' > .row').each(function (i, el) {
@@ -302,6 +300,20 @@ function initFilterOBKContract(uiId) {
             alert("Выберите договор!");
         }
     });
+
+    setToWorkBtnVisibility(uiId);
+}
+
+function setToWorkBtnVisibility(uiId) {
+    var links = $("#panelbar" + uiId).find(".k-state-selected");
+    if (links.length > 0) {
+        if (links.eq(0).attr("itemid") == "inQueue") {
+            $('button[id="toWork' + uiId + '"]').show();
+        }
+        else {
+            $('button[id="toWork' + uiId + '"]').hide();
+        }
+    }
 }
 
 function panelObkContractSelect(e) {
@@ -322,5 +334,10 @@ function panelObkContractSelect(e) {
                 filters: filter
             });
         }
+
+        var panelBar = $(e.item).closest(".k-panelbar");
+        var panelId = panelBar.attr("id");
+        var uiId = panelId.replace(/\panelbar/g, '');
+        setToWorkBtnVisibility(uiId);
     }
 }
