@@ -2238,6 +2238,9 @@
     <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
     <Content Include="Views\OBKContract\ShowComment.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentPrice.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentProduct.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentProductsSerie.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

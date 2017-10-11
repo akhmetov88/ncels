@@ -999,7 +999,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 AppContext.SaveChanges();
             }
-            else
+            else if (contract.Status == CodeConstManager.STATUS_OBK_ONCORRECTION)
             {
                 contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 

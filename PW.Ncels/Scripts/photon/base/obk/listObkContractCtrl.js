@@ -336,7 +336,8 @@
 { name: 'ExpireDate', displayName: 'Истекает' },
 { name: 'Part', displayName: 'Размер партии' },
 { name: 'UnitName', displayName: 'Ед. измерения' },
-{ name: 'UnitId', displayName: 'Ед. измерения - код', visible: false }
+{ name: 'UnitId', displayName: 'Ед. измерения - код', visible: false },
+{ name: 'ButtonComments', displayName: '', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkproductseriedialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
     $scope.gridOptionsSeries.data = $scope.productSeries;
@@ -369,7 +370,8 @@
         { name: 'ProducerNameRu', displayName: 'Производитель' },
         { name: 'CountryNameRu', displayName: 'Страна-производитель' },
         { name: 'TnvedCode', displayName: 'ТН ВЭД' },
-        { name: 'KpvedCode', displayName: 'КП ВЭД' }
+        { name: 'KpvedCode', displayName: 'КП ВЭД' },
+        { name: 'ButtonComments', displayName: '', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkproductdialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
     $scope.addedProducts = [];
@@ -1837,7 +1839,8 @@ function initCalculator($scope, $interval, $http) {
         { name: 'PriceWithoutTax', displayName: 'Цена в тенге, без НДС', width: "*" },
         { name: 'Count', displayName: 'Количество услуг (работ)', width: "*" },
         { name: 'FinalCostWithoutTax', displayName: 'Итоговая стоимость услуги, в тенге без НДС', width: "*" },
-        { name: 'FinalCostWithTax', displayName: 'Итоговая стоимость услуги, в тенге с НДС', width: "*" }
+        { name: 'FinalCostWithTax', displayName: 'Итоговая стоимость услуги, в тенге с НДС', width: "*" },
+        { name: 'ButtonComments', displayName: '', width: '*', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkpricedialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
 

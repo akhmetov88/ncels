@@ -395,5 +395,52 @@ namespace PW.Ncels.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult ShowCommentPrice(Guid contractPriceId)
+        {
+            var model = obkRepo.GetCommentsPrice(contractPriceId);
+            if (model == null)
+            {
+                model = new OBK_ContractPriceCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ShowCommentProduct(int productId)
+        {
+            var model = obkRepo.GetCommentsProduct(productId);
+            if (model == null)
+            {
+                model = new OBK_RS_ProductsCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ShowCommentProductsSerie(int productSerieId)
+        {
+            var model = obkRepo.GetCommentsProductsSerie(productSerieId);
+            if (model == null)
+            {
+                model = new OBK_Products_SeriesCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+
     }
 }
