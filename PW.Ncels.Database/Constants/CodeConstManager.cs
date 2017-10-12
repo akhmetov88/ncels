@@ -512,6 +512,17 @@ namespace PW.Ncels.Database.Constants
 
         public const string OBK_CONTRACT_NO_NUMBER = "б/н";
 
+        #region ОБК Тип исполнителя
+        /// <summary>
+        /// Назначающий
+        /// </summary>
+        public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING = 1;
+        /// <summary>
+        /// Исполнитель
+        /// </summary>
+        public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR = 2;
+        #endregion
+
         #endregion
     }
 }

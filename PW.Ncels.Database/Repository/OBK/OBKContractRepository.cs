@@ -971,11 +971,20 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 // Руководитель ЦОЗ
                 Guid bossCozGuid = new Guid("3100E850-F7D8-48A4-A5AC-4BF5D50D98D2");
-                var bossCozEmployee = AppContext.Employees.Where(x => x.Id == bossCozGuid).FirstOrDefault();
+                //var bossCozEmployee = AppContext.Employees.Where(x => x.Id == bossCozGuid).FirstOrDefault();
 
-                obkContractStageCoz.Employees.Add(bossCozEmployee);
+                //obkContractStageCoz.Employees.Add(bossCozEmployee);
+
+                var stageExecutorCoz = new OBK_ContractStageExecutors()
+                {
+                   OBK_ContractStage = obkContractStageCoz,
+                   ExecutorId = bossCozGuid,
+                   ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING
+                };
 
                 AppContext.OBK_ContractStage.Add(obkContractStageCoz);
+
+                AppContext.OBK_ContractStageExecutors.Add(stageExecutorCoz);
 
                 AppContext.SaveChanges();
 
@@ -991,11 +1000,20 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 // Руководитель УОБК
                 Guid bossUobkGuid = new Guid("14D1A1F0-9501-4232-9C29-E9C394D88784");
-                var bossUobkEmployee = AppContext.Employees.Where(x => x.Id == bossUobkGuid).FirstOrDefault();
+                //var bossUobkEmployee = AppContext.Employees.Where(x => x.Id == bossUobkGuid).FirstOrDefault();
 
-                obkContractStageUOBK.Employees.Add(bossUobkEmployee);
+                //obkContractStageUOBK.Employees.Add(bossUobkEmployee);
+
+                var stageExecutorUOBK = new OBK_ContractStageExecutors()
+                {
+                    OBK_ContractStage = obkContractStageUOBK,
+                    ExecutorId = bossUobkGuid,
+                    ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING
+                };
 
                 AppContext.OBK_ContractStage.Add(obkContractStageUOBK);
+
+                AppContext.OBK_ContractStageExecutors.Add(stageExecutorUOBK);
 
                 AppContext.SaveChanges();
             }
@@ -1183,7 +1201,17 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var stage = AppContext.OBK_ContractStage.Where(x => x.Id == stageId).FirstOrDefault();
             var executor = AppContext.Employees.Where(x => x.Id == executorId).FirstOrDefault();
-            stage.Employees.Add(executor);
+            //stage.Employees.Add(executor);
+
+            var stageExecutor = new OBK_ContractStageExecutors()
+            {
+                OBK_ContractStage = stage,
+                ExecutorId = executorId,
+                ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR
+            };
+
+            AppContext.OBK_ContractStageExecutors.Add(stageExecutor);
+
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
 
             var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
@@ -1303,22 +1331,41 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 // Руководитель ДЭФ
                 var bossDefGuid = new Guid("C9746027-F617-4791-8EEE-1CD80F2EDD5B");
-                var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
+                //var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
 
-                stageDef.Employees.Add(bossDefEmployee);
+                //stageDef.Employees.Add(bossDefEmployee);
+                var stageExecutor = new OBK_ContractStageExecutors()
+                {
+                    OBK_ContractStage = stageDef,
+                    ExecutorId = bossDefGuid,
+                    ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR
+                };
+
                 AppContext.OBK_ContractStage.Add(stageDef);
+
+                AppContext.OBK_ContractStageExecutors.Add(stageExecutor);
             }
             else
             {
                 stageChild.StageStatusId = stageStatusInWork.Id;
-                stageChild.Employees.Clear();
+                //stageChild.Employees.Clear();
+                AppContext.OBK_ContractStageExecutors.RemoveRange(AppContext.OBK_ContractStageExecutors.Where(x => x.ContractStageId == stageChild.Id));
                 stageChild.ResultId = null;
 
                 // Руководитель ДЭФ
                 var bossDefGuid = new Guid("C9746027-F617-4791-8EEE-1CD80F2EDD5B");
-                var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
+                //var bossDefEmployee = AppContext.Employees.Where(x => x.Id == bossDefGuid).FirstOrDefault();
 
-                stageChild.Employees.Add(bossDefEmployee);
+                //stageChild.Employees.Add(bossDefEmployee);
+
+                var stageExecutor = new OBK_ContractStageExecutors()
+                {
+                    OBK_ContractStage = stageChild,
+                    ExecutorId = bossDefGuid,
+                    ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR
+                };
+
+                AppContext.OBK_ContractStageExecutors.Add(stageExecutor);
             }
         }
 
