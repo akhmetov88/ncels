@@ -369,8 +369,6 @@
         { name: 'NameRu', displayName: 'Наименование' },
         { name: 'ProducerNameRu', displayName: 'Производитель' },
         { name: 'CountryNameRu', displayName: 'Страна-производитель' },
-        { name: 'TnvedCode', displayName: 'ТН ВЭД' },
-        { name: 'KpvedCode', displayName: 'КП ВЭД' },
         { name: 'ButtonComments', displayName: '', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkproductdialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
@@ -519,8 +517,6 @@
             $scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
             $scope.product.CountryNameRu = selectedObj.CountryNameRu;
             $scope.product.CountryNameKz = selectedObj.CountryNameKz;
-            $scope.product.TnvedCode = selectedObj.TnvedCode;
-            $scope.product.KpvedCode = selectedObj.KpvedCode;
             $scope.product.Price = selectedObj.Price;
             $scope.product.Currency = selectedObj.Currency;
             $scope.product.DrugFormId = selectedObj.DrugFormId;
@@ -631,8 +627,6 @@
                                     ProducerNameKz: $scope.product.ProducerNameKz,
                                     CountryNameRu: $scope.product.CountryNameRu,
                                     CountryNameKz: $scope.product.CountryNameKz,
-                                    TnvedCode: $scope.product.TnvedCode,
-                                    KpvedCode: $scope.product.KpvedCode,
                                     Price: $scope.product.Price,
                                     Currency: $scope.product.Currency,
                                     DrugFormBoxCount: $scope.product.DrugFormBoxCount,
@@ -686,8 +680,6 @@
             selectedObj.ProducerNameKz = $scope.product.ProducerNameKz;
             selectedObj.CountryNameRu = $scope.product.CountryNameRu;
             selectedObj.CountryNameKz = $scope.product.CountryNameKz;
-            selectedObj.TnvedCode = $scope.product.TnvedCode;
-            selectedObj.KpvedCode = $scope.product.KpvedCode;
             selectedObj.Price = $scope.product.Price;
             selectedObj.Currency = $scope.product.Currency;
             selectedObj.Series.length = 0;

@@ -426,8 +426,6 @@ namespace PW.Ncels.Database.Repository.OBK
                 ProducerNameKz = x.ProducerNameKz,
                 CountryNameRu = x.CountryNameRu,
                 CountryNameKz = x.CountryNameKZ,
-                KpvedCode = x.KpvedCode,
-                TnvedCode = x.TnvedCode,
                 Price = x.Price,
                 DrugFormBoxCount = x.DrugFormBoxCount,
                 DrugFormFullName = x.DrugFormFullName,
@@ -572,8 +570,6 @@ namespace PW.Ncels.Database.Repository.OBK
             productInfo.ProducerNameKz = product.ProducerNameKz;
             productInfo.CountryNameRu = product.CountryNameRu;
             productInfo.CountryNameKZ = product.CountryNameKz;
-            productInfo.KpvedCode = product.KpvedCode;
-            productInfo.TnvedCode = product.TnvedCode;
             productInfo.Price = product.Price;
             productInfo.DrugFormBoxCount = product.DrugFormBoxCount;
             productInfo.DrugFormFullName = product.DrugFormFullName;
