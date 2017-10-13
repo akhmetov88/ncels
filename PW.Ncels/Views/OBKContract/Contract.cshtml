@@ -1423,8 +1423,11 @@
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMpde">
+                                                    <div ng-show="object.viewMpde && object.Status != 8">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMpde && object.Status == 8">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
                                                 <div ng-show="declarant.Id != null && declarant.IsResident == false" id="filesNonResident">
@@ -1432,8 +1435,11 @@
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMpde">
+                                                    <div ng-show="object.viewMpde && object.Status != 8">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMpde && object.Status == 8">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
                                             </div>
