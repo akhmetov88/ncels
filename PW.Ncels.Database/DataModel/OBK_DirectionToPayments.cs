@@ -27,6 +27,8 @@ namespace PW.Ncels.Database.DataModel
         public string CreateEmployeeValue { get; set; }
         public Nullable<System.DateTime> DeleteDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public System.Guid StatusId { get; set; }
+        public string InvoiceNumber { get; set; }
     
         public virtual Employee Employee { get; set; }
         public virtual OBK_Contract OBK_Contract { get; set; }

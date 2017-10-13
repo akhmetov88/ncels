@@ -982,6 +982,10 @@
     <Content Include="Reports\List\MonitoringExp.mrt" />
     <Content Include="Reports\Mrts\OBKExpDocument.mrt" />
     <Content Include="Reports\Mrts\SafetyAssessmentDeclaration.mrt" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2304,10 +2308,11 @@
     <Content Include="Views\OBKContract\SetExecutor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UnitBankModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UnitSignerModel.cshtml" />
-    <Content Include="Views\OBKPayment\Index.cshtml" />
     <Content Include="Views\OBKContract\RefuseReasonDlg.cshtml" />
     <Content Include="Views\OBKContract\ShowRefuseReasonDlg.cshtml" />
     <Content Include="Views\OBKContract\UploadContract.cshtml" />
+    <Content Include="Views\OBKPayment\Index.cshtml" />
+    <Content Include="Views\OBKPayment\Edit.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

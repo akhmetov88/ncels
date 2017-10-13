@@ -1,7 +1,7 @@
 USE [ncelsProd]
 GO
 
-/****** Object:  Table [dbo].[OBK_DirectionToPayments]    Script Date: 09.10.2017 11:03:39 ******/
+/****** Object:  Table [dbo].[OBK_DirectionToPayments]    Script Date: 11.10.2017 15:24:27 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -22,11 +22,16 @@ CREATE TABLE [dbo].[OBK_DirectionToPayments](
 	[CreateEmployeeValue] [nvarchar](1024) NOT NULL,
 	[DeleteDate] [datetime] NULL,
 	[IsDeleted] [bit] NULL,
+	[StatusId] [uniqueidentifier] NOT NULL,
+	[InvoiceNumber] [nvarchar](512) NULL,
  CONSTRAINT [PK_OBK_DirectionToPayments] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[OBK_DirectionToPayments] ADD  DEFAULT ('1EA197E7-0746-45A4-9D91-AC73487E4DB2') FOR [StatusId]
 GO
 
 ALTER TABLE [dbo].[OBK_DirectionToPayments]  WITH CHECK ADD  CONSTRAINT [FK_OBK_DirectionToPayments_Employees] FOREIGN KEY([CreateEmployeeId])

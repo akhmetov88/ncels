@@ -759,8 +759,13 @@ namespace PW.Prism.Controllers.OBKContract
         public ActionResult RegisterContract(Guid contractId)
         {
             string regNumber = obkRepo.RegisterContract(contractId);
-            new OBKPaymentRepository().SavePayments(contractId);
             return Json(regNumber);
+        }
+
+        public ActionResult SendToPay(Guid contractId)
+        {
+            new OBKPaymentRepository().SavePayments(contractId);
+            return null;
         }
 
         [HttpGet]
