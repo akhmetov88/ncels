@@ -301,7 +301,38 @@ function initFilterOBKContract(uiId) {
         }
     });
 
+    $("#find" + uiId).click(function () {
+        var findType = $("#findType" + uiId).val();
+        if (findType != '') {
+            $filter = new Array();
+            if (findType == 0) {
+                $filter.push({ field: "StageStatusCode", operator: "eq", value: "inWork" });
+            }
+            else if (findType == 1) {
+                $filter.push({ field: "StageStatusCode", operator: "eq", value: "inWork" });
+                $filter.push({ field: "StageCOZResult", operator: "eq", value: 1 });
+                $filter.push({ field: "StageUOBKResult", operator: "eq", value: 1 });
+                $filter.push({ field: "StageDEFResult", operator: "eq", value: 1 });
+            }
+            else if (findType == 2) {
+                var correctionFilters = new Array();
+                correctionFilters.push({ field: "StageCOZResult", operator: "eq", value: 2 });
+                correctionFilters.push({ field: "StageUOBKResult", operator: "eq", value: 2 });
+                correctionFilters.push({ field: "StageDEFResult", operator: "eq", value: 2 });
+                $filter.push({ field: "StageStatusCode", operator: "eq", value: "inWork" });
+                $filter.push({ logic: "or", filters: correctionFilters });
+            }
+            var grid = $("#gridContractAll" + uiId).data("kendoGrid");
+            grid.dataSource.filter({
+                logic: "and",
+                filters: $filter
+            });
+        }
+    });
+
     setToWorkBtnVisibility(uiId);
+
+    setFindAreaVisibility(uiId);
 }
 
 function setToWorkBtnVisibility(uiId) {
@@ -312,6 +343,24 @@ function setToWorkBtnVisibility(uiId) {
         }
         else {
             $('button[id="toWork' + uiId + '"]').hide();
+        }
+    }
+}
+
+function setFindAreaVisibility(uiId) {
+    var links = $("#panelbar" + uiId).find(".k-state-selected");
+    if (links.length > 0) {
+        if (links.eq(0).attr("itemid") == "inWork") {
+            $('div[id="lblStateBlock' + uiId + '"]').show();
+            $('button[id="find' + uiId + '"]').parent().show();
+            $("#findType" + uiId).data("kendoDropDownList").wrapper.parent().show();
+            $("#findType" + uiId).data("kendoDropDownList").select(0);
+        }
+        else {
+            $('div[id="lblStateBlock' + uiId + '"]').hide();
+            $('button[id="find' + uiId + '"]').parent().hide();
+            $("#findType" + uiId).data("kendoDropDownList").wrapper.parent().hide();
+            $("#findType" + uiId).data("kendoDropDownList").select(0);
         }
     }
 }
@@ -339,5 +388,6 @@ function panelObkContractSelect(e) {
         var panelId = panelBar.attr("id");
         var uiId = panelId.replace(/\panelbar/g, '');
         setToWorkBtnVisibility(uiId);
+        setFindAreaVisibility(uiId);
     }
 }

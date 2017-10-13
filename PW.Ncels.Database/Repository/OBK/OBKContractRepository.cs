@@ -945,7 +945,6 @@ namespace PW.Ncels.Database.Repository.OBK
 
             //var stages = AppContext.OBK_ContractStage.Where(x => x.Employees.Contains(emp)).AsQueryable();
 
-
             return list;
         }
 

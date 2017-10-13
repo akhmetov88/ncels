@@ -85,8 +85,9 @@
 panes.Add().Scrollable(false).Size("100%").Content(
     @<div class="pwPanelBar">
         <div class="pwBlockAdd k-block">
-            @*<div id="pwOne">
-                    @(Html.Kendo().MaskedTextBox().Name("findText" + Model).Mask("").HtmlAttributes(new { @class = "pwWidth100" }))
+            <div style="float: left" id="@("lblStateBlock" + Model)">
+                    @*@(Html.Kendo().MaskedTextBox().Name("findText" + Model).Mask("").HtmlAttributes(new { @class = "pwWidth100" }))*@
+                    @Html.Label("Статус", new { @class = "pwWidth100", style = "line-height: 30px; margin-right: 5px; font-weight: normal;" })
                 </div>
                 <div id="pwTwo">
                     @(Html.Kendo().DropDownList().Name("findType" + Model).HtmlAttributes(new { @class = "pwWidth100" })
@@ -94,33 +95,30 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                        .DataValueField("Value")
                                        .BindTo(new List<SelectListItem>() {
                                            new SelectListItem() {
-                                               Text = PW.Ncels.Database.Recources.Messages.Property_Все_394__00, Value = "0"
+                                               Text = "Все", Value = "0"
                                            },
                                            new SelectListItem() {
-                                               Text = PW.Ncels.Database.Recources.Messages.Property_Пономеру_281__00, Value = "1"
+                                               Text = "Согласованные", Value = "1"
                                            },
                                            new SelectListItem() {
-                                               Text = PW.Ncels.Database.Recources.Messages.Property_Поисполнителю_170__00, Value = "2"
-                                           },
-                                           new SelectListItem() {
-                                               Text = PW.Ncels.Database.Recources.Messages.Property_Поотправителю_171__00, Value = "3"
+                                               Text = "Требуют корректировки", Value = "2"
                                            }
                                        })
                                        .SelectedIndex(0)
                     )
-                </div>*@
+                </div>
+            <div id="pwThree">
+                    @(Html.Kendo().Button().Name("find" + Model).HtmlAttributes(new { @class = "pwWidth100" })
+                                       .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
+                                       .ImageUrl("/Content/images/find.png"))
+                </div>
             @if (EmployePermissionHelper.CanAssignOBKContract)
             {
-                <div>
+                <div style="float: left">
                     @(Html.Kendo().Button().Name("toWork" + Model).HtmlAttributes(new { @class = "pwWidth100" })
                                    .Content("Распределить"))
                 </div>
             }
-            @*<div id="pwThree">
-                    @(Html.Kendo().Button().Name("find" + Model).HtmlAttributes(new { @class = "pwWidth100" })
-                                       .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
-                                       .ImageUrl("/Content/images/find.png"))
-                </div>*@
             <div id="pwFour">
                 @(Html.Kendo().Button().Name("export" + Model).HtmlAttributes(new { @class = "pwWidth100" })
                                    .Content(PW.Ncels.Database.Recources.Messages.Property_Экспорт_335__00)
@@ -145,6 +143,7 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                columns.Bound(p => p.ContractStartDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Дата_начала_18).Width(100);
                                columns.Bound(p => p.ContractEndDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датаокончания_101).Width(100);
                                columns.Bound(p => p.DeclarantNameRu).Title("Заявитель").Width(100);
+                               columns.Bound(p => p.ContractTypeRu).Title("Тип договора").Width(100);
                                columns.Bound(p => p.StageUOBKResult).Title("УОБК").ClientTemplate(
                                    "# if (StageUOBKResult == 1) { #" +
                                         "<span class='glyphicon glyphicon-ok'></span> #= StageUOBKExecutor #" +
