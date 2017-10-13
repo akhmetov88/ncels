@@ -1444,6 +1444,7 @@
     
     $scope.sendWithoutDigitalSign = function () {
         var formValid = $scope.contractCreateForm.$valid;
+        var productInfoExist = $scope.addedProducts.length > 0;
         //alert("formValid = " + formValid);
         var outputErrors = true;
         if (!formValid && $scope.contractCreateForm.$error && outputErrors) {
@@ -1461,13 +1462,16 @@
         }
         var filesValid = $scope.checkFileValidation();
         //alert("filesValid = " + filesValid);
-        if (formValid && filesValid) {
+        if (formValid && productInfoExist && filesValid) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/Project/Agreement',
                 controller: modalSendContract,
                 scope: $scope,
                 size: 'size-custom'
             });
+        }
+        else {
+            alert("Заполните обязательные поля, информацию о продукции и загрузите вложения!");
         }
     }
 
