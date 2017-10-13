@@ -266,6 +266,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     x.CreatedDate,
                     Status = x.OBK_Ref_Status.NameRu,
                     DeclarantName = x.OBK_Declarant.NameRu,
+                    Type = x.OBK_Ref_Type.NameRu,
+                    TypeKz = x.OBK_Ref_Type.NameKz,
                     x.StartDate,
                     x.EndDate
                 }
