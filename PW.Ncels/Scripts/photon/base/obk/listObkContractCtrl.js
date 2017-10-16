@@ -1352,10 +1352,6 @@
             }).then(function (resp) {
                 $scope.iinSearchActive = true;
                 if (resp.data) {
-                    $scope.showContactInformation = true;
-                    $scope.declarantNotFound = false;
-                    $scope.enableCompanyData = false;
-
                     $scope.declarant.Id = resp.data.Id;
                     $scope.declarant.OrganizationFormId = resp.data.OrganizationFormId;
                     $scope.declarant.IsResident = resp.data.IsResident;
@@ -1398,6 +1394,11 @@
                     $scope.object.BankNameRu = resp.data.BankNameRu;
                     $scope.object.BankNameKz = resp.data.BankNameKz;
                     $scope.saveDeclarantId(resp.data.Id);
+                    $scope.editProject();
+
+                    $scope.showContactInformation = true;
+                    $scope.declarantNotFound = false;
+                    $scope.enableCompanyData = false;
                 }
                 else {
                     $scope.declarantNotFound = true;
