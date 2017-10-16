@@ -381,6 +381,7 @@ namespace PW.Prism.Controllers.OBKContract
             questionMessage = "";
             bool result = false;
 
+            var cozRefusedCount = 0;
             var uobkResusedCount = 0;
             var defRefusedCount = 0;
 
@@ -404,14 +405,13 @@ namespace PW.Prism.Controllers.OBKContract
                 {
                     var stageObk = db.OBK_ContractStage.Where(x => x.Id == cozStageId).FirstOrDefault();
                     int notFinishedCount = 0;
-                    int notApprovedCount = 0;
                     if (stageObk.ResultId == null || stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_NOT_STARTED)
                     {
                         return result;
                     }
                     if (stageObk.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
                     {
-                        notApprovedCount++;
+                        cozRefusedCount++;
                     }
                     var childStages = db.OBK_ContractStage.Where(x => x.ParentStageId == cozStageId).ToList();
                     foreach (var childStage in childStages)
@@ -422,7 +422,6 @@ namespace PW.Prism.Controllers.OBKContract
                         }
                         if (childStage.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
                         {
-                            notApprovedCount++;
                             uobkResusedCount++;
                         }
 
@@ -435,30 +434,44 @@ namespace PW.Prism.Controllers.OBKContract
                             }
                             if (childStageOfChild.ResultId == CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS)
                             {
-                                notApprovedCount++;
                                 defRefusedCount++;
                             }
                         }
                     }
 
-                    if (notFinishedCount == 0 && notApprovedCount > 0)
+                    if (notFinishedCount == 0 && (cozRefusedCount + uobkResusedCount + defRefusedCount) > 0)
                     {
                         result = true;
 
                         StringBuilder messageStr = new StringBuilder();
                         messageStr.Append("По выбранному договору на уровне ");
-                        if (uobkResusedCount > 0 && defRefusedCount > 0)
+                        if (cozRefusedCount > 0)
                         {
-                            messageStr.Append("УОБК, ДЭФ ");
+                            messageStr.Append("ЦОЗ");
+                            messageStr.Append(", ");
                         }
-                        else if (defRefusedCount > 0)
-                        {
-                            messageStr.Append("ДЭФ ");
-                        }
-                        else
+                        if (uobkResusedCount > 0)
                         {
                             messageStr.Append("УОБК ");
+                            messageStr.Append(", ");
                         }
+                        if (defRefusedCount > 0)
+                        {
+                            messageStr.Append("ДЭФ ");
+                            messageStr.Append(", ");
+                        }
+                        var index = -1;
+                        index = messageStr.ToString().LastIndexOf(' ');
+                        if (index >= 0)
+                        { 
+                            messageStr.Remove(index, 1);
+                        }
+                        index = messageStr.ToString().LastIndexOf(',');
+                        if (index >= 0)
+                        {
+                            messageStr.Remove(index, 1);
+                        }
+                        messageStr.Append(" ");
                         messageStr.Append("было не соответствие требованиям. Вы подтверждаете действие \"Отправить на согласование руководителю\"?");
                         questionMessage = messageStr.ToString();
                     }
