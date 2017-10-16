@@ -1440,7 +1440,7 @@
                                                 <div ng-show="declarant.Id != null && declarant.IsResident == true" id="filesResident">
                                                     <div ng-show="!object.viewMpde">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" path="@ModelGuid" />
+                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" path="@ModelGuid" />
                                                     </div>
                                                     <div ng-show="object.viewMpde && object.Status != 8">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
@@ -1452,7 +1452,7 @@
                                                 <div ng-show="declarant.Id != null && declarant.IsResident == false" id="filesNonResident">
                                                     <div ng-show="!object.viewMpde">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" path="@ModelGuid" />
+                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" path="@ModelGuid" />
                                                     </div>
                                                     <div ng-show="object.viewMpde && object.Status != 8">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
@@ -1474,6 +1474,7 @@
     </div>
 </div>
 <script src="~/Scripts/js/custom/obkcontractcomments.js"></script>
+<script src="~/Scripts/js/custom/atach-comment.js"></script>
 <link href="~/Content/css/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     .ui-dialog {
