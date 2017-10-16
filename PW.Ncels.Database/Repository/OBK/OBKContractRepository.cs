@@ -303,6 +303,7 @@ namespace PW.Ncels.Database.Repository.OBK
             contractViewModel.ExpertOrganization = OBKContract.ExpertOrganization;
             contractViewModel.Signer = OBKContract.Signer;
             contractViewModel.Status = OBKContract.Status;
+            contractViewModel.Number = OBKContract.Number;
 
             //if (OBKContract.DeclarantId != null)
             //{
