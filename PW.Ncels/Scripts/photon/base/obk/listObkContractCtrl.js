@@ -577,6 +577,66 @@
         }
     }
 
+    $scope.displayDrug = function displayDrug() {
+        if ($scope.selectedProductIndex != null) {
+            $scope.mode = 3;
+            $scope.showAddEditDrugBlock = true;
+
+            var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
+
+            $scope.product.Id = selectedObj.Id;
+            $scope.product.ProductId = selectedObj.ProductId;
+            $scope.product.RegTypeId = selectedObj.RegTypeId;
+            $scope.product.DegreeRiskId = selectedObj.DegreeRiskId;
+            $scope.product.NameRu = selectedObj.NameRu;
+            $scope.product.NameKz = selectedObj.NameKz;
+            $scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
+            $scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
+            $scope.product.CountryNameRu = selectedObj.CountryNameRu;
+            $scope.product.CountryNameKz = selectedObj.CountryNameKz;
+            $scope.product.Price = selectedObj.Price;
+            $scope.product.Currency = selectedObj.Currency;
+            $scope.product.DrugFormId = selectedObj.DrugFormId;
+            $scope.product.DrugFormRegisterId = selectedObj.DrugFormRegisterId;
+            $scope.product.DrugFormBoxCount = selectedObj.DrugFormBoxCount;
+            $scope.product.DrugFormFullName = selectedObj.DrugFormFullName;
+            $scope.product.DrugFormFullNameKz = selectedObj.DrugFormFullNameKz;
+
+            $scope.productSeries.push.apply($scope.productSeries, selectedObj.Series);
+            $scope.selectedMtParts.push.apply($scope.selectedMtParts, selectedObj.MtParts);
+
+            for (var i = 0; i < $scope.addedServices.length; i++) {
+                var service = $scope.addedServices[i];
+                if (service.ProductId == selectedObj.Id) {
+                    var newService = {
+                        Id: service.Id,
+                        ServiceName: service.ServiceName,
+                        ServiceId: service.ServiceId,
+                        UnitOfMeasurementName: service.UnitOfMeasurementName,
+                        UnitOfMeasurementId: service.UnitOfMeasurementId,
+                        PriceWithoutTax: service.PriceWithoutTax,
+                        Count: service.Count,
+                        FinalCostWithoutTax: service.FinalCostWithoutTax,
+                        FinalCostWithTax: service.FinalCostWithTax,
+                    };
+                    $scope.addedProductServices.push(newService);
+                }
+            }
+
+            $scope.loadProductServiceNames();
+        }
+        else {
+            alert("Выберите продукцию для просмотра");
+        }
+    }
+
+    $scope.closeDisplayDrug = function () {
+        $scope.showAddEditDrugBlock = false;
+        $scope.showSearchDrugInReestr = false;
+        $scope.clearSearchAndProductFields();
+        $scope.mode = 0;
+    }
+
     $scope.addSeries = function addSeries() {
         var createDate = convertDateToString($scope.object.seriesCreateDate);
         var expireDate = convertDateToString($scope.object.seriesExpireDate);
@@ -842,10 +902,13 @@
 
         // clear mt parts
         $scope.selectedMtParts.length = 0;
+
+        // clear table addedProductServices
+        $scope.addedProductServices.length = 0;
     }
 
     $scope.resetMode = function resetMode() {
-        $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
+        $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit, 3 - view
     }
 
     $scope.refTypeChange = function (save) {

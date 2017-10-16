@@ -842,6 +842,7 @@
                                                 <button id="btnAddDrug" class="btn btn-sm btn-success" type="button" ng-click="addDrug()" ng-disabled="showAddEditDrugBlock || object.viewMpde">Добавить</button>
                                                 <button id="btnEditDrug" class="btn btn-sm btn-success" type="button" ng-click="editDrug()" ng-disabled="addedProducts == null || addedProducts.length == 0 || showAddEditDrugBlock || object.viewMpde">Изменить</button>
                                                 <button id="btnDeleteDrug" class="btn btn-sm btn-danger" type="button" ng-click="deleteDrug()" ng-disabled="addedProducts == null || addedProducts.length == 0 || showAddEditDrugBlock || object.viewMpde">Удалить</button>
+                                                <button id="btnDisplayDrug" class="btn btn-sm btn-success" type="button" ng-click="displayDrug()" ng-disabled="addedProducts == null || addedProducts.length == 0 || showAddEditDrugBlock" ng-show="object.viewMpde">Просмотр</button>
 
                                                 <div style="height: 10px;">&nbsp;</div>
 
@@ -1122,7 +1123,7 @@
                                                                                             </div>
                                                                                             <div id="productsSeriesId" class="panel-body">
 
-                                                                                                <div class="row" style="margin-bottom: 10px">
+                                                                                                <div class="row" style="margin-bottom: 10px" ng-show="!object.viewMpde">
                                                                                                     <div class="col-sm-12">
                                                                                                         <div class="form-group" id="attachProduct">
                                                                                                             <div class="col-lg-3">
@@ -1168,7 +1169,7 @@
 
 
 
-                                                                                                <div class="row" style="margin-bottom: 10px">
+                                                                                                <div class="row" style="margin-bottom: 10px" ng-show="!object.viewMpde">
                                                                                                     <div class="col-sm-12">
                                                                                                         <div class="form-group">
                                                                                                             <div class="col-lg-3">
@@ -1204,9 +1205,9 @@
 
                                                                                                 <div style="height: 20px;"></div>
 
-                                                                                                <button id="btnAddProductService" class="btn btn-sm btn-success" type="button" ng-click="addProductService()" ng-disabled="showAddEditProductServiceBlock">Добавить</button>
-                                                                                                <button id="btnEditProductService" class="btn btn-sm btn-success" type="button" ng-click="editProductService()" ng-disabled="addedProductServices == null || addedProductServices.length == 0 || showAddEditProductServiceBlock">Изменить</button>
-                                                                                                <button id="btnDeleteProductService" class="btn btn-sm btn-danger" type="button" ng-click="deleteProductService()" ng-disabled="addedProductServices == null || addedProductServices.length == 0 || showAddEditProductServiceBlock">Удалить</button>
+                                                                                                <button id="btnAddProductService" class="btn btn-sm btn-success" type="button" ng-click="addProductService()" ng-disabled="showAddEditProductServiceBlock" ng-show="!object.viewMpde">Добавить</button>
+                                                                                                <button id="btnEditProductService" class="btn btn-sm btn-success" type="button" ng-click="editProductService()" ng-disabled="addedProductServices == null || addedProductServices.length == 0 || showAddEditProductServiceBlock" ng-show="!object.viewMpde">Изменить</button>
+                                                                                                <button id="btnDeleteProductService" class="btn btn-sm btn-danger" type="button" ng-click="deleteProductService()" ng-disabled="addedProductServices == null || addedProductServices.length == 0 || showAddEditProductServiceBlock" ng-show="!object.viewMpde">Удалить</button>
 
                                                                                                 <div style="height: 20px;"></div>
 
@@ -1282,11 +1283,14 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <div class="col-lg-3">
-                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="saveProductBtn" style="margin-top: 10px" ng-click="saveProduct();">
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="saveProductBtn" style="margin-top: 10px" ng-click="saveProduct();" ng-show="!object.viewMpde">
                                                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Сохранить
                                                                                 </button>
-                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="cancelProductBtn" style="margin-top: 10px" ng-click="cancelSaveProduct();">
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="cancelProductBtn" style="margin-top: 10px" ng-click="cancelSaveProduct();" ng-show="!object.viewMpde">
                                                                                     Отменить
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="closeProductBtn" style="margin-top: 10px" ng-click="closeDisplayDrug();" ng-show="object.viewMpde">
+                                                                                    Закрыть
                                                                                 </button>
                                                                             </div>
                                                                         </div>
