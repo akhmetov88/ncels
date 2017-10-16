@@ -634,6 +634,7 @@
         $scope.showAddEditDrugBlock = false;
         $scope.showSearchDrugInReestr = false;
         $scope.clearSearchAndProductFields();
+        $scope.addedProductServices.length = 0;
         $scope.mode = 0;
     }
 
@@ -860,6 +861,7 @@
         $scope.showAddEditDrugBlock = false;
         $scope.showSearchDrugInReestr = false;
         $scope.clearSearchAndProductFields();
+        $scope.addedProductServices.length = 0;
     }
 
     $scope.existInArray = function existInArray(arr, id) {
@@ -906,9 +908,6 @@
 
         // clear mt parts
         $scope.selectedMtParts.length = 0;
-
-        // clear table addedProductServices
-        $scope.addedProductServices.length = 0;
     }
 
     $scope.resetMode = function resetMode() {
