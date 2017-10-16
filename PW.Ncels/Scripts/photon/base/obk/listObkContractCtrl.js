@@ -813,6 +813,10 @@
                     }
                 }
 
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
+
                 $scope.addedProductServices.length = 0;
 
                 if ($scope.deletedServicesId && $scope.deletedServicesId.length > 0) {
@@ -1293,6 +1297,11 @@
         }).then(function (resp) {
             if (resp.data) {
                 $scope.addedServices.push.apply($scope.addedServices, resp.data);
+
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
+
                 $scope.calcTotalCostCalculator();
             }
         });
@@ -1549,6 +1558,12 @@
             controller: ModalRegisterInstanceCtrl
         });
     };
+
+    $scope.tab3click = function () {
+        $interval(function () {
+            $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+        }, 500, 10);
+    }
 }
 
 function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {
