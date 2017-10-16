@@ -25,6 +25,7 @@ function obkContractGrid($scope, $http, DTColumnBuilder) {
         DTColumnBuilder.newColumn("CreatedDate", "Дата создания").withOption('name', 'CreatedDate').renderWith(dateformatHtml),
         DTColumnBuilder.newColumn("Status", "Статус").withOption('name', 'Status'),
         DTColumnBuilder.newColumn("DeclarantName", "Заявитель").withOption('name', 'DeclarantName'),
+        DTColumnBuilder.newColumn("Type", "Тип договора").withOption('name', 'Type'),
         DTColumnBuilder.newColumn("StartDate", "Дата заключения/Дата начала действия договора").withOption('name', 'StartDate').renderWith(dateformatHtml),
         DTColumnBuilder.newColumn("EndDate", "Дата истечения договора").withOption('name', 'EndDate').renderWith(dateformatHtml)
     ];

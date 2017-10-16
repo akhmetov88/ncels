@@ -369,8 +369,6 @@
         { name: 'NameRu', displayName: 'Наименование' },
         { name: 'ProducerNameRu', displayName: 'Производитель' },
         { name: 'CountryNameRu', displayName: 'Страна-производитель' },
-        { name: 'TnvedCode', displayName: 'ТН ВЭД' },
-        { name: 'KpvedCode', displayName: 'КП ВЭД' },
         { name: 'ButtonComments', displayName: '', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkproductdialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
@@ -519,8 +517,6 @@
             $scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
             $scope.product.CountryNameRu = selectedObj.CountryNameRu;
             $scope.product.CountryNameKz = selectedObj.CountryNameKz;
-            $scope.product.TnvedCode = selectedObj.TnvedCode;
-            $scope.product.KpvedCode = selectedObj.KpvedCode;
             $scope.product.Price = selectedObj.Price;
             $scope.product.Currency = selectedObj.Currency;
             $scope.product.DrugFormId = selectedObj.DrugFormId;
@@ -581,6 +577,67 @@
         }
     }
 
+    $scope.displayDrug = function displayDrug() {
+        if ($scope.selectedProductIndex != null) {
+            $scope.mode = 3;
+            $scope.showAddEditDrugBlock = true;
+
+            var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
+
+            $scope.product.Id = selectedObj.Id;
+            $scope.product.ProductId = selectedObj.ProductId;
+            $scope.product.RegTypeId = selectedObj.RegTypeId;
+            $scope.product.DegreeRiskId = selectedObj.DegreeRiskId;
+            $scope.product.NameRu = selectedObj.NameRu;
+            $scope.product.NameKz = selectedObj.NameKz;
+            $scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
+            $scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
+            $scope.product.CountryNameRu = selectedObj.CountryNameRu;
+            $scope.product.CountryNameKz = selectedObj.CountryNameKz;
+            $scope.product.Price = selectedObj.Price;
+            $scope.product.Currency = selectedObj.Currency;
+            $scope.product.DrugFormId = selectedObj.DrugFormId;
+            $scope.product.DrugFormRegisterId = selectedObj.DrugFormRegisterId;
+            $scope.product.DrugFormBoxCount = selectedObj.DrugFormBoxCount;
+            $scope.product.DrugFormFullName = selectedObj.DrugFormFullName;
+            $scope.product.DrugFormFullNameKz = selectedObj.DrugFormFullNameKz;
+
+            $scope.productSeries.push.apply($scope.productSeries, selectedObj.Series);
+            $scope.selectedMtParts.push.apply($scope.selectedMtParts, selectedObj.MtParts);
+
+            for (var i = 0; i < $scope.addedServices.length; i++) {
+                var service = $scope.addedServices[i];
+                if (service.ProductId == selectedObj.Id) {
+                    var newService = {
+                        Id: service.Id,
+                        ServiceName: service.ServiceName,
+                        ServiceId: service.ServiceId,
+                        UnitOfMeasurementName: service.UnitOfMeasurementName,
+                        UnitOfMeasurementId: service.UnitOfMeasurementId,
+                        PriceWithoutTax: service.PriceWithoutTax,
+                        Count: service.Count,
+                        FinalCostWithoutTax: service.FinalCostWithoutTax,
+                        FinalCostWithTax: service.FinalCostWithTax,
+                    };
+                    $scope.addedProductServices.push(newService);
+                }
+            }
+
+            $scope.loadProductServiceNames();
+        }
+        else {
+            alert("Выберите продукцию для просмотра");
+        }
+    }
+
+    $scope.closeDisplayDrug = function () {
+        $scope.showAddEditDrugBlock = false;
+        $scope.showSearchDrugInReestr = false;
+        $scope.clearSearchAndProductFields();
+        $scope.addedProductServices.length = 0;
+        $scope.mode = 0;
+    }
+
     $scope.addSeries = function addSeries() {
         var createDate = convertDateToString($scope.object.seriesCreateDate);
         var expireDate = convertDateToString($scope.object.seriesExpireDate);
@@ -631,8 +688,6 @@
                                     ProducerNameKz: $scope.product.ProducerNameKz,
                                     CountryNameRu: $scope.product.CountryNameRu,
                                     CountryNameKz: $scope.product.CountryNameKz,
-                                    TnvedCode: $scope.product.TnvedCode,
-                                    KpvedCode: $scope.product.KpvedCode,
                                     Price: $scope.product.Price,
                                     Currency: $scope.product.Currency,
                                     DrugFormBoxCount: $scope.product.DrugFormBoxCount,
@@ -686,8 +741,6 @@
             selectedObj.ProducerNameKz = $scope.product.ProducerNameKz;
             selectedObj.CountryNameRu = $scope.product.CountryNameRu;
             selectedObj.CountryNameKz = $scope.product.CountryNameKz;
-            selectedObj.TnvedCode = $scope.product.TnvedCode;
-            selectedObj.KpvedCode = $scope.product.KpvedCode;
             selectedObj.Price = $scope.product.Price;
             selectedObj.Currency = $scope.product.Currency;
             selectedObj.Series.length = 0;
@@ -761,6 +814,10 @@
                     }
                 }
 
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
+
                 $scope.addedProductServices.length = 0;
 
                 if ($scope.deletedServicesId && $scope.deletedServicesId.length > 0) {
@@ -804,6 +861,7 @@
         $scope.showAddEditDrugBlock = false;
         $scope.showSearchDrugInReestr = false;
         $scope.clearSearchAndProductFields();
+        $scope.addedProductServices.length = 0;
     }
 
     $scope.existInArray = function existInArray(arr, id) {
@@ -853,7 +911,7 @@
     }
 
     $scope.resetMode = function resetMode() {
-        $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
+        $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit, 3 - view
     }
 
     $scope.refTypeChange = function (save) {
@@ -1238,6 +1296,11 @@
         }).then(function (resp) {
             if (resp.data) {
                 $scope.addedServices.push.apply($scope.addedServices, resp.data);
+
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
+
                 $scope.calcTotalCostCalculator();
             }
         });
@@ -1452,6 +1515,7 @@
     
     $scope.sendWithoutDigitalSign = function () {
         var formValid = $scope.contractCreateForm.$valid;
+        var productInfoExist = $scope.addedProducts.length > 0;
         //alert("formValid = " + formValid);
         var outputErrors = true;
         if (!formValid && $scope.contractCreateForm.$error && outputErrors) {
@@ -1469,13 +1533,16 @@
         }
         var filesValid = $scope.checkFileValidation();
         //alert("filesValid = " + filesValid);
-        if (formValid && filesValid) {
+        if (formValid && productInfoExist && filesValid) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/Project/Agreement',
                 controller: modalSendContract,
                 scope: $scope,
                 size: 'size-custom'
             });
+        }
+        else {
+            alert("Заполните обязательные поля, информацию о продукции и загрузите вложения!");
         }
     }
 
@@ -1490,6 +1557,12 @@
             controller: ModalRegisterInstanceCtrl
         });
     };
+
+    $scope.tab3click = function () {
+        $interval(function () {
+            $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+        }, 500, 10);
+    }
 }
 
 function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {
