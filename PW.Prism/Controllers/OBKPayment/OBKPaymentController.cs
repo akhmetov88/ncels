@@ -40,6 +40,12 @@ namespace PW.Prism.Controllers.OBKPayment
             return PartialView(model);
         }
 
+        public ActionResult SendToDeclarant(Guid id)
+        {
+            payRepo.SendInvoiceToDeclarant(id);
+            return Json(new { IsSuccess = true });
+        }
+
         public ActionResult GetContractPrice(Guid id)
         {
             var model = payRepo.GetContract(id);

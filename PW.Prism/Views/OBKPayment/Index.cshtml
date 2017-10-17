@@ -14,6 +14,10 @@
               .Content("Посмотреть счет на оплату"))
         @* /Content/images/commands/doc_print.png *@
     </div>
+    <div class="pull-left">
+        @(Html.Kendo().Button().Name("sendToDeclarant" + Model)
+              .Content("Отправить заявителю"))
+    </div>
     <div class="pull-right">
         <div style="display: inline-block" id="columnMenu@(Model)" class="custom-grid-menu"></div>
         <div style="display: inline-block">
@@ -155,6 +159,7 @@
         debugger;
         resizeGrid('@("#gridOBKPayment" + Model)');
         $("#generateDoc" + '@Model').hide();
+        $("#sendToDeclarant" + '@Model').hide();
     });
 
     function getPaymentDetails(parameters, invoiceNumber) {
@@ -171,13 +176,9 @@
                 content: content
 
             });
-
             tabStrip.select(tabStrip.items().length - 1);
-
             var gridElement = $(idContent);
-
             gridElement.height($(window).height() - 100);
-
             $.ajax({
                 url: "/OBKPayment/Edit?contractId=" + parameters,
                 //type: "POST",
@@ -198,6 +199,22 @@
         }
     }
 
+    $("#sendToDeclarant" + '@Model').click(function () {
+        debugger;
+        var grid = $("#gridOBKPayment" + '@Model').data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem === null)
+            alert("Выберите договор");
+        $.ajax({
+            url: "/OBKPayment/SendToDeclarant?id=" + selectedItem.Id,
+            type: "POST",
+            success: function (result) {
+                alert("Счет на оплату отправлен заявителю");
+                grid.dataSource.read();
+            }
+        });
+    });
+
 
     $("#generateDoc" + '@Model').click(function () {
         debugger;
@@ -206,8 +223,8 @@
     function exportProtocol(id) {
         var grid = $("#gridOBKPayment" + id).data("kendoGrid");
         var selectedItem = grid.dataItem(grid.select());
-
-
+        if (selectedItem === null)
+            alert("Выберите договор");
         window.open('/OBKPayment/DocumentExportFilePdf?contractId=' + selectedItem.ContractId);
     }
 </script>

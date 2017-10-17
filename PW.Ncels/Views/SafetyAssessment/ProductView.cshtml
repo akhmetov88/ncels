@@ -16,6 +16,8 @@
     var @count = @Model.ObkRsProductses?.Count ?? 0;
 }
 
+
+
 <div class="panel-body">
     <div class="row">
         <div class="col-lg-12">
@@ -98,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-6">
-                                    <label>Цена</label>
+                                    <label id="PriceLabel">Цена</label>
                                     <div class="input-group">
                                         <input id="Price" name="Price" type="text" class="form-control edit-control product-control" placeholder="Введите сумму" typeField="float" readonly="readonly">
                                         <span class="input-group-addon">
@@ -109,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>Валюта</label>
+                                    <label id="CurrencyLabel">Валюта</label>
                                     <div class="input-group">
                                         @Html.DropDownList("CurrencyId", (IEnumerable<SelectListItem>) (ViewData["Courrency"]), String.Empty, new {@class = "form-control edit-control product-control"})
                                         <span class="input-group-addon">

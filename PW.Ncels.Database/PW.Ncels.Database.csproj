@@ -861,6 +861,9 @@
     <Compile Include="DataModel\I1c_primary_Applications_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplications.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_primary_PriceListElements.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -973,6 +976,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractStage.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractStageExecutors.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_currencies.cs">

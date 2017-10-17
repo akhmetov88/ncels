@@ -46,6 +46,7 @@ namespace PW.Ncels.Database.Repository.OBK
                     pay.PayerValue = contract.OBK_Declarant.NameRu;
                     pay.IsDeleted = false;
                     pay.TotalPrice = GetTotalPriceCount(contractId);
+                    pay.StatusId = GetPaymentStatus(OBK_Ref_PaymentStatus.OnFormation).Id;
                 }
                 else
                 {
@@ -60,6 +61,7 @@ namespace PW.Ncels.Database.Repository.OBK
                     pay.PayerValue = payment.OBK_Declarant.NameRu;
                     pay.IsDeleted = false;
                     pay.TotalPrice = GetTotalPriceCount(contractId);
+                    pay.StatusId = payment.StatusId;
                 }
                 AppContext.OBK_DirectionToPayments.Add(pay);
                 AppContext.SaveChanges();
@@ -85,6 +87,18 @@ namespace PW.Ncels.Database.Repository.OBK
             return AppContext.OBK_Contract.FirstOrDefault(e => e.Id == id);
         }
 
+        public OBK_Ref_PaymentStatus GetPaymentStatus(string code)
+        {
+            return AppContext.OBK_Ref_PaymentStatus.First(e => e.Code == code);
+        }
+
+        public void SendInvoiceToDeclarant(Guid id)
+        {
+            var directionPay = AppContext.OBK_DirectionToPayments.First(e => e.Id == id);
+            directionPay.StatusId = GetPaymentStatus(OBK_Ref_PaymentStatus.SendToPayment).Id;
+            AppContext.SaveChanges();
+            //todo добавить изменения статуса договора
+        }
 
         public decimal GetTotalPriceWithCount(Guid contractId)
         {

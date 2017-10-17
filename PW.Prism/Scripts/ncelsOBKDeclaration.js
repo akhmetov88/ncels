@@ -378,8 +378,10 @@ function panelDirectionPaymentSelect(e) {
 
         if (selectValue === 'reqSign') {
             $("#generateDoc" + gridId).show();
+            $("#sendToDeclarant" + gridId).show();
         } else {
             $("#generateDoc" + gridId).hide();
+            $("#sendToDeclarant" + gridId).hide();
         }
 
         if (selectValue === '') {
