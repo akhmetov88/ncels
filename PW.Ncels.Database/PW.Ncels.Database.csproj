@@ -861,6 +861,9 @@
     <Compile Include="DataModel\I1c_primary_Applications_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplications.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_primary_PriceListElements.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -975,6 +978,9 @@
     <Compile Include="DataModel\OBK_ContractStage.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_ContractStageExecutors.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_currencies.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -985,6 +991,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_DirectionToPayments.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_DirectionToPaymentsView.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_exchangerate.cs">
@@ -1021,6 +1030,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_Nomenclature.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_PaymentStatus.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_PriceList.cs">
@@ -1905,6 +1917,7 @@
     <Compile Include="Entities\FileLinkView.cs" />
     <Compile Include="Entities\History.cs" />
     <Compile Include="Entities\OBK_Ref_ContractHistoryStatus.cs" />
+    <Compile Include="Entities\OBK_Ref_PaymentStatus.cs" />
     <Compile Include="Entities\OBK_Ref_StageStatus.cs" />
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Entities\prismEntities.cs" />

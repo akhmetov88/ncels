@@ -168,6 +168,11 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("CanSafetyAssessmentExecutorsAssignment", @"Модуль 'ОБК'", "Распределение заявлений", "Работа с заявлениями ОБК");
             AddPermission("CanSARejectAndReviewButton", @"Модуль 'ОБК'", "Функционал подверждения или отклонения заявки ЦОЗ", "Работа с заявлениями ОБК");
 
+            // Организационная стуктура
+            AddPermission("CanChangeBankUnits", @"Модуль 'Организационная структура'", "Просмотр и добавление банковских реквизитов для организации", "Работа с организационной структурой");
+            AddPermission("CanChangeSignerUnits", @"Модуль 'Организационная структура'", "Просмотр и добавление подписывающих лиц для организации", "Работа с организационной структурой");
+            AddPermission("CanChangeAddressUnits", @"Модуль 'Организационная структура'", "Просмотр и добавление юридического адреса для организации", "Работа с организационной структурой");
+
             // ОБК Договоры
             AddPermission("IsMenuOBKContractVisibility", @"Модуль 'ОБК' 'Договоры'", "Вкладка 'ОБК Договоры' главная", "Доступ в главном меню ОБК Договоры");
 
@@ -883,6 +888,21 @@ namespace PW.Ncels.Database.Helpers
         /// ЦОЗ кнопки вернуть и следеющий этап в одельное право
         /// </summary>
         public static bool CanSARejectAndReviewButton { get { return IsVisibility("CanSARejectAndReviewButton"); } }
+        #endregion
+
+        #region Организационная структура настройки реквизитов
+        /// <summary>
+        /// Возможность редактирования банковских реквизитов в организационной структуре
+        /// </summary>
+        public static bool CanChangeBankUnits { get { return IsVisibility("CanChangeBankUnits"); }}
+        /// <summary>
+        /// Возможность редактирования подписывающих лиц в организационной структуре
+        /// </summary>
+        public static bool CanChangeSignerUnits { get { return IsVisibility("CanChangeSignerUnits"); }}
+        /// <summary>
+        /// Возможность редактирования Юридического адреса в организационной структуре
+        /// </summary>
+        public static bool CanChangeAddressUnits { get { return IsVisibility("CanChangeAddressUnits"); } }
         #endregion
 
         #region ОБК Договоры

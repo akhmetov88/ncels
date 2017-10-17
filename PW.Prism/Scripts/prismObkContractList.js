@@ -270,6 +270,25 @@ function InitObkContractCard(uiId) {
 }
 
 function initFilterOBKContract(uiId) {
+
+    $("#toPay" + uiId).click(function () {
+        debugger;
+        var grid = $('#gridContractAll' + uiId).data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        $.ajax({
+            type: 'POST',
+            url: '/OBKContract/SendToPay',
+            data: JSON.stringify({ contractId: selectedItem.ContractId }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+            },
+            complete: function () {
+
+            }
+        });
+    });
+
+
     $('#toWork' + uiId).click(function () {
         var grid = $('#gridContractAll' + uiId).data("kendoGrid");
         var selectedItem = grid.dataItem(grid.select());

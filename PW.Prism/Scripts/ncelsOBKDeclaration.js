@@ -359,3 +359,38 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
     };
     loadDocument(name);
 };
+
+
+/*оплата DirectionPayment*/
+function panelDirectionPaymentSelect(e) {
+    debugger;
+    var selectType = $(e.item).find("> .k-link").attr('ItemType');
+    if (selectType !== null) {
+        var selectValue = $(e.item).find("> .k-link").attr('ItemId');
+        var gridId = $(e.item).find("> .k-link").attr('ModelId');
+        var grid = $("#gridOBKPayment" + gridId).data("kendoGrid");
+        var filter = new Array();
+
+        if (selectType === "StatusCode") {
+
+            filter.push({ field: "StatusCode", operator: "eq", value: selectValue });
+        }
+
+        if (selectValue === 'reqSign') {
+            $("#generateDoc" + gridId).show();
+            $("#sendToDeclarant" + gridId).show();
+        } else {
+            $("#generateDoc" + gridId).hide();
+            $("#sendToDeclarant" + gridId).hide();
+        }
+
+        if (selectValue === '') {
+            grid.dataSource.filter([]);
+        } else {
+            grid.dataSource.filter({
+                logic: "and",
+                filters: filter
+            });
+        }
+    }
+}

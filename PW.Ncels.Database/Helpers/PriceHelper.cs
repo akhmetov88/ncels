@@ -86,6 +86,14 @@ namespace PW.Ncels.Database.Helpers
         {
             "", "копейка", "копейки", "копеек"
         };
+        static string[] tenge =
+        {
+            "", "тенге", "тенге", "тенге"
+        };
+        static string[] tiyn =
+        {
+            "", "тиын", "тиын", "тиын"
+        };
         static bool IsPluralGenitive(int _digits)
         {
             if (_digits >= 5 || _digits == 0)
@@ -126,6 +134,53 @@ namespace PW.Ncels.Database.Helpers
             string row = String.Format(" {0} целых {1} сотых", s, c);
 
             return row.Trim();
+        }
+
+        /// <summary>
+        /// Десять тысяч тенге 67 тиын
+        /// </summary>
+        /// <param name="_amount"></param>
+        /// <param name="_firstCapital"></param>
+        /// <returns></returns>
+        public static string CurrencyToTxtTenge(double _amount, bool _firstCapital)
+        {
+            //Десять тысяч рублей 67 копеек
+            long tengeAmount = (long)Math.Floor(_amount);
+            long tiynAmount = ((long)Math.Round(_amount * 100)) % 100;
+            int lastRublesDigit = lastDigit(tengeAmount);
+            int lastCopecksDigit = lastDigit(tiynAmount);
+
+            string s = NumeralsToTxt(tengeAmount, TextCase.Nominative, true, _firstCapital) + " ";
+
+            if (IsPluralGenitive(lastRublesDigit))
+            {
+                s += tenge[3] + " ";
+            }
+            else if (IsSingularGenitive(lastRublesDigit))
+            {
+                s += tenge[2] + " ";
+            }
+            else
+            {
+                s += tenge[1] + " ";
+            }
+
+            s += String.Format("{0:00} ", tiynAmount);
+
+            if (IsPluralGenitive(lastCopecksDigit))
+            {
+                s += tiyn[3] + " ";
+            }
+            else if (IsSingularGenitive(lastCopecksDigit))
+            {
+                s += tiyn[2] + " ";
+            }
+            else
+            {
+                s += tiyn[1] + " ";
+            }
+
+            return s.Trim();
         }
 
         /// <summary>

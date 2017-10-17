@@ -161,12 +161,13 @@
     function checkDeclaraionValidation() {
         var validAttach = checkAttachFile();
         var validDeclaration = checkWrapping();
-        if (!validDeclaration) {
+        var validProducts = checkProductWrapping();
+        if (!validDeclaration || !validProducts) {
             $("#OBKSaDeclarationBtn").css({ 'color': '#a94442', 'background-color': '#f2dede' });
         } else {
             $("#OBKSaDeclarationBtn").css({ 'color': '#555', 'background-color': '#ffffff' });
         }
-        valid = validDeclaration && validAttach;
+        valid = validDeclaration && validAttach && validProducts;
         return valid;
     }
 
@@ -305,10 +306,30 @@
         return validFile;
     }
 
+    function checkProductWrapping() {
+        debugger;
+        var validFile = true;
+        var data = $('#tableProducts').DataTable().data();
+        data.each(function(val) {
+            if (val.Price == null || val.Price === "") {
+                validFile = false;
+                $("#PriceLabel").css({ 'color': '#a94442' });
+            } else {
+                $("#PriceLabel").css({ 'color': '#555' });
+            }
+            if (val.CurrencyId == null || val.CurrencyId === "") {
+                validFile = false;
+                $("#CurrencyLabel").css({ 'color': '#a94442' });
+            } else {
+                $("#CurrencyLabel").css({ 'color': '#555' });
+            }
+        });
+        return validFile;
+    }
+
     function checkAttachFile() {
         var validFile = true;
         $('.file-validation').each(function () {
-            debugger;
             var ct = $(this).attr('countFile');
             var attcode = $(this).attr('attcode');
             var attId = $(this).attr('attId');

@@ -200,17 +200,69 @@
                                          <td><input type="text" data-bind="value: item.Bin" class="k-textbox pwWidth100"/></td>
                                      </tr>
                                  </table>
-                                 @( Html.Kendo().Grid<UnitAddress>().Name("GridUnitsAddressOrganization" + Model[0]).Columns(columns =>
-                                    {
-                                        columns.Bound(p => p.RegionName).Title("Область");
-                                        columns.Bound(p => p.AddressNameRu).Title("Юридический адрес");
-                                        columns.Command(command =>
+                                 @if (EmployePermissionHelper.CanChangeAddressUnits)
+                                 {
+                                     @( Html.Kendo().Grid<UnitAddress>().Name("GridUnitsAddressOrganization" + Model[0]).Columns(columns =>
                                         {
-                                            command.Edit();
-                                            command.Destroy();
-                                        }).Width(200);
-                                    }).ToolBar(toolbar => toolbar.Create()
-                                        //.HtmlAttributes(new { @class = "pwRefAdd" })
+                                            columns.Bound(p => p.RegionName).Title("Область");
+                                            columns.Bound(p => p.AddressNameRu).Title("Юридический адрес");
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit();
+                                                command.Destroy();
+                                            }).Width(200);
+                                        }).ToolBar(toolbar => toolbar.Create()
+                                            //.HtmlAttributes(new { @class = "pwRefAdd" })
+                                            )
+                                            .HtmlAttributes(new {@class = "pwGrid"})
+                                            .Reorderable(reorderable => reorderable.Columns(true))
+                                            .Resizable(resizable => resizable.Columns(true))
+                                            .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                                            .Scrollable()
+                                            .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .Model(model =>
+                                                {
+                                                    model.Id(p => p.UnitAddressId);
+                                                    model.Field(p => p.RegionId);
+                                                    model.Field(f => f.RegionName);
+                                                })
+                                                .Read(read => read.Action("UnitsAddressRead", "Employe").Data("PermissionParams"))
+                                                .Create(update => update.Action("UnitsAddressCreate", "Employe").Data("PermissionParams"))
+                                                .Update(update => update.Action("UnitsAddressUpdate", "Employe").Data("PermissionParams"))
+                                                .Destroy(update => update.Action("UnitsAddressDestroy", "Employe").Data("PermissionParams"))
+                                                .Events(events => events.Error("error_handlerPP"))
+                                            )
+                                           //.Events(e => e.DataBound("dataBoundPermission"))
+                                           )
+                                 }
+                                 <div hidden="@( !EmployePermissionHelper.IsEditOs)" class="pwUnitsFooter k-block">
+                                     <button type="button" class="btn btn-default" data-bind="click: Save">@PW.Ncels.Database.Recources.Messages.Property_Сохранить_278__00</button>
+                                 </div>
+                             </form>
+                          </text>);
+            if (EmployePermissionHelper.CanChangeBankUnits)
+            {
+
+                tabstrip.Add()
+                    .Text("Банковские реквизиты")
+                    .Content(@<text>
+                                 @( Html.Kendo().Grid<UnitBankModel>()
+                                        .Name("GridUnitBankModel" + Model[0])
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.CurrencyName).Title("Валюта");
+                                            columns.Bound(p => p.BankNameRu).Title("Наименование банка");
+                                            columns.Bound(p => p.StartDate).Format("{0:d}").Title("Дата действия с");
+                                            columns.Bound(p => p.EndDate).Format("{0:d}").Title("Дата действия по");
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit();
+                                                command.Destroy();
+                                            }).Width(200);
+                                        })
+                                        .ToolBar(toolbar => toolbar.Create()
+                                        //.HtmlAttributes(new {@class = "pwRefAdd"})
                                         )
                                         .HtmlAttributes(new {@class = "pwGrid"})
                                         .Reorderable(reorderable => reorderable.Columns(true))
@@ -221,114 +273,72 @@
                                             .Ajax()
                                             .Model(model =>
                                             {
-                                                model.Id(p => p.UnitAddressId);
-                                                model.Field(p => p.RegionId);
-                                                model.Field(f => f.RegionName);
+                                                model.Id(p => p.UnitBankId);
+                                                model.Field(p => p.CurrencyId);
+                                                model.Field(q => q.CurrencyName);
+                                                model.Field(p => p.BankNameRu);
+                                                model.Field(p => p.BankNameKz);
+                                                model.Field(p => p.KBE);
+                                                model.Field(p => p.Code);
+                                                model.Field(p => p.SWIFT);
+                                                model.Field(p => p.IIK);
+                                                model.Field(p => p.CorrespondentBank);
+                                                model.Field(p => p.CorrespondentAccount);
+                                                model.Field(p => p.SWIFT1);
+                                                model.Field(p => p.CorrespondentAccount1);
+                                                model.Field(p => p.SWIFT2);
+                                                model.Field(f => f.StartDate);
+                                                model.Field(f => f.EndDate);
                                             })
-                                            .Read(read => read.Action("UnitsAddressRead", "Employe").Data("PermissionParams"))
-                                            .Create(update => update.Action("UnitsAddressCreate", "Employe").Data("PermissionParams"))
-                                            .Update(update => update.Action("UnitsAddressUpdate", "Employe").Data("PermissionParams"))
-                                            .Destroy(update => update.Action("UnitsAddressDestroy", "Employe").Data("PermissionParams"))
-                                            .Events(events => events.Error("error_handlerPP"))
-                                        )
-                                       //.Events(e => e.DataBound("dataBoundPermission"))
-                                       )
-                                 <div hidden="@( !EmployePermissionHelper.IsEditOs)" class="pwUnitsFooter k-block">
-                                     <button type="button" class="btn btn-default" data-bind="click: Save">@PW.Ncels.Database.Recources.Messages.Property_Сохранить_278__00</button>
-                                 </div>
-                             </form>
-                          </text>);
-            tabstrip.Add()
-                .Text("Банковские реквизиты")
-                .Content(@<text>
-                             @( Html.Kendo().Grid<UnitBankModel>()
-                                    .Name("GridUnitBankModel" + Model[0])
-                                    .Columns(columns =>
-                                    {
-                                        columns.Bound(p => p.CurrencyName).Title("Валюта");
-                                        columns.Bound(p => p.BankNameRu).Title("Наименование банка");
-                                        columns.Bound(p => p.StartDate).Format("{0:d}").Title("Дата действия с");
-                                        columns.Bound(p => p.EndDate).Format("{0:d}").Title("Дата действия по");
-                                        columns.Command(command =>
-                                        {
-                                            command.Edit();
-                                            command.Destroy();
-                                        }).Width(200);
-                                    })
-                                    .ToolBar(toolbar => toolbar.Create()
-                                    //.HtmlAttributes(new {@class = "pwRefAdd"})
-                                    )
-                                    .HtmlAttributes(new {@class = "pwGrid"})
-                                    .Reorderable(reorderable => reorderable.Columns(true))
-                                    .Resizable(resizable => resizable.Columns(true))
-                                    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-                                    .Scrollable()
-                                    .DataSource(dataSource => dataSource
-                                        .Ajax()
-                                        .Model(model =>
-                                        {
-                                            model.Id(p => p.UnitBankId);
-                                            model.Field(p => p.CurrencyId);
-                                            model.Field(q => q.CurrencyName);
-                                            model.Field(p => p.BankNameRu);
-                                            model.Field(p => p.BankNameKz);
-                                            model.Field(p => p.KBE);
-                                            model.Field(p => p.Code);
-                                            model.Field(p => p.SWIFT);
-                                            model.Field(p => p.IIK);
-                                            model.Field(p => p.CorrespondentBank);
-                                            model.Field(p => p.CorrespondentAccount);
-                                            model.Field(p => p.SWIFT1);
-                                            model.Field(p => p.CorrespondentAccount1);
-                                            model.Field(p => p.SWIFT2);
-                                            model.Field(f => f.StartDate);
-                                            model.Field(f => f.EndDate);
-                                        })
-                                        .Read(read => read.Action("UnitsBankRead", "Employe").Data("PermissionParams"))
-                                        .Create(update => update.Action("UnitsBankCreate", "Employe").Data("PermissionParams"))
-                                        .Update(update => update.Action("UnitsBankUpdate", "Employe").Data("PermissionParams"))
-                                        .Destroy(update => update.Action("UnitsBankDestroy", "Employe").Data("PermissionParams"))
+                                            .Read(read => read.Action("UnitsBankRead", "Employe").Data("PermissionParams"))
+                                            .Create(update => update.Action("UnitsBankCreate", "Employe").Data("PermissionParams"))
+                                            .Update(update => update.Action("UnitsBankUpdate", "Employe").Data("PermissionParams"))
+                                            .Destroy(update => update.Action("UnitsBankDestroy", "Employe").Data("PermissionParams"))
                                         //.Events(events => events.RequestEnd("error_handlerPP"))
-                                    ))
-                          </text>);
-            tabstrip.Add()
-                .Text("Подписывающие лица")
-                .Content(@<text>
-                             @( Html.Kendo().Grid<UnitSignerModel>()
-                                    .Name("GridSignerModel" + Model[0])
-                                    .Columns(columns =>
-                                    {
-                                        columns.Bound(p => p.Signer).Title("ФИО (подразделение - должность)");
-                                        columns.Bound(p => p.StartDate).Format("{0:d}").Title("Дата действия с");
-                                        columns.Bound(p => p.EndDate).Format("{0:d}").Title("Дата действия по");
-                                        columns.Command(command =>
+                                        ))
+                              </text>);
+            }
+            if (EmployePermissionHelper.CanChangeSignerUnits)
+            {
+                tabstrip.Add()
+                    .Text("Подписывающие лица")
+                    .Content(@<text>
+                                 @( Html.Kendo().Grid<UnitSignerModel>()
+                                        .Name("GridSignerModel" + Model[0])
+                                        .Columns(columns =>
                                         {
-                                            command.Edit();
-                                            command.Destroy();
-                                        }).Width(200);
-                                    })
-                                    .ToolBar(toolbar => toolbar.Create())
-                                    .HtmlAttributes(new {@class = "pwGrid"})
-                                    .Reorderable(reorderable => reorderable.Columns(true))
-                                    .Resizable(resizable => resizable.Columns(true))
-                                    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-                                    .Scrollable()
-                                    .DataSource(dataSource => dataSource
-                                        .Ajax()
-                                        .Model(model =>
-                                        {
-                                            model.Id(p => p.SignerId);
-                                            model.Field(q => q.Signer);
-                                            model.Field(f => f.DocumentType);
-                                            model.Field(f => f.DocAvailable);
-                                            model.Field(f => f.StartDate);
-                                            model.Field(f => f.EndDate);
+                                            columns.Bound(p => p.Signer).Title("ФИО (подразделение - должность)");
+                                            columns.Bound(p => p.StartDate).Format("{0:d}").Title("Дата действия с");
+                                            columns.Bound(p => p.EndDate).Format("{0:d}").Title("Дата действия по");
+                                            columns.Command(command =>
+                                            {
+                                                command.Edit();
+                                                command.Destroy();
+                                            }).Width(200);
                                         })
-                                        .Read(read => read.Action("UnitsSignerRead", "Employe").Data("PermissionParams"))
-                                        .Create(update => update.Action("UnitsSignerCreate", "Employe").Data("PermissionParams"))
-                                        .Update(update => update.Action("UnitsSignerUpdate", "Employe").Data("PermissionParams"))
-                                        .Destroy(update => update.Action("UnitsSignerDestroy", "Employe").Data("PermissionParams"))
-                                    ))</text>);
+                                        .ToolBar(toolbar => toolbar.Create())
+                                        .HtmlAttributes(new {@class = "pwGrid"})
+                                        .Reorderable(reorderable => reorderable.Columns(true))
+                                        .Resizable(resizable => resizable.Columns(true))
+                                        .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                                        .Scrollable()
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .Model(model =>
+                                            {
+                                                model.Id(p => p.SignerId);
+                                                model.Field(q => q.Signer);
+                                                model.Field(f => f.DocumentType);
+                                                model.Field(f => f.DocAvailable);
+                                                model.Field(f => f.StartDate);
+                                                model.Field(f => f.EndDate);
+                                            })
+                                            .Read(read => read.Action("UnitsSignerRead", "Employe").Data("PermissionParams"))
+                                            .Create(update => update.Action("UnitsSignerCreate", "Employe").Data("PermissionParams"))
+                                            .Update(update => update.Action("UnitsSignerUpdate", "Employe").Data("PermissionParams"))
+                                            .Destroy(update => update.Action("UnitsSignerDestroy", "Employe").Data("PermissionParams"))
+                                        ))</text>);
+            }
         }))
 </div>
 
