@@ -908,12 +908,13 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <div class="col-lg-6">
-                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="searchBtn" ng-click="searchDrug()" style="margin-top: 10px">
-                                                                                    <span class="glyphicon" aria-hidden="true"></span>Поиск
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="searchBtn" ng-click="searchDrug()" ng-disabled="searchDrugWorking" style="margin-top: 10px">
+                                                                                    <span class="glyphicon" aria-hidden="true"></span> Поиск
                                                                                 </button>
-                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="clearSearchDrugBtn" ng-click="clearSearchDrugArea()" style="margin-top: 10px">
-                                                                                    <span class="glyphicon" aria-hidden="true"></span>Очистить критерии поиска
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" id="clearSearchDrugBtn" ng-click="clearSearchDrugArea()" ng-disabled="searchDrugWorking" style="margin-top: 10px">
+                                                                                    <span class="glyphicon" aria-hidden="true"></span> Очистить критерии поиска
                                                                                 </button>
+                                                                                <img src="~/Content/img/spinner.gif" style="height: 25px;" ng-show="searchDrugWorking" />
                                                                             </div>
                                                                         </div>
                                                                     </div>

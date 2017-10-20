@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -38,6 +39,8 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             if (regNumber == null && tradeName == null)
                 return null;
+
+            ((IObjectContextAdapter)AppContext).ObjectContext.CommandTimeout = 180;
 
             var reestr = from register in AppContext.sr_register
                          let obkProduct = AppContext.obk_products

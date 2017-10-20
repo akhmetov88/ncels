@@ -21,6 +21,8 @@
 
     $scope.object.Status = 1;
 
+    $scope.searchDrugWorking = false;
+
     $scope.showComments = false;
     $scope.viewMpde = false;
 
@@ -444,6 +446,8 @@
         $scope.mtParts.length = 0;
         $scope.drugForms.length = 0;
 
+        $scope.searchDrugWorking = true;
+
         $http({
             method: 'GET',
             url: '/OBKContract/SearchDrug',
@@ -464,7 +468,9 @@
                 $scope.searchResults = null;
                 $scope.gridOptions.data = null;
             }
+            $scope.searchDrugWorking = false;
         }, function (response) {
+            $scope.searchDrugWorking = false;
             alert(JSON.stringify(response));
         });
 
