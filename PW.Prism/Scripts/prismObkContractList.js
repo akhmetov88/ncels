@@ -46,72 +46,83 @@ function InitObkContractCard(uiId) {
             $('#' + tabid).removeClass("hidden");
         },
         meetsRequirements: function (e) {
-            var modelId = $("#modelId").val();
-            kendo.ui.progress($("#loader" + uiId), true);
-            $.ajax({
-                type: 'POST',
-                url: '/OBKContract/MeetsRequirements',
-                data: JSON.stringify({ contractId: modelId }),
-                contentType: 'application/json; charset=utf-8',
-                success: function (result) {
-                    $(e.target).hide();
-                    $("#doesNotMeetRequirementsBtn" + uiId).hide();
-                },
-                complete: function () {
-                    kendo.ui.progress($("#loader" + uiId), false);
-                }
-            });
-
+            var question = "Вы подтверждаете действие \"Соответствует требованиям\"?";
+            if (confirm(question)) {
+                var modelId = $("#modelId").val();
+                kendo.ui.progress($("#loader" + uiId), true);
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKContract/MeetsRequirements',
+                    data: JSON.stringify({ contractId: modelId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $(e.target).hide();
+                        $("#doesNotMeetRequirementsBtn" + uiId).hide();
+                    },
+                    complete: function () {
+                        kendo.ui.progress($("#loader" + uiId), false);
+                    }
+                });
+            }
         },
         doesNotMeetRequirements: function (e) {
-            var modelId = $("#modelId").val();
-            kendo.ui.progress($("#loader" + uiId), true);
-            $.ajax({
-                type: 'POST',
-                url: '/OBKContract/DoesNotMeetRequirements',
-                data: JSON.stringify({ contractId: modelId }),
-                contentType: 'application/json; charset=utf-8',
-                success: function (result) {
-                    $(e.target).hide();
-                    $("#meetsRequirementsBtn" + uiId).hide();
-                },
-                complete: function () {
-                    kendo.ui.progress($("#loader" + uiId), false);
-                }
-            });
+            var question = "Вы подтверждаете действие \"Несоответствует требованиям\"?";
+            if (confirm(question)) {
+                var modelId = $("#modelId").val();
+                kendo.ui.progress($("#loader" + uiId), true);
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKContract/DoesNotMeetRequirements',
+                    data: JSON.stringify({ contractId: modelId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $(e.target).hide();
+                        $("#meetsRequirementsBtn" + uiId).hide();
+                    },
+                    complete: function () {
+                        kendo.ui.progress($("#loader" + uiId), false);
+                    }
+                });
+            }
         },
         returnToApplicant: function (e) {
-            var modelId = $("#modelId").val();
-            $.ajax({
-                type: 'POST',
-                url: '/OBKContract/ReturnToApplicant',
-                data: JSON.stringify({ contractId: modelId }),
-                contentType: 'application/json; charset=utf-8',
-                success: function (result) {
-                    $(e.target).hide();
-                    $("#sendToBossForApprovalBtn" + uiId).hide();
-                    $("#sendToBossForApprovalWithWarningBtn" + uiId).hide();
-                },
-                complete: function () {
+            var question = "Вы подтверждаете действие \"Вернуть на доработку\"?";
+            if (confirm(question)) {
+                var modelId = $("#modelId").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKContract/ReturnToApplicant',
+                    data: JSON.stringify({ contractId: modelId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $(e.target).hide();
+                        $("#sendToBossForApprovalBtn" + uiId).hide();
+                        $("#sendToBossForApprovalWithWarningBtn" + uiId).hide();
+                    },
+                    complete: function () {
 
-                }
-            });
+                    }
+                });
+            }
         },
         sendToBossForApproval: function (e) {
-            var modelId = $("#modelId").val();
-            $.ajax({
-                type: 'POST',
-                url: '/OBKContract/SendToBossForApproval',
-                data: JSON.stringify({ contractId: modelId }),
-                contentType: 'application/json; charset=utf-8',
-                success: function (result) {
-                    $(e.target).hide();
-                    $("#returnToApplicantBtn" + uiId).hide();
-                },
-                complete: function () {
+            var question = "Вы подтверждаете действие \"На согласование руководителю\"?";
+            if (confirm(question)) {
+                var modelId = $("#modelId").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKContract/SendToBossForApproval',
+                    data: JSON.stringify({ contractId: modelId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $(e.target).hide();
+                        $("#returnToApplicantBtn" + uiId).hide();
+                    },
+                    complete: function () {
 
-                }
-            });
+                    }
+                });
+            }
         },
         sendToBossForApprovalWithWarning: function (e) {
             var question = $("#question" + uiId).text();
@@ -133,20 +144,23 @@ function InitObkContractCard(uiId) {
             }
         },
         doApprovement: function (e) {
-            var modelId = $("#modelId").val();
-            $.ajax({
-                type: 'POST',
-                url: '/OBKContract/DoApprovement',
-                data: JSON.stringify({ contractId: modelId }),
-                contentType: 'application/json; charset=utf-8',
-                success: function (result) {
-                    $(e.target).hide();
-                    $("#refuseApprovementBtn" + uiId).hide();
-                },
-                complete: function () {
+            var question = "Вы подтверждаете действие \"Согласовать\"?";
+            if (confirm(question)) {
+                var modelId = $("#modelId").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKContract/DoApprovement',
+                    data: JSON.stringify({ contractId: modelId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        $(e.target).hide();
+                        $("#refuseApprovementBtn" + uiId).hide();
+                    },
+                    complete: function () {
 
-                }
-            });
+                    }
+                });
+            }
         },
         refuseApprovement: function (e) {
             var modelId = $("#modelId").val();
@@ -194,41 +208,47 @@ function InitObkContractCard(uiId) {
             window.data("kendoWindow").open();
         },
         signContract: function (e) {
-            signContract();
+            var question = "Вы подтверждаете действие \"Подписать\"?";
+            if (confirm(question)) {
+                signContract();
+            }
         },
         register: function (e) {
             if (!$(e.target).hasClass("disabled")) {
-                var modelId = $("#modelId").val();
-                $(e.target).addClass("disabled");
-                $.ajax({
-                    type: 'POST',
-                    url: '/OBKContract/RegisterContract',
-                    data: JSON.stringify({ contractId: modelId }),
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                        $(e.target).hide();
-                        $("#attachContractBtn" + uiId).removeClass("disabled");
-                        var window = $("#WindowContractRegistered" + uiId);
-                        $("#registeredNumber").text(result);
-                        window.kendoWindow({
-                            width: "400px",
-                            height: "auto",
-                            modal: true,
-                            resizable: false,
-                            actions: ["Close"]
-                        });
-                        window.data("kendoWindow").title('Сообщение');
-                        window.data("kendoWindow").setOptions({
-                            width: 400,
-                            height: 'auto'
-                        });
-                        window.data("kendoWindow").center();
-                        window.data("kendoWindow").open();
-                    },
-                    complete: function () {
-                        $(e.target).removeClass("disabled");
-                    }
-                });
+                var question = "Вы подтверждаете действие \"Зарегистрировать\"?";
+                if (confirm(question)) {
+                    var modelId = $("#modelId").val();
+                    $(e.target).addClass("disabled");
+                    $.ajax({
+                        type: 'POST',
+                        url: '/OBKContract/RegisterContract',
+                        data: JSON.stringify({ contractId: modelId }),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+                            $(e.target).hide();
+                            $("#attachContractBtn" + uiId).removeClass("disabled");
+                            var window = $("#WindowContractRegistered" + uiId);
+                            $("#registeredNumber").text(result);
+                            window.kendoWindow({
+                                width: "400px",
+                                height: "auto",
+                                modal: true,
+                                resizable: false,
+                                actions: ["Close"]
+                            });
+                            window.data("kendoWindow").title('Сообщение');
+                            window.data("kendoWindow").setOptions({
+                                width: 400,
+                                height: 'auto'
+                            });
+                            window.data("kendoWindow").center();
+                            window.data("kendoWindow").open();
+                        },
+                        complete: function () {
+                            $(e.target).removeClass("disabled");
+                        }
+                    });
+                }
             }
         },
         attachContract: function (e) {
