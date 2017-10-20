@@ -1,14 +1,22 @@
-﻿using PW.Ncels.Database.Constants;
+﻿using Ncels.Helpers;
+using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.Models.OBK;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dictionary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace PW.Ncels.Database.Repository.OBK
 {
@@ -947,7 +955,7 @@ namespace PW.Ncels.Database.Repository.OBK
             return list;
         }
 
-        public int SendContractInProcessing(Guid contractId)
+        public int SendContractInProcessing(Guid contractId, bool addDigitalSign)
         {
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
 
@@ -975,14 +983,26 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 var stageExecutorCoz = new OBK_ContractStageExecutors()
                 {
-                   OBK_ContractStage = obkContractStageCoz,
-                   ExecutorId = bossCozGuid,
-                   ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING
+                    OBK_ContractStage = obkContractStageCoz,
+                    ExecutorId = bossCozGuid,
+                    ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING
                 };
 
                 AppContext.OBK_ContractStage.Add(obkContractStageCoz);
 
                 AppContext.OBK_ContractStageExecutors.Add(stageExecutorCoz);
+
+                if (addDigitalSign)
+                {
+                    OBK_ContractStageExecutors stageSignerCoz = new OBK_ContractStageExecutors()
+                    {
+                        OBK_ContractStage = obkContractStageCoz,
+                        ExecutorId = contract.Signer.Value,
+                        ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER
+                    };
+
+                    AppContext.OBK_ContractStageExecutors.Add(stageSignerCoz);
+                }
 
                 AppContext.SaveChanges();
 
@@ -1013,6 +1033,11 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 AppContext.OBK_ContractStageExecutors.Add(stageExecutorUOBK);
 
+                if (!addDigitalSign)
+                {
+                    AppContext.OBK_ContractSignedDatas.RemoveRange(AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId));
+                }
+
                 AppContext.SaveChanges();
             }
             else if (contract.Status == CodeConstManager.STATUS_OBK_ONCORRECTION)
@@ -1030,10 +1055,49 @@ namespace PW.Ncels.Database.Repository.OBK
                     stage.StageStatusId = stageStatusInWorkId;
                 }
 
+                if (!addDigitalSign)
+                {
+                    var stageObk = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId && x.StageId == CodeConstManager.STAGE_OBK_COZ).FirstOrDefault();
+                    if (stageObk != null)
+                    {
+                        AppContext.OBK_ContractStageExecutors.RemoveRange(AppContext.OBK_ContractStageExecutors.Where(x => x.ContractStageId == stageObk.Id && x.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER));
+                    }
+
+                    AppContext.OBK_ContractSignedDatas.RemoveRange(AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId));
+                }
+                else
+                {
+                    var stageCoz = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId && x.StageId == CodeConstManager.STAGE_OBK_COZ).FirstOrDefault();
+                    if (stageCoz != null)
+                    {
+                        OBK_ContractStageExecutors stageSignerCoz = AppContext.OBK_ContractStageExecutors.Where(x => x.ContractStageId == stageCoz.Id && x.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER).FirstOrDefault();
+                        if (stageSignerCoz != null)
+                        {
+                            stageSignerCoz.ExecutorId = contract.Signer.Value;
+                        }
+                        else
+                        {
+                            stageSignerCoz = new OBK_ContractStageExecutors()
+                            {
+                                OBK_ContractStage = stageCoz,
+                                ExecutorId = contract.Signer.Value,
+                                ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER
+                            };
+
+                            AppContext.OBK_ContractStageExecutors.Add(stageSignerCoz);
+                        }
+                    }
+                }
+
                 AppContext.SaveChanges();
             }
 
             return contract.Status;
+        }
+
+        public int SendContractInProcessing(Guid contractId)
+        {
+            return SendContractInProcessing(contractId, false);
         }
 
         public OBK_ContractCom GetComments(Guid modelId, string idControl)
@@ -1400,13 +1464,22 @@ namespace PW.Ncels.Database.Repository.OBK
 
         public bool ApproveContract(Guid contractId)
         {
+            var digitalSign = AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId).FirstOrDefault();
             var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
-            var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.RequiresRegistration);
+
+            OBK_Ref_StageStatus stageStatus;
+            if (digitalSign == null)
+            {
+                stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.RequiresRegistration);
+            }
+            else
+            {
+                stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.RequiresSigning);
+            }
             foreach (var dtage in stages)
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
-
             AppContext.SaveChanges();
             return true;
         }
@@ -1485,10 +1558,142 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             string number = GetLastNumberOfContract();
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            var digitalSign = AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId).FirstOrDefault();
+
             contract.Number = number;
             contract.StartDate = DateTime.Now;
+
+            if (digitalSign != null)
+            {
+                contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
+
+                // Формирование вложения
+                Stream stream = GetContractTemplatePdf(contractId);
+                SaveAttach(stream, contractId);
+            }
+
             AppContext.SaveChanges();
             return contract.Number;
+        }
+
+        private void SaveAttach(Stream stream, Guid contractId)
+        {
+            string code = "";
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            if (contract.OBK_Declarant.IsResident)
+            {
+                var codeId = AppContext.Dictionaries.Where(x => x.Type == CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT && x.Code == "0").Select(x => x.Id).FirstOrDefault();
+                if (codeId == Guid.Empty)
+                {
+                    throw new Exception("CodeId cannot be found");
+                }
+                code = codeId.ToString();
+            }
+            else
+            {
+                var codeId = AppContext.Dictionaries.Where(x => x.Type == CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT && x.Code == "0").Select(x => x.Id).FirstOrDefault();
+                if (codeId == Guid.Empty)
+                {
+                    throw new Exception("CodeId cannot be found");
+                }
+                code = codeId.ToString();
+            }
+            string path = contractId.ToString();
+            bool saveMetadata = true;
+            string originField = null;
+
+            var list = FileHelper.GetAttachListByDoc(AppContext, path, code);
+            foreach (var item in list)
+            {
+                Type t = item.GetType();
+                PropertyInfo p = t.GetProperty("AttachName");
+                object attachName = p.GetValue(item, null);
+                FileHelper.DeleteAttach(path, code, attachName.ToString());
+            }
+            string fileName = "Договор.pdf";
+            SaveAttach(code, path, stream, fileName, saveMetadata, originField, AppContext);
+        }
+
+        public static object SaveAttach(string code, string path, Stream stream, string fileName, bool saveMetadata, string originFileId, ncelsEntities db, string lang = "", string comment = "", int? numOfPages = null)
+        {
+            if (!saveMetadata && string.IsNullOrEmpty(code) && string.IsNullOrEmpty(path))
+                throw new ArgumentException("Невозможно сохранить файл без привязки к объекту, без категории и без метаданных");
+            if (saveMetadata && ((string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(path)) || (!string.IsNullOrEmpty(code) && string.IsNullOrEmpty(path))))
+                throw new ArgumentException("Невозможно сохранить файл с метаданными и привязкой к объекту или категории");
+
+            Guid fileId = Guid.NewGuid();
+            string actualFileName = fileName;
+            string savedFileName = saveMetadata
+                ? string.Format("{0}{1}", fileId, Path.GetExtension(actualFileName))
+                : actualFileName;
+            try
+            {
+                var ownId = UserHelper.GetCurrentEmployee().Id;
+                int? currentStageId = null;
+                var pathGuid = Guid.Parse(path);
+                var stage =
+                    db.EXP_ExpertiseStage.Where((x => x.Executors.Select(y => y.Id).Contains(ownId) && !x.IsHistory && x.EXP_DIC_StageStatus.Code == "inWork" && x.DeclarationId == pathGuid));
+                if (stage.Any())
+                {
+                    currentStageId = stage.First().StageId;
+                }
+                string root = ConfigurationManager.AppSettings["AttachPath"];
+                string fullName = Path.Combine(root, FileHelper.Root, path ?? "", code ?? "", savedFileName);
+                DirectoryInfo info = new DirectoryInfo(Path.Combine(root, FileHelper.Root, path ?? "", code ?? ""));
+                if (!info.Exists)
+                    info.Create();
+                //file.SaveAs(fullName);
+                using (var fileStream = File.Create(fullName))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    stream.CopyTo(fileStream);
+                }
+                if (saveMetadata)
+                {
+                    var fileLink = new FileLink()
+                    {
+                        Id = fileId,
+                        CreateDate = DateTime.Now,
+                        CategoryId = !string.IsNullOrEmpty(code) ? (Guid?)Guid.Parse(code) : null,
+                        DocumentId = !string.IsNullOrEmpty(path) ? (Guid?)Guid.Parse(path) : null,
+                        FileName = actualFileName,
+                        OwnerId = ownId,
+                        Version = 1,
+                        Comment = comment,
+                        Language = lang,
+                        PageNumbers = numOfPages,
+                        StageId = currentStageId
+
+                    };
+                    db.FileLinks.Add(fileLink);
+                    db.SaveChanges();
+                }
+                if (saveMetadata && (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(path)))
+                    return new
+                    {
+                        Id = string.Format("fileId={0}", string.Format("{0}{1}", fileId, Path.GetExtension(savedFileName))),
+                        MetadataId = fileId,
+                        Version = 1
+                    };
+                if (saveMetadata && !string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(path))
+                    return new
+                    {
+                        Id = string.Format("id={0}&path={1}&fileId={2}", code, path, string.Format("{0}{1}", fileId, Path.GetExtension(savedFileName))),
+                        MetadataId = fileId,
+                        Version = 1
+                    };
+                return new
+                {
+                    Id = string.Format("id={0}&path={1}&name={2}", code, path, actualFileName),
+                    MetadataId = (string)null,
+                    Version = (string)null
+                };
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return "Ок";
         }
 
         private string GetLastNumberOfContract()
@@ -1515,6 +1720,192 @@ namespace PW.Ncels.Database.Repository.OBK
             contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
             AppContext.SaveChanges();
             return true;
+        }
+
+        public string GetDataForSign(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.FirstOrDefault(e => e.Id == contractId);
+            var obkDeclarant = AppContext.OBK_Declarant.FirstOrDefault(x => x.Id == contract.DeclarantId);
+            var obkDeclarantCountry = AppContext.Dictionaries.FirstOrDefault(x => x.Id == obkDeclarant.CountryId);
+            var obkDeclarantContact = AppContext.OBK_DeclarantContact.FirstOrDefault(x => x.Id == contract.DeclarantContactId);
+            var obkDeclarantOrganizationForm = AppContext.Dictionaries.FirstOrDefault(x => x.Id == obkDeclarant.OrganizationFormId);
+            var signerEmployee = AppContext.Employees.FirstOrDefault(x => x.Id == contract.Signer.Value);
+            var unitSigner = AppContext.UnitSigners.FirstOrDefault(x => x.SignerId == contract.Signer.Value);
+            string unitSignerDocumentTypeNameRu = null, unitSignerDocumentTypeNameKz = null;
+            if (unitSigner != null)
+            {
+                var unitSignerDocumentType = AppContext.OBK_Ref_ContractDocumentType.FirstOrDefault(x => x.Id == unitSigner.DocumentType);
+                unitSignerDocumentTypeNameRu = unitSignerDocumentType.NameRu;
+                unitSignerDocumentTypeNameKz = unitSignerDocumentType.NameKz;
+            }
+
+            var unit_signer = AppContext.Units.FirstOrDefault(x => x.EmployeeId == contract.Signer.Value);
+            var bossDocType = AppContext.Dictionaries.FirstOrDefault(x => x.Id == obkDeclarantContact.BossDocType);
+            var unit = AppContext.Units.FirstOrDefault(x => x.Id == contract.ExpertOrganization);
+            var unitAddress = AppContext.UnitsAddresses.FirstOrDefault(x => x.UnitsId == unit.Id);
+            var currenciesTenge = AppContext.Dictionaries.Where(x => x.Code == "398").Select(x => x.Id).ToList();
+            var unitBank = AppContext.UnitsBanks.FirstOrDefault(x => x.UnitsId == unit.Id && x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.IsDeleted == false && x.CurrencyId != null && currenciesTenge.Contains(x.CurrencyId.Value));
+
+            List<OBKContractProduct> products = AppContext.OBKContractProductsViews.Where(x => x.ContractId == contractId).
+                Select(x =>
+                new OBKContractProduct()
+                {
+                    NameRu = x.NameRu,
+                    ProdSeries = x.ProdSeries,
+                    ProdSeriesEndDate = x.ProdSeriesEndDate,
+                    ProdSeriesParty = x.ProdSeriesParty,
+                    ProdCountryNameRu = x.ProdCountryNameRu,
+                    ProdProducerNameRu = x.ProdProducerNameRu,
+                    ProdShortName = x.ProdShortName
+                }).ToList();
+
+            var dataForSign = new OBKContractSignData()
+            {
+                SignerFullName = signerEmployee.FullName,
+                SignerDocTypeNameRu = unitSignerDocumentTypeNameRu,
+                SignerDocTypeNameKz = unitSignerDocumentTypeNameKz,
+                SignerDocNumber = unitSigner?.DocNumber,
+                DeclarantOrganizationFormNameRu = obkDeclarantOrganizationForm.Name,
+                DeclarantOrganizationFormNameKz = obkDeclarantOrganizationForm.NameKz,
+                DeclarantNameRu = obkDeclarant.NameRu,
+                DeclarantNameKz = obkDeclarant.NameKz,
+                DeclarantBossPositionRu = obkDeclarantContact.BossPosition,
+                DeclarantBossPositionKz = obkDeclarantContact.BossPositionKz,
+                DeclarantBossFirstName = obkDeclarantContact.BossFirstName,
+                DeclarantBossLastName = obkDeclarantContact.BossLastName,
+                DeclarantBossMiddleName = obkDeclarantContact.BossMiddleName,
+                DeclarantBossDocTypeRu = bossDocType.Name,
+                DeclarantBossDocTypeKz = bossDocType.NameKz,
+                ExpertOrganizationNameRu = unit.Name,
+                ExpertOrganizationNameKz = unit.NameKz,
+                ExpertOrganizationAddressNameRu = unitAddress?.AddressNameRu,
+                ExpertOrganizationAddressNameKz = unitAddress?.AddressNameKz,
+                ExpertOrganizationKbe = unitBank?.KBE,
+                ExpertOrganizationBin = unit.Bin,
+                ExpertOrganizationBankSwift = unitBank?.SWIFT,
+                ExpertOrganizationBankIik = unitBank?.IIK,
+                ExpertOrganizationBankNameRu = unitBank?.BankNameRu,
+                ExpertOrganizationBankNameKz = unitBank?.BankNameKz,
+                SignerPositionRu = signerEmployee.DisplayName,
+                SignerPositionKz = unit_signer.NameKz,
+                SignerShortName = signerEmployee.ShortName,
+                DeclarantCountryNameRu = obkDeclarantCountry.Name,
+                DeclarantCountryNameKz = obkDeclarantCountry.NameKz,
+                DeclarantAddressLegalRu = obkDeclarantContact.AddressLegalRu,
+                DeclarantAddressLegalKz = obkDeclarantContact.AddressLegalKz,
+                DeclarantBin = obkDeclarant.Bin,
+                DeclarantBankBik = obkDeclarantContact.BankBik,
+                DeclarantBankIik = obkDeclarantContact.BankIik,
+                DeclarantBankNameRu = obkDeclarantContact.BankNameRu,
+                DeclarantBankNameKz = obkDeclarantContact.BankNameKz,
+                Products = products
+            };
+            var xmlData = SerializeHelper.SerializeDataContract(dataForSign);
+            return xmlData.Replace("utf-16", "utf-8");
+        }
+
+        public int SignContractApplicant(Guid contractId, string signedData)
+        {
+            var signData = AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId).FirstOrDefault();
+            if (signData != null)
+            {
+                signData.ApplicantSignDate = DateTime.Now;
+                signData.ApplicantSign = signedData;
+                signData.CeoSignDate = null;
+                signData.CeoSign = null;
+            }
+            else
+            {
+                signData = new OBK_ContractSignedDatas();
+                signData.ContractId = contractId;
+                signData.ApplicantSignDate = DateTime.Now;
+                signData.ApplicantSign = signedData;
+                signData.CeoSignDate = null;
+                signData.CeoSign = null;
+                AppContext.OBK_ContractSignedDatas.Add(signData);
+            }
+            AppContext.SaveChanges();
+            var status = SendContractInProcessing(contractId, true);
+            return status;
+        }
+
+        public bool SignContractCeo(Guid contractId, string signedData)
+        {
+            var signData = AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId).FirstOrDefault();
+            if (signData != null)
+            {
+                signData.CeoSignDate = DateTime.Now;
+                signData.CeoSign = signedData;
+            }
+            else
+            {
+                signData = new OBK_ContractSignedDatas();
+                signData.ContractId = contractId;
+                signData.ApplicantSignDate = null;
+                signData.ApplicantSign = null;
+                signData.CeoSignDate = DateTime.Now;
+                signData.CeoSign = signedData;
+                AppContext.OBK_ContractSignedDatas.Add(signData);
+            }
+
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+            OBK_Ref_StageStatus stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.RequiresRegistration);
+            foreach (var dtage in stages)
+            {
+                dtage.StageStatusId = stageStatus.Id;
+            }
+            AppContext.SaveChanges();
+            return true;
+        }
+
+        private Stream GetContractTemplatePdf(Guid id)
+        {
+            var db = new ncelsEntities();
+            string name = "Договор_на_проведение_оценки_безопасности_и_качества.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(GetContractTemplatePath(id));//(Server.MapPath("~/Reports/Mrts/OBK/ObkContractDec.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["ContractId"].ValueObject = id;
+
+                var price = new OBKContractRepository().GetPriceCount(id);
+                report.Dictionary.Variables["PriceCount"].ValueObject = price;
+
+                var priceText = RuDateAndMoneyConverter.ToTextTenge(Convert.ToDouble(price), false);
+                report.Dictionary.Variables["PriceCountName"].ValueObject = priceText;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+
+            Stream stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+
+            try
+            {
+                var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
+                if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
+                {
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
+                    doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return stream;
         }
     }
 }

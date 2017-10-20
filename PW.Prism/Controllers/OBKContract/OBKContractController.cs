@@ -136,7 +136,7 @@ namespace PW.Prism.Controllers.OBKContract
             ViewBag.ShowShowRefuseReasonBtn = IsShowRefuseReasonBtnAllowed(id.Value);
             ViewBag.ShowRegisterBtn = IsRegisterBtnAllowed(id.Value);
             ViewBag.ShowAttachContractBtn = IsAttachContractBtnAllowed(id.Value);
-
+            ViewBag.ShowSignContractBtn = IsSignContractBtnAllowed(id.Value);
 
 
             return PartialView("Contract", contract);
@@ -463,7 +463,7 @@ namespace PW.Prism.Controllers.OBKContract
                         var index = -1;
                         index = messageStr.ToString().LastIndexOf(' ');
                         if (index >= 0)
-                        { 
+                        {
                             messageStr.Remove(index, 1);
                         }
                         index = messageStr.ToString().LastIndexOf(',');
@@ -547,12 +547,28 @@ namespace PW.Prism.Controllers.OBKContract
             bool result = false;
             if (EmployePermissionHelper.CanViewRegisterAndAttachContract)
             {
-                var employeeId = UserHelper.GetCurrentEmployee().Id;
-                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && x.StageStatusCode == OBK_Ref_StageStatus.RequiresRegistration).ToList();
-                if (stages.Count > 0)
+                var digitalSign = db.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId).FirstOrDefault();
+                if (digitalSign == null)
                 {
-                    result = true;
+                    var employeeId = UserHelper.GetCurrentEmployee().Id;
+                    var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && x.StageStatusCode == OBK_Ref_StageStatus.RequiresRegistration).ToList();
+                    if (stages.Count > 0)
+                    {
+                        result = true;
+                    }
                 }
+            }
+            return result;
+        }
+
+        private bool IsSignContractBtnAllowed(Guid contractId)
+        {
+            bool result = false;
+            var employeeId = UserHelper.GetCurrentEmployee().Id;
+            var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && x.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER && x.StageStatusCode == OBK_Ref_StageStatus.RequiresSigning).ToList();
+            if (stages.Count > 0)
+            {
+                result = true;
             }
             return result;
         }
@@ -865,11 +881,41 @@ namespace PW.Prism.Controllers.OBKContract
             {
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
+
             Stream stream = new MemoryStream();
             report.ExportDocument(StiExportFormat.Pdf, stream);
             stream.Position = 0;
+
+            try
+            {
+                var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
+                if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
+                {
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
+                    doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             //return new FileStreamResult(stream, "application/pdf");
             return File(stream, "application/pdf", name);
+        }
+
+        [HttpGet]
+        public ActionResult SignData(Guid contractId)
+        {
+            var _data = obkRepo.GetDataForSign(contractId);
+            return Json(new { data = _data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SaveSignedContract(Guid contractId, string signedData)
+        {
+            obkRepo.SignContractCeo(contractId, signedData);
+            return Json("OK", JsonRequestBehavior.AllowGet);
         }
     }
 }

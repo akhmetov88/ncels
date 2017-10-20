@@ -193,6 +193,9 @@ function InitObkContractCard(uiId) {
             window.data("kendoWindow").center();
             window.data("kendoWindow").open();
         },
+        signContract: function (e) {
+            signContract();
+        },
         register: function (e) {
             if (!$(e.target).hasClass("disabled")) {
                 var modelId = $("#modelId").val();
@@ -267,6 +270,44 @@ function InitObkContractCard(uiId) {
     $("#WindowContractRegisteredCancel" + uiId).click(function () {
         $("#WindowContractRegistered" + uiId).data("kendoWindow").close();
     });
+
+    function signContract() {
+        debugger;
+        kendo.ui.progress($("#mainWindowLoader"), true);
+        $.ajax({
+            type: 'GET',
+            url: '/OBKContract/SignData?contractId=' + $('#modelId').val(),
+            success: function (result) {
+                debugger;
+                startSign(result.data, $('#modelId').val(), saveSignedContract);
+            },
+            complete: function () {
+                kendo.ui.progress($("#mainWindowLoader"), false);
+            }
+        });
+        function saveSignedContract(signedData, contractId) {
+            kendo.ui.progress($("#contractLoader" + uiId), true);
+            var data = {
+                contractId: $('#modelId').val(),
+                signedData: signedData
+            };
+            var json = JSON.stringify(data);
+            $.ajax({
+                type: 'POST',
+                url: '/OBKContract/SaveSignedContract',
+                contentType: 'application/json; charset=utf-8',
+                data: json,
+                success: function (result) {
+                    debugger;
+                    $('#signContractBtn' + uiId).hide();
+                    alert("Договор подписан");
+                },
+                complete: function () {
+                    kendo.ui.progress($("#contractLoader" + uiId), false);
+                }
+            });
+        }
+    }
 }
 
 function initFilterOBKContract(uiId) {

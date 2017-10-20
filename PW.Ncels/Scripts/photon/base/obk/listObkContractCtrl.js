@@ -157,7 +157,7 @@
         if ($scope.object.Status == 1) {
             $scope.object.viewMpde = false;
         }
-        // 7 На корректировке у заявителя
+            // 7 На корректировке у заявителя
         else if ($scope.object.Status == 7) {
             $scope.object.viewMpde = false;
             $scope.showComments = true;
@@ -1513,11 +1513,10 @@
         }
     }
 
-    
+
     $scope.sendWithoutDigitalSign = function () {
         var formValid = $scope.contractCreateForm.$valid;
         var productInfoExist = $scope.addedProducts.length > 0;
-        //alert("formValid = " + formValid);
         var outputErrors = true;
         if (!formValid && $scope.contractCreateForm.$error && outputErrors) {
             //var errors = [];
@@ -1533,7 +1532,6 @@
             //}
         }
         var filesValid = $scope.checkFileValidation();
-        //alert("filesValid = " + filesValid);
         if (formValid && productInfoExist && filesValid) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/Project/Agreement',
@@ -1546,6 +1544,80 @@
             alert("Заполните обязательные поля, информацию о продукции и загрузите вложения!");
         }
     }
+
+    $scope.sendWithDigitalSign = function () {
+        var formValid = $scope.contractCreateForm.$valid;
+        var productInfoExist = $scope.addedProducts.length > 0;
+        var filesValid = $scope.checkFileValidation();
+        if (formValid && productInfoExist && filesValid) {
+            $scope.doSign();
+        }
+        else {
+            alert("Заполните обязательные поля, информацию о продукции и загрузите вложения!");
+        }
+    }
+
+    $scope.doSign = function () {
+        var id = $scope.object.Id;
+        if (id) {
+
+            var funcSign = function signData() {
+                debugger;
+                $.blockUI({ message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Выполняется подпись...</h1>', css: { opacity: 1 } });
+                signXmlCall(function () {
+                    $http({
+                        url: '/OBKContract/SignContract',
+                        method: 'POST',
+                        data: JSON.stringify({ contractId: id, signedData: $("#Certificate").val() })
+                    }).success(function (response) {
+                        $scope.object.Status = response;
+                        $scope.changeViewMode();
+                        $window.location.href = '/OBKContract';
+                    }).error(function () {
+                        alert("error");
+                        $.unblockUI();
+                    });
+                });
+            };
+
+            startSign('/OBKContract/SignData', id, funcSign);
+
+        }
+
+
+
+
+        //$.blockUI({
+        //    message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Идет подпись отчета...</h1>',
+        //    css: { opacity: 1 }
+        //});
+        //signXmlCall(function () {
+        //    var model = { preambleId: $("#modelId").val(), xmlAuditForm: $("#Certificate").val() };
+        //    $.ajax({
+        //        url: '/SafetyAssessment/SignForm',
+        //        type: "POST",
+        //        dataType: 'json',
+        //        contentType: "application/json",
+        //        async: false,
+        //        data: JSON.stringify(model),
+        //        success: function (data) {
+
+        //            if (data.success) {
+        //                window.location.href = '@Url.Action("RegisterSafetyAssessmentList", "SafetyAssessment")';
+        //            }
+        //            else {
+        //                $("#formCertValidation").show();
+        //            }
+        //            $.unblockUI();
+        //        },
+        //        error: function (data) {
+        //            $.unblockUI();
+        //        }
+        //    });
+        //},
+        //    $("#hfXmlToSign").val());
+    }
+
 
     $scope.viewContract = function (id) {
         debugger;

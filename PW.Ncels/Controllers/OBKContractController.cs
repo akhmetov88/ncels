@@ -14,6 +14,8 @@ using Ncels.Helpers;
 using PW.Ncels.Database.Helpers;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Dictionary;
+using PW.Ncels.Database.Constants;
+using PW.Ncels.Database.Repository.Common;
 
 namespace PW.Ncels.Controllers
 {
@@ -365,6 +367,22 @@ namespace PW.Ncels.Controllers
             Stream stream = new MemoryStream();
             report.ExportDocument(StiExportFormat.Pdf, stream);
             stream.Position = 0;
+
+            try
+            {
+                var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
+                if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
+                {
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
+                    doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             return new FileStreamResult(stream, "application/pdf");
         }
 
@@ -440,6 +458,33 @@ namespace PW.Ncels.Controllers
                 return PartialView(model);
             }
             return View(model);
+        }
+
+        public ActionResult SignOperation(string id)
+        {
+            var IsSuccess = true;
+            var preambleXml = "sss";
+            return Json(new
+            {
+                IsSuccess,
+                preambleXml
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SignData(Guid id)
+        {
+            return Json(new
+            {
+                IsSuccess = true,
+                preambleXml = obkRepo.GetDataForSign(id)
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SignContract(Guid contractId, string signedData)
+        {
+            var status = obkRepo.SignContractApplicant(contractId, signedData);
+
+            return Json(status, JsonRequestBehavior.AllowGet);
         }
 
     }

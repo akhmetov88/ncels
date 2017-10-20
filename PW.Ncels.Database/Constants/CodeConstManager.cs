@@ -521,6 +521,10 @@ namespace PW.Ncels.Database.Constants
         /// Исполнитель
         /// </summary>
         public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR = 2;
+        /// <summary>
+        /// Подписывающий
+        /// </summary>
+        public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER = 3;
         #endregion
 
         #endregion

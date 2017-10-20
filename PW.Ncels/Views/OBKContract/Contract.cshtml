@@ -5,6 +5,8 @@
     ViewBag.Title = "Contract";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Html.Partial("~/Views/Home/OBK_SignView.cshtml")
+
 
 @{
     var GeneratedGuid = Guid.NewGuid().ToString();
@@ -101,8 +103,8 @@
                             <i class="fa fa-save"></i>
                             Сохранить
                         </button>
-                        <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMpde">Подписать ЭЦП</button>
-                        <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Отправить в ЦОЗ</button>
+                        @*<button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMpde">Подписать ЭЦП</button>*@
+                        <button class="btn btn-default btn-sm" type="button" ng-click="sendWithDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Подписать ЭЦП и отправить в ЦОЗ</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="sendWithoutDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Отправить в ЦОЗ без подписи</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="viewContract('@ModelGuid')"><i class="fa fa-eye"></i> Просмотр</button>
                     </div>
@@ -1475,6 +1477,7 @@
 </div>
 <script src="~/Scripts/js/custom/obkcontractcomments.js"></script>
 <script src="~/Scripts/js/custom/atach-comment.js"></script>
+<script src="~/Scripts/photon/crypto/obk/obk_eds.js"></script>
 <link href="~/Content/css/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     .ui-dialog {
