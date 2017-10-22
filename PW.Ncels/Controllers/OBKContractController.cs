@@ -487,5 +487,11 @@ namespace PW.Ncels.Controllers
             return Json(status, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetHistory(Guid? modelId)
+        {
+            var result = obkRepo.GetExtHistory(modelId);
+
+            return Json(new { isSuccess = true, result });
+        }
     }
 }

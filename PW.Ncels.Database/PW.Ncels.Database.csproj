@@ -963,6 +963,9 @@
     <Compile Include="DataModel\OBK_ContractComRecord.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_ContractExtHistory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_ContractHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1033,6 +1036,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_ContractDocumentType.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_ContractExtHistoryStatus.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_ContractHistoryStatus.cs">
@@ -1925,6 +1931,7 @@
     <Compile Include="Entities\FileLink.cs" />
     <Compile Include="Entities\FileLinkView.cs" />
     <Compile Include="Entities\History.cs" />
+    <Compile Include="Entities\OBK_Ref_ContractExtHistoryStatus.cs" />
     <Compile Include="Entities\OBK_Ref_ContractHistoryStatus.cs" />
     <Compile Include="Entities\OBK_Ref_PaymentStatus.cs" />
     <Compile Include="Entities\OBK_Ref_StageStatus.cs" />

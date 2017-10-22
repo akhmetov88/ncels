@@ -154,7 +154,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 contract.Id = guid;
                 contract.CreatedDate = DateTime.Now;
                 contract.Number = CodeConstManager.OBK_CONTRACT_NO_NUMBER;
-                contract.Status = 1;
+                contract.Status = CodeConstManager.STATUS_OBK_DRAFT_ID;
 
                 var employeeId = UserHelper.GetCurrentEmployee().Id;
                 contract.EmployeeId = employeeId;
@@ -164,6 +164,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 AppContext.OBK_Contract.Add(contract);
                 AppContext.SaveChanges();
                 ret.Id = contract.Id;
+                AddExtHistoryDraft(contract.Id);
+                AppContext.SaveChanges();
             }
             return ret;
         }
@@ -1043,6 +1045,8 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 AddHistorySentByApplicant(contractId);
 
+                AddExtHistoryInprocessing(contractId);
+
                 AppContext.SaveChanges();
             }
             else if (contract.Status == CodeConstManager.STATUS_OBK_ONCORRECTION)
@@ -1095,6 +1099,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 }
 
                 AddHistorySentByApplicant(contractId);
+
+                AddExtHistoryInprocessing(contractId);
 
                 AppContext.SaveChanges();
             }
@@ -1284,6 +1290,13 @@ namespace PW.Ncels.Database.Repository.OBK
             stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
 
             var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
+
+            // Записывать историю если статус В Работу проставляется впервые, когда его назначают на первого исполнителя
+            if (contract.Status != CodeConstManager.STATUS_OBK_WORK)
+            {
+                AddExtHistoryWork(contract.Id);
+            }
+
             contract.Status = CodeConstManager.STATUS_OBK_WORK;
 
             AddHistorySentToWork(contract.Id);
@@ -1459,6 +1472,8 @@ namespace PW.Ncels.Database.Repository.OBK
 
             AddHistoryReturned(contractId);
 
+            AddExtHistoryOncorrection(contractId);
+
             AppContext.SaveChanges();
 
             return true;
@@ -1575,6 +1590,10 @@ namespace PW.Ncels.Database.Repository.OBK
                 // Формирование вложения
                 Stream stream = GetContractTemplatePdf(contractId);
                 SaveAttach(stream, contractId);
+
+                contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
+
+                AddExtHistoryActive(contractId);
             }
             AddHistoryRegistered(contractId);
             AppContext.SaveChanges();
@@ -1724,6 +1743,7 @@ namespace PW.Ncels.Database.Repository.OBK
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
             contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
             AddHistoryAttached(contractId);
+            AddExtHistoryActive(contractId);
             AppContext.SaveChanges();
             return true;
         }
@@ -2002,9 +2022,82 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.OBK_ContractHistory.Add(history);
         }
 
+        private void AddExtHistoryDraft(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Draft;
+            AddExtHistory(contractId, historyStatusCode);
+        }
+
+        private void AddExtHistoryInprocessing(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Inprocessing;
+            AddExtHistory(contractId, historyStatusCode);
+        }
+
+        private void AddExtHistoryWork(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Work;
+            AddExtHistory(contractId, historyStatusCode);
+        }
+
+        private void AddExtHistoryOncorrection(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Oncorrection;
+            AddExtHistory(contractId, historyStatusCode);
+        }
+
+        private void AddExtHistoryActive(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Active;
+            AddExtHistory(contractId, historyStatusCode);
+        }
+
+        private void AddExtHistory(Guid contractId, string historyStatusCode)
+        {
+            var status = GetContractExtHistoryStatusByCode(historyStatusCode);
+
+            var history = new OBK_ContractExtHistory()
+            {
+                Id = Guid.NewGuid(),
+                Created = DateTime.Now,
+                ContractId = contractId,
+                StatusId = status.Id
+            };
+            AppContext.OBK_ContractExtHistory.Add(history);
+        }
+
+        private OBK_Ref_ContractExtHistoryStatus GetContractExtHistoryStatusByCode(string code)
+        {
+            return AppContext.OBK_Ref_ContractExtHistoryStatus.Where(x => x.Code == code).FirstOrDefault();
+        }
+
         public IQueryable<OBK_ContractHistoryView> GetHistory(Guid contractId)
         {
             return AppContext.OBK_ContractHistoryView.AsNoTracking().Where(x => x.ContractId == contractId);
+        }
+
+        public IEnumerable<object> GetExtHistory(Guid? contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            var shortName = contract.Unit != null ? contract.Unit.ShortName : "";
+
+            var list = AppContext.OBK_ContractExtHistory.Where(x => x.ContractId == contractId).OrderBy(x => x.Created)
+                .Select(x => new
+                {
+                    Created = x.Created.Day + "/" + x.Created.Month + "/" + x.Created.Year,
+                    StatusNameRu = x.OBK_Ref_ContractExtHistoryStatus.NameRu,
+                    StatusNameKz = x.OBK_Ref_ContractExtHistoryStatus.NameKz,
+                    Author = shortName,
+                    StatusDescriptionRu = x.OBK_Ref_ContractExtHistoryStatus.DescriptionRu,
+                    StatusDescriptionKz = x.OBK_Ref_ContractExtHistoryStatus.DescriptionKz
+                }).ToList();
+
+            foreach (var item in list)
+            {
+
+            }
+
+            return list;
         }
     }
 }

@@ -54,18 +54,18 @@
 
 
     #gridOptionsCalculator .ui-grid-viewport .ui-grid-cell-contents {
-      word-wrap: break-word;
-      white-space: normal !important;
+        word-wrap: break-word;
+        white-space: normal !important;
     }
 
     #gridOptionsCalculator .ui-grid-row, .ui-grid-cell {
-      height: auto !important;
+        height: auto !important;
     }
 
-    #gridOptionsCalculator .ui-grid-row div[role=row] {
-      display: flex ;
-      align-content: stretch;
-    }
+        #gridOptionsCalculator .ui-grid-row div[role=row] {
+            display: flex;
+            align-content: stretch;
+        }
 </style>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
@@ -119,6 +119,7 @@
                                         <li class=""><a data-toggle="tab" href="#tab-2">Информация о заявляемой продукции</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab-3" ng-click="tab3click();">Стоимость работ</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab-4">Вложения</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-5">История</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="tab-1" class="tab-pane active">
@@ -665,7 +666,7 @@
                                                         <div class="form-group">
                                                             <label>Номер документа</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input  ng-model="object.SignDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignDocNumber" ng-required="object.IsHasSignDocNumber == true" ng-blur="editProject();" ng-disabled="object.IsHasSignDocNumber != true || object.viewMpde">
+                                                                <input ng-model="object.SignDocNumber" placeholder="Введите значение" class="form-control" type="text" ui-select-selected name="SignDocNumber" ng-required="object.IsHasSignDocNumber == true" ng-blur="editProject();" ng-disabled="object.IsHasSignDocNumber != true || object.viewMpde">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -780,7 +781,7 @@
                                                                             </a>
                                                                         </span>
                                                                     </div>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1466,6 +1467,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="tab-5" class="tab-pane">
+                                           @Html.Partial("~/Views/OBKContract/HistoriesView.cshtml", @Model)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1496,7 +1500,7 @@
         font-weight: bold;
     }
 
-        .ui-dialog .ui-dialog-buttonpane button {
+    .ui-dialog .ui-dialog-buttonpane button {
         background-color: #5cb85c;
         border-color: #4cae4c;
         color: white;
