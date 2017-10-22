@@ -917,5 +917,11 @@ namespace PW.Prism.Controllers.OBKContract
             obkRepo.SignContractCeo(contractId, signedData);
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ListHistory([DataSourceRequest] DataSourceRequest request, Guid contractId)
+        {
+            var query = obkRepo.GetHistory(contractId);
+            return Json(query.ToDataSourceResult(request));
+        }
     }
 }

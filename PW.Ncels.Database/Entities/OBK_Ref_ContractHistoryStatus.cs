@@ -36,6 +36,21 @@ namespace PW.Ncels.Database.DataModel
         /// Отказано в согласовании
         /// </summary>
         public const string Refused = "refused";
-
+        /// <summary>
+        /// Согласован
+        /// </summary>
+        public const string Approved = "approved";
+        /// <summary>
+        /// Подписан
+        /// </summary>
+        public const string Signed = "signed";
+        /// <summary>
+        /// Зарегистрирован
+        /// </summary>
+        public const string Registered = "registered";
+        /// <summary>
+        /// Прикреплено вложение
+        /// </summary>
+        public const string Attached = "attached";
     }
 }

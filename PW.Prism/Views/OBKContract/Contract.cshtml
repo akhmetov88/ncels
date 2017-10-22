@@ -40,6 +40,7 @@
                                                                        projects.Add().Text("Карточка договора").HtmlAttributes(new { TabId = "contractDataTab1" + ViewBag.UiId }).Selected(true);
                                                                        projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab2" + ViewBag.UiId });
                                                                        //projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab3" + ViewBag.UiId });
+                                                                       projects.Add().Text("История согласования").HtmlAttributes(new { TabId = "contractDataTab4" + ViewBag.UiId });
                                                                    });
 
                                })
@@ -84,7 +85,7 @@
                                     }
                                     if (ViewBag.ShowShowRefuseReasonBtn)
                                     {
-                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='showRefuseReasonBtn{0}' class='k-button' data-bind='click: showRefuseReason'>>Отобразить основание отказа</a>", (string)ViewBag.UiId));
+                                        items.Add().Type(CommandType.Button).Template(string.Format("<a id='showRefuseReasonBtn{0}' class='k-button' data-bind='click: showRefuseReason'>Отобразить основание отказа</a>", (string)ViewBag.UiId));
                                     }
                                     if (ViewBag.ShowRegisterBtn)
                                     {
@@ -664,6 +665,32 @@
                       })
                       .Read(read => read.Action("ListAttaches", "OBKContract", new { contractId = Model.Id }))
                   ))
+                            </div>
+                        </div>
+                        <div id="@("contractDataTab4" + ViewBag.UiId)" class="row hidden">
+                            <div class="row">
+                                @(Html.Kendo().Grid<PW.Ncels.Database.DataModel.OBK_ContractHistoryView>()
+                      .Name("contracHistoryGrid" + (string)ViewBag.UiId)
+                      .Columns(columns =>
+                      {
+                          columns.Bound(p => p.StatusNameRu).Title("Статус").Width(100);
+                          columns.Bound(p => p.EmployeeShortName).Title("Исполнитель").Width(150);
+                          columns.Bound(p => p.UnitName).Title("Структурное подразделение").Width(150);
+                          columns.Bound(p => p.Created).Format("{0:dd.MM.yyyy HH:mm}").Title("Дата действия").Width(100);
+                      })
+                    .Reorderable(reorderable => reorderable.Columns(true))
+                    .Resizable(resizable => resizable.Columns(true))
+                    .Sortable(sortable => sortable.AllowUnsort(false))
+                    .Scrollable(scrollable => scrollable.Virtual(true))
+                    .Filterable()
+                    .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple))
+                    .HtmlAttributes(new { @class = "pwGrid" })
+                    .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Sort(sort => { sort.Add("Created").Ascending(); })
+                    .PageSize(1000)
+                    .Read(read => read.Action("ListHistory", "OBKContract", new { contractId = Model.Id }))
+                    ))
                             </div>
                         </div>
                     </div>

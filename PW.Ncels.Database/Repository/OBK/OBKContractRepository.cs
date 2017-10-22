@@ -1041,6 +1041,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     AppContext.OBK_ContractSignedDatas.RemoveRange(AppContext.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId));
                 }
 
+                AddHistorySentByApplicant(contractId);
+
                 AppContext.SaveChanges();
             }
             else if (contract.Status == CodeConstManager.STATUS_OBK_ONCORRECTION)
@@ -1091,6 +1093,8 @@ namespace PW.Ncels.Database.Repository.OBK
                         }
                     }
                 }
+
+                AddHistorySentByApplicant(contractId);
 
                 AppContext.SaveChanges();
             }
@@ -1281,6 +1285,9 @@ namespace PW.Ncels.Database.Repository.OBK
 
             var contract = AppContext.OBK_Contract.Where(x => x.Id == stage.ContractId).FirstOrDefault();
             contract.Status = CodeConstManager.STATUS_OBK_WORK;
+
+            AddHistorySentToWork(contract.Id);
+
             AppContext.SaveChanges();
         }
 
@@ -1351,6 +1358,8 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 AppContext.SaveChanges();
             }
+            AddHistoryMeetsRequirements(contractId);
+            AppContext.SaveChanges();
             return true;
         }
 
@@ -1373,6 +1382,8 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 AppContext.SaveChanges();
             }
+            AddHistoryDoesNotMeetRequirements(contractId);
+            AppContext.SaveChanges();
             return true;
         }
 
@@ -1446,6 +1457,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 dtage.StageStatusId = stageStatus.Id;
             }
 
+            AddHistoryReturned(contractId);
+
             AppContext.SaveChanges();
 
             return true;
@@ -1459,6 +1472,8 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
+
+            AddHistorySentToApproval(contractId);
 
             AppContext.SaveChanges();
 
@@ -1483,6 +1498,7 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
+            AddHistoryApproved(contractId);
             AppContext.SaveChanges();
             return true;
         }
@@ -1501,27 +1517,6 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
 
             return true;
-        }
-
-        private void AddHistoryRefused(Guid contractId, string reason)
-        {
-            var currentEmployee = UserHelper.GetCurrentEmployee();
-
-            var status = GetContractHistoryStatusByCode(OBK_Ref_ContractHistoryStatus.Refused);
-
-            var unitName = GetParentUnitName(currentEmployee);
-
-            var history = new OBK_ContractHistory()
-            {
-                Id = Guid.NewGuid(),
-                Created = DateTime.Now,
-                RefuseReason = reason,
-                ContractId = contractId,
-                EmployeeId = currentEmployee.Id,
-                UnitName = unitName,
-                StatusId = status.Id,
-            };
-            AppContext.OBK_ContractHistory.Add(history);
         }
 
         public OBK_Ref_ContractHistoryStatus GetContractHistoryStatusByCode(string code)
@@ -1570,11 +1565,18 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
 
+                var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
+                var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.Active);
+                foreach (var dtage in stages)
+                {
+                    dtage.StageStatusId = stageStatus.Id;
+                }
+
                 // Формирование вложения
                 Stream stream = GetContractTemplatePdf(contractId);
                 SaveAttach(stream, contractId);
             }
-
+            AddHistoryRegistered(contractId);
             AppContext.SaveChanges();
             return contract.Number;
         }
@@ -1721,6 +1723,7 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
             contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
+            AddHistoryAttached(contractId);
             AppContext.SaveChanges();
             return true;
         }
@@ -1857,6 +1860,7 @@ namespace PW.Ncels.Database.Repository.OBK
             {
                 dtage.StageStatusId = stageStatus.Id;
             }
+            AddHistorySigned(contractId);
             AppContext.SaveChanges();
             return true;
         }
@@ -1909,6 +1913,98 @@ namespace PW.Ncels.Database.Repository.OBK
             }
 
             return stream;
+        }
+
+        private void AddHistorySentByApplicant(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.SentByApplicant;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistorySentToWork(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.SentToWork;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistoryMeetsRequirements(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.MeetsRequirements;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistoryDoesNotMeetRequirements(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.DoesNotMeetRequirements;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistoryReturned(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.Returned;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void  AddHistorySentToApproval(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.SentToApproval;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistoryRefused(Guid contractId, string reason)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.Refused;
+            AddHistory(contractId, historyStatusCode, reason);
+        }
+
+        private void AddHistoryApproved(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.Approved;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistorySigned(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.Signed;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistoryRegistered(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.Registered;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistoryAttached(Guid contractId)
+        {
+            var historyStatusCode = OBK_Ref_ContractHistoryStatus.Attached;
+            AddHistory(contractId, historyStatusCode);
+        }
+
+        private void AddHistory(Guid contractId, string historyStatusCode, string reason = null)
+        {
+            var currentEmployee = UserHelper.GetCurrentEmployee();
+
+            var status = GetContractHistoryStatusByCode(historyStatusCode);
+
+            var unitName = GetParentUnitName(currentEmployee);
+
+            var history = new OBK_ContractHistory()
+            {
+                Id = Guid.NewGuid(),
+                Created = DateTime.Now,
+                RefuseReason = reason,
+                ContractId = contractId,
+                EmployeeId = currentEmployee.Id,
+                UnitName = unitName,
+                StatusId = status.Id,
+            };
+            AppContext.OBK_ContractHistory.Add(history);
+        }
+
+        public IQueryable<OBK_ContractHistoryView> GetHistory(Guid contractId)
+        {
+            return AppContext.OBK_ContractHistoryView.AsNoTracking().Where(x => x.ContractId == contractId);
         }
     }
 }

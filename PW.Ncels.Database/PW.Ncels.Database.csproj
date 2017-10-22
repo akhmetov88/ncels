@@ -915,6 +915,9 @@
     <Compile Include="DataModel\Notification.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBKContractProductsView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_appendix.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -963,6 +966,9 @@
     <Compile Include="DataModel\OBK_ContractHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_ContractHistoryView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_ContractPrice.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -973,6 +979,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractRegisterView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractSignedDatas.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractStage.cs">
@@ -1000,6 +1009,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_MtPart.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Organization.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
@@ -1761,9 +1773,6 @@
     <Compile Include="DataModel\sync_fr_sr_use_methods_tracking.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\sysdiagram.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataModel\Task.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2043,9 +2052,11 @@
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
+    <Compile Include="Models\OBK\OBKContractProduct.cs" />
     <Compile Include="Models\OBK\OBKContractProductViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractSeriesViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractService.cs" />
+    <Compile Include="Models\OBK\OBKContractSignData.cs" />
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
     <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
