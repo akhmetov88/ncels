@@ -2079,7 +2079,7 @@ namespace PW.Ncels.Database.Repository.OBK
         public IEnumerable<object> GetExtHistory(Guid? contractId)
         {
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
-            var shortName = contract.Unit != null ? contract.Unit.ShortName : "";
+            var shortName = contract?.Unit?.ShortName;
 
             var list = AppContext.OBK_ContractExtHistory.Where(x => x.ContractId == contractId).OrderBy(x => x.Created)
                 .Select(x => new
