@@ -2104,11 +2104,6 @@ namespace PW.Ncels.Database.Repository.OBK
                     StatusDescriptionKz = x.OBK_Ref_ContractExtHistoryStatus.DescriptionKz
                 }).ToList();
 
-            foreach (var item in list)
-            {
-
-            }
-
             return list;
         }
     }
