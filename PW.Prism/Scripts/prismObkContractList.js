@@ -294,7 +294,7 @@ function InitObkContractCard(uiId) {
     $("#WindowContractRegisteredCancel" + uiId).click(function () {
         $("#WindowContractRegistered" + uiId).data("kendoWindow").close();
     });
-    resizeGrid("#contracHistoryGrid" + uiId);
+    //resizeGrid("#contracHistoryGrid" + uiId);
 
     function signContract() {
         debugger;
