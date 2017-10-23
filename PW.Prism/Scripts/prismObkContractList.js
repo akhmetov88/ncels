@@ -44,6 +44,10 @@ function InitObkContractCard(uiId) {
                 }
             });
             $('#' + tabid).removeClass("hidden");
+            
+            if (tabid == "contractDataTab4" + uiId) {
+                $("#contracHistoryGrid" + uiId).data("kendoGrid").dataSource.read();
+            }
         },
         meetsRequirements: function (e) {
             var question = "Вы подтверждаете действие \"Соответствует требованиям\"?";
