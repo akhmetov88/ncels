@@ -625,23 +625,35 @@ namespace PW.Ncels.Database.Repository.OBK
                 OBK_Declarant declarant = AppContext.OBK_Declarant.Where(x => x.Id == declarantViewModel.Id).FirstOrDefault();
                 if (declarant != null && !declarant.IsConfirmed)
                 {
-                    declarant.OrganizationFormId = declarantViewModel.OrganizationFormId;
-                    declarant.NameKz = declarantViewModel.NameKz;
-                    declarant.NameRu = declarantViewModel.NameRu;
-                    declarant.NameEn = declarantViewModel.NameEn;
-                    declarant.CountryId = declarantViewModel.CountryId;
-                    declarant.IsResident = declarantViewModel.IsResident;
-                    if (declarant.IsResident)
+                    if (declarantViewModel.IsResident)
                     {
-                        declarant.Bin = declarantViewModel.Bin;
+                        declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.Bin);
                     }
                     else
                     {
-                        declarant.Bin = null;
+                        declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.CountryId);
                     }
 
-                    AppContext.SaveChanges();
-                    return declarant;
+                    if (!declarantAlreadyExist)
+                    {
+                        declarant.OrganizationFormId = declarantViewModel.OrganizationFormId;
+                        declarant.NameKz = declarantViewModel.NameKz;
+                        declarant.NameRu = declarantViewModel.NameRu;
+                        declarant.NameEn = declarantViewModel.NameEn;
+                        declarant.CountryId = declarantViewModel.CountryId;
+                        declarant.IsResident = declarantViewModel.IsResident;
+                        if (declarant.IsResident)
+                        {
+                            declarant.Bin = declarantViewModel.Bin;
+                        }
+                        else
+                        {
+                            declarant.Bin = null;
+                        }
+
+                        AppContext.SaveChanges();
+                        return declarant;
+                    }
                 }
             }
             else
@@ -1965,7 +1977,7 @@ namespace PW.Ncels.Database.Repository.OBK
             AddHistory(contractId, historyStatusCode);
         }
 
-        private void  AddHistorySentToApproval(Guid contractId)
+        private void AddHistorySentToApproval(Guid contractId)
         {
             var historyStatusCode = OBK_Ref_ContractHistoryStatus.SentToApproval;
             AddHistory(contractId, historyStatusCode);
