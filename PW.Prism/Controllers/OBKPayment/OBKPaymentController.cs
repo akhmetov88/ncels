@@ -29,8 +29,8 @@ namespace PW.Prism.Controllers.OBKPayment
 
         public JsonResult ReadDirectionList([DataSourceRequest] DataSourceRequest request)
         {
-            var currentUserId = UserHelper.GetCurrentEmployee().Id;
-            var data = payRepo.GetDirectionToPayments(currentUserId);
+            //var currentUserId = UserHelper.GetCurrentEmployee().Id;
+            var data = payRepo.GetDirectionToPayments();
             return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -56,8 +56,8 @@ namespace PW.Prism.Controllers.OBKPayment
                 var cPrice = new ContractPrice();
                 cPrice.Line = i;
                 cPrice.Count = com.Count;
-                cPrice.PriceWithTax = com.PriceWithTax;
-                cPrice.Price = com.Count * com.PriceWithTax;
+                cPrice.PriceWithTax = Math.Round(TaxHelper.GetCalculationTax(com.OBK_Ref_PriceList.Price), 2) ;
+                cPrice.Price = Math.Round(com.Count * TaxHelper.GetCalculationTax(com.OBK_Ref_PriceList.Price), 2);
                 cPrice.ServiceName = com.OBK_Ref_PriceList.NameRu;
                 cPrice.ProductName = com.OBK_RS_Products.NameRu;
                 result.Add(cPrice);
@@ -80,7 +80,7 @@ namespace PW.Prism.Controllers.OBKPayment
 
                 report.Dictionary.Variables["ContractId"].ValueObject = contractId;
                 //итого
-                var totalPriceWithCount = payRepo.GetTotalPriceWithCount(Guid.Parse(contractId));
+                var totalPriceWithCount = payRepo.GetTotalPriceCount(Guid.Parse(contractId));
                 report.Dictionary.Variables["TotalPriceWithCount"].ValueObject = totalPriceWithCount;
                 //в том числе НДС
                 var totalPriceNDS = payRepo.GetTotalPriceNDS(totalPriceWithCount);
@@ -88,6 +88,8 @@ namespace PW.Prism.Controllers.OBKPayment
                 //прописью
                 var priceText = RuDateAndMoneyConverter.CurrencyToTxtTenge(Convert.ToDouble(totalPriceWithCount), false);
                 report.Dictionary.Variables["TotalPriceWithCountName"].ValueObject = priceText;
+                report.Dictionary.Variables["ChiefAccountant"].ValueObject = payRepo.GetEmpoloyee(Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4"));
+                report.Dictionary.Variables["Executor"].ValueObject = payRepo.GetEmpoloyee(Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1"));
                 report.Render(false);
             }
             catch (Exception ex)

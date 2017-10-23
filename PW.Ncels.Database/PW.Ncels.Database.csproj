@@ -861,7 +861,16 @@
     <Compile Include="DataModel\I1c_primary_Applications_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplicationNotFullPaymentState.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplicationPaymentState.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_primary_ObkApplications.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkPriceListElements.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\I1c_primary_PriceListElements.cs">
@@ -1012,9 +1021,6 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_MtPart.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataModel\OBK_Organization.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
@@ -1779,6 +1785,9 @@
     <Compile Include="DataModel\sync_fr_sr_use_methods_tracking.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\sysdiagram.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\Task.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1968,6 +1977,7 @@
     <Compile Include="Helpers\ActionLogger.cs" />
     <Compile Include="Helpers\CommissionHelper.cs" />
     <Compile Include="Helpers\PriceHelper.cs" />
+    <Compile Include="Helpers\TaxHelper.cs" />
     <Compile Include="Helpers\VisitServices.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
@@ -2067,6 +2077,7 @@
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
     <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
+    <Compile Include="Models\OBK\OBKEntityTemplate.cs" />
     <Compile Include="Models\OBK\OBKMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />

@@ -1,7 +1,7 @@
 USE [ncelsProd]
 GO
 
-/****** Object:  Table [dbo].[I1c_primary_ObkApplicationPaymentState]    Script Date: 16.10.2017 18:53:23 ******/
+/****** Object:  Table [dbo].[I1c_primary_ObkApplicationPaymentState]    Script Date: 19.10.2017 16:33:09 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,11 +10,9 @@ GO
 
 CREATE TABLE [dbo].[I1c_primary_ObkApplicationPaymentState](
 	[Id] [uniqueidentifier] NOT NULL,
-	[IsPaid] [bit] null,
+	[IsPaid] [bit] NULL,
 	[PaymentDatetime] [datetime] NULL,
-	[PaymentValue] [decimal](18, 2) NULL,
-	[PaymentBill] [decimal](18, 2) NULL,
-	[refContractId] [uniqueidentifier] NULL
+	[refContractId] [uniqueidentifier] NULL,
  CONSTRAINT [PK_I1c_primary_ObkApplicationPaymentState] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -28,14 +26,10 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Признак оплаты' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'I1c_primary_ObkApplicationPaymentState', @level2type=N'COLUMN',@level2name=N'IsPaid'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Дата оплаты' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'I1c_primary_ObkApplicationPaymentState', @level2type=N'COLUMN',@level2name=N'PaymentDatetime'
-GO
-
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Сумма оплаты' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'I1c_primary_ObkApplicationPaymentState', @level2type=N'COLUMN',@level2name=N'PaymentValue'
-GO
-
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Выставленная сумма по счету' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'I1c_primary_ObkApplicationPaymentState', @level2type=N'COLUMN',@level2name=N'PaymentBill'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'ссылка на ИД договора' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'I1c_primary_ObkApplicationPaymentState', @level2type=N'COLUMN',@level2name=N'refContractId'
 GO
+
+

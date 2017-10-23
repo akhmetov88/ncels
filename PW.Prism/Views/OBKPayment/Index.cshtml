@@ -12,11 +12,14 @@
     <div class="pull-left">
         @(Html.Kendo().Button().Name("generateDoc" + Model)
               .Content("Посмотреть счет на оплату"))
-        @* /Content/images/commands/doc_print.png *@
     </div>
     <div class="pull-left">
         @(Html.Kendo().Button().Name("sendToDeclarant" + Model)
               .Content("Отправить заявителю"))
+    </div>
+    <div class="pull-left">
+        @(Html.Kendo().Button().Name("signDocument" + Model)
+              .Content("Подписать"))
     </div>
     <div class="pull-right">
         <div style="display: inline-block" id="columnMenu@(Model)" class="custom-grid-menu"></div>
@@ -61,11 +64,6 @@
                                          {
                                               {"ItemId", OBK_Ref_PaymentStatus.OnFormation}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "onFormation" + Model.ToString()}
                                          });
-
-                                         //projects.Add().Text("Сформирован").LinkHtmlAttributes(new Dictionary<string, object>()
-                                         //{
-                                         //    {"ItemId", OBK_Ref_PaymentStatus.Formed}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "formed" + Model.ToString()}
-                                         //});
 
                                          projects.Add().Text("Требует подписания").LinkHtmlAttributes(new Dictionary<string, object>()
                                          {
@@ -114,11 +112,12 @@
                 </div>
                 @( Html.Kendo().Grid<OBK_DirectionToPaymentsView>()
                          .Name("gridOBKPayment" + Model)
+                         .Events(events => events.Change("gridSelectRow"))
                          .Columns(columns =>
                          {
-                             columns.Bound(p => p.InvoiceNumber).Width(125).ClientTemplate(
+                             columns.Bound(p => p.InvoiceNumber1C).Width(125).ClientTemplate(
                                  "<div class=\"btn-group btn-group-xs\" style='height:14px;margin-top: -9px;'>" +
-                                 "<button  type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getPaymentDetails('#=ContractId#', '#=InvoiceNumber#')\"><span style=\"color:rgb(66,139,202);\">#=InvoiceNumber#</span></button>" +
+                                 "<button  type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getPaymentDetails('#=ContractId#', '#=InvoiceNumber1C#')\"><span style=\"color:rgb(66,139,202);\">#=InvoiceNumber1C#</span></button>" +
                                  "</div>"
                                  ).Title("№ счета");
                              columns.Bound(p => p.CreateDate).Format("{0:dd.MM.yyyy}").Title("Дата счета").Width(120);
@@ -160,9 +159,10 @@
         resizeGrid('@("#gridOBKPayment" + Model)');
         $("#generateDoc" + '@Model').hide();
         $("#sendToDeclarant" + '@Model').hide();
+        $("#signDocument" + '@Model').hide();
     });
 
-    function getPaymentDetails(parameters, invoiceNumber) {
+    function getPaymentDetails(parameters, invoiceNumber1c) {
         debugger;
         if (docArray.indexOf(parameters.toLowerCase()) !== -1)
             docArray.splice(docArray.indexOf(parameters.toLowerCase()), 1);
@@ -172,7 +172,7 @@
             var content = '<div id="' + parameters + '"> </div>';
             var idContent = '#' + parameters;
             tabStrip.append({
-                text: 'Просмотр счета на оплату: № ' + invoiceNumber,
+                text: 'Просмотр счета на оплату: № ' + invoiceNumber1c,
                 content: content
 
             });
@@ -204,7 +204,7 @@
         var grid = $("#gridOBKPayment" + '@Model').data("kendoGrid");
         var selectedItem = grid.dataItem(grid.select());
         if (selectedItem === null)
-            alert("Выберите договор");
+            alert("Выберите счет на оплату");
         $.ajax({
             url: "/OBKPayment/SendToDeclarant?id=" + selectedItem.Id,
             type: "POST",
@@ -213,6 +213,14 @@
                 grid.dataSource.read();
             }
         });
+    });
+
+    $("#signDocument" + '@Model').click(function() {
+        debugger;
+        var grid = $("#gridOBKPayment" + '@Model').data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem === null)
+            alert("Выберите счет на оплату");
     });
 
 
@@ -224,7 +232,7 @@
         var grid = $("#gridOBKPayment" + id).data("kendoGrid");
         var selectedItem = grid.dataItem(grid.select());
         if (selectedItem === null)
-            alert("Выберите договор");
+            alert("Выберите счет на оплату");
         window.open('/OBKPayment/DocumentExportFilePdf?contractId=' + selectedItem.ContractId);
     }
 </script>

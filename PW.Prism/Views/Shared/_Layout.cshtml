@@ -277,7 +277,7 @@
               .Items(children =>
               {
                   children.Add().Text("ОБК Договоры").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKContractList" } });
-                  children.Add().Text("Направление на оплату").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKPaymentList" } }).Visible(EmployePermissionHelper.CanOBKPayment);
+                  children.Add().Text("Счет на оплату").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKPaymentList" } }).Visible(EmployePermissionHelper.CanOBKPayment);
               });
 
           items.Add().Text(UserHelper.GetCurrentName()).HtmlAttributes(new { @style = "float: right", @class = "sys-notification-menu-item" })

@@ -379,9 +379,11 @@ function panelDirectionPaymentSelect(e) {
         if (selectValue === 'reqSign') {
             $("#generateDoc" + gridId).show();
             $("#sendToDeclarant" + gridId).show();
+            $("#signDocument" + gridId).show();
         } else {
             $("#generateDoc" + gridId).hide();
             $("#sendToDeclarant" + gridId).hide();
+            $("#signDocument" + gridId).hide();
         }
 
         if (selectValue === '') {
@@ -393,4 +395,9 @@ function panelDirectionPaymentSelect(e) {
             });
         }
     }
+}
+
+function gridSelectRow(e) {
+    debugger;
+    var data = this.dataItem(this.select());
 }

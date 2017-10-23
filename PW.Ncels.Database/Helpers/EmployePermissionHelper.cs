@@ -195,7 +195,7 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("CanViewReturnToApplicantAndSendToBossForApproval", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Вернуть на доработку\"/\"На согласование руководителю\"", "Работа с договорами ОБК");
             AddPermission("CanViewDoApprovementAndRefuseApprovement", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Согласовать\"/\"Отказать в согласовании\"", "Работа с договорами ОБК");
             AddPermission("CanViewRegisterAndAttachContract", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопки \"Зарегистрировать\"/\"Прикрепить договор\"", "Работа с договорами ОБК");
-            AddPermission("CanOBKPayment", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопку \"Направление на оплату\"", "Работа с договорами ОБК");
+            AddPermission("CanOBKPayment", @"Модуль 'ОБК' 'Договоры'", "Отображать кнопку \"Счет на оплату\"", "Работа с договорами ОБК");
 
             RemoveNonActualKeys();
         }
@@ -982,7 +982,7 @@ namespace PW.Ncels.Database.Helpers
 
         #region ОБК опалата
         /// <summary>
-        /// Отображать кнопку "Направление на опталу"
+        /// Отображать кнопку "Счет на оплату"
         /// </summary>
         public static bool CanOBKPayment { get { return IsVisibility("CanOBKPayment"); } }
         #endregion

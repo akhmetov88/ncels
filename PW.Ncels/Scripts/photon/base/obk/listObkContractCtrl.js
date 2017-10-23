@@ -1632,7 +1632,7 @@
             return;
         }
         var modalInstance = $uibModal.open({
-            templateUrl: '/OBKContract/ContractTemplate?id=' + id,
+            templateUrl: '/OBKContract/ContractTemplate?Id=' + id + "&Url=" + "GetContractTemplatePdf",
             controller: ModalRegisterInstanceCtrl
         });
     };
@@ -1642,6 +1642,14 @@
             $scope.gridOptionsCalculatorApi.core.handleWindowResize();
         }, 500, 10);
     }
+
+    $scope.viewInvoicePayment = function(id) {
+        debugger;
+        var modalInstance = $uibModal.open({
+            templateUrl: '/OBKContract/ContractTemplate?Id=' + id + "&Url=" + "GetPaymentTemplatePdf",
+            controller: ModalRegisterInstanceCtrl
+        });
+    };
 }
 
 function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {

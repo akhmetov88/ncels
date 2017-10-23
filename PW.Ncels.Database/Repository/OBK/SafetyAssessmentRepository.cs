@@ -570,15 +570,9 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var context = CreateDatabaseContext(false);
             var preamble = context.OBK_AssessmentDeclaration
-                //.Include(e => e.ObkContracts)
-                //.Include(e => e)
-                //.Include(e => e.EXP_DrugOrganizations)
-                //.Include(e => e.EXP_DrugPatent)
-                ////                .Include(e => e.EXP_DrugPrice)
-                //.Include(e => e.EXP_DrugProtectionDoc)
-                //.Include(e => e.EXP_DrugType)
-                //.Include(e => e.EXP_DrugUseMethod)
-                //                .Include(e => e.EXP_DrugWrapping).
+                //.Include(e => e.)
+                //.Include(e => e.ObkRsProductses)
+                //.Include(e => e.ObkProcuntsSeries)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
             return preamble;

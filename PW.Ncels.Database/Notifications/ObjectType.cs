@@ -25,7 +25,10 @@ namespace PW.Ncels.Database.Notifications
         [Description("Commission")]
         Commission,
         [Description("ObkDeclaration")]
-        ObkDeclaration
+        ObkDeclaration,
+        [Description("ObkContract")]
+        ObkContract
+
 
     }
 }

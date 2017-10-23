@@ -332,9 +332,9 @@ namespace PW.Ncels.Controllers
             return Json(state);
         }
 
-        public ActionResult ContractTemplate(Guid id)
+        public ActionResult ContractTemplate(Guid id, string url)
         {
-            return PartialView(id);
+            return PartialView(new OBKEntityTemplate { Id = id, Url = url });
         }
 
         public ActionResult GetContractTemplatePdf(Guid id)
@@ -383,6 +383,43 @@ namespace PW.Ncels.Controllers
 
             }
 
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+        public ActionResult GetPaymentTemplatePdf(Guid id)
+        {
+            var payRepo = new OBKPaymentRepository();
+            string name = "Счет на оплату.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(Server.MapPath("~/Reports/Mrts/OBK/1c/ObkInvoicePayment.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["ContractId"].ValueObject = id;
+                //итого
+                var totalPriceWithCount = payRepo.GetTotalPriceCount(id);
+                report.Dictionary.Variables["TotalPriceWithCount"].ValueObject = totalPriceWithCount;
+                //в том числе НДС
+                var totalPriceNDS = payRepo.GetTotalPriceNDS(totalPriceWithCount);
+                report.Dictionary.Variables["TotalPriceNDS"].ValueObject = totalPriceNDS;
+                //прописью
+                var priceText = RuDateAndMoneyConverter.CurrencyToTxtTenge(Convert.ToDouble(totalPriceWithCount), false);
+                report.Dictionary.Variables["TotalPriceWithCountName"].ValueObject = priceText;
+                report.Dictionary.Variables["ChiefAccountant"].ValueObject = payRepo.GetEmpoloyee(Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4"));
+                report.Dictionary.Variables["Executor"].ValueObject = payRepo.GetEmpoloyee(Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1"));
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            var stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");
         }
 

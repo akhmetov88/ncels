@@ -150,7 +150,7 @@ namespace PW.Ncels.Controllers
                 .OrderByDescending(dh => dh.DateCreate).FirstOrDefault();
             if (assessmentDeclarationHistory != null)
             {
-                Aspose.Words.Document doc = new Aspose.Words.Document();
+                Aspose.Words.Document doc = new Aspose.Words.Document(stream);
                 doc.InserQrCodesToEnd("ExecutorSign", assessmentDeclarationHistory.XmlSign);
                 var pdfFile = new MemoryStream();
                 doc.Save(pdfFile, Aspose.Words.SaveFormat.Pdf);
@@ -448,6 +448,7 @@ namespace PW.Ncels.Controllers
                     mtParts.Specification = mtPart.Specification;
                     mtParts.ProducerName = mtPart.ProducerName;
                     mtParts.CountryName = mtPart.CountryName;
+                    mtParts.Name = mtPart.Name;
                     prod.OBK_MtPart.Add(mtParts);
                 }
                 resultProducts.Add(prod);

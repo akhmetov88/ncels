@@ -31,6 +31,12 @@ namespace PW.Ncels.Database.DataModel
         public string InvoiceNumber { get; set; }
         public string InvoiceNumber1C { get; set; }
         public Nullable<System.DateTime> InvoiceDatetime1C { get; set; }
+        public bool IsPaid { get; set; }
+        public bool IsNotFullPaid { get; set; }
+        public Nullable<System.DateTime> PaymentDatetime { get; set; }
+        public Nullable<decimal> PaymentValue { get; set; }
+        public Nullable<decimal> PaymentBill { get; set; }
+        public string SendNotification { get; set; }
     
         public virtual Employee Employee { get; set; }
         public virtual OBK_Contract OBK_Contract { get; set; }

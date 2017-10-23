@@ -121,6 +121,15 @@ namespace PW.Ncels.Controllers
                         }
                         break;
                     }
+                    case "ObkContract":
+                    {
+                        var obkContract = db.OBK_Contract.FirstOrDefault(e => e.Id == new Guid(model.ObjectId));
+                        if (obkContract != null)
+                        {
+                            return RedirectToAction("Contract", "OBKContract", new { obkContract.Id });
+                        }
+                        break;
+                    }
 
                 }
 

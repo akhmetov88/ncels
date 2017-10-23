@@ -107,6 +107,7 @@
                         <button class="btn btn-default btn-sm" type="button" ng-click="sendWithDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Подписать ЭЦП и отправить в ЦОЗ</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="sendWithoutDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Отправить в ЦОЗ без подписи</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="viewContract('@ModelGuid')"><i class="fa fa-eye"></i> Просмотр</button>
+                        <button class="btn btn-default btn-sm" type="button" ng-click="viewInvoicePayment('@ModelGuid')" check-validate ng-hide="object.Status != ('@CodeConstManager.STATUS_OBK_EXPECTED_PAYMENT' || '@CodeConstManager.STATUS_OBK_NOT_FULL_PAYMENT' || '@CodeConstManager.STATUS_OBK_PAYMENT_EXPIRED')"><i class="fa fa-file-text-o"></i> Счет на оплату</button>
                     </div>
                 </div>
                 <form name="contractCreateForm">

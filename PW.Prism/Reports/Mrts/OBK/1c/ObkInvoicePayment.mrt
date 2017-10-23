@@ -40,7 +40,7 @@
       </OBK_Contract>
       <OBK_ContractPrice Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_ContractPrice</Alias>
-        <Columns isList="true" count="9">
+        <Columns isList="true" count="10">
           <value>Id,System.Int64</value>
           <value>PriceRefId,System.Int64</value>
           <value>Count,System.Int32</value>
@@ -50,6 +50,7 @@
           <value>ProductId,System.Int32</value>
           <value>NameRu,System.String</value>
           <value>DicNameRu,System.String</value>
+          <value>Price,System.Single</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1" />
@@ -58,7 +59,7 @@
         <Parameters isList="true" count="1">
           <value>ContractId,ContractId,14,0</value>
         </Parameters>
-        <SqlCommand>select d.Name as DicNameRu, * from OBK_ContractPrice cp left join OBK_Ref_PriceList pl on cp.PriceRefId = pl.Id
+        <SqlCommand>select d.Name as DicNameRu, pl.Price as Price, * from OBK_ContractPrice cp left join OBK_Ref_PriceList pl on cp.PriceRefId = pl.Id
 left join Dictionaries d on pl.UnitId = d.Id
  where cp.ContractId=@ContractId</SqlCommand>
       </OBK_ContractPrice>
@@ -86,7 +87,9 @@ left join Dictionaries d on pl.UnitId = d.Id
         <Parameters isList="true" count="1">
           <value>ContractId,ContractId,14,0</value>
         </Parameters>
-        <SqlCommand>select dic.DisplayName as OrgDisplayName, dicCountry.DisplayName as CountryDisplayName, * from OBK_Declarant d inner join OBK_Contract c on d.Id = c.DeclarantId
+        <SqlCommand>select dic.Name as OrgDisplayName, dicCountry.Name as CountryDisplayName, * 
+	from OBK_Declarant d 
+inner join OBK_Contract c on d.Id = c.DeclarantId
 inner join Dictionaries dic on d.OrganizationFormId = dic.Id
 inner join Dictionaries dicCountry on d.CountryId = dicCountry.Id where c.Id=@ContractId</SqlCommand>
       </OBK_Declarant>
@@ -205,8 +208,11 @@ inner join Dictionaries dicCountry on d.CountryId = dicCountry.Id where c.Id=@Co
         <Dictionary isRef="1" />
         <Name>UnitsAddress</Name>
         <NameInSource>ncelsProd</NameInSource>
-        <Parameters isList="true" count="0" />
-        <SqlCommand>select * from UnitsAddress</SqlCommand>
+        <Parameters isList="true" count="1">
+          <value>ContractId,ContractId,14,0</value>
+        </Parameters>
+        <SqlCommand>select top 1 * from UnitsAddress ua left join Units u on ua.UnitsId = u.Id
+inner join OBK_Contract c on u.Id = c.ExpertOrganization  where ua.IsDeleted='False' and c.Id=@ContractId</SqlCommand>
       </UnitsAddress>
       <UnitsBank Ref="9" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>UnitsBank</Alias>
@@ -275,11 +281,13 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Resources isList="true" count="0" />
-    <Variables isList="true" count="4">
+    <Variables isList="true" count="6">
       <value>,ContractId,ContractId,,System.Guid,,False,False,False,False</value>
       <value>,TotalPriceWithCount,TotalPriceWithCount,,System.Decimal,,False,False,False,False</value>
       <value>,TotalPriceNDS,TotalPriceNDS,,System.Decimal,,False,False,False,False</value>
       <value>,TotalPriceWithCountName,TotalPriceWithCountName,,System.String,,False,False,False,False</value>
+      <value>,ChiefAccountant,ChiefAccountant,,System.String,,False,False,False,False</value>
+      <value>,Executor,Executor,,System.String,,False,False,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -323,7 +331,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand1>
         <DataBand2 Ref="14" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,5.6,19,3.8</ClientRectangle>
+          <ClientRectangle>0,5.6,19,4.2</ClientRectangle>
           <Components isList="true" count="13">
             <Text2 Ref="15" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -334,7 +342,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Name>Text2</Name>
               <Page isRef="11" />
               <Parent isRef="14" />
-              <Text>Платежного поручения</Text>
+              <Text>Образец платежного поручения</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -392,7 +400,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text6 Ref="19" type="Text" isKey="true">
               <Border>Left, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>0.2,1.2,8.2,1.2</ClientRectangle>
+              <ClientRectangle>0.2,1.2,8.2,1.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>ef35dd4bcb44411a9dc57c25f4291cdf</Guid>
@@ -403,13 +411,14 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Text>{Units.DisplayName}
 БИН {Units.Bin}</Text>
               <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text6>
             <Text7 Ref="20" type="Text" isKey="true">
               <Border>Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.4,1.2,5.8,1.2</ClientRectangle>
+              <ClientRectangle>8.4,1.2,5.8,1.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>54f46d19f4d94c7fb06f6bca36e9357a</Guid>
@@ -426,7 +435,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text8 Ref="21" type="Text" isKey="true">
               <Border>Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>14.2,1.2,4.6,1.2</ClientRectangle>
+              <ClientRectangle>14.2,1.2,4.6,1.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>8dd16fec0f86459d9967c57a7b5862b2</Guid>
@@ -443,7 +452,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text10 Ref="22" type="Text" isKey="true">
               <Border>Left, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.4,2.4,5.8,0.6</ClientRectangle>
+              <ClientRectangle>8.4,2.8,5.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>dd0144e9957341f3aa74fd64ba289ae1</Guid>
@@ -460,7 +469,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text11 Ref="23" type="Text" isKey="true">
               <Border>Left, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>14.2,2.4,4.6,0.6</ClientRectangle>
+              <ClientRectangle>14.2,2.8,4.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>03d89c3264754d43a03031fc14f89c53</Guid>
@@ -477,7 +486,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text12 Ref="24" type="Text" isKey="true">
               <Border>Left, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>0.2,3,8.2,0.6</ClientRectangle>
+              <ClientRectangle>0.2,3.4,8.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>ff82c1ef145a4c3696847efed8f4d3b5</Guid>
@@ -493,7 +502,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text13 Ref="25" type="Text" isKey="true">
               <Border>Left, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.4,3,5.8,0.6</ClientRectangle>
+              <ClientRectangle>8.4,3.4,5.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>9d3ac1d64af34528b7e26f7f99492bce</Guid>
@@ -510,7 +519,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text14 Ref="26" type="Text" isKey="true">
               <Border>Left, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>14.2,3,4.6,0.6</ClientRectangle>
+              <ClientRectangle>14.2,3.4,4.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10,Bold</Font>
               <Guid>651cea3460b54b36b2d907db75caca9b</Guid>
@@ -527,7 +536,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             <Text9 Ref="27" type="Text" isKey="true">
               <Border>Left, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>0.2,2.4,8.2,0.6</ClientRectangle>
+              <ClientRectangle>0.2,2.8,8.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,10</Font>
               <Guid>23050964cd0b4911ba0fbf97a343f2ad</Guid>
@@ -551,7 +560,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand2>
         <DataBand3 Ref="28" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,10.2,19,4.6</ClientRectangle>
+          <ClientRectangle>0,10.6,19,4.6</ClientRectangle>
           <Components isList="true" count="8">
             <Text15 Ref="29" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -607,8 +616,9 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Name>Text18</Name>
               <Page isRef="11" />
               <Parent isRef="28" />
-              <Text>БИН/ИИН {Units.Bin} {Units.DisplayName} {Units.ActualAddress} {Units.Phone}</Text>
+              <Text>БИН/ИИН {Units.Bin} {Units.DisplayName} {UnitsAddress.AddressNameRu} {Units.Phone}</Text>
               <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
             </Text18>
             <Text19 Ref="33" type="Text" isKey="true">
@@ -684,7 +694,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand3>
         <HeaderBand1 Ref="37" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,15.6,19,0.6</ClientRectangle>
+          <ClientRectangle>0,16,19,0.6</ClientRectangle>
           <Components isList="true" count="7">
             <Text23 Ref="38" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
@@ -814,7 +824,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         <DataBand4 Ref="45" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,17,19,1.2</ClientRectangle>
+          <ClientRectangle>0,17.4,19,1.2</ClientRectangle>
           <Components isList="true" count="7">
             <Text30 Ref="46" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
@@ -902,7 +912,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Text>{OBK_ContractPrice.DicNameRu}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
+              <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text34>
             <Text35 Ref="51" type="Text" isKey="true">
@@ -917,13 +927,19 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Name>Text35</Name>
               <Page isRef="11" />
               <Parent isRef="45" />
-              <Text>{OBK_ContractPrice.PriceWithTax}</Text>
+              <Text>{OBK_ContractPrice.Price * 1.12}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="52" type="NumberFormat" isKey="true">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator> </GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text35>
-            <Text36 Ref="52" type="Text" isKey="true">
+            <Text36 Ref="53" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>16.2,0,2.6,1.2</ClientRectangle>
@@ -935,8 +951,14 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Name>Text36</Name>
               <Page isRef="11" />
               <Parent isRef="45" />
-              <Text>{OBK_ContractPrice.Count * OBK_ContractPrice.PriceWithTax}</Text>
+              <Text>{Round((OBK_ContractPrice.Count * OBK_ContractPrice.Price * 1.12), 2)}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="54" type="NumberFormat" isKey="true">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator> </GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -951,11 +973,11 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
           <Parent isRef="11" />
           <Sort isList="true" count="0" />
         </DataBand4>
-        <FooterBand1 Ref="53" type="FooterBand" isKey="true">
+        <FooterBand1 Ref="55" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,19,19,3</ClientRectangle>
+          <ClientRectangle>0,19.4,19,3</ClientRectangle>
           <Components isList="true" count="7">
-            <Text37 Ref="54" type="Text" isKey="true">
+            <Text37 Ref="56" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.2,0.2,4,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -965,12 +987,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text37</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <Text>Итого:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text37>
-            <Text38 Ref="55" type="Text" isKey="true">
+            <Text38 Ref="57" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.2,0.8,4,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -980,12 +1002,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text38</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <Text>В том числе НДС:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text38>
-            <Text39 Ref="56" type="Text" isKey="true">
+            <Text39 Ref="58" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.2,0.2,2.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -995,12 +1017,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text39</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <Text>{TotalPriceWithCount}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text39>
-            <Text40 Ref="57" type="Text" isKey="true">
+            <Text40 Ref="59" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.2,0.8,2.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1010,12 +1032,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text40</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <Text>{TotalPriceNDS}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text40>
-            <Text41 Ref="58" type="Text" isKey="true">
+            <Text41 Ref="60" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,1.6,18.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1024,12 +1046,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text41</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <Text>Всего наименований {Count()}, на сумму {TotalPriceWithCount} KZT</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text41>
-            <Text42 Ref="59" type="Text" isKey="true">
+            <Text42 Ref="61" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,2.2,18.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1038,14 +1060,14 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text42</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <Text>Всего к оплате: {TotalPriceWithCountName}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text42>
-            <Text43 Ref="60" type="Text" isKey="true">
+            <Text43 Ref="62" type="Text" isKey="true">
               <Border>Bottom;Black;3;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,2.8,18.6,0.2</ClientRectangle>
@@ -1055,7 +1077,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text43</Name>
               <Page isRef="11" />
-              <Parent isRef="53" />
+              <Parent isRef="55" />
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -1066,11 +1088,11 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
           <Page isRef="11" />
           <Parent isRef="11" />
         </FooterBand1>
-        <DataBand5 Ref="61" type="DataBand" isKey="true">
+        <DataBand5 Ref="63" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,22.8,19,3.6</ClientRectangle>
+          <ClientRectangle>0,23.2,19,3.6</ClientRectangle>
           <Components isList="true" count="5">
-            <Text44 Ref="62" type="Text" isKey="true">
+            <Text44 Ref="64" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0.2,11.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1079,12 +1101,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text44</Name>
               <Page isRef="11" />
-              <Parent isRef="61" />
+              <Parent isRef="63" />
               <Text>Главный бухгалтер:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text44>
-            <Text45 Ref="63" type="Text" isKey="true">
+            <Text45 Ref="65" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12,0.2,6.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1094,11 +1116,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text45</Name>
               <Page isRef="11" />
-              <Parent isRef="61" />
+              <Parent isRef="63" />
+              <Text>{ChiefAccountant}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text45>
-            <Text46 Ref="64" type="Text" isKey="true">
+            <Text46 Ref="66" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,1,11.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1107,12 +1130,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text46</Name>
               <Page isRef="11" />
-              <Parent isRef="61" />
+              <Parent isRef="63" />
               <Text>Исполнитель:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text46>
-            <Text47 Ref="65" type="Text" isKey="true">
+            <Text47 Ref="67" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12,1,6.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1122,11 +1145,12 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text47</Name>
               <Page isRef="11" />
-              <Parent isRef="61" />
+              <Parent isRef="63" />
+              <Text>{Executor}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text47>
-            <Text48 Ref="66" type="Text" isKey="true">
+            <Text48 Ref="68" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,2.6,18.6,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -1135,7 +1159,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
               <Margins>2,2,2,2</Margins>
               <Name>Text48</Name>
               <Page isRef="11" />
-              <Parent isRef="61" />
+              <Parent isRef="63" />
               <Text>Примечание:
 	1. Счет действителен в течении 5 банковских дней со дня выписки.</Text>
               <TextBrush>Black</TextBrush>
@@ -1158,13 +1182,13 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="67" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="69" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="68" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="70" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -1176,10 +1200,10 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>10/16/2017 9:48:04 AM</ReportChanged>
+  <ReportChanged>10/20/2017 12:52:38 PM</ReportChanged>
   <ReportCreated>10/11/2017 6:18:11 PM</ReportCreated>
   <ReportFile>F:\Projects\ncels\PW.Prism\Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt</ReportFile>
-  <ReportGuid>98ac128fc7bb4b37a6f1619473e66410</ReportGuid>
+  <ReportGuid>15243dfc90b04e92a44c4f8f5469d44b</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

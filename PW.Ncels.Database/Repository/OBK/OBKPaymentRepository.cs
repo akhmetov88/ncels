@@ -6,8 +6,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
+using PW.Ncels.Database.Notifications;
 
 namespace PW.Ncels.Database.Repository.OBK
 {
@@ -67,18 +69,22 @@ namespace PW.Ncels.Database.Repository.OBK
                 AppContext.SaveChanges();
             }
         }
-
+        /// <summary>
+        /// расчет стоимости с НДС
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <returns></returns>
         public decimal GetTotalPriceCount(Guid contractId)
         {
             var priceCounts = AppContext.OBK_ContractPrice.Where(e => e.ContractId == contractId).ToList();
-            var tPrice = priceCounts.Sum(e => Convert.ToDecimal(e.PriceWithoutTax));
+            var tPrice = priceCounts.Sum(e => Math.Round(Convert.ToDecimal(TaxHelper.GetCalculationTax(e.OBK_Ref_PriceList.Price) * e.Count), 2));
             return tPrice;
         }
 
-        public IQueryable<OBK_DirectionToPaymentsView> GetDirectionToPayments(Guid currentUserId)
+        public IQueryable<OBK_DirectionToPaymentsView> GetDirectionToPayments()
         {
             var data = AppContext.OBK_DirectionToPaymentsView
-                .Where(e => e.CreateEmployeeId == currentUserId && e.IsDeleted == false);
+                .Where(e => e.IsDeleted == false);
             return data;
         }
 
@@ -96,24 +102,85 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var directionPay = AppContext.OBK_DirectionToPayments.First(e => e.Id == id);
             directionPay.StatusId = GetPaymentStatus(OBK_Ref_PaymentStatus.SendToPayment).Id;
+            directionPay.OBK_Contract.Status = CodeConstManager.STATUS_OBK_EXPECTED_PAYMENT;
             AppContext.SaveChanges();
+            //отправка уведоления
+            new NotificationManager().SendNotification(
+                string.Format("По Вашему договору №{0} поступил счет на оплату", directionPay.OBK_Contract.Number),
+                ObjectType.ObkContract, directionPay.OBK_Contract.Id, (Guid) directionPay.OBK_Contract.EmployeeId);
+            
             //todo добавить изменения статуса договора
         }
-
-        public decimal GetTotalPriceWithCount(Guid contractId)
-        {
-            var priceCounts = AppContext.OBK_ContractPrice.Where(e => e.ContractId == contractId).ToList();
-            List<decimal> d = new List<decimal>();
-            foreach (var p in priceCounts)
-            {
-                d.Add(Convert.ToDecimal(p.Count * p.PriceWithTax));
-            }
-            return Math.Round(d.Sum(), 2);
-        }
-
+        /// <summary>
+        /// НДС для формирования печатной формы
+        /// </summary>
+        /// <param name="nds"></param>
+        /// <returns></returns>
         public decimal GetTotalPriceNDS(decimal nds)
         {
-            return Math.Round(nds * (decimal)0.12, 2);
+            return Math.Round(TaxHelper.GetTaxWithPrice(nds), 2);
         }
+
+        public string GetEmpoloyee(Guid userId)
+        {
+            return AppContext.Employees.FirstOrDefault(e=>e.Id == userId)?.ShortName;
+        }
+
+
+        #region оплата Job
+
+        public List<OBK_DirectionToPayments> GetDeclarantPaid()
+        {
+            return AppContext.OBK_DirectionToPayments.Where(e => e.IsPaid && !e.IsNotFullPaid && (e.SendNotification == null || e.SendNotification == "sendNotFullPaid"))
+                .ToList();
+        }
+
+        public List<OBK_DirectionToPayments> GetDeclarantNotFullPaid()
+        {
+            return AppContext.OBK_DirectionToPayments.Where(e => e.IsPaid && e.IsNotFullPaid && e.SendNotification == null)
+                .ToList();
+        }
+
+        public List<OBK_DirectionToPayments> GetPaidExpired()
+        {
+            var result = AppContext.OBK_DirectionToPayments
+                .Where(e => (bool) !e.IsDeleted &&
+                            e.OBK_Contract.Status != CodeConstManager.STATUS_OBK_PAYMENT_EXPIRED &&
+                            e.OBK_Contract.Status == CodeConstManager.STATUS_OBK_EXPECTED_PAYMENT &&
+                            e.OBK_Contract.Status == CodeConstManager.STATUS_OBK_NOT_FULL_PAYMENT)
+                .ToList();
+            List<OBK_DirectionToPayments> dPayments = new List<OBK_DirectionToPayments>();
+            foreach (var r in result)
+            {
+                if (GetWordDate(r.DirectionDate) < DateTime.Now)
+                    dPayments.Add(r);
+            }
+            return dPayments;
+        }
+
+        public DateTime GetWordDate(DateTime sendDate)
+        {
+            var factDate = sendDate.AddDays(5);
+            if (factDate.DayOfWeek == DayOfWeek.Saturday)
+                factDate.AddDays(2);
+            if (factDate.DayOfWeek == DayOfWeek.Sunday)
+                factDate.AddDays(1);
+            return factDate;
+        }
+
+        public void UpdateStatus(OBK_DirectionToPayments dicPayments)
+        {
+            dicPayments.OBK_Contract.Status = CodeConstManager.STATUS_OBK_PAYMENT_EXPIRED;
+            AppContext.SaveChanges();
+        }
+
+        public void UpdateNotificationToPayment(OBK_DirectionToPayments dicPayments, bool payStatus)
+        {
+            dicPayments.SendNotification = payStatus ? "send" : "sendNotFullPaid";
+            dicPayments.OBK_Contract.Status = payStatus ? CodeConstManager.STATUS_OBK_ACTIVE : CodeConstManager.STATUS_OBK_NOT_FULL_PAYMENT;
+            AppContext.SaveChanges();
+        }
+
+        #endregion
     }
 }

@@ -242,6 +242,7 @@ namespace PW.Prism.Controllers.OBK
                     mtParts.Specification = mtPart.Specification;
                     mtParts.ProducerName = mtPart.ProducerName;
                     mtParts.CountryName = mtPart.CountryName;
+                    mtParts.Name = mtPart.Name;
                     prod.OBK_MtPart.Add(mtParts);
                 }
                 resultProducts.Add(prod);
