@@ -711,7 +711,6 @@
 
                                 $scope.showAddEditDrugBlock = false;
                                 $scope.showSearchDrugInReestr = false;
-                                $scope.clearSearchAndProductFields();
                                 $scope.mode = 0;
                                 alert("Информация о продукции добавлена");
                             }
@@ -764,7 +763,6 @@
 
             $scope.showAddEditDrugBlock = false;
             $scope.showSearchDrugInReestr = false;
-            $scope.clearSearchAndProductFields();
             $scope.mode = 0;
             alert("Информация о продукции обновлена");
         }
@@ -839,6 +837,8 @@
                 }
 
                 $scope.calcTotalCostCalculator();
+
+                $scope.clearSearchAndProductFields();
             });
         }
     }
