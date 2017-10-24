@@ -1927,20 +1927,18 @@ namespace PW.Ncels.Database.Repository.OBK
             }
 
             Stream stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Pdf, stream);
+            report.ExportDocument(StiExportFormat.Word2007, stream);
             stream.Position = 0;
+
+            Aspose.Words.Document doc = new Aspose.Words.Document(stream);
 
             try
             {
                 var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
                 if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
                 {
-                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
-                    doc.InserQrCodes("ApplicantSign", signData.ApplicantSign);
-                    doc.InserQrCodes("CeoSign", signData.CeoSign);
-
-                    //doc.InserQrCodes("applicantDigSign", contractSign != null ? contractSign.ApplicantSig : null);
-                    //doc.InserQrCodes("ceoDigSign", contractSign != null ? contractSign.CeoSign : null);
+                    doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
+                    doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
                 }
             }
             catch (Exception ex)
@@ -1948,7 +1946,11 @@ namespace PW.Ncels.Database.Repository.OBK
 
             }
 
-            return stream;
+            var file = new MemoryStream();
+            doc.Save(file, Aspose.Words.SaveFormat.Pdf);
+            file.Position = 0;
+
+            return file;
         }
 
         private void AddHistorySentByApplicant(Guid contractId)
