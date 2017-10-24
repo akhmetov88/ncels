@@ -1587,6 +1587,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
             contract.Number = number;
             contract.StartDate = DateTime.Now;
+            AppContext.SaveChanges();
 
             if (digitalSign != null)
             {
