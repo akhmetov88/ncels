@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>F:\Projects\Deployments\prism_20171023_1045</_PublishTargetUrl>
+    <_PublishTargetUrl>F:\Projects\Deployments\prism_20171023_1530</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -133,10 +133,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/23/2017 10:45:36</publishTime>
     </File>
     <File Include="bin/PW.Prism.dll">
-      <publishTime>10/23/2017 10:45:43</publishTime>
+      <publishTime>10/23/2017 15:31:02</publishTime>
     </File>
     <File Include="bin/PW.Prism.pdb">
-      <publishTime>10/23/2017 10:45:43</publishTime>
+      <publishTime>10/23/2017 15:31:02</publishTime>
     </File>
     <File Include="bin/Quartz.dll">
       <publishTime>02/18/2017 09:28:06</publishTime>
@@ -2173,13 +2173,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/23/2017 10:00:23</publishTime>
     </File>
     <File Include="Reports/Mrts/OBK/ObkContractDeclaration.mrt">
-      <publishTime>10/17/2017 16:20:45</publishTime>
+      <publishTime>10/23/2017 15:19:26</publishTime>
     </File>
     <File Include="Reports/Mrts/OBK/ObkContractParty.mrt">
-      <publishTime>10/17/2017 16:20:45</publishTime>
+      <publishTime>10/23/2017 15:11:41</publishTime>
     </File>
     <File Include="Reports/Mrts/OBK/ObkContractSerial.mrt">
-      <publishTime>10/17/2017 16:20:45</publishTime>
+      <publishTime>10/23/2017 15:19:16</publishTime>
     </File>
     <File Include="Reports/Mrts/OBKExpDocument.mrt">
       <publishTime>09/22/2017 17:15:27</publishTime>
@@ -4399,7 +4399,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Scripts/ncelsOBKDeclaration.js">
-      <publishTime>10/23/2017 10:00:23</publishTime>
+      <publishTime>10/23/2017 11:39:09</publishTime>
     </File>
     <File Include="Scripts/ncelsPrice.js">
       <publishTime>08/16/2017 17:25:24</publishTime>
@@ -4479,6 +4479,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/prismObkContractList.js">
       <publishTime>10/23/2017 09:59:28</publishTime>
     </File>
+    <File Include="Scripts/prismOBKPayments.js">
+      <publishTime>10/23/2017 11:45:17</publishTime>
+    </File>
     <File Include="Scripts/prismOutgoing.js">
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
@@ -4531,7 +4534,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>09/21/2017 11:18:47</publishTime>
+      <publishTime>10/23/2017 11:46:54</publishTime>
     </File>
     <File Include="tsconfig.json">
       <publishTime>08/16/2017 17:25:24</publishTime>
@@ -6142,7 +6145,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 17:25:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/23/2017 10:45:38</publishTime>
+      <publishTime>10/23/2017 15:30:57</publishTime>
     </File>
     <File Include="Widgets/widget_birthday.mrt">
       <publishTime>08/16/2017 17:25:24</publishTime>

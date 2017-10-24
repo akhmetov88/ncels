@@ -1011,6 +1011,9 @@
     <Compile Include="DataModel\OBK_DeclarantContact.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_DirectionSignData.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_DirectionToPayments.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2085,6 +2088,7 @@
     <Compile Include="Models\OBK\OBK_Contract.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
+    <Compile Include="Models\OBK\OBKPaymentSignData.cs" />
     <Compile Include="Models\OBK\OBK_Procunts_Series.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Nomenclature.cs" />

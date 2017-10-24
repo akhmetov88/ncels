@@ -10,6 +10,7 @@ using Ncels.Helpers;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
+using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.DirectionToPay;
 using PW.Ncels.Database.Repository.OBK;
 using Stimulsoft.Report;
@@ -65,6 +66,23 @@ namespace PW.Prism.Controllers.OBKPayment
             }
             return Json(new { isSuccess = true, result });
         }
+        [HttpGet]
+        public ActionResult GetSignDirectionToPayment(Guid id)
+        {
+            var signData = payRepo.GetSignData(id);
+            return Json(new { data = signData }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SaveSignedPayment(Guid paymentId, string signedData)
+        {
+            payRepo.SaveSignPay(paymentId, signedData);
+            return Json("Ok");
+        }
+
+        public ActionResult GetEmployee()
+        {
+            return Json(new {UserHelper.GetCurrentEmployee().Id}, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult DocumentExportFilePdf(string contractId)
         {
@@ -97,11 +115,10 @@ namespace PW.Prism.Controllers.OBKPayment
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
             var stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Pdf, stream);
+            report.ExportDocument(StiExportFormat.Word2007, stream);
             stream.Position = 0;
             return File(stream, "application/pdf", name);
         }
-
 
         public class ContractPrice
         {

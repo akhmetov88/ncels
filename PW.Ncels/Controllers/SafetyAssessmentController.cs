@@ -135,6 +135,7 @@ namespace PW.Ncels.Controllers
                 }
 
                 report.Dictionary.Variables["AssessmentDeclarationId"].ValueObject = id;
+                report.Dictionary.Variables["ExecutorSign"].ValueObject = null;
 
                 report.Render(false);
             }
@@ -143,21 +144,29 @@ namespace PW.Ncels.Controllers
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
             Stream stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Pdf, stream);
+            report.ExportDocument(StiExportFormat.Word2007, stream);
             stream.Position = 0;
+            
             var assessmentDeclaration = db.OBK_AssessmentDeclaration.FirstOrDefault(dd => dd.Id == id);
             var assessmentDeclarationHistory = assessmentDeclaration.OBK_AssessmentDeclarationHistory.Where(dh => dh.XmlSign != null)
                 .OrderByDescending(dh => dh.DateCreate).FirstOrDefault();
             if (assessmentDeclarationHistory != null)
             {
-                Aspose.Words.Document doc = new Aspose.Words.Document(stream);
-                doc.InserQrCodesToEnd("ExecutorSign", assessmentDeclarationHistory.XmlSign);
-                var pdfFile = new MemoryStream();
-                doc.Save(pdfFile, Aspose.Words.SaveFormat.Pdf);
-                pdfFile.Position = 0;
-                stream.Close();
+                try
+                {
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodes("ExecutorSign", assessmentDeclarationHistory.XmlSign);
+                    var pdfFile = new MemoryStream();
+                    doc.Save(pdfFile, Aspose.Words.SaveFormat.Pdf);
+                    pdfFile.Position = 0;
+                    stream.Close();
 
-                return new FileStreamResult(pdfFile, "application/pdf");
+                    return new FileStreamResult(pdfFile, "application/pdf");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
             return new FileStreamResult(stream, "application/pdf");
         }

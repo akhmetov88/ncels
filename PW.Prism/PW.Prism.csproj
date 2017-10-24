@@ -1607,6 +1607,7 @@
     <Content Include="Scripts\ncelsRequestList.js" />
     <Content Include="Scripts\ncelsSelectFromGridControl.js" />
     <Content Include="Scripts\ncelsTmc.js" />
+    <Content Include="Scripts\prismOBKPayments.js" />
     <Content Include="Scripts\prismAdministrativeMain.js" />
     <Content Include="Scripts\prismContract.js" />
     <Content Include="Scripts\prismContractList.js" />

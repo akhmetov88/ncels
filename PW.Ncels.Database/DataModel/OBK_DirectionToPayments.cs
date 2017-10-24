@@ -41,5 +41,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual Employee Employee { get; set; }
         public virtual OBK_Contract OBK_Contract { get; set; }
         public virtual OBK_Declarant OBK_Declarant { get; set; }
+        public virtual OBK_DirectionSignData OBK_DirectionSignData { get; set; }
     }
 }

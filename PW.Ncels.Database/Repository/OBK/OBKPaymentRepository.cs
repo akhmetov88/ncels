@@ -9,6 +9,7 @@ using System.Web;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
+using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Notifications;
 
 namespace PW.Ncels.Database.Repository.OBK
@@ -49,6 +50,12 @@ namespace PW.Ncels.Database.Repository.OBK
                     pay.IsDeleted = false;
                     pay.TotalPrice = GetTotalPriceCount(contractId);
                     pay.StatusId = GetPaymentStatus(OBK_Ref_PaymentStatus.OnFormation).Id;
+                    pay.OBK_DirectionSignData = new OBK_DirectionSignData()
+                    {
+                        DirectionToPaymentId = pay.Id,
+                        ChiefAccountantId = Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4"),
+                        ExecutorId = Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1")
+                    };
                 }
                 else
                 {
@@ -64,6 +71,7 @@ namespace PW.Ncels.Database.Repository.OBK
                     pay.IsDeleted = false;
                     pay.TotalPrice = GetTotalPriceCount(contractId);
                     pay.StatusId = payment.StatusId;
+                    pay.OBK_DirectionSignData = payment.OBK_DirectionSignData;
                 }
                 AppContext.OBK_DirectionToPayments.Add(pay);
                 AppContext.SaveChanges();
@@ -124,6 +132,68 @@ namespace PW.Ncels.Database.Repository.OBK
         public string GetEmpoloyee(Guid userId)
         {
             return AppContext.Employees.FirstOrDefault(e=>e.Id == userId)?.ShortName;
+        }
+
+        public Dictionary GetDictionary(Guid? id)
+        {
+            if (id == null)
+                return null;
+            return AppContext.Dictionaries.FirstOrDefault(e => e.Id == id);
+        }
+
+        public string GetSignData(Guid id)
+        {
+            var payment = AppContext.OBK_DirectionToPayments.FirstOrDefault(e => e.Id == id);
+            var contract = AppContext.OBK_Contract.FirstOrDefault(e => e.Id == payment.ContractId);
+            var unitsBank = AppContext.UnitsBanks.FirstOrDefault(e => e.UnitsId == contract.ExpertOrganization);
+
+            List<ContractPriceSignData> contractPriceSign = AppContext.OBK_ContractPrice
+                .Where(e => e.ContractId == contract.Id)
+                .Select(e => new ContractPriceSignData()
+                {
+                    ContractPriceName = e.OBK_RS_Products.NameRu,
+                    ContractPriceDicName = e.OBK_Ref_PriceList.NameRu,
+                    ContractPrice = e.OBK_Ref_PriceList.Price * 1.12,
+                    ContractPriceCount = e.Count,
+                    ContractPriceTotal = e.OBK_Ref_PriceList.Price * 1.12 * e.Count,
+                }).ToList();
+            
+            var result = new OBKPaymentSignData {
+                Id = id,
+                ContractId = payment?.ContractId,
+                ContactNumber = contract?.Number,
+                ContactStartDate = contract?.StartDate,
+                ContactTypeName = contract?.OBK_Ref_Type.NameRu,
+                UnitsName = contract?.Unit.Name,
+                UnitsAddress = contract?.Unit.LegalAddress,
+                UnitsPhone = contract?.Unit.Phone,
+                UnitsBin = contract?.Unit.Bin,
+                UnitsIIk = unitsBank?.IIK,
+                UnitsKbe = unitsBank?.KBE,
+                UnitsBankName = unitsBank?.BankNameRu,
+                UnitsBankSwift = unitsBank?.SWIFT,
+                UnitsBankCode = unitsBank?.Code,
+                InvoiceNuber1C = payment?.InvoiceNumber1C,
+                InvoiceDate1C = payment?.InvoiceDatetime1C,
+                DeclarantBin = contract?.OBK_Declarant.Bin,
+                DeclarantOrgName = GetDictionary(contract?.OBK_Declarant.OrganizationFormId).Name,
+                DeclarantName = contract?.OBK_Declarant.NameRu,
+                DeclarantCountryName = GetDictionary(contract?.OBK_DeclarantContact.CurrencyId).Name,
+                DeclarantAddressLegal = contract?.OBK_DeclarantContact.AddressLegalRu,
+                ContractPriceNds = GetTotalPriceCount(payment.ContractId),
+                ContractPriceTotalText = RuDateAndMoneyConverter.CurrencyToTxtTenge(Convert.ToDouble(GetTotalPriceCount(payment.ContractId)), false),
+                ChiefAccountant = GetEmpoloyee(Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4")),
+                Executor = GetEmpoloyee(Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1")),
+                ContractPriceSignDatas = contractPriceSign
+            };
+            var xmlData = SerializeHelper.SerializeDataContract(result);
+            return xmlData.Replace("utf-16", "utf-8");
+        }
+
+        public void SaveSignPay(Guid paymentId, string signedData)
+        {
+            var directionSignData =
+                AppContext.OBK_DirectionSignData.FirstOrDefault(e => e.DirectionToPaymentId == paymentId);
         }
 
 

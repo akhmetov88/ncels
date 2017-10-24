@@ -154,7 +154,7 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function (e) {
+    $(document).ready(function(e) {
         debugger;
         resizeGrid('@("#gridOBKPayment" + Model)');
         $("#generateDoc" + '@Model').hide();
@@ -221,8 +221,8 @@
         var selectedItem = grid.dataItem(grid.select());
         if (selectedItem === null)
             alert("Выберите счет на оплату");
+        signPayment(selectedItem.id);
     });
-
 
     $("#generateDoc" + '@Model').click(function () {
         debugger;

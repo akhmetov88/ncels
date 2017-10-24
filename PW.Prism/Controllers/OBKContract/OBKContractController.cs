@@ -792,10 +792,9 @@ namespace PW.Prism.Controllers.OBKContract
             return Json(regNumber);
         }
 
-        public ActionResult SendToPay(Guid contractId)
+        public void SendToPay(Guid contractId)
         {
             new OBKPaymentRepository().SavePayments(contractId);
-            return null;
         }
 
         [HttpGet]
