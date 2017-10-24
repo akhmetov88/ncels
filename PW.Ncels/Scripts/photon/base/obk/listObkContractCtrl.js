@@ -1,4 +1,22 @@
 ﻿function obkContractForm($scope, $http, $interval, $uibModal, $window) {
+    // Patterns start
+    $scope.emailPattern = ".+@.+\\..+";
+    //$scope.iikPattern = "/^[a-z0-9]+$/i";
+    $scope.iikPattern = "[a-z0-9]+";
+    //$scope.bankBikPattern = "/^[a-z0-9]+$/i";
+    $scope.bankBikPattern = "[a-z0-9]+";
+    $scope.bankBikMinLength = 8;
+    $scope.bankBikMaxLength = 11;
+    //$scope.phonePattern = "/^[0-9 ()+-]+$/";
+    $scope.phonePattern = "[0-9 ()+-]+";
+    //$scope.iinPattern = "/^[0-9]+$/";
+    $scope.iinPattern = "[0-9]+";
+    $scope.iinMinLength = 12;
+    $scope.iinMaxLength = 12;
+    // Patterns end
+
+
+
     $scope.ExpertOrganizations = [];
     $scope.ContractSigners = [];
 

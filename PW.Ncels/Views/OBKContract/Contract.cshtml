@@ -165,7 +165,7 @@
                                                         <div class="form-group" ng-show="object.Type != null && declarant.IsResident == true">
                                                             <label>ИИН/БИН *</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="bin" ng-model="declarant.Bin" class="form-control edit-control" type="text" ui-select-selected name="bin" ng-required="declarant.IsResident == true" ng-disabled="iinSearchActive || object.viewMpde">
+                                                                <input maxlength="12" id="bin" ng-model="declarant.Bin" class="form-control edit-control" type="text" ui-select-selected name="bin" ng-required="declarant.IsResident == true" ng-disabled="iinSearchActive || object.viewMpde" ng-pattern="iinPattern" ng-minlength="iinMinLength" ng-maxlength="iinMaxLength" ui-mask="999999999999" ui-mask-placeholder ui-mask-placeholder-char="_">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -383,7 +383,7 @@
                                                         <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                             <label>Номер телефона * </label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="Phone" ng-model="object.Phone" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="Phone" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                <input id="Phone" ng-model="object.Phone" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="Phone" ng-disabled="object.viewMpde" required ng-blur="editProject();" ng-pattern="phonePattern">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -394,7 +394,7 @@
                                                         <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                             <label>Адрес электронной почты * </label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="Email" ng-model="object.Email" placeholder="example@mail.ru" class="form-control edit-control" type="text" ui-select-selected name="Email" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                <input id="Email" ng-model="object.Email" placeholder="example@mail.ru" class="form-control edit-control" type="text" ui-select-selected name="Email" ng-disabled="object.viewMpde" ng-pattern="emailPattern" required ng-blur="editProject();">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -716,7 +716,7 @@
                                                         <div class="form-group">
                                                             <label>ИИК (р/с) *</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="BankIik" ng-model="object.BankIik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankIik" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                <input id="BankIik" ng-model="object.BankIik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankIik" ng-disabled="object.viewMpde" ng-pattern="iikPattern" required ng-blur="editProject();">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -729,7 +729,7 @@
                                                         <div class="form-group">
                                                             <label>БИК *</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="BankBik" ng-model="object.BankBik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankBik" ng-disabled="object.viewMpde" required ng-blur="editProject();">
+                                                                <input id="BankBik" ng-model="object.BankBik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankBik" ng-disabled="object.viewMpde" required ng-blur="editProject();" ng-pattern="bankBikPattern" ng-minlength="bankBikMinLength" ng-maxlength="bankBikMaxLength">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
