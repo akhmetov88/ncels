@@ -1593,7 +1593,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
             if (digitalSign != null)
             {
-                contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
+                contract.Status = CodeConstManager.STATUS_OBK_INVOCE_GENERATING;
 
                 var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
                 var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.Active);
@@ -1605,8 +1605,6 @@ namespace PW.Ncels.Database.Repository.OBK
                 // Формирование вложения
                 Stream stream = GetContractTemplatePdf(contractId);
                 SaveAttach(stream, contractId);
-
-                contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
 
                 AddExtHistoryActive(contractId);
             }
@@ -1756,7 +1754,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 dtage.StageStatusId = stageStatus.Id;
             }
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
-            contract.Status = CodeConstManager.STATUS_OBK_ACTIVE;
+            contract.Status = CodeConstManager.STATUS_OBK_INVOCE_GENERATING;
             AddHistoryAttached(contractId);
             AddExtHistoryActive(contractId);
             AppContext.SaveChanges();
