@@ -667,8 +667,8 @@
                   ))
                             </div>
                         </div>
-                        <div id="@("contractDataTab4" + ViewBag.UiId)" class="row hidden">
-                            <div class="row">
+                        <div id="@("contractDataTab4" + ViewBag.UiId)" class="row hidden" style="height: 100%">
+                            <div class="row" style="height: 99%">
                                 @(Html.Kendo().Grid<PW.Ncels.Database.DataModel.OBK_ContractHistoryView>()
                       .Name("contracHistoryGrid" + (string)ViewBag.UiId)
                       .Columns(columns =>

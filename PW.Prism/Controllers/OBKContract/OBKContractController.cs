@@ -883,15 +883,16 @@ namespace PW.Prism.Controllers.OBKContract
             }
 
             Stream stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Pdf, stream);
+            report.ExportDocument(StiExportFormat.Word2007, stream);
             stream.Position = 0;
+
+            Aspose.Words.Document doc = new Aspose.Words.Document(stream);
 
             try
             {
                 var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
                 if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
                 {
-                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
                     doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
                     doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
                 }
@@ -901,8 +902,12 @@ namespace PW.Prism.Controllers.OBKContract
 
             }
 
+            var file = new MemoryStream();
+            doc.Save(file, Aspose.Words.SaveFormat.Pdf);
+            file.Position = 0;
+
             //return new FileStreamResult(stream, "application/pdf");
-            return File(stream, "application/pdf", name);
+            return File(file, "application/pdf", name);
         }
 
         [HttpGet]

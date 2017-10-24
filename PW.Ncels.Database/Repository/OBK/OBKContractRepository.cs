@@ -978,6 +978,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
             if (contract.Status == CodeConstManager.STATUS_OBK_DRAFT_ID)
             {
+                contract.SendDate = DateTime.Now;
                 contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 
                 var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.New);
@@ -1063,6 +1064,7 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             else if (contract.Status == CodeConstManager.STATUS_OBK_ONCORRECTION)
             {
+                contract.SendDate = DateTime.Now;
                 contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 
                 var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();
@@ -1587,6 +1589,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
             contract.Number = number;
             contract.StartDate = DateTime.Now;
+            AppContext.SaveChanges();
 
             if (digitalSign != null)
             {
@@ -1926,15 +1929,16 @@ namespace PW.Ncels.Database.Repository.OBK
             }
 
             Stream stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Pdf, stream);
+            report.ExportDocument(StiExportFormat.Word2007, stream);
             stream.Position = 0;
+
+            Aspose.Words.Document doc = new Aspose.Words.Document(stream);
 
             try
             {
                 var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
                 if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
                 {
-                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
                     doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
                     doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
                 }
@@ -1944,7 +1948,11 @@ namespace PW.Ncels.Database.Repository.OBK
 
             }
 
-            return stream;
+            var file = new MemoryStream();
+            doc.Save(file, Aspose.Words.SaveFormat.Pdf);
+            file.Position = 0;
+
+            return file;
         }
 
         private void AddHistorySentByApplicant(Guid contractId)
@@ -2037,13 +2045,15 @@ namespace PW.Ncels.Database.Repository.OBK
         private void AddExtHistoryDraft(Guid contractId)
         {
             var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Draft;
-            AddExtHistory(contractId, historyStatusCode);
+            var currentEmployee = UserHelper.GetCurrentEmployee();
+            AddExtHistory(contractId, historyStatusCode, currentEmployee.Id);
         }
 
         private void AddExtHistoryInprocessing(Guid contractId)
         {
             var historyStatusCode = OBK_Ref_ContractExtHistoryStatus.Inprocessing;
-            AddExtHistory(contractId, historyStatusCode);
+            var currentEmployee = UserHelper.GetCurrentEmployee();
+            AddExtHistory(contractId, historyStatusCode, currentEmployee.Id);
         }
 
         private void AddExtHistoryWork(Guid contractId)
@@ -2064,7 +2074,7 @@ namespace PW.Ncels.Database.Repository.OBK
             AddExtHistory(contractId, historyStatusCode);
         }
 
-        private void AddExtHistory(Guid contractId, string historyStatusCode)
+        private void AddExtHistory(Guid contractId, string historyStatusCode, Guid? employeeId = null)
         {
             var status = GetContractExtHistoryStatusByCode(historyStatusCode);
 
@@ -2073,7 +2083,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 Id = Guid.NewGuid(),
                 Created = DateTime.Now,
                 ContractId = contractId,
-                StatusId = status.Id
+                StatusId = status.Id,
+                EmployeeId = employeeId
             };
             AppContext.OBK_ContractExtHistory.Add(history);
         }
@@ -2093,13 +2104,13 @@ namespace PW.Ncels.Database.Repository.OBK
             var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
             var shortName = contract?.Unit?.ShortName;
 
-            var list = AppContext.OBK_ContractExtHistory.Where(x => x.ContractId == contractId).OrderBy(x => x.Created)
+            var list = AppContext.OBK_ContractExtHistory.Where(x => x.ContractId == contractId).OrderBy(x => x.Created).AsEnumerable()
                 .Select(x => new
                 {
-                    Created = x.Created.Day + "/" + x.Created.Month + "/" + x.Created.Year,
+                    Created = x.Created.ToString(DateHelper.DATE_TIME_FORMAT),
                     StatusNameRu = x.OBK_Ref_ContractExtHistoryStatus.NameRu,
                     StatusNameKz = x.OBK_Ref_ContractExtHistoryStatus.NameKz,
-                    Author = shortName,
+                    Author = x.Employee != null ? x.Employee.DisplayName : shortName,
                     StatusDescriptionRu = x.OBK_Ref_ContractExtHistoryStatus.DescriptionRu,
                     StatusDescriptionKz = x.OBK_Ref_ContractExtHistoryStatus.DescriptionKz
                 }).ToList();

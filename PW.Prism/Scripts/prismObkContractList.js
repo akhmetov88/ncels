@@ -44,6 +44,10 @@ function InitObkContractCard(uiId) {
                 }
             });
             $('#' + tabid).removeClass("hidden");
+            
+            if (tabid == "contractDataTab4" + uiId) {
+                $("#contracHistoryGrid" + uiId).data("kendoGrid").dataSource.read();
+            }
         },
         meetsRequirements: function (e) {
             var question = "Вы подтверждаете действие \"Соответствует требованиям\"?";
@@ -290,7 +294,7 @@ function InitObkContractCard(uiId) {
     $("#WindowContractRegisteredCancel" + uiId).click(function () {
         $("#WindowContractRegistered" + uiId).data("kendoWindow").close();
     });
-    resizeGrid("#contracHistoryGrid" + uiId);
+    //resizeGrid("#contracHistoryGrid" + uiId);
 
     function signContract() {
         debugger;
