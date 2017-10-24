@@ -978,6 +978,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
             if (contract.Status == CodeConstManager.STATUS_OBK_DRAFT_ID)
             {
+                contract.SendDate = DateTime.Now;
                 contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 
                 var stageStatus = GetStageStatusByCode(OBK_Ref_StageStatus.New);
@@ -1063,6 +1064,7 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             else if (contract.Status == CodeConstManager.STATUS_OBK_ONCORRECTION)
             {
+                contract.SendDate = DateTime.Now;
                 contract.Status = CodeConstManager.STATUS_OBK_INPROCESSING;
 
                 var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId).ToList();

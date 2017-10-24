@@ -143,7 +143,7 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                         "<button type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getObkContractDetails('#=ContractId#', '#=ContractNumber#',);\"><span style=\"color:rgb(66,139,202);\">#=ContractNumber#</span></button>" +
                                     "</div>"
                                    ).Title(PW.Ncels.Database.Recources.Messages.Property_Номер_373__00).ClientFooterTemplate(PW.Ncels.Database.Recources.Messages.Property_Всего_356__00 + "#=count#").Locked(true).Lockable(false);
-                               columns.Bound(p => p.ContractCreatedDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датадоговора_100).Width(100);
+                               columns.Bound(p => p.ContractSendDate).Format("{0:dd.MM.yyyy}").Title("Дата отправки заявителем").Width(100);
                                columns.Bound(p => p.ContractStartDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Дата_начала_18).Width(100);
                                columns.Bound(p => p.ContractEndDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датаокончания_101).Width(100);
                                columns.Bound(p => p.DeclarantNameRu).Title("Заявитель").Width(100);
@@ -191,7 +191,7 @@ panes.Add().Scrollable(false).Size("100%").Content(
                            .DataSource(dataSource => dataSource
                                .Ajax()
                                .Aggregates(aggregates => { aggregates.Add(p => p.ContractNumber).Count(); })
-                               .Sort(sort => { sort.Add("ContractCreatedDate").Descending(); })
+                               .Sort(sort => { sort.Add("ContractSendDate").Descending(); })
                                .PageSize(50)
                                .Read(read => read.Action("ListContract", "OBKContract"))
                                .Filter(filters =>
