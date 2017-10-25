@@ -19,6 +19,7 @@ using Ncels.Helpers;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Models;
+using PW.Ncels.Database.Repository.OBK;
 using Cell = Aspose.Cells.Cell;
 using Document = Aspose.Words.Document;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -638,13 +639,12 @@ namespace PW.Ncels.Database.Helpers
                 var dicListQuery = exludeItems != null
                     ? db.Dictionaries.Where(o => o.Type == type && !exludeItems.Contains(o.Code))
                     : db.Dictionaries.Where(o => o.Type == type);
-                if (byMetadata)
+            if (byMetadata)
                 {
                     var docId = Guid.Parse(doc);
                     var markList = db.FileLinksCategoryComs.Where(e => e.DocumentId == docId).ToList();
                         var dicListMeta = dicListQuery.Select(o => new { o.Id, o.Name, o.Code, ShowComment = isShowComment}).OrderBy(e => e.Code).ThenBy(x => x.Name).ToList();
                     var categoryCodes = dicListMeta.Select(e => e.Code).ToList();
-                    
                     var fileMetadatas =
                         db.FileLinks.Where(e => e.DocumentId == docId && categoryCodes.Contains(e.FileCategory.Code))
                             .ToList();

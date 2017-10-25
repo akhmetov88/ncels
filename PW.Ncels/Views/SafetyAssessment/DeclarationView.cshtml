@@ -227,22 +227,6 @@
         });
     }
 
-    function showHidenCommentBtn() {
-        if ($("#HideInform").val() === "hide") {
-            $("#HideInformText").text("Показать примечание");
-            $("#HideInform").val("show");
-            $("#HideInformCheck").addClass("glyphicon-unchecked");
-            $("#HideInformCheck").removeClass("glyphicon-check");
-            showInformIcon(false);
-        } else {
-            $("#HideInformText").text("Скрыть примечание");
-            $("#HideInform").val("hide");
-            $("#HideInformCheck").removeClass("glyphicon-unchecked");
-            $("#HideInformCheck").addClass("glyphicon-check");
-            showInformIcon(true);
-        }
-    }
-
     function UpdateModel(code, recordId, fieldId, fieldName, fieldValue, type, fieldDisplay) {
         if (type === "float") {
             if (fieldValue != null && fieldValue.length > 0) {
@@ -307,13 +291,18 @@
             success: function (data) {
                 if (modelId === null) {
                     $("#modelId").val(data.modelId);
-                    $("#drugAttachBtn").removeClass('disabled');
                     $("#loading").hide();
                 }
                 if (data.recordId > 0) {
-                    var row = $('#' + fieldName).parent().closest('tr');
-                    row.attr("rowid", data.recordId);
-                    $('#' + fieldName).attr('id', data.controlId);
+                    var tabData = $('#tableProducts').DataTable().rows().data();
+                    $.each(tabData, function(i, val) {
+                        if (val.Id === recordId) {
+                            if (fieldName === "Price") 
+                                val.Price = fieldValue;
+                            if (fieldName === "CurrencyId")
+                                val.CurrencyId = fieldValue;
+                        }
+                    });
                 }
             },
             error: function (data) {
@@ -322,6 +311,21 @@
         });
     }
 
+    function showHidenCommentBtn() {
+        if ($("#HideInform").val() === "hide") {
+            $("#HideInformText").text("Показать примечание");
+            $("#HideInform").val("show");
+            $("#HideInformCheck").addClass("glyphicon-unchecked");
+            $("#HideInformCheck").removeClass("glyphicon-check");
+            showInformIcon(false);
+        } else {
+            $("#HideInformText").text("Скрыть примечание");
+            $("#HideInform").val("hide");
+            $("#HideInformCheck").removeClass("glyphicon-unchecked");
+            $("#HideInformCheck").addClass("glyphicon-check");
+            showInformIcon(true);
+        }
+    }
 
     $(document).ready(function () {
         $("#HideInform").click(function () {

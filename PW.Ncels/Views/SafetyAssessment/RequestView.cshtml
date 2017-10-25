@@ -45,7 +45,7 @@
                 <div class="panel-body">
                     <label>Документы:</label>
                     <div class="form-group">
-                        <label>Договора поставки:</label>
+                        <label>№ договора поставки:</label>
                         <div class="input-group">
                             @Html.TextBoxFor(model => model.InvoiceContractRu, new { @class = "form-control edit-control main-control" })
                             <span class="input-group-addon">
@@ -67,7 +67,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Инвойсы:</label>
+                        <label>Дата договора поставки:</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.InvoiceContractDate, new { @class = "form-control edit-control main-control date-control", placeholder = "Введите значение" })
+                            <span class="input-group-addon">
+                                <a class="OBKcommentDialog" href="#">
+                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>№ инвойса:</label>
                         <div class="input-group">
                             @Html.TextBoxFor(model => model.InvoiceRu, new { @class = "form-control edit-control main-control" })
                             <span class="input-group-addon">
@@ -78,7 +89,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Инвойсы каз.:</label>
+                        <label>№ инвойса на казахском языке:</label>
                         <div class="input-group">
                             @Html.TextBoxFor(model => model.InvoiceKz, new { @class = "form-control edit-control main-control" })
                             <span class="input-group-addon">

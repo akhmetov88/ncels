@@ -222,6 +222,8 @@
     <Compile Include="Controllers\Lims\ApplicationPOAController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\CommissionController.cs" />
+    <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
+    <Compile Include="Controllers\OBKPayment\OBKPaymentController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
     <Compile Include="Controllers\PriceProject\PriceProcessingController.cs" />
@@ -865,6 +867,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\json\Russian.json" />
     <None Include="Properties\PublishProfiles\pub.pubxml" />
     <Content Include="Reports\AdminDocList.mrt" />
     <Content Include="Reports\CardInc.mrt" />
@@ -977,6 +980,12 @@
     <Content Include="Reports\List\PpArchiveCountsReport.mrt" />
     <Content Include="Reports\List\MonitoringRef.mrt" />
     <Content Include="Reports\List\MonitoringExp.mrt" />
+    <Content Include="Reports\Mrts\OBKExpDocument.mrt" />
+    <Content Include="Reports\Mrts\SafetyAssessmentDeclaration.mrt" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1598,12 +1607,14 @@
     <Content Include="Scripts\ncelsRequestList.js" />
     <Content Include="Scripts\ncelsSelectFromGridControl.js" />
     <Content Include="Scripts\ncelsTmc.js" />
+    <Content Include="Scripts\prismOBKPayments.js" />
     <Content Include="Scripts\prismAdministrativeMain.js" />
     <Content Include="Scripts\prismContract.js" />
     <Content Include="Scripts\prismContractList.js" />
     <Content Include="Scripts\prismCorrespondenceReference.js" />
     <Content Include="Scripts\prismAllertMessage.js" />
     <Content Include="Scripts\prismActionLogsList.js" />
+    <Content Include="Scripts\prismObkContractList.js" />
     <Content Include="Scripts\prismVisit.js" />
     <Content Include="Scripts\prismCommission.js" />
     <Content Include="Scripts\prismVisitType.js" />
@@ -2282,7 +2293,27 @@
     <Content Include="Views\SafetyAssessment\SetExecuter.cshtml" />
     <Content Include="Views\SafetyAssessment\ConfirmeRefuseSafety.cshtml" />
     <Content Include="Views\SafetyAssessment\DocumentReview.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpertiseDocView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpDocView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpDocResponseView.cshtml" />
+    <Content Include="Views\SafetyAssessment\ExpDocDecResponseView.cshtml" />
+    <Content Include="Views\OBKContract\Contract.cshtml" />
+    <Content Include="Views\OBKContract\Index.cshtml" />
+    <Content Include="Views\OBKContract\ShowComment.cshtml" />
+    <Content Include="Views\OBKContract\ProductView.cshtml" />
+    <Content Include="Views\OBKContract\Price.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentPrice.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentProduct.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentProductsSerie.cshtml" />
+    <Content Include="Views\OBKContract\ContractTemplate.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UnitAddress.cshtml" />
+    <Content Include="Views\OBKContract\SetExecutor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UnitBankModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UnitSignerModel.cshtml" />
+    <Content Include="Views\OBKContract\RefuseReasonDlg.cshtml" />
+    <Content Include="Views\OBKContract\ShowRefuseReasonDlg.cshtml" />
+    <Content Include="Views\OBKContract\UploadContract.cshtml" />
+    <Content Include="Views\OBKPayment\Index.cshtml" />
+    <Content Include="Views\OBKPayment\Edit.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

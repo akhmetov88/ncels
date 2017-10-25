@@ -11,7 +11,7 @@ using PW.Ncels.Database.Repository.OBK;
 namespace PW.Ncels.Database.Controller
 {
     /// <summary>
-    /// общий контроллер
+    /// 
     /// </summary>
     public abstract class ComAssessmentController : System.Web.Mvc.Controller
     {
@@ -35,11 +35,8 @@ namespace PW.Ncels.Database.Controller
         [HttpPost]
         public virtual ActionResult SaveComment(string modelId, string idControl, bool isError, string comment, string fieldValue, string userId, string fieldDisplay)
         {
-
             new SafetyAssessmentRepository().SaveComment(modelId, idControl, isError, comment, fieldValue, userId, fieldDisplay);
-
             return Json(new { Success = true });
-
         }
     }
 }

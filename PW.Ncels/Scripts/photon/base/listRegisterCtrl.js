@@ -33,6 +33,8 @@ function ModalSendProject($scope, $http, $uibModalInstance) {
     };
 }
 function doSign() {
+    alert("listRegisterCtrl.js + doSign");
+    debugger;
     $.blockUI({ message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Идет подпись отчета...</h1>', css: { opacity: 1 } });
     signXmlCall(function () {
         var model = { preambleId: $("#paramcontroller").val(), xmlAuditForm: $("#Certificate").val() };

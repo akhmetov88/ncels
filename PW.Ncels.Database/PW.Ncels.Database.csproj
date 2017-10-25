@@ -861,6 +861,18 @@
     <Compile Include="DataModel\I1c_primary_Applications_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplicationNotFullPaymentState.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplicationPaymentState.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkApplications.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkPriceListElements.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_primary_PriceListElements.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -912,6 +924,9 @@
     <Compile Include="DataModel\Notification.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBKContractProductsView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_appendix.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -951,7 +966,40 @@
     <Compile Include="DataModel\OBK_Contract.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_ContractCom.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractComRecord.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractExtHistory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractHistory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractHistoryView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_ContractPrice.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractPriceCom.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractPriceComRecord.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractRegisterView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractSignedDatas.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractStage.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractStageExecutors.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_currencies.cs">
@@ -963,13 +1011,19 @@
     <Compile Include="DataModel\OBK_DeclarantContact.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_DirectionSignData.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_DirectionToPayments.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_DirectionToPaymentsView.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_exchangerate.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_MtPart.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataModel\OBK_Organization.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
@@ -978,16 +1032,34 @@
     <Compile Include="DataModel\obk_products.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_Products_SeriesCom.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Products_SeriesComRecord.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_product_cost.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_CertificateType.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_Ref_ContractDocumentType.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_ContractExtHistoryStatus.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_ContractHistoryStatus.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_Ref_DegreeRisk.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_Nomenclature.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Ref_PaymentStatus.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Ref_PriceList.cs">
@@ -1015,6 +1087,12 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_RS_Products.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_RS_ProductsCom.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_RS_ProductsComRecord.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_StageExpDocument.cs">
@@ -1710,6 +1788,9 @@
     <Compile Include="DataModel\sync_fr_sr_use_methods_tracking.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\sysdiagram.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\Task.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1777,6 +1858,15 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\Unit.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\UnitsAddress.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\UnitsBank.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\UnitSigner.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\UpdateScript.cs">
@@ -1853,6 +1943,9 @@
     <Compile Include="Entities\FileLink.cs" />
     <Compile Include="Entities\FileLinkView.cs" />
     <Compile Include="Entities\History.cs" />
+    <Compile Include="Entities\OBK_Ref_ContractExtHistoryStatus.cs" />
+    <Compile Include="Entities\OBK_Ref_ContractHistoryStatus.cs" />
+    <Compile Include="Entities\OBK_Ref_PaymentStatus.cs" />
     <Compile Include="Entities\OBK_Ref_StageStatus.cs" />
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Entities\prismEntities.cs" />
@@ -1886,6 +1979,8 @@
     <Compile Include="Helpers\ContractServices.cs" />
     <Compile Include="Helpers\ActionLogger.cs" />
     <Compile Include="Helpers\CommissionHelper.cs" />
+    <Compile Include="Helpers\PriceHelper.cs" />
+    <Compile Include="Helpers\TaxHelper.cs" />
     <Compile Include="Helpers\VisitServices.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
@@ -1977,12 +2072,15 @@
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
+    <Compile Include="Models\OBK\OBKContractProduct.cs" />
     <Compile Include="Models\OBK\OBKContractProductViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractSeriesViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractService.cs" />
+    <Compile Include="Models\OBK\OBKContractSignData.cs" />
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
     <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
+    <Compile Include="Models\OBK\OBKEntityTemplate.cs" />
     <Compile Include="Models\OBK\OBKMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />
@@ -1990,8 +2088,11 @@
     <Compile Include="Models\OBK\OBK_Contract.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
+    <Compile Include="Models\OBK\OBKPaymentSignData.cs" />
     <Compile Include="Models\OBK\OBK_Procunts_Series.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
+    <Compile Include="Models\OBK\OBK_Ref_Nomenclature.cs" />
+    <Compile Include="Models\OBK\OBK_Ref_Reason.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Result.cs" />
     <Compile Include="Models\OBK\OBK_RS_Products.cs" />
     <Compile Include="Models\PermissionRoleModel.cs" />
@@ -2026,6 +2127,9 @@
     <Compile Include="Models\TmcViewModel.cs" />
     <Compile Include="Models\RefTreeItemModel.cs" />
     <Compile Include="Models\ProjectRequestsTreeItemModel.cs" />
+    <Compile Include="Models\UnitAddress.cs" />
+    <Compile Include="Models\UnitBankModel.cs" />
+    <Compile Include="Models\UnitSignerModel.cs" />
     <Compile Include="Models\VisitModel.cs" />
     <Compile Include="Models\VisitTypeModel.cs" />
     <Compile Include="Models\UnitModel.cs" />
@@ -2097,6 +2201,7 @@
     <Compile Include="Repository\Lims\TmcRepository.cs" />
     <Compile Include="Repository\OBK\AssessmentStageRepository.cs" />
     <Compile Include="Repository\OBK\OBKContractRepository.cs" />
+    <Compile Include="Repository\OBK\OBKPaymentRepository.cs" />
     <Compile Include="Repository\OBK\SafetyAssessmentRepository.cs" />
     <Compile Include="Repository\Price\PriceProjectRepository.cs" />
     <Compile Include="Repository\Security\EmployeesRepository.cs" />
@@ -2166,7 +2271,9 @@
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recources\ResourceSetting.resx" />
+    <EmbeddedResource Include="Recources\ResourceSetting.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ncels.Helpers\Ncels.Helpers.csproj">

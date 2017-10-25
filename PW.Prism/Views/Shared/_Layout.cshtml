@@ -272,6 +272,14 @@
                   children.Add().Text("Экспертиза документов").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "SafetyExpertiseList" } });
               });
 
+          items.Add().Text("ОБК Договоры").Visible(EmployePermissionHelper.IsMenuOBKContractVisibility)
+              .ImageUrl(Url.Content("~/Content/images/menuItem.png"))
+              .Items(children =>
+              {
+                  children.Add().Text("ОБК Договоры").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKContractList" } });
+                  children.Add().Text("Счет на оплату").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKPaymentList" } }).Visible(EmployePermissionHelper.CanOBKPayment);
+              });
+
           items.Add().Text(UserHelper.GetCurrentName()).HtmlAttributes(new { @style = "float: right", @class = "sys-notification-menu-item" })
               .ImageUrl(Url.Content("~/Content/images/menuItem.png"))
               .Items(children =>

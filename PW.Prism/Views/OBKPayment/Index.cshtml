@@ -1,0 +1,238 @@
+﻿@using Microsoft.SqlServer.Server
+@using PW.Ncels.Database.DataModel
+@model Guid
+
+@helper GridToolbarTemplate()
+{
+    <div class="pull-left">
+        @(Html.Kendo().Button().Name("find" + Model)
+              .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
+              .ImageUrl("/Content/images/find.png"))
+    </div>
+    <div class="pull-left">
+        @(Html.Kendo().Button().Name("generateDoc" + Model)
+              .Content("Посмотреть счет на оплату"))
+    </div>
+    <div class="pull-left">
+        @(Html.Kendo().Button().Name("sendToDeclarant" + Model)
+              .Content("Отправить заявителю"))
+    </div>
+    <div class="pull-left">
+        @(Html.Kendo().Button().Name("signDocument" + Model)
+              .Content("Подписать"))
+    </div>
+    <div class="pull-right">
+        <div style="display: inline-block" id="columnMenu@(Model)" class="custom-grid-menu"></div>
+        <div style="display: inline-block">
+            @(Html.Kendo().Button().Name("reload" + Model)
+                   .Content("")
+                   .ImageUrl("/Content/images/reload.png"))
+        </div>
+    </div>
+} 
+
+@(Html.Kendo().Splitter()
+      .HtmlAttributes(new { @class = "pwSplitter k-block" })
+      .Name("splitter" + Model)
+      .Panes(panes =>
+      {
+      panes.Add()
+          .Size("250px")
+          .Collapsible(true)
+          .MaxSize("500px")
+          .MinSize("250px")
+          .Content(
+        @<div class="pwPanelBar">
+            @( Html.Kendo().PanelBar().HtmlAttributes(new { @class = "pwPanelBar" })
+                             .Name("panelbar" + Model)
+                             .ExpandMode(PanelBarExpandMode.Multiple)
+                             .ExpandAll(true)
+                             .HtmlAttributes(new { style = "width:auto;" })
+                             .Events(e => e.Select("panelDirectionPaymentSelect"))
+                             .Items(panelbar =>
+                             {
+                                 panelbar.Add().Expanded(true);
+                                 panelbar.Add().Text(PW.Ncels.Database.Recources.Messages.Property_Постатусу_262__00)
+                                     .Items(projects =>
+                                     {
+                                         projects.Add().Text("Все").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", ""}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "" + Model.ToString()}
+                                         }).Selected(true);
+
+                                         projects.Add().Text("На формировании").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                              {"ItemId", OBK_Ref_PaymentStatus.OnFormation}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "onFormation" + Model.ToString()}
+                                         });
+
+                                         projects.Add().Text("Требует подписания").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_PaymentStatus.ReqSign}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "reqSign" + Model.ToString()}
+                                         });
+
+                                         projects.Add().Text("Отправлен на оплату").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_PaymentStatus.SendToPayment}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "sendToPayment" + Model.ToString()}
+                                         });
+
+                                         projects.Add().Text("Оплачен").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_PaymentStatus.Paid}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "paid" + Model.ToString()}
+                                         });
+
+                                         projects.Add().Text("Оплачен не полностью").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_PaymentStatus.NotFullPaid}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "notFullPaid" + Model.ToString()}
+                                         });
+
+                                         projects.Add().Text("Срок оплаты истек").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_PaymentStatus.PaymentExpired}, {"ItemType", "StatusCode"}, {"ModelId", Model.ToString()}, {"id", "paymentExpired" + Model.ToString()}
+                                         });
+
+                                         //projects.Add().Text("В работе").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         //{
+                                         //    {"ItemId", OBK_Ref_StageStatus.InWork}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "inWork" + Model.Guid.ToString()}
+                                         //}).Selected(!EmployePermissionHelper.CanSafetyAssessmentExecutorsAssignment);
+                                     });
+                             })
+            )
+        </div>
+              );
+
+          panes.Add().Scrollable(false).Size("100%").Content(
+            @<div class="pwPanelBar">
+                <div class="pwBlockAdd k-block">
+                    <div id="pwOne">
+
+                    </div>
+                    <div id="pwTwo">
+
+                    </div>
+                </div>
+                @( Html.Kendo().Grid<OBK_DirectionToPaymentsView>()
+                         .Name("gridOBKPayment" + Model)
+                         .Events(events => events.Change("gridSelectRow"))
+                         .Columns(columns =>
+                         {
+                             columns.Bound(p => p.InvoiceNumber1C).Width(125).ClientTemplate(
+                                 "<div class=\"btn-group btn-group-xs\" style='height:14px;margin-top: -9px;'>" +
+                                 "<button  type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getPaymentDetails('#=ContractId#', '#=InvoiceNumber1C#')\"><span style=\"color:rgb(66,139,202);\">#=InvoiceNumber1C#</span></button>" +
+                                 "</div>"
+                                 ).Title("№ счета");
+                             columns.Bound(p => p.CreateDate).Format("{0:dd.MM.yyyy}").Title("Дата счета").Width(120);
+                             columns.Bound(p => p.PayerValue).Title("Заявитель").Width(150);
+                             columns.Bound(p => p.ContractNumber).Title("№ договора").Width(150);
+                             columns.Bound(p => p.TotalPrice).Title("Общая стоимость").Width(150);
+                             columns.Bound(p => p.CreateEmployeeValue).Title("Исполнитель").Width(150);
+                             //columns.Bound(p => p.NameRu).Title("Организация").Width(200).HtmlAttributes(new {@class = "need-cell-tooltip"});
+                             //columns.Bound(p => p.NameRu).Title("Упаковщик").Width(200).Hidden(true).HtmlAttributes(new {@class = "need-cell-tooltip"});
+                             //columns.Bound(p => p.NameRu).Title("Выпускающий контроль").Width(200).Hidden(true).HtmlAttributes(new {@class = "need-cell-tooltip"})
+                             //    .HtmlAttributes(new {@class = "need-cell-tooltip"});
+                         })
+                         .Reorderable(reorderable => reorderable.Columns(true))
+                         .Resizable(resizable => resizable.Columns(true))
+                         .ToolBar(toolbar => { toolbar.Template(GridToolbarTemplate().ToHtmlString()); })
+                         .Groupable()
+                         .Sortable()
+                         .Filterable()
+                         .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                         .Scrollable(scrollable => scrollable.Virtual(true))
+                         .Pageable()
+                         .HtmlAttributes(new { @class = "pwGrid" })
+                         .DataSource(dataSource => dataSource
+                             .Ajax()
+                             .Model(model => { model.Id(p => p.Id); })
+                             .Sort(c => c.Add(m => m.CreateDate).Descending())
+                             .PageSize(20)
+                             .Read(read => read.Action("ReadDirectionList", "OBKPayment"))
+                         ))
+
+            </div>
+              );
+      }))
+
+
+<script type="text/javascript">
+    $(document).ready(function(e) {
+        debugger;
+        resizeGrid('@("#gridOBKPayment" + Model)');
+        $("#generateDoc" + '@Model').hide();
+        $("#sendToDeclarant" + '@Model').hide();
+        $("#signDocument" + '@Model').hide();
+    });
+
+    function getPaymentDetails(parameters, invoiceNumber1c) {
+        debugger;
+        if (docArray.indexOf(parameters.toLowerCase()) !== -1)
+            docArray.splice(docArray.indexOf(parameters.toLowerCase()), 1);
+        var element = document.getElementById(parameters);
+        if (element === null) {
+            var tabStrip = $("#tabstrip").data("kendoTabStrip");
+            var content = '<div id="' + parameters + '"> </div>';
+            var idContent = '#' + parameters;
+            tabStrip.append({
+                text: 'Просмотр счета на оплату: № ' + invoiceNumber1c,
+                content: content
+
+            });
+            tabStrip.select(tabStrip.items().length - 1);
+            var gridElement = $(idContent);
+            gridElement.height($(window).height() - 100);
+            $.ajax({
+                url: "/OBKPayment/Edit?contractId=" + parameters,
+                //type: "POST",
+                success: function (result) {
+                    // refreshes partial view
+                    $(idContent).html(result);
+                    $('.mark-check-found').each(function () {
+                        var idcontrol = $(this).attr('idCheck');
+                        $("#" + idcontrol).prop("checked", true);
+                    });
+                }
+            });
+        } else {
+            var itesm = $('#' + parameters)[0].parentElement.getAttribute('id').split('-')[1];
+            if (itesm) {
+                $("#tabstrip").data("kendoTabStrip").select(itesm - 1);
+            }
+        }
+    }
+
+    $("#sendToDeclarant" + '@Model').click(function () {
+        debugger;
+        var grid = $("#gridOBKPayment" + '@Model').data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem === null)
+            alert("Выберите счет на оплату");
+        $.ajax({
+            url: "/OBKPayment/SendToDeclarant?id=" + selectedItem.Id,
+            type: "POST",
+            success: function (result) {
+                alert("Счет на оплату отправлен заявителю");
+                grid.dataSource.read();
+            }
+        });
+    });
+
+    $("#signDocument" + '@Model').click(function() {
+        debugger;
+        var grid = $("#gridOBKPayment" + '@Model').data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem === null)
+            alert("Выберите счет на оплату");
+        signPayment(selectedItem.id);
+    });
+
+    $("#generateDoc" + '@Model').click(function () {
+        debugger;
+        exportProtocol('@Model');
+    });
+    function exportProtocol(id) {
+        var grid = $("#gridOBKPayment" + id).data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem === null)
+            alert("Выберите счет на оплату");
+        window.open('/OBKPayment/DocumentExportFilePdf?contractId=' + selectedItem.ContractId);
+    }
+</script>

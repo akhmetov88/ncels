@@ -1,5 +1,24 @@
-﻿function obkContractForm($scope, $http, $interval) {
+﻿function obkContractForm($scope, $http, $interval, $uibModal, $window) {
+    // Patterns start
+    $scope.emailPattern = ".+@.+\\..+";
+    //$scope.iikPattern = "/^[a-z0-9]+$/i";
+    $scope.iikPattern = "[a-z0-9]+";
+    //$scope.bankBikPattern = "/^[a-z0-9]+$/i";
+    $scope.bankBikPattern = "[a-z0-9]+";
+    $scope.bankBikMinLength = 8;
+    $scope.bankBikMaxLength = 11;
+    //$scope.phonePattern = "/^[0-9 ()+-]+$/";
+    $scope.phonePattern = "[0-9 ()+-]+";
+    //$scope.iinPattern = "/^[0-9]+$/";
+    $scope.iinPattern = "[0-9]+";
+    $scope.iinMinLength = 12;
+    $scope.iinMaxLength = 12;
+    // Patterns end
+
+
+
     $scope.ExpertOrganizations = [];
+    $scope.ContractSigners = [];
 
     $scope.showContactInformation = false;
 
@@ -17,6 +36,14 @@
     $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
     $scope.declarant = {};
     $scope.object = {};
+
+    $scope.object.Status = 1;
+
+    $scope.searchDrugWorking = false;
+
+    $scope.showComments = false;
+    $scope.viewMpde = false;
+
     $scope.declarant.IsResident = true;
     $scope.object.seriesValue = "";
     $scope.object.seriesCreateDate = curDate.getTime();
@@ -145,6 +172,21 @@
         }
     }
 
+    $scope.changeViewMode = function () {
+        // 1 Черновик
+        if ($scope.object.Status == 1) {
+            $scope.object.viewMpde = false;
+        }
+            // 7 На корректировке у заявителя
+        else if ($scope.object.Status == 7) {
+            $scope.object.viewMpde = false;
+            $scope.showComments = true;
+        }
+        else {
+            $scope.object.viewMpde = true;
+        }
+    }
+
     $scope.addItemToSelectedMtParts = function (item) {
         if (!$scope.selectedMtPartsContainsItem(item)) {
             var mtPart = {
@@ -214,7 +256,7 @@
         $scope.gridOptionsSelectedMtPartApi = gridApi;
 
         $scope.gridOptionsSelectedMtPartApi.selection.on.rowSelectionChanged($scope, function (row) {
-            alert("Selected MtPart Selected");
+            //alert("Selected MtPart Selected");
         });
     };
 
@@ -314,7 +356,8 @@
 { name: 'ExpireDate', displayName: 'Истекает' },
 { name: 'Part', displayName: 'Размер партии' },
 { name: 'UnitName', displayName: 'Ед. измерения' },
-{ name: 'UnitId', displayName: 'Ед. измерения - код', visible: false }
+{ name: 'UnitId', displayName: 'Ед. измерения - код', visible: false },
+{ name: 'ButtonComments', displayName: '', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkproductseriedialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
     $scope.gridOptionsSeries.data = $scope.productSeries;
@@ -346,8 +389,7 @@
         { name: 'NameRu', displayName: 'Наименование' },
         { name: 'ProducerNameRu', displayName: 'Производитель' },
         { name: 'CountryNameRu', displayName: 'Страна-производитель' },
-        { name: 'TnvedCode', displayName: 'ТН ВЭД' },
-        { name: 'KpvedCode', displayName: 'КП ВЭД' }
+        { name: 'ButtonComments', displayName: '', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkproductdialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
     $scope.addedProducts = [];
@@ -363,6 +405,8 @@
     $scope.searchResults = null;
 
 
+    loadExpertOrganizations($scope, $http);
+    loadContractSigners($scope, $http);
     loadDictionary($scope, 'Currency', $http);
     loadObkRefTypes($scope, $http);
     loadObkOrganizations($scope, $http);
@@ -420,6 +464,8 @@
         $scope.mtParts.length = 0;
         $scope.drugForms.length = 0;
 
+        $scope.searchDrugWorking = true;
+
         $http({
             method: 'GET',
             url: '/OBKContract/SearchDrug',
@@ -440,7 +486,9 @@
                 $scope.searchResults = null;
                 $scope.gridOptions.data = null;
             }
+            $scope.searchDrugWorking = false;
         }, function (response) {
+            $scope.searchDrugWorking = false;
             alert(JSON.stringify(response));
         });
 
@@ -493,8 +541,6 @@
             $scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
             $scope.product.CountryNameRu = selectedObj.CountryNameRu;
             $scope.product.CountryNameKz = selectedObj.CountryNameKz;
-            $scope.product.TnvedCode = selectedObj.TnvedCode;
-            $scope.product.KpvedCode = selectedObj.KpvedCode;
             $scope.product.Price = selectedObj.Price;
             $scope.product.Currency = selectedObj.Currency;
             $scope.product.DrugFormId = selectedObj.DrugFormId;
@@ -555,6 +601,67 @@
         }
     }
 
+    $scope.displayDrug = function displayDrug() {
+        if ($scope.selectedProductIndex != null) {
+            $scope.mode = 3;
+            $scope.showAddEditDrugBlock = true;
+
+            var selectedObj = $scope.addedProducts[$scope.selectedProductIndex];
+
+            $scope.product.Id = selectedObj.Id;
+            $scope.product.ProductId = selectedObj.ProductId;
+            $scope.product.RegTypeId = selectedObj.RegTypeId;
+            $scope.product.DegreeRiskId = selectedObj.DegreeRiskId;
+            $scope.product.NameRu = selectedObj.NameRu;
+            $scope.product.NameKz = selectedObj.NameKz;
+            $scope.product.ProducerNameRu = selectedObj.ProducerNameRu;
+            $scope.product.ProducerNameKz = selectedObj.ProducerNameKz;
+            $scope.product.CountryNameRu = selectedObj.CountryNameRu;
+            $scope.product.CountryNameKz = selectedObj.CountryNameKz;
+            $scope.product.Price = selectedObj.Price;
+            $scope.product.Currency = selectedObj.Currency;
+            $scope.product.DrugFormId = selectedObj.DrugFormId;
+            $scope.product.DrugFormRegisterId = selectedObj.DrugFormRegisterId;
+            $scope.product.DrugFormBoxCount = selectedObj.DrugFormBoxCount;
+            $scope.product.DrugFormFullName = selectedObj.DrugFormFullName;
+            $scope.product.DrugFormFullNameKz = selectedObj.DrugFormFullNameKz;
+
+            $scope.productSeries.push.apply($scope.productSeries, selectedObj.Series);
+            $scope.selectedMtParts.push.apply($scope.selectedMtParts, selectedObj.MtParts);
+
+            for (var i = 0; i < $scope.addedServices.length; i++) {
+                var service = $scope.addedServices[i];
+                if (service.ProductId == selectedObj.Id) {
+                    var newService = {
+                        Id: service.Id,
+                        ServiceName: service.ServiceName,
+                        ServiceId: service.ServiceId,
+                        UnitOfMeasurementName: service.UnitOfMeasurementName,
+                        UnitOfMeasurementId: service.UnitOfMeasurementId,
+                        PriceWithoutTax: service.PriceWithoutTax,
+                        Count: service.Count,
+                        FinalCostWithoutTax: service.FinalCostWithoutTax,
+                        FinalCostWithTax: service.FinalCostWithTax,
+                    };
+                    $scope.addedProductServices.push(newService);
+                }
+            }
+
+            $scope.loadProductServiceNames();
+        }
+        else {
+            alert("Выберите продукцию для просмотра");
+        }
+    }
+
+    $scope.closeDisplayDrug = function () {
+        $scope.showAddEditDrugBlock = false;
+        $scope.showSearchDrugInReestr = false;
+        $scope.clearSearchAndProductFields();
+        $scope.addedProductServices.length = 0;
+        $scope.mode = 0;
+    }
+
     $scope.addSeries = function addSeries() {
         var createDate = convertDateToString($scope.object.seriesCreateDate);
         var expireDate = convertDateToString($scope.object.seriesExpireDate);
@@ -605,8 +712,6 @@
                                     ProducerNameKz: $scope.product.ProducerNameKz,
                                     CountryNameRu: $scope.product.CountryNameRu,
                                     CountryNameKz: $scope.product.CountryNameKz,
-                                    TnvedCode: $scope.product.TnvedCode,
-                                    KpvedCode: $scope.product.KpvedCode,
                                     Price: $scope.product.Price,
                                     Currency: $scope.product.Currency,
                                     DrugFormBoxCount: $scope.product.DrugFormBoxCount,
@@ -624,7 +729,6 @@
 
                                 $scope.showAddEditDrugBlock = false;
                                 $scope.showSearchDrugInReestr = false;
-                                $scope.clearSearchAndProductFields();
                                 $scope.mode = 0;
                                 alert("Информация о продукции добавлена");
                             }
@@ -660,8 +764,6 @@
             selectedObj.ProducerNameKz = $scope.product.ProducerNameKz;
             selectedObj.CountryNameRu = $scope.product.CountryNameRu;
             selectedObj.CountryNameKz = $scope.product.CountryNameKz;
-            selectedObj.TnvedCode = $scope.product.TnvedCode;
-            selectedObj.KpvedCode = $scope.product.KpvedCode;
             selectedObj.Price = $scope.product.Price;
             selectedObj.Currency = $scope.product.Currency;
             selectedObj.Series.length = 0;
@@ -679,7 +781,6 @@
 
             $scope.showAddEditDrugBlock = false;
             $scope.showSearchDrugInReestr = false;
-            $scope.clearSearchAndProductFields();
             $scope.mode = 0;
             alert("Информация о продукции обновлена");
         }
@@ -735,6 +836,10 @@
                     }
                 }
 
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
+
                 $scope.addedProductServices.length = 0;
 
                 if ($scope.deletedServicesId && $scope.deletedServicesId.length > 0) {
@@ -750,6 +855,8 @@
                 }
 
                 $scope.calcTotalCostCalculator();
+
+                $scope.clearSearchAndProductFields();
             });
         }
     }
@@ -778,6 +885,7 @@
         $scope.showAddEditDrugBlock = false;
         $scope.showSearchDrugInReestr = false;
         $scope.clearSearchAndProductFields();
+        $scope.addedProductServices.length = 0;
     }
 
     $scope.existInArray = function existInArray(arr, id) {
@@ -827,7 +935,7 @@
     }
 
     $scope.resetMode = function resetMode() {
-        $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
+        $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit, 3 - view
     }
 
     $scope.refTypeChange = function (save) {
@@ -855,7 +963,9 @@
     }
 
     $scope.saveBtnClick = function () {
-        $scope.checkFileValidation();
+        var formValid = $scope.contractCreateForm.$valid;
+        var filesValid = $scope.checkFileValidation();
+        $scope.editProject();
     }
 
     $scope.editProject = function () {
@@ -1088,6 +1198,11 @@
             if (resp.data) {
                 $scope.object.Id = resp.data.Id;
                 $scope.object.Type = resp.data.Type;
+                $scope.object.ExpertOrganization = resp.data.ExpertOrganization;
+                $scope.object.Signer = resp.data.Signer;
+                $scope.object.Status = resp.data.Status;
+                $scope.changeViewMode();
+
 
                 $scope.refTypeChange(false);
 
@@ -1205,6 +1320,11 @@
         }).then(function (resp) {
             if (resp.data) {
                 $scope.addedServices.push.apply($scope.addedServices, resp.data);
+
+                $interval(function () {
+                    $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+                }, 500, 10);
+
                 $scope.calcTotalCostCalculator();
             }
         });
@@ -1220,18 +1340,29 @@
 
 
     $scope.checkFileValidation = function () {
-        $('.file-validation').text("");
-        $('.file-validation:visible').each(function () {
+        var invalidFiles = 0;
+
+        var containerName = "";
+        if ($scope.declarant.IsResident === true) {
+            containerName = "#filesResident";
+        }
+        else {
+            containerName = "#filesNonResident";
+        }
+
+        $(containerName + ' .file-validation').text("");
+        $(containerName + ' .file-validation').each(function () {
             var ct = $(this).attr('countFile');
             var attcode = $(this).attr('attcode');
             var count = parseInt(ct, 10) || 0;
             if (count === 0 && attcode === "1") {
                 $(this).text("Необходимо вложить файлы");
-                validFile = false;
+                invalidFiles++;
             } else {
                 $(this).text("");
             }
         });
+        return invalidFiles === 0;
     }
 
     $scope.findDeclarant = function () {
@@ -1245,10 +1376,6 @@
             }).then(function (resp) {
                 $scope.iinSearchActive = true;
                 if (resp.data) {
-                    $scope.showContactInformation = true;
-                    $scope.declarantNotFound = false;
-                    $scope.enableCompanyData = false;
-
                     $scope.declarant.Id = resp.data.Id;
                     $scope.declarant.OrganizationFormId = resp.data.OrganizationFormId;
                     $scope.declarant.IsResident = resp.data.IsResident;
@@ -1291,6 +1418,11 @@
                     $scope.object.BankNameRu = resp.data.BankNameRu;
                     $scope.object.BankNameKz = resp.data.BankNameKz;
                     $scope.saveDeclarantId(resp.data.Id);
+                    $scope.editProject();
+
+                    $scope.showContactInformation = true;
+                    $scope.declarantNotFound = false;
+                    $scope.enableCompanyData = false;
                 }
                 else {
                     $scope.declarantNotFound = true;
@@ -1404,6 +1536,171 @@
             }
         }
     }
+
+
+    $scope.sendWithoutDigitalSign = function () {
+        var formValid = $scope.contractCreateForm.$valid;
+        var productInfoExist = $scope.addedProducts.length > 0;
+        var outputErrors = true;
+        if (!formValid && $scope.contractCreateForm.$error && outputErrors) {
+            //var errors = [];
+
+            //for (var key in $scope.contractCreateForm.$error) {
+            //    for (var index = 0; index < $scope.contractCreateForm.$error[key].length; index++) {
+            //        errors.push($scope.contractCreateForm.$error[key][index].$name + ' is required.');
+            //    }
+            //}
+
+            //for (var i = 0; i < errors.length; i++) {
+            //    alert(errors[i]);
+            //}
+        }
+        var filesValid = $scope.checkFileValidation();
+        if (formValid && productInfoExist && filesValid) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/Project/Agreement',
+                controller: modalSendContract,
+                scope: $scope,
+                size: 'size-custom'
+            });
+        }
+        else {
+            alert("Заполните обязательные поля, информацию о продукции и загрузите вложения!");
+        }
+    }
+
+    $scope.sendWithDigitalSign = function () {
+        var formValid = $scope.contractCreateForm.$valid;
+        var productInfoExist = $scope.addedProducts.length > 0;
+        var filesValid = $scope.checkFileValidation();
+        if (formValid && productInfoExist && filesValid) {
+            $scope.doSign();
+        }
+        else {
+            alert("Заполните обязательные поля, информацию о продукции и загрузите вложения!");
+        }
+    }
+
+    $scope.doSign = function () {
+        var id = $scope.object.Id;
+        if (id) {
+
+            var funcSign = function signData() {
+                debugger;
+                $.blockUI({ message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Выполняется подпись...</h1>', css: { opacity: 1 } });
+                signXmlCall(function () {
+                    $http({
+                        url: '/OBKContract/SignContract',
+                        method: 'POST',
+                        data: JSON.stringify({ contractId: id, signedData: $("#Certificate").val() })
+                    }).success(function (response) {
+                        $scope.object.Status = response;
+                        $scope.changeViewMode();
+                        $window.location.href = '/OBKContract';
+                    }).error(function () {
+                        alert("error");
+                        $.unblockUI();
+                    });
+                });
+            };
+
+            startSign('/OBKContract/SignData', id, funcSign);
+
+        }
+
+
+
+
+        //$.blockUI({
+        //    message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Идет подпись отчета...</h1>',
+        //    css: { opacity: 1 }
+        //});
+        //signXmlCall(function () {
+        //    var model = { preambleId: $("#modelId").val(), xmlAuditForm: $("#Certificate").val() };
+        //    $.ajax({
+        //        url: '/SafetyAssessment/SignForm',
+        //        type: "POST",
+        //        dataType: 'json',
+        //        contentType: "application/json",
+        //        async: false,
+        //        data: JSON.stringify(model),
+        //        success: function (data) {
+
+        //            if (data.success) {
+        //                window.location.href = '@Url.Action("RegisterSafetyAssessmentList", "SafetyAssessment")';
+        //            }
+        //            else {
+        //                $("#formCertValidation").show();
+        //            }
+        //            $.unblockUI();
+        //        },
+        //        error: function (data) {
+        //            $.unblockUI();
+        //        }
+        //    });
+        //},
+        //    $("#hfXmlToSign").val());
+    }
+
+
+    $scope.viewContract = function (id) {
+        debugger;
+        if ($scope.object.Type == null) {
+            alert("Выберите тип договра");
+            return;
+        }
+        var modalInstance = $uibModal.open({
+            templateUrl: '/OBKContract/ContractTemplate?Id=' + id + "&Url=" + "GetContractTemplatePdf",
+            controller: ModalRegisterInstanceCtrl
+        });
+    };
+
+    $scope.tab3click = function () {
+        $interval(function () {
+            $scope.gridOptionsCalculatorApi.core.handleWindowResize();
+        }, 500, 10);
+    }
+
+    $scope.viewInvoicePayment = function(id) {
+        debugger;
+        var modalInstance = $uibModal.open({
+            templateUrl: '/OBKContract/ContractTemplate?Id=' + id + "&Url=" + "GetPaymentTemplatePdf",
+            controller: ModalRegisterInstanceCtrl
+        });
+    };
+}
+
+function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {
+    debugger;
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+}
+
+function modalSendContract($scope, $http, $window, $uibModalInstance) {
+    $scope.sendProject = function () {
+        var projectId = $scope.object.Id;
+        if (projectId) {
+            $http({
+                url: '/OBKContract/SendContractInProcessing',
+                method: 'POST',
+                data: { contractId: projectId }
+            }).success(function (response) {
+                $scope.object.Status = response;
+                $scope.changeViewMode();
+                $uibModalInstance.close();
+                $window.location.href = '/OBKContract';
+            });
+        }
+    };
+
+    $scope.cancelSend = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 }
 
 function getDate(value) {
@@ -1430,10 +1727,30 @@ function convertDateToStringDDMMYYYY(value) {
         var d = new Date(parseInt(value.substr(6)));
         var yyyy = d.getFullYear();
         var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
-        var dd = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+        var dd = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
         return dd + "." + mm + "." + yyyy;
     }
     return "";
+}
+
+function loadExpertOrganizations($scope, $http) {
+    $http({
+        method: "GET",
+        url: "/OBKContract/GetExpertOrganizations",
+        data: "JSON"
+    }).success(function (result) {
+        $scope.ExpertOrganizations = result;
+    });
+}
+
+function loadContractSigners($scope, $http) {
+    $http({
+        method: "GET",
+        url: "/OBKContract/GetSigners",
+        data: "JSON"
+    }).success(function (result) {
+        $scope.ContractSigners = result;
+    });
 }
 
 function loadObkRefTypes($scope, $http) {
@@ -1700,7 +2017,8 @@ function initCalculator($scope, $interval, $http) {
         { name: 'PriceWithoutTax', displayName: 'Цена в тенге, без НДС', width: "*" },
         { name: 'Count', displayName: 'Количество услуг (работ)', width: "*" },
         { name: 'FinalCostWithoutTax', displayName: 'Итоговая стоимость услуги, в тенге без НДС', width: "*" },
-        { name: 'FinalCostWithTax', displayName: 'Итоговая стоимость услуги, в тенге с НДС', width: "*" }
+        { name: 'FinalCostWithTax', displayName: 'Итоговая стоимость услуги, в тенге с НДС', width: "*" },
+        { name: 'ButtonComments', displayName: '', width: '*', cellTemplate: '<span class="input-group-addon"><a valval="{{row.entity.Id}}" class="obkpricedialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>' }
     ];
 
 
@@ -2058,4 +2376,4 @@ function initExample($scope, $interval) {
 
 angular
     .module('app')
-    .controller('obkContractForm', ['$scope', '$http', '$interval', obkContractForm])
+    .controller('obkContractForm', ['$scope', '$http', '$interval', '$uibModal', '$window', obkContractForm])

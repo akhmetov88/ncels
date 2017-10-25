@@ -6126,14 +6126,14 @@ where dct.DrugDeclarationId = @DrugDeclarationId</SqlCommand>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/7/2017 10:11:52 AM</ReportChanged>
+  <ReportChanged>9/11/2017 10:04:07 AM</ReportChanged>
   <ReportCreated>12/26/2016 8:26:01 PM</ReportCreated>
   <ReportFile>F:\Projects\ncels\PW.Ncels\Reports\Mrts\DrugDeclaration.mrt</ReportFile>
-  <ReportGuid>a79a022888ae4f90a2dbadad0ba29b90</ReportGuid>
+  <ReportGuid>5ba1db7341574e48870891f849e0ee9c</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
-  <ReportVersion>2017.1.10.0</ReportVersion>
+  <ReportVersion>2017.1.7.0</ReportVersion>
   <Script>using System;
 using System.Drawing;
 using System.Windows.Forms;

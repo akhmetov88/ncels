@@ -9,7 +9,15 @@ namespace PW.Ncels.Database.Models.OBK
     public class OBKContractViewModel
     {
         public Guid Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public string DeclarantNameRu { get; set; }
+        public string Number { get; set; }
         public int Type { get; set; }
+        public Guid? ExpertOrganization { get; set; }
+        public Guid? Signer { get; set; }
+        public int Status { get; set; }
         //public Guid? DeclarantId { get; set; }
         //public bool DeclarantIsResident { get; set; }
         //public Guid? DeclarantOrganizationFormId { get; set; }
@@ -18,7 +26,6 @@ namespace PW.Ncels.Database.Models.OBK
         //public string DeclarantNameRu { get; set; }
         //public string DeclarantNameEn { get; set; }
         //public Guid? DeclarantCountryId { get; set; }
-        public int ExpertOrganization { get; set; }
         public string AddressLegalRu { get; set; }
         public string AddressLegalKz { get; set; }
         public string AddressFact { get; set; }

@@ -24,5 +24,29 @@ namespace PW.Ncels.Database.DataModel
         /// Статус "Выполнен"
         /// </summary>
         public const string Completed = "completed";
+        /// <summary>
+        /// На корректировке у заявителя
+        /// </summary>
+        public const string OnCorrection = "onCorrection";
+        /// <summary>
+        /// На согласовании у руководителя
+        /// </summary>
+        public const string OnAgreement = "onAgreement";
+        /// <summary>
+        /// Несогласованный
+        /// </summary>
+        public const string NotAgreed = "notAgreed";
+        /// <summary>
+        /// Требует регистрации
+        /// </summary>
+        public const string RequiresRegistration = "requiresRegistration";
+        /// <summary>
+        /// Требует подписания
+        /// </summary>
+        public const string RequiresSigning = "requiresSigning";
+        /// <summary>
+        /// Активный
+        /// </summary>
+        public const string Active = "active";
     }
 }

@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <ncelsProd Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
+        <Alias>ncelsProd</Alias>
+        <ConnectionStringEncrypted>+RK1SclX0wlFR9Hc6njke94otevGdvPIy0m5nP+EYhvCfNmJTgXzvGp67YB6XHeb0zTBL11M813LUblM6ewi48VwwYhXA/vZe0kZBOnYd2c=</ConnectionStringEncrypted>
+        <Name>ncelsProd</Name>
+      </ncelsProd>
+    </Databases>
+    <DataSources isList="true" count="6">
+      <OBK_AssessmentDeclaration Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_AssessmentDeclaration</Alias>
+        <Columns isList="true" count="35">
+          <value>IsDeleted,System.Boolean</value>
+          <value>CreatedDate,System.DateTime</value>
+          <value>Id,System.Int64</value>
+          <value>StatusId,System.Int32</value>
+          <value>IsSigned,System.Boolean</value>
+          <value>AssuranceCheck,System.Boolean</value>
+          <value>OrderCheck,System.Boolean</value>
+          <value>StabilityCheck,System.Boolean</value>
+          <value>PaymentCheck,System.Boolean</value>
+          <value>EmployeeId,System.Int64</value>
+          <value>Type_Id,System.Int32</value>
+          <value>Contract_Id,System.Int64</value>
+          <value>CertificateDate,System.DateTime</value>
+          <value>DesignNote,System.String</value>
+          <value>CertificateCountryId,System.Int64</value>
+          <value>CertificateOrganization,System.String</value>
+          <value>CertificateStartDate,System.DateTime</value>
+          <value>CertificateTypeId,System.Int32</value>
+          <value>InvoiceRu,System.String</value>
+          <value>InvoiceKz,System.String</value>
+          <value>InvoiceDate,System.DateTime</value>
+          <value>InvoiceContractRu,System.String</value>
+          <value>InvoiceContractKz,System.String</value>
+          <value>InvoiceAgentLastName,System.String</value>
+          <value>InvoiceAgentFirstName,System.String</value>
+          <value>InvoiceAgentMiddelName,System.String</value>
+          <value>InvoiceAgentPositionName,System.String</value>
+          <value>Number,System.String</value>
+          <value>SendDate,System.DateTime</value>
+          <value>ExecuterId,System.Int64</value>
+          <value>CertificateGMP,System.String</value>
+          <value>CertificateNumber,System.String</value>
+          <value>CertificateGMPCheck,System.Boolean</value>
+          <value>DesignDate,System.DateTime</value>
+          <value>FirstSendDate,System.DateTime</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_AssessmentDeclaration</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>AssessmentDeclarationId,AssessmentDeclarationId,14,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_AssessmentDeclaration where Id=@AssessmentDeclarationId</SqlCommand>
+      </OBK_AssessmentDeclaration>
+      <OBK_StageExpDocument Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_StageExpDocument</Alias>
+        <Columns isList="true" count="20">
+          <value>ExpApplication,System.Boolean</value>
+          <value>ExpResult,System.Boolean</value>
+          <value>Id,System.Int64</value>
+          <value>ProductId,System.Int32</value>
+          <value>ProductSeriesId,System.Int32</value>
+          <value>ExpStartDate,System.DateTime</value>
+          <value>ExpEndDate,System.DateTime</value>
+          <value>ExpReasonNameRu,System.String</value>
+          <value>ExpReasonNameKz,System.String</value>
+          <value>ExpProductNameRu,System.String</value>
+          <value>ExpProductNameKz,System.String</value>
+          <value>ExpNomenclatureRu,System.String</value>
+          <value>ExpNomenclatureKz,System.String</value>
+          <value>ExpAddInfoRu,System.String</value>
+          <value>ExpAddInfoKz,System.String</value>
+          <value>ExpConclusionNumber,System.String</value>
+          <value>ExpBlankNumber,System.String</value>
+          <value>ExpApplicationNumber,System.String</value>
+          <value>ExpExecutorSign,System.String</value>
+          <value>ExecutorId,System.Int64</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_StageExpDocument</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>StageExpDocumentId,StageExpDocumentId,8,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_StageExpDocument where ProductSeriesId = @StageExpDocumentId</SqlCommand>
+      </OBK_StageExpDocument>
+      <OBK_Procunts_Series Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_Procunts_Series</Alias>
+        <Columns isList="true" count="7">
+          <value>Id,System.Int32</value>
+          <value>OBK_RS_ProductsId,System.Int32</value>
+          <value>SeriesMeasureId,System.Int64</value>
+          <value>Series,System.String</value>
+          <value>SeriesStartdate,System.String</value>
+          <value>SeriesEndDate,System.String</value>
+          <value>SeriesParty,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_Procunts_Series</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select * from OBK_Procunts_Series</SqlCommand>
+      </OBK_Procunts_Series>
+      <OBK_RS_Products Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_RS_Products</Alias>
+        <Columns isList="true" count="17">
+          <value>Id,System.Int32</value>
+          <value>RegTypeId,System.Int32</value>
+          <value>DegreeRiskId,System.Int32</value>
+          <value>DrugFormBoxCount,System.String</value>
+          <value>DrugFormFullName,System.String</value>
+          <value>DrugFormFullNameKz,System.String</value>
+          <value>NameRu,System.String</value>
+          <value>NameKz,System.String</value>
+          <value>ProducerNameRu,System.String</value>
+          <value>ProducerNameKz,System.String</value>
+          <value>CountryNameRu,System.String</value>
+          <value>CountryNameKZ,System.String</value>
+          <value>TnvedCode,System.String</value>
+          <value>KpvedCode,System.String</value>
+          <value>Price,System.String</value>
+          <value>ContractId,System.Int64</value>
+          <value>CurrencyId,System.Int32</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_RS_Products</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>StageExpDocumentId,StageExpDocumentId,8,0</value>
+        </Parameters>
+        <SqlCommand>select * from OBK_RS_Products rp 
+inner join OBK_Procunts_Series ps on rp.Id = ps.OBK_RS_ProductsId
+inner join OBK_StageExpDocument sed on ps.Id = sed.ProductSeriesId
+where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
+      </OBK_RS_Products>
+      <OBK_Declarant Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_Declarant</Alias>
+        <Columns isList="true" count="11">
+          <value>Id,System.Int64</value>
+          <value>IsConfirmed,System.Boolean</value>
+          <value>IsDeleted,System.Boolean</value>
+          <value>IsResident,System.Boolean</value>
+          <value>NameKz,System.String</value>
+          <value>NameRu,System.String</value>
+          <value>NameEn,System.String</value>
+          <value>CountryId,System.Int64</value>
+          <value>Iin,System.String</value>
+          <value>Bin,System.String</value>
+          <value>OrganizationFormId,System.Int64</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_Declarant</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>StageExpDocumentId,StageExpDocumentId,8,0</value>
+        </Parameters>
+        <SqlCommand>select d.NameRu, d.NameKz from OBK_RS_Products rp 
+inner join OBK_Procunts_Series ps on rp.Id = ps.OBK_RS_ProductsId
+inner join OBK_StageExpDocument sed on ps.Id = sed.ProductSeriesId
+inner join OBK_Contract c on c.Id = rp.ContractId
+inner join OBK_Declarant d on d.Id = c.DeclarantId
+where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
+      </OBK_Declarant>
+      <OBK_DeclarantContact Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>OBK_DeclarantContact</Alias>
+        <Columns isList="true" count="35">
+          <value>Id,System.Int64</value>
+          <value>IsHasBossDocNumber,System.Boolean</value>
+          <value>IsHasSignDocNumber,System.Boolean</value>
+          <value>CreateDate,System.DateTime</value>
+          <value>SignDocUnlimited,System.Boolean</value>
+          <value>SignType,System.Boolean</value>
+          <value>BossDocUnlimited,System.Boolean</value>
+          <value>SignLastName,System.String</value>
+          <value>SignFirstName,System.String</value>
+          <value>SignMiddleName,System.String</value>
+          <value>SignPosition,System.String</value>
+          <value>SignDocType,System.Int64</value>
+          <value>BossDocEndDate,System.DateTime</value>
+          <value>SignDocEndDate,System.DateTime</value>
+          <value>SignDocNumber,System.String</value>
+          <value>SignDocCreatedDate,System.DateTime</value>
+          <value>BossDocCreatedDate,System.DateTime</value>
+          <value>DeclarantId,System.Int64</value>
+          <value>AddressLegalRu,System.String</value>
+          <value>AddressLegalKz,System.String</value>
+          <value>AddressFact,System.String</value>
+          <value>Phone,System.String</value>
+          <value>Email,System.String</value>
+          <value>BankNameRu,System.String</value>
+          <value>BankNameKz,System.String</value>
+          <value>BankIik,System.String</value>
+          <value>BankBik,System.String</value>
+          <value>CurrencyId,System.Int64</value>
+          <value>BossFio,System.String</value>
+          <value>BossPosition,System.String</value>
+          <value>BossLastName,System.String</value>
+          <value>BossFirstName,System.String</value>
+          <value>BossMiddleName,System.String</value>
+          <value>BossDocNumber,System.String</value>
+          <value>BossDocType,System.Int64</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OBK_DeclarantContact</Name>
+        <NameInSource>ncelsProd</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>StageExpDocumentId,StageExpDocumentId,8,0</value>
+        </Parameters>
+        <SqlCommand>select dc.BossLastName, dc.BossFirstName, dc.BossMiddleName, dc.AddressLegalRu, dc.AddressLegalKz, dc.AddressFact from OBK_RS_Products rp 
+inner join OBK_Procunts_Series ps on rp.Id = ps.OBK_RS_ProductsId
+inner join OBK_StageExpDocument sed on ps.Id = sed.ProductSeriesId
+inner join OBK_Contract c on c.Id = rp.ContractId
+inner join OBK_DeclarantContact dc on dc.Id = c.DeclarantContactId
+where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
+      </OBK_DeclarantContact>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="2">
+      <value>,StageExpDocumentId,StageExpDocumentId,,System.Int32,,False,False,False,False</value>
+      <value>,AssessmentDeclarationId,AssessmentDeclarationId,,System.Guid,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="2">
+    <Page1 Ref="9" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="14">
+        <Text3 Ref="10" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,1.4,19,1.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,11,Bold</Font>
+          <Guid>25643b1bee044166a309fc19f72d0d40</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text3</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>МИНИСТЕРСТВО ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ КАЗАХСТАН</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text3>
+        <Text1 Ref="11" type="Text" isKey="true">
+          <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>2.6,3,13.8,1.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <Guid>577ecac6085747d18e3e08bb2ed3aa48</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text1</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>РГП на ПХВ «Национальный центр экспертизы лекарственных средств, изделий медицинского назначения и медицинской техники» МЗ РК,</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text1>
+        <Text2 Ref="12" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,6.2,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,14,Bold</Font>
+          <Guid>39c96b3b0af34b039fa0f7b4f79332c6</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text2</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>ЗАКЛЮЧЕНИЕ О БЕЗОПАСНОСТИ И КАЧЕСТВЕ
+</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text2>
+        <Text4 Ref="13" type="Text" isKey="true">
+          <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>1.4,7.6,6,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>d0f1ffb91dae4cdb822825dd62f6c9c4</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text4</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{Format("{0:dd.MM.yyyy}", OBK_StageExpDocument.ExpStartDate)} г.</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text4>
+        <Text5 Ref="14" type="Text" isKey="true">
+          <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>11.6,7.6,6,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>72de0da69b9349408c8c34d737bea424</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text5</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>№{OBK_StageExpDocument.ExpConclusionNumber}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text5>
+        <Text6 Ref="15" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,8.6,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>29681c57edd54f9b93384a77c6631645</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text6</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>Действительно до {Format("{0:dd.MM.yyyy}", OBK_StageExpDocument.ExpEndDate)} при соблюдении условий хранения</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text6>
+        <Text7 Ref="16" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,10.6,19,1.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>f329e49574b948bd8cc8703b1fe062f3</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text7</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>&lt;b&gt;1. Настоящее заключение удостоверяет, что должным образом идентифицированная продукция&lt;/b&gt; {OBK_StageExpDocument.ExpProductNameRu} &lt;b&gt;изготовленная&lt;/b&gt; {OBK_RS_Products.ProducerNameRu}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text7>
+        <Text8 Ref="17" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,12.8,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>3d6a8e7094e04d3a9ce20a53c14f8cd8</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text8</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>&lt;b&gt;2. Заявитель&lt;/b&gt; {OBK_Declarant.NameRu} {OBK_DeclarantContact.BossLastName} {OBK_DeclarantContact.BossFirstName} {OBK_DeclarantContact.BossMiddleName} {OBK_DeclarantContact.AddressLegalRu}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text8>
+        <Text9 Ref="18" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,13.6,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>a761f6c85efa4b23a345dec07ea26a40</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text9</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>&lt;b&gt;3. Заключение о безопасности и качестве продукции выдано на основании&lt;/b&gt; {OBK_StageExpDocument.ExpReasonNameRu}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text9>
+        <Text10 Ref="19" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,14.4,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>b276881b1abd41dc9193fd1e0a8fb2db</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text10</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>&lt;b&gt;4. Дополнительная информация (инвойс, декларация при наличии)&lt;/b&gt; {OBK_AssessmentDeclaration.InvoiceRu} {Format("{0:dd.MM.yyyy}", OBK_AssessmentDeclaration.InvoiceDate)} {OBK_AssessmentDeclaration.InvoiceContractRu}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text10>
+        <Text11 Ref="20" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,6.8,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>38b17b3d8d6a41a696b2ecba41a9142e</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text11</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>зарегистрировано в Реестре выданных заключений безопасности и качества
+</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text11>
+        <Text12 Ref="21" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,15.4,4.8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <Guid>2c12c6a248fa460589ca95c4d9aa8051</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text12</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>Место для печати</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text12>
+        <Text13 Ref="22" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>5.2,15.4,5.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <Guid>0f0ec8d3359a4ada9924520a458de4a7</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text13</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>Подписи уполномоченных лиц</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text13>
+        <Text27 Ref="23" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,11.8,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>839392d414a442078ed905f84976a894</Guid>
+          <HideZeros>True</HideZeros>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text27</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text> &lt;b&gt;соответствует требованиям безопасности и качества, установленным в&lt;/b&gt; {IIF(OBK_AssessmentDeclaration.Type_Id == 3, "-", OBK_StageExpDocument.ExpNomenclatureRu)}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text27>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>a6b8ed91887c41879a15a2b422d44209</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="24" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+    <Page2 Ref="25" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="13">
+        <Text14 Ref="26" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,1.4,19,1.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,11,Bold</Font>
+          <Guid>52ed3795cd9f41dba4ce527348db66dd</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text14</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>ҚАЗАҚСТАН РЕСПУБЛИКАСЫ ДЕНСАУЛЫҚ САҚТАУ МИНИСТРЛІГІ</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text14>
+        <Text15 Ref="27" type="Text" isKey="true">
+          <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>2.6,3,13.8,1.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <Guid>558e97eb78f74395a1e7c97e5993fe49</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text15</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>ҚР ДСМ «Дәрілік заттарды, медициналық мақсаттағы бұйымдарды және медицина
+Сарапшы ұйымның атауы мен мекенжайы
+техникасын сараптау ұлттық орталығы» ШЖҚ РМК
+</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text15>
+        <Text16 Ref="28" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,6.2,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,14,Bold</Font>
+          <Guid>79fde7c9a1f94e3f8d55c4d708a92382</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text16</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>ҚАУІПСІЗДІК ПЕН САПА ТУРАЛЫ ҚОРЫТЫНДЫ</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text16>
+        <Text17 Ref="29" type="Text" isKey="true">
+          <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>1.4,7.6,6,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>61b608d0f85047c7be686d65e7f954a0</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text17</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>{Format("{0:dd.MM.yyyy}", OBK_StageExpDocument.ExpStartDate)} ж.</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text17>
+        <Text18 Ref="30" type="Text" isKey="true">
+          <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>11.6,7.6,6,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>a493f826ccef44568f050f26d822bb9e</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text18</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>№{OBK_StageExpDocument.ExpConclusionNumber}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text18>
+        <Text19 Ref="31" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,8.6,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>f065b6ae63cb4b63978a965ffcc6d063</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text19</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>Сақтау шарттары сақталған жағдайда {Format("{0:dd.MM.yyyy}", OBK_StageExpDocument.ExpEndDate)} дейін жарамды</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text19>
+        <Text20 Ref="32" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,10.6,19,2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>df9332632cd0492bb49eed7acd8342d7</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text20</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>&lt;b&gt;1.Осы қорытынды өнімнің тиісінше&lt;/b&gt; {OBK_StageExpDocument.ExpProductNameKz} &lt;b&gt;сәйкестендірілгенін растайды&lt;/b&gt; {OBK_RS_Products.ProducerNameKz} &lt;b&gt;дайындалған&lt;/b&gt; {OBK_StageExpDocument.ExpNomenclatureKz} &lt;b&gt;белгіленген қауіпсіздік және сапа талаптарына сәйкес келеді&lt;/b&gt;
+
+
+</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text20>
+        <Text21 Ref="33" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,12.8,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>3cbb10dda5644594a3ed6e62173b1163</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text21</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>&lt;b&gt;2. Өтініш беруші&lt;/b&gt; {OBK_Declarant.NameKz} {OBK_DeclarantContact.BossLastName} {OBK_DeclarantContact.BossFirstName} {OBK_DeclarantContact.BossMiddleName} {OBK_DeclarantContact.AddressLegalKz}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text21>
+        <Text22 Ref="34" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,13.6,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>d6b2b9e4884a4e59a6e3deb620fa1bd8</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text22</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>&lt;b&gt;3. Өнімнің қауіпсіздігі мен сапасы туралы қорытынды&lt;/b&gt; {OBK_StageExpDocument.ExpReasonNameKz} &lt;b&gt;негізінде берілді&lt;/b&gt;</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text22>
+        <Text23 Ref="35" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,14.4,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,12</Font>
+          <Guid>91eda49eca0449eeb695268235d96740</Guid>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text23</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>&lt;b&gt;4. Қосымша ақпарат (инвойс, декларация болған жағдайда)&lt;/b&gt; {OBK_AssessmentDeclaration.InvoiceKz} {Format("{0:dd.MM.yyyy}", OBK_AssessmentDeclaration.InvoiceDate)} {OBK_AssessmentDeclaration.InvoiceContractKz}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text23>
+        <Text24 Ref="36" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,6.8,19,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10</Font>
+          <Guid>0d05426a28054ee7bd8071deae713b62</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text24</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>берілген қауіпсіздік пен сапа қорытындылары тізілімінде тіркелген</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text24>
+        <Text25 Ref="37" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,15.4,4.8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <Guid>b1bc7a8a0afd4e3187eaac46fab712d1</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text25</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>Мөрдің орны</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text25>
+        <Text26 Ref="38" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>5.2,15.4,5.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Times New Roman,10,Bold</Font>
+          <Guid>3294b0c39f94488dae30778e8ab370af</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>1,1,1,1</Margins>
+          <Name>Text26</Name>
+          <Page isRef="25" />
+          <Parent isRef="25" />
+          <Text>Уәкілетті адамдардың қолы</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text26>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>b3dbc9dc6916473a9965c24cd3d7ac03</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page2</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="39" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page2>
+  </Pages>
+  <PrinterSettings Ref="40" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>9/20/2017 5:22:10 PM</ReportChanged>
+  <ReportCreated>9/13/2017 11:46:41 AM</ReportCreated>
+  <ReportFile>F:\Projects\ncels\PW.Prism\Reports\Mrts\OBKExpDocument.mrt</ReportFile>
+  <ReportGuid>11e4d2baffcf4036b67e947070420087</ReportGuid>
+  <ReportImage isNull="true" />
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2017.1.7.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

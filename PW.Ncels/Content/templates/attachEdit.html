@@ -41,7 +41,7 @@
             <td>
                 <div class="input-group">
                     {{dic.Name}} (кол-во файлов: {{uploaders[dic.Id].queue.length}})
-                    <span class="file-validation" countFile="{{uploaders[dic.Id].queue.length}}" attCode="{{uploaders[dic.Id].code}}"></span>
+                    <span class="file-validation" countFile="{{uploaders[dic.Id].queue.length}}" attId="{{dic.Id}}" attCode="{{uploaders[dic.Id].code}}"></span>
                     <span class="input-group-addon" ng-if="dic.ShowComment">
                         <a class="commentDialog" href="#" onclick="showDocComment(this)" name="{{dic.Id}}">
                             <i class="glyphicon glyphicon-info-sign"></i>

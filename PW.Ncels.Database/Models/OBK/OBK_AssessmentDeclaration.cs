@@ -59,7 +59,7 @@ namespace PW.Ncels.Database.DataModel
         #endregion
 
         public Employee Applicant { get; set; }
-        public List<OBK_Contract> ObkContracts { get; set; }
+        public OBK_Contract ObkContracts { get; set; }
         public List<OBK_RS_Products> ObkRsProductses { get; set; }
         public List<OBK_Procunts_Series> ObkProcuntsSeries { get; set; }
     }

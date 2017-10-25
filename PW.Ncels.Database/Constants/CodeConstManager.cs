@@ -36,7 +36,7 @@ namespace PW.Ncels.Database.Constants
         /// <summary>
         /// Возвращено с экспертизы
         /// </summary>
-        public const int STATUS_EXP_REJECT_ID =6;
+        public const int STATUS_EXP_REJECT_ID = 6;
 
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const string EXP_DrugPrimaryNTDCode = "ntd";
 
-             /// <summary>
+        /// <summary>
         ///  ОТД
         /// </summary>
         public const string EXP_DrugPrimaryOTDCode = "otd";
@@ -188,7 +188,7 @@ namespace PW.Ncels.Database.Constants
         public const string DIC_OPF_TYPE = "OpfType";
 
         public static readonly string[] LIST_COUNTY_CODE_FOR_PRICE = { "BY", "HU", "LV", "AT", "RU", "TR", "UA" };
-     
+
         #endregion
 
         #region Виды организации
@@ -197,7 +197,7 @@ namespace PW.Ncels.Database.Constants
         ///   Заявитель или представительство
         /// </summary>
         public const string ORG_APPLICANT_ID = "d82f2b62-ef6e-49e5-b04a-000000008184";
-        
+
         /// <summary>
         /// Производитель
         /// </summary>
@@ -215,7 +215,8 @@ namespace PW.Ncels.Database.Constants
         public const string ATTACH_DRUG_FILE_CODE = "DrugDeclaration";
         public const string ATTACH_REMARK_FILE_CODE = "REMARK";
 
-
+        public const string ATTACH_CONTRACT_FILE_RESIDENT = "sysAttachOBKContractResident";
+        public const string ATTACH_CONTRACT_FILE_NON_RESIDENT = "sysAttachOBKContractNonResident";
 
 
         #region Вид файлов
@@ -408,6 +409,16 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const int STAGE_OBK_EXPERTISE_DOC = 2;
 
+        /// <summary>
+        /// УОБК
+        /// </summary>
+        public const int STAGE_OBK_UOBK = 3;
+
+        /// <summary>
+        /// ДЭФ
+        /// </summary>
+        public const int STAGE_OBK_DEF = 4;
+
         #endregion
 
         #region Статусы
@@ -431,47 +442,82 @@ namespace PW.Ncels.Database.Constants
         /// Возврат
         /// </summary>
         public const int STATUS_OBK_REJECT_ID = 4;
+        /// <summary>
+        /// В обработке
+        /// </summary>
+        public const int STATUS_OBK_INPROCESSING = 5;
 
-        ///// <summary>
-        ///// Повторно
-        ///// </summary>
-        //public const int STATUS_OBK_REPEAT_ID = 5;
+        /// <summary>
+        /// В работе
+        /// </summary>
+        public const int STATUS_OBK_WORK = 6;
 
-        ///// <summary>
-        ///// Возвращено с экспертизы
-        ///// </summary>
-        //public const int STATUS_OBK_EXP_REJECT_ID = 6;
+        /// <summary>
+        /// На корректировке у заявителя
+        /// </summary>
+        public const int STATUS_OBK_ONCORRECTION = 7;
 
+        /// <summary>
+        /// Активный
+        /// </summary>
+        public const int STATUS_OBK_ACTIVE = 8;
 
-        ///// <summary>
-        ///// Заключения для согласования
-        ///// </summary>
-        //public const int STATUS_OBK_EXP_SEND_INSTRUCTION_ID = 8;
         /// <summary>
         /// Отказано ЦОЗ
         /// </summary>
         public const int STATUS_OBK_COZ_REFUSED_ID = 9;
-        ///// <summary>
-        ///// Отказанно
-        ///// </summary>
-        //public const int STATUS_OBK_EXP_REFUSED_ID = 10;
+        
+        /// <summary>
+        /// Ожидает оплаты
+        /// </summary>
+        public const int STATUS_OBK_EXPECTED_PAYMENT = 10;
 
-        ///// <summary>
-        ///// Регистрация
-        ///// </summary>
-        //public const int DRUG_OBK_REGISTER_ID = 1;
+        /// <summary>
+        /// Оплачен не полностью
+        /// </summary>
+        public const int STATUS_OBK_NOT_FULL_PAYMENT = 11;
+
+        /// <summary>
+        ///Время для оплаты истекло
+        /// </summary>
+        public const int STATUS_OBK_PAYMENT_EXPIRED = 12;
+
+        public const int STATUS_OBK_INVOCE_GENERATING = 13;
 
         #endregion
 
         #region Настройка отображения типов ОБК
-       /// <summary>
-       /// Отображать тип ОБК при создании формы
-       /// </summary>
+        /// <summary>
+        /// Отображать тип ОБК при создании формы
+        /// </summary>
         public const int OBK_VIEW_OPTION_SHOW_ON_CREATE = 1;
         /// <summary>
         /// Отображать тип ОБК при продлении срока, оформлении компии, оформлении копии
         /// </summary>
         public const int OBK_VIEW_OPTION_SHOW_IN_PROCESS = 2;
+        #endregion
+
+        #region RESULT STATUS
+        public const int OBK_RESULT_ID_NOT_STARTED = 0;
+        public const int OBK_RESULT_ID_MEETS_REQUIREMENTS = 1;
+        public const int OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS = 2;
+        #endregion
+
+        public const string OBK_CONTRACT_NO_NUMBER = "б/н";
+
+        #region ОБК Тип исполнителя
+        /// <summary>
+        /// Назначающий
+        /// </summary>
+        public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING = 1;
+        /// <summary>
+        /// Исполнитель
+        /// </summary>
+        public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR = 2;
+        /// <summary>
+        /// Подписывающий
+        /// </summary>
+        public const int OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER = 3;
         #endregion
 
         #endregion

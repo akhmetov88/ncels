@@ -1,4 +1,5 @@
-﻿@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
+﻿@using PW.Ncels.Database.Constants
+@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 @{
     var @startDate = Model?.StartDate ?? "";
@@ -424,9 +425,15 @@
 
         $("#CertificateGMPCheck").change(function() { checkCert(); });
 
-        function checkCert () {
-            var cerGMPCheck = $("#CertificateGMPCheck").val();
-            debugger;
+        function checkCert() {
+            var cerGMPCheck = null;
+            if(@Model.Type_Id === 3) {
+                cerGMPCheck = $("#CertificateGMPCheck").val("True");
+                cerGMPCheck = "True";
+                $("#CertificateGMPCheck").attr("readonly", true).attr("disabled", true);
+            } else {
+                cerGMPCheck = $("#CertificateGMPCheck").val();
+            }
             if (cerGMPCheck === "True") {
                 $("#CertificateGMP").attr("readonly", false);
                 $("#CertificateDate").attr("readonly", false).attr("disabled", false);
@@ -522,10 +529,10 @@
                             "columns": [
                                 { "data": "Id" },
                                 { "data": "NameRu" },
+                                { "data": "DrugFormFullName" },
                                 { "data": "ProducerNameRu" },
-                                { "data": "CountryNameRu" },
-                                { "data": "TnvedCode" },
-                                { "data": "KpvedCode" }
+                                { "data": "DrugFormBoxCount" },
+                                { "data": "CountryNameRu" }
                             ]
                         });
 

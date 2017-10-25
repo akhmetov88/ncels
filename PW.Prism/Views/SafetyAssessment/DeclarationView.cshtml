@@ -70,7 +70,7 @@
                         @Html.Partial("~/Views/SafetyAssessment/RequestView.cshtml", @Model)
                     </div>
                     <div id="@tab3" class="tab-pane">
-                        @Html.Partial("~/Views/SafetyAssessment/ProductView.cshtml", @Model)
+                        @Html.Partial("~/Views/SafetyAssessment/ProductView.cshtml", @Model.ObkContracts)
                     </div>
                     <div id="@tab4" class="tab-pane">
                         @Html.Partial("~/Views/SafetyAssessment/AgreementView.cshtml", @Model)

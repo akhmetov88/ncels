@@ -55,8 +55,8 @@
       <HintPath>..\lib\Aspose\Aspose.Pdf.dll</HintPath>
     </Reference>
     <Reference Include="Aspose.Words, Version=15.12.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Aspose\Aspose.Words.dll</HintPath>
+      <HintPath>..\packages\Aspose.Words.15.12.0\lib\net40\Aspose.Words.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -1272,6 +1272,7 @@
     <Content Include="Scripts\js\custom\common.js" />
     <Content Include="Scripts\js\custom\message-dialog-box.js" />
     <Content Include="Scripts\js\custom\alertMessage.js" />
+    <Content Include="Scripts\js\custom\obkcontractcomments.js" />
     <Content Include="Scripts\js\custom\spin.js" />
     <Content Include="Scripts\js\custom\subform-comment.js" />
     <Content Include="Scripts\js\directives.js" />
@@ -2226,12 +2227,22 @@
     <Content Include="Views\SafetyAssessment\RequestView.cshtml" />
     <Content Include="Views\SafetyAssessment\AgreementView.cshtml" />
     <Content Include="Views\SafetyAssessment\ProductView.cshtml" />
-    <Content Include="Views\SafetyAssessment\ProductSeriesView.cshtml" />
     <Content Include="Views\SafetyAssessment\ShowDetails.cshtml" />
     <Content Include="Views\SafetyAssessment\ExportFileTemplate.cshtml" />
     <Content Include="Views\OBKContract\ContractAddition.cshtml" />
     <Content Include="Views\SafetyAssessment\ShowComment.cshtml" />
     <Content Include="Views\SafetyAssessment\HistoriesView.cshtml" />
+    <Content Include="Reports\Mrts\SafetyAssessmentDeclaration.mrt" />
+    <Content Include="Views\OBKContract\ContractTemplate.cshtml" />
+    <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
+    <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
+    <Content Include="Views\OBKContract\ShowComment.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentPrice.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentProduct.cshtml" />
+    <Content Include="Views\OBKContract\ShowCommentProductsSerie.cshtml" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt" />
+    <Content Include="Views\OBKContract\HistoriesView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2278,6 +2289,7 @@
     <EmbeddedResource Include="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

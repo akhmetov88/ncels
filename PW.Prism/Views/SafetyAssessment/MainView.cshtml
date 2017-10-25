@@ -319,3 +319,15 @@
     </div>
 </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        setDateFormat(".date-control");
+    });
+    function setDateFormat(control) {
+        $(control).datepicker({
+            dateFormat: 'dd.mm.yy',
+            language: 'ru',
+            autoclose: true
+        });
+    }
+</script>

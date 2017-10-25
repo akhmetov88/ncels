@@ -47,25 +47,12 @@ namespace PW.Ncels.Controllers
                 Id = Guid.NewGuid(),
                 EmployeeId = UserHelper.GetCurrentEmployee().Id,
                 StatusId = CodeConstManager.STATUS_DRAFT_ID,
-                ObkContracts = new List<OBK_Contract>(),
+                ObkContracts = new OBK_Contract(),
                 ObkRsProductses = new List<OBK_RS_Products>()
             };
             
             model.CertificateDate = null;
             model.CreatedDate = DateTime.Now;
-
-            //продукты
-            if (model.ObkRsProductses.Count == 0) {
-                model.ObkRsProductses = new List<OBK_RS_Products>() { new OBK_RS_Products()
-                {
-                    Obk_Products_Series = new List<OBK_Procunts_Series>() { new OBK_Procunts_Series()}
-                }};
-            }
-
-            //договора
-            if (model.ObkContracts.Count == 0) {
-                model.ObkContracts.Add(new OBK_Contract());
-            }
 
             var safetyRepository = new SafetyAssessmentRepository(false);
 
@@ -86,7 +73,7 @@ namespace PW.Ncels.Controllers
             }
 
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId), "Id",
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, safetyRepository.GetObkRefTypes(type).Id), "Id",
                     "ContractInfo", model.Contract_Id);
 
             var repository = new ReadOnlyDictionaryRepository();
@@ -137,7 +124,7 @@ namespace PW.Ncels.Controllers
         public ActionResult ExportFilePdf(Guid id)
         {
             var db = new ncelsEntities();
-            string name = "Заявление на проведение экспертизы лс.pdf";
+            string name = "Заявление на проведение оценки безопасности и качества лс.pdf";
             StiReport report = new StiReport();
             try
             {
@@ -148,6 +135,7 @@ namespace PW.Ncels.Controllers
                 }
 
                 report.Dictionary.Variables["AssessmentDeclarationId"].ValueObject = id;
+                report.Dictionary.Variables["ExecutorSign"].ValueObject = null;
 
                 report.Render(false);
             }
@@ -155,20 +143,30 @@ namespace PW.Ncels.Controllers
             {
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
-            var stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Pdf, stream);
+            Stream stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Word2007, stream);
             stream.Position = 0;
+            
             var assessmentDeclaration = db.OBK_AssessmentDeclaration.FirstOrDefault(dd => dd.Id == id);
             var assessmentDeclarationHistory = assessmentDeclaration.OBK_AssessmentDeclarationHistory.Where(dh => dh.XmlSign != null)
                 .OrderByDescending(dh => dh.DateCreate).FirstOrDefault();
             if (assessmentDeclarationHistory != null)
             {
-                Aspose.Words.Document doc = new Aspose.Words.Document(stream);
-                doc.InserQrCodesToEnd("ExecutorSign", assessmentDeclarationHistory.XmlSign);
-                var pdfFile = new MemoryStream();
-                pdfFile.Position = 0;
-                stream.Close();
-                return new FileStreamResult(pdfFile, "application/pdf");
+                try
+                {
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodes("ExecutorSign", assessmentDeclarationHistory.XmlSign);
+                    var pdfFile = new MemoryStream();
+                    doc.Save(pdfFile, Aspose.Words.SaveFormat.Pdf);
+                    pdfFile.Position = 0;
+                    stream.Close();
+
+                    return new FileStreamResult(pdfFile, "application/pdf");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
             return new FileStreamResult(stream, "application/pdf");
         }
@@ -177,20 +175,38 @@ namespace PW.Ncels.Controllers
         public ActionResult DublicateDrug(string id)
         {
             var model = new SafetyAssessmentRepository().DublicateAssessmentDeclaration(id, UserHelper.GetCurrentEmployee().Id);
-            //model.IsExist = true;
             FillDeclarationControl(model);
-            return RedirectToAction("RegisterSafetyAssessmentList");//View("Create", model);
+            return RedirectToAction("RegisterSafetyAssessmentList");
         }
 
         [HttpGet]
         public ActionResult Edit(string id, bool? isLoadReest)
         {
-            //if (isLoadReest != null && isLoadReest.Value)
-            //{
-            //    new SafetyAssessmentRepository().LoadFromReestr(id);
-            //}
             var model = GetSaDeclarationById(id);
             return View("Create", model);
+        }
+
+        [HttpGet]
+        public ActionResult EditContract(string id)
+        {
+            var repository = new SafetyAssessmentRepository();
+            var contract = repository.GetContractById(new Guid(id));
+            var model = repository.FindDeclarationByContract(new Guid(id));
+            if (model == null) {
+                model = new OBK_AssessmentDeclaration {
+                    EmployeeId = UserHelper.GetCurrentEmployee().Id,
+                    Type_Id = contract.OBK_Ref_Type.Id,
+                    Id = Guid.NewGuid(),
+                    CreatedDate = DateTime.Now,
+                    StatusId = CodeConstManager.STATUS_DRAFT_ID,
+                    CertificateDate = DateTime.Now,
+                    Contract_Id = contract.Id,
+                    IsDeleted = false
+                    //CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
+                };
+                repository.SaveAssessmentDeclaration(model);
+            }
+            return Json(model.Id, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -204,7 +220,6 @@ namespace PW.Ncels.Controllers
         {
           var repository = new SafetyAssessmentRepository();
           var model = repository.GetById(id);
-            //model.IsExist = true;
           FillDeclarationControl(model);
           return model;
         }
@@ -213,7 +228,7 @@ namespace PW.Ncels.Controllers
         {
             var safetyRepository = new SafetyAssessmentRepository();
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId), "Id",
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.Type_Id), "Id",
                     "ContractInfo", model.Contract_Id);
 
             if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL)) {
@@ -235,7 +250,7 @@ namespace PW.Ncels.Controllers
 
                 //справочник стран
                 var countries = safetyRepository.GetCounties();
-                if (declarant.CountryId == null) {
+                if (declarant?.CountryId == null) {
                     ViewData["Counties"] = new SelectList(countries, "Id", "Name");
                 }
                 else {
@@ -245,7 +260,7 @@ namespace PW.Ncels.Controllers
 
                 //Валюта
                 var currency = safetyRepository.GetObkCurrencies();
-                if (declarantContact.CurrencyId == null) {
+                if (declarantContact?.CurrencyId == null) {
                     ViewData["Courrency"] = new SelectList(currency, "Id", "Name");
                 }
                 else {
@@ -268,7 +283,7 @@ namespace PW.Ncels.Controllers
 
                 //организационная форма
                 var orgForm = safetyRepository.GetOrganizationForm();
-                if (declarant.OrganizationFormId == null) {
+                if (declarant?.OrganizationFormId == null) {
                     ViewData["OrganizationForm"] = new SelectList(orgForm, "Id", "Name");
                 }
                 else {
@@ -419,6 +434,10 @@ namespace PW.Ncels.Controllers
                 prod.TnvedCode = product.TnvedCode;
                 prod.KpvedCode = product.KpvedCode;
                 prod.Price = product.Price;
+                prod.CurrencyId = product.CurrencyId;
+                prod.DrugFormBoxCount = product.DrugFormBoxCount;
+                prod.DrugFormFullName = product.DrugFormFullName;
+                prod.RegTypeId = product.RegTypeId;
                 foreach (var productSeries in product.OBK_Procunts_Series)
                 {
                     var prodSeries = new OBK_Procunts_Series();
@@ -429,6 +448,17 @@ namespace PW.Ncels.Controllers
                     prodSeries.SeriesParty = productSeries.SeriesParty;
                     prodSeries.SeriesShortNameRu = productSeries.sr_measures.short_name;
                     prod.OBK_Procunts_Series.Add(prodSeries);
+                }
+                foreach (var mtPart in product.OBK_MtPart)
+                {
+                    var mtParts = new OBK_MtPart();
+                    mtParts.PartNumber = mtPart.PartNumber;
+                    mtParts.Model = mtPart.Model;
+                    mtParts.Specification = mtPart.Specification;
+                    mtParts.ProducerName = mtPart.ProducerName;
+                    mtParts.CountryName = mtPart.CountryName;
+                    mtParts.Name = mtPart.Name;
+                    prod.OBK_MtPart.Add(mtParts);
                 }
                 resultProducts.Add(prod);
             }
@@ -470,7 +500,7 @@ namespace PW.Ncels.Controllers
                 preambleXml = SerializeHelper.SerializeDataContract(model);
                 preambleXml = preambleXml.Replace("utf-16", "utf-8");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 IsSuccess = false;
             }
@@ -480,6 +510,53 @@ namespace PW.Ncels.Controllers
                 IsSuccess,
                 preambleXml
             }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// подписание
+        /// </summary>
+        /// <param name="preambleId"></param>
+        /// <param name="xmlAuditForm"></param>
+        /// <returns></returns>
+        public ActionResult SignForm(string preambleId, string xmlAuditForm)
+        {
+            var success = true;
+            var repository = new SafetyAssessmentRepository();
+            var model = repository.GetById(preambleId);
+            new SignDocumentRepository().SaveSignDocument(UserHelper.GetCurrentEmployee().Id, xmlAuditForm, model);
+
+            if (model.StatusId == CodeConstManager.STATUS_DRAFT_ID)
+            {
+                model.FirstSendDate = DateTime.Now;
+            }
+
+            var modelStage = new AssessmentStageRepository().GetByDeclarationId(model.Id.ToString(), CodeConstManager.STAGE_OBK_COZ);
+            if (modelStage != null && modelStage.StageStatusId ==
+                new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.InReWork).Id)
+            {
+                modelStage.StageStatusId = new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+                new SafetyAssessmentRepository().SaveStage(modelStage);
+            }
+
+            model.StatusId = CodeConstManager.STATUS_SEND_ID;
+            model.SendDate = DateTime.Now;
+            model.IsSigned = false;
+
+            var history = new OBK_AssessmentDeclarationHistory()
+            {
+                DateCreate = DateTime.Now,
+                AssessmentDeclarationId = model.Id,
+                XmlSign = xmlAuditForm,
+                StatusId = CodeConstManager.STATUS_SEND_ID,
+                UserId = UserHelper.GetCurrentEmployee().Id,
+                Note = "Отчет предоставлен. Дата отправки:" + DateTime.Now
+            };
+            if (string.IsNullOrEmpty(model.Number))
+            {
+                model.Number = repository.GetAppNumber();
+            }
+            repository.SaveOrUpdate(model, UserHelper.GetCurrentEmployee().Id);
+            repository.SaveHisotry(history, UserHelper.GetCurrentEmployee().Id);
+            return Json(new { success }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

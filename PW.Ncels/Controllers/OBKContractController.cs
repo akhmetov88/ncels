@@ -4,10 +4,18 @@ using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.OBK;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Aspose.Words;
+using Ncels.Helpers;
+using PW.Ncels.Database.Helpers;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dictionary;
+using PW.Ncels.Database.Constants;
+using PW.Ncels.Database.Repository.Common;
 
 namespace PW.Ncels.Controllers
 {
@@ -306,15 +314,226 @@ namespace PW.Ncels.Controllers
         [HttpGet]
         public ActionResult GetDrugForms(int productId)
         {
-            var drugForms = obkRepo.GetDrugForms(productId);
+            List<OBKDrugFormViewModel> drugForms = obkRepo.GetDrugForms(productId);
             return Json(drugForms, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult GetMtParts(int productId)
         {
-            var mtParts = obkRepo.GetMtParts(productId);
+            List<OBKMtPartViewModel> mtParts = obkRepo.GetMtParts(productId);
             return Json(mtParts, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult SendContractInProcessing(Guid contractId)
+        {
+            var state = obkRepo.SendContractInProcessing(contractId);
+            return Json(state);
+        }
+
+        public ActionResult ContractTemplate(Guid id, string url)
+        {
+            return PartialView(new OBKEntityTemplate { Id = id, Url = url });
+        }
+
+        public ActionResult GetContractTemplatePdf(Guid id)
+        {
+            var db = new ncelsEntities();
+            string name = "Договор_на_проведение_оценки_безопасности_и_качества.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(obkRepo.GetContractTemplatePath(id));//(Server.MapPath("~/Reports/Mrts/OBK/ObkContractDec.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["ContractId"].ValueObject = id;
+
+                var price = new OBKContractRepository().GetPriceCount(id);
+                report.Dictionary.Variables["PriceCount"].ValueObject = price;
+
+                var priceText = RuDateAndMoneyConverter.ToTextTenge(Convert.ToDouble(price), false);
+                report.Dictionary.Variables["PriceCountName"].ValueObject = priceText;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            Stream stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Word2007, stream);
+            stream.Position = 0;
+
+            Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+
+            try
+            {
+                var signData = db.OBK_ContractSignedDatas.Where(x => x.ContractId == id).FirstOrDefault();
+                if (signData != null && signData.ApplicantSign != null && signData.CeoSign != null)
+                {
+                    doc.InserQrCodesToEnd("ApplicantSign", signData.ApplicantSign);
+                    doc.InserQrCodesToEnd("CeoSign", signData.CeoSign);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            var file = new MemoryStream();
+            doc.Save(file, Aspose.Words.SaveFormat.Pdf);
+            file.Position = 0;
+
+            return new FileStreamResult(file, "application/pdf");
+        }
+
+        public ActionResult GetPaymentTemplatePdf(Guid id)
+        {
+            var payRepo = new OBKPaymentRepository();
+            string name = "Счет на оплату.pdf";
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(Server.MapPath("~/Reports/Mrts/OBK/1c/ObkInvoicePayment.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["ContractId"].ValueObject = id;
+                //итого
+                var totalPriceWithCount = payRepo.GetTotalPriceCount(id);
+                report.Dictionary.Variables["TotalPriceWithCount"].ValueObject = totalPriceWithCount;
+                //в том числе НДС
+                var totalPriceNDS = payRepo.GetTotalPriceNDS(totalPriceWithCount);
+                report.Dictionary.Variables["TotalPriceNDS"].ValueObject = totalPriceNDS;
+                //прописью
+                var priceText = RuDateAndMoneyConverter.CurrencyToTxtTenge(Convert.ToDouble(totalPriceWithCount), false);
+                report.Dictionary.Variables["TotalPriceWithCountName"].ValueObject = priceText;
+                report.Dictionary.Variables["ChiefAccountant"].ValueObject = payRepo.GetEmpoloyee(Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4"));
+                report.Dictionary.Variables["Executor"].ValueObject = payRepo.GetEmpoloyee(Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1"));
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            var stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+        public ActionResult GetSigners()
+        {
+            var signers = obkRepo.GetSigners();
+            return Json(signers.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetExpertOrganizations()
+        {
+            var expertOrganizations = obkRepo.GetExpertOrganizations();
+            return Json(expertOrganizations.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ShowComment(Guid modelId, string idControl)
+        {
+            var model = obkRepo.GetComments(modelId, idControl);
+            if (model == null)
+            {
+                model = new OBK_ContractCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ShowCommentPrice(Guid contractPriceId)
+        {
+            var model = obkRepo.GetCommentsPrice(contractPriceId);
+            if (model == null)
+            {
+                model = new OBK_ContractPriceCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ShowCommentProduct(int productId)
+        {
+            var model = obkRepo.GetCommentsProduct(productId);
+            if (model == null)
+            {
+                model = new OBK_RS_ProductsCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ShowCommentProductsSerie(int productSerieId)
+        {
+            var model = obkRepo.GetCommentsProductsSerie(productSerieId);
+            if (model == null)
+            {
+                model = new OBK_Products_SeriesCom();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+
+        public ActionResult SignOperation(string id)
+        {
+            var IsSuccess = true;
+            var preambleXml = "sss";
+            return Json(new
+            {
+                IsSuccess,
+                preambleXml
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SignData(Guid id)
+        {
+            return Json(new
+            {
+                IsSuccess = true,
+                preambleXml = obkRepo.GetDataForSign(id)
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SignContract(Guid contractId, string signedData)
+        {
+            var status = obkRepo.SignContractApplicant(contractId, signedData);
+
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetHistory(Guid? modelId)
+        {
+            var result = obkRepo.GetExtHistory(modelId);
+
+            return Json(new { isSuccess = true, result });
         }
     }
 }

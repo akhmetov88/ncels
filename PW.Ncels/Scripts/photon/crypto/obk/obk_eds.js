@@ -261,6 +261,7 @@ function getSubDNCall() {
 var _submitCallback = null;
 
 function signXmlBack(result) { // eslint-disable-line
+    debugger;
     var signedData;
     if (result.errorCode === 'NONE') {
         signedData = result.getResult();
@@ -270,12 +271,19 @@ function signXmlBack(result) { // eslint-disable-line
         if (_submitCallback)
             _submitCallback();
     }
-    else
-        if (result.errorCode === 'WRONG_PASSWORD' && result.result > -1) {
-        } else if (result.errorCode === 'WRONG_PASSWORD') {
-        } else {
-            $('#Certificate').val('');
-        }
+    else if (result.errorCode === 'WRONG_PASSWORD' && result.result > -1) {
+        alert("ERROR");
+        $.unblockUI();
+    }
+    else if (result.errorCode === 'WRONG_PASSWORD') {
+        alert("ERROR");
+        $.unblockUI();
+    }
+    else {
+        $('#Certificate').val('');
+        alert("ERROR");
+        $.unblockUI();
+    }
 }
 
 /**
@@ -284,6 +292,7 @@ function signXmlBack(result) { // eslint-disable-line
  * @return {callback}
  */
 function signXmlCall(submitCallback) {
+    debugger;
     _submitCallback = submitCallback;
     var data = $('#hfXmlToSign').val();
     var storageAlias = _storageAlias;
@@ -397,7 +406,7 @@ function fillKeysSignBack(result) {
 
 
             console.log("before check iin");
-            
+
             checkIin();
 
             console.log("after check iin");
@@ -417,8 +426,7 @@ function fillKeysSignBack(result) {
     }
 }
 
-function checkIin()
-{
+function checkIin() {
     var storageAlias = _storageAlias;
     var storagePath = $("#hfStoragePath").val();
     var password = $('#passwordCert').val();
@@ -438,8 +446,7 @@ function checkIin()
     }
 }
 
-function checkIinCallback(result)
-{
+function checkIinCallback(result) {
     debugger;
     if (result.errorCode === 'NONE') {
         var subjectAttrs = result.result.split(',');
@@ -455,6 +462,9 @@ function checkIinCallback(result)
                 contentType: "application/json",
                 async: false,
                 success: function (data) {
+                    //// start temp code
+                    //data = iinCertificate;
+                    //// end temp code
                     if (data !== iinCertificate) {
                         alert("Ваш ИИН должен совпадать с ИИН выбранного ключа!");
                     }
@@ -473,8 +483,7 @@ function checkIinCallback(result)
     }
 }
 
-function getIin(data)
-{
+function getIin(data) {
     var subjectDN = data.result;
 
     var subjectAttrs = subjectDN.split(',');
@@ -483,13 +492,11 @@ function getIin(data)
     return iin;
 }
 
-function checkCertificateValidity()
-{
+function checkCertificateValidity() {
     getNotBeforeCall();
 }
 
-function getNotBeforeCall()
-{
+function getNotBeforeCall() {
     var storageAlias = _storageAlias;
     var storagePath = $("#hfStoragePath").val();
     var password = $('#passwordCert').val();
@@ -509,8 +516,7 @@ function getNotBeforeCall()
     }
 }
 
-function getNotBeforeCallback(result)
-{
+function getNotBeforeCallback(result) {
     if (result['errorCode'] === "NONE") {
         var dateNotBeforeStr = result['result'];
         var dateNotBefore = convertStrToDate(dateNotBeforeStr);
@@ -534,8 +540,7 @@ function getNotBeforeCallback(result)
     }
 }
 
-function getNotAfterCall()
-{
+function getNotAfterCall() {
     var storageAlias = _storageAlias;
     var storagePath = $("#hfStoragePath").val();
     var password = $('#passwordCert').val();
@@ -555,8 +560,7 @@ function getNotAfterCall()
     }
 }
 
-function getNotAfterCallback(result)
-{
+function getNotAfterCallback(result) {
     if (result['errorCode'] === "NONE") {
         var dateNotAfterStr = result['result'];
         var dateNotAfter = convertStrToDate(dateNotAfterStr);
@@ -565,8 +569,12 @@ function getNotAfterCallback(result)
             if (_doSignCustom) {
                 _doSignCustom();
             }
-            else if (_doSign)
+            else if (_doSign) {
                 _doSign();
+            }
+            else {
+                alert("_doSign = " + _doSign);
+            }
         }
         else {
             alert("Срок действия сертификата истек!");

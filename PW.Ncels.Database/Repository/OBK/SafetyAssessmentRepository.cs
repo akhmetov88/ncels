@@ -44,10 +44,10 @@ namespace PW.Ncels.Database.Repository.OBK
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns></returns>
-        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId)
+        public IQueryable<OBK_Contract> GetContractsByStatuses(Guid employeeId, int type)
         {
             //todo надо добавить фильтр для договоро и отображать только подписанные и активные
-            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId);
+            return AppContext.OBK_Contract.Where(e => e.EmployeeId == employeeId && e.Type == type);
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace PW.Ncels.Database.Repository.OBK
         /// </summary>
         /// <param name="employeeId">владелец</param>
         /// <returns></returns>
-        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId)
+        public IEnumerable<OBK_Contract> GetActiveContractListWithInfo(Guid employeeId, int type)
         {
-            var list = GetContractsByStatuses(employeeId).OrderBy(e => e.StartDate);
+            var list = GetContractsByStatuses(employeeId, type).OrderBy(e => e.StartDate);
 
             foreach (var contract in list)
             {
@@ -125,9 +125,9 @@ namespace PW.Ncels.Database.Repository.OBK
         /// основание для УОБК
         /// </summary>
         /// <returns></returns>
-        public IQueryable<OBK_Ref_Reason> GetRefReasons(bool expResult)
+        public IQueryable<OBK_Ref_Reason> GetRefReasons()
         {
-            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted && e.ExpertiseResult == expResult);
+            return AppContext.OBK_Ref_Reason.Where(e => !e.IsDeleted);
         }
 
         /// <summary>
@@ -149,6 +149,11 @@ namespace PW.Ncels.Database.Repository.OBK
             return AppContext.OBK_RS_Products.Where(e => e.ContractId == modelId)
                 .Include(x => x.OBK_Procunts_Series)
                 .ToList();
+        }
+
+        public OBK_Procunts_Series GetProcuntsSeries(int? id)
+        {
+            return AppContext.OBK_Procunts_Series.FirstOrDefault(e => e.Id == id);
         }
 
         public ReesrtObk GetSearchReestr(string regNumber, string tradeName, string manufacturer, string mnn)
@@ -198,6 +203,18 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.Entry(attachedEntity).CurrentValues.SetValues(declaration);
             AppContext.Commit(true);
             return declaration;
+        }
+
+        public void SaveAssessmentDeclaration(OBK_AssessmentDeclaration declaration)
+        {
+            AppContext.OBK_AssessmentDeclaration.Add(declaration);
+            AppContext.SaveChanges();
+        }
+
+        public OBK_AssessmentDeclaration FindDeclarationByContract(Guid contractId)
+        {
+            var model = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Contract_Id == contractId);
+            return model;
         }
 
         /// <summary>
@@ -280,7 +297,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
                     CertificateDate = DateTime.Now,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    //CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
                 };
                 isNew = true;
             }
@@ -291,8 +309,57 @@ namespace PW.Ncels.Database.Repository.OBK
                 {
                     return UpdateMain(isNew, model, fieldName, fieldValue, userId, fieldDisplay);
                 }
+                case "product":
+                {
+                    return UpdateProduct(model, recordId, fieldName, fieldValue, userId, fieldDisplay);
+                }
             }
             return null;
+        }
+
+        private SubUpdateField UpdateProduct(OBK_AssessmentDeclaration model, long? recordId, string fieldName,
+            string fieldValue, string userId, string fieldDisplay)
+        {
+            OBK_RS_Products entity = null;
+            if (recordId > 0)
+            {
+                entity = AppContext.Set<OBK_RS_Products>().FirstOrDefault(e => e.Id == recordId);
+            }
+
+            var property = entity.GetType().GetProperty(fieldName);
+            if (property != null)
+            {
+                var t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+                object safeValue;
+                if (string.IsNullOrEmpty(fieldValue))
+                {
+                    fieldValue = null;
+                }
+                if (t == typeof(Guid))
+                {
+                    safeValue = fieldValue == null ? null : Convert.ChangeType(new Guid(fieldValue), t);
+                }
+                else
+                {
+                    safeValue = fieldValue == null ? null : Convert.ChangeType(fieldValue, t);
+
+                }
+                property.SetValue(entity, safeValue, null);
+            }
+            if (entity.Id == 0)
+            {
+                AppContext.OBK_RS_Products.Add(entity);
+            }
+            AppContext.SaveChanges();
+
+            SaveHistoryField(model.Id, fieldName, fieldValue, new Guid(userId), fieldDisplay);
+            
+            var subUpdateField = new SubUpdateField();
+            subUpdateField.ModelId = model.ObjectId;
+            subUpdateField.RecordId = entity.Id;
+
+            return subUpdateField;
         }
 
         private SubUpdateField UpdateMain(bool isNew, OBK_AssessmentDeclaration model, string fieldName,
@@ -503,15 +570,9 @@ namespace PW.Ncels.Database.Repository.OBK
         {
             var context = CreateDatabaseContext(false);
             var preamble = context.OBK_AssessmentDeclaration
-                //.Include(e => e.ObkContracts)
-                //.Include(e => e)
-                //.Include(e => e.EXP_DrugOrganizations)
-                //.Include(e => e.EXP_DrugPatent)
-                ////                .Include(e => e.EXP_DrugPrice)
-                //.Include(e => e.EXP_DrugProtectionDoc)
-                //.Include(e => e.EXP_DrugType)
-                //.Include(e => e.EXP_DrugUseMethod)
-                //                .Include(e => e.EXP_DrugWrapping).
+                //.Include(e => e.)
+                //.Include(e => e.ObkRsProductses)
+                //.Include(e => e.ObkProcuntsSeries)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
             return preamble;
@@ -655,6 +716,38 @@ namespace PW.Ncels.Database.Repository.OBK
             return entity;
         }
 
+        public IQueryable<Dictionary> GetAddRequeiredDocumentCode(IQueryable<Dictionary> dicListQuery, string id)
+        {
+            var request = GetById(id);
+            var contract = GetContractById(request.Contract_Id);
+            if (contract?.OBK_RS_Products.Count >= 1)
+            {
+                foreach (var product in contract.OBK_RS_Products)
+                {
+                    foreach (var dList in dicListQuery)
+                    {
+                        if (product.RegTypeId == 1)
+                        {
+                            if (dList.Id == new Guid("462110CE-FEFD-451D-9C4C-EE05704CCFCE"))
+                            {
+                                dList.Code = "1";
+                            }
+                        }
+                        if (product.RegTypeId == 2)
+                        {
+                            if (dList.Id == new Guid("7ED9DA5A-45EC-4499-B713-2E503189DB0B"))
+                            {
+                                dList.Code = "1";
+                            }
+                        }
+                    }
+
+                }
+            }
+            var result = dicListQuery;
+            return result;
+        }
+
         #region внутренний портал
 
         /// <summary>
@@ -679,8 +772,13 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="expDocument"></param>
         public void SaveExpDocument(OBK_StageExpDocument expDocument)
         {
-            AppContext.OBK_StageExpDocument.Add(expDocument);
+            AppContext.OBK_StageExpDocument.AddOrUpdate(expDocument);
             AppContext.SaveChanges();
+        }
+
+        public OBK_StageExpDocument GetStageExpDocument(int? prodSerId)
+        {
+            return AppContext.OBK_StageExpDocument.FirstOrDefault(e => e.ProductSeriesId == prodSerId);
         }
 
         #endregion

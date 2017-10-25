@@ -61,6 +61,31 @@ namespace Ncels.Scheduler
                   )
                 .Build();
             scheduler.ScheduleJob(checkSuspensionPeriodsJob, checkSuspensionPeriodsTrigger);
+
+
+
+
+            IJobDetail diretionToPaymentJob = JobBuilder.Create<OBKDirectionToPaymentJob>().Build();
+            //ITrigger paymenTrigger = TriggerBuilder.Create()
+            //    .WithDailyTimeIntervalSchedule
+            //    (s =>
+            //        s.WithIntervalInHours(24)
+            //            .OnEveryDay()
+            //            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(3, 0))
+            //    )
+            //    .Build();
+
+
+            ITrigger trigger1 = TriggerBuilder.Create()
+                .WithIdentity("trigger1", "group1")
+                .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(30)
+                    .RepeatForever())
+                .Build();
+
+
+            scheduler.ScheduleJob(diretionToPaymentJob, trigger1);
         }
     }
 }

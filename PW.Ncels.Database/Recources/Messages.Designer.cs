@@ -1033,6 +1033,15 @@ namespace PW.Ncels.Database.Recources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to БИН.
+        /// </summary>
+        public static string Property_БИН {
+            get {
+                return ResourceManager.GetString("Property_БИН", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вакансия.
         /// </summary>
         public static string Property_Вакансия_318__00 {

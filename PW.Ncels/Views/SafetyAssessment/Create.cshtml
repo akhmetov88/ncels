@@ -7,16 +7,16 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
-        <h2>Создать заявление на проведение оценки безопасности качества</h2>
+        <h2>Создать заявку на проведение оценки безопасности качества</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="@Url.Action("Index", "Home")">Домашняя страница</a>
             </li>
             <li>
-                <a>Заявления</a>
+                <a>Заявки</a>
             </li>
             <li class="active">
-                <strong>Создать заявление</strong>
+                <strong>Создать заявку</strong>
             </li>
         </ol>
     </div>
@@ -28,7 +28,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5 id="safetyTitle">
-                        Заявление
+                        Заявка
                     </h5>
                 </div>
                 <div class="ibox-content ibox-heading">
@@ -37,8 +37,8 @@
                         <button type="button" class="btn btn-default btn-sm" id="HideInform" value="show">
                             <span class="glyphicon glyphicon-check" aria-hidden="true" id="HideInformCheck"></span> <span id="HideInformText">Скрыть примечание</span>
                         </button>
-                        <button class="btn btn-primary btn-sm" type="button" security bp-type="project" bp-action="edit" id="checkBtn"><i class="fa fa-check"></i> Проверить</button>
-                        <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" id="viewBtn" @*onclick="location.href = '@Url.Action("ExportFilePdf", new { id = Model.Id })'"*@><i class="fa fa-eye"></i> Просмотр </button>
+                        <button class="btn btn-primary btn-sm" type="button" security bp-type="project" bp-action="edit" id="checkBtn"><i class="fa fa-check"></i> Проверить </button>
+                        <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" id="viewBtn"><i class="fa fa-eye"></i> Просмотр </button>
                         <div style="float: right">
                             <button class="btn btn-success btn-sm" type="button" security bp-type="project" style="background-color: #47a447" bp-action="edit" id="signBtn" ><i class="fa fa-send"></i> Подписать и отправить</button>
                             <button class="btn btn-warning btn-sm" type="button" security bp-type="project" bp-action="edit" id="notSignBtn"><i class="fa fa-send-o"></i> Отправить без подписи</button>
@@ -54,11 +54,42 @@
 </div>
 <script src="~/Scripts/js/custom/common.js"></script>
 <script src="~/Scripts/js/custom/spin.js"></script>
+<script src="~/Scripts/photon/crypto/obk/obk_eds.js"></script>
 <script type="text/javascript">
     
-    $(document).ready(function () {
+    function doSign() {
+        $.blockUI({
+            message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Идет подпись отчета...</h1>',
+            css: { opacity: 1 }
+        });
+        signXmlCall(function () {
+                var model = { preambleId: $("#modelId").val(), xmlAuditForm: $("#Certificate").val() };
+                $.ajax({
+                    url: '/SafetyAssessment/SignForm',
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: "application/json",
+                    async: false,
+                    data: JSON.stringify(model),
+                    success: function (data) {
 
-        var modelId = $("#modelId").val();
+                        if (data.success) {
+                            window.location.href = '@Url.Action("RegisterSafetyAssessmentList", "SafetyAssessment")';
+                        }
+                        else {
+                            $("#formCertValidation").show();
+                        }
+                        $.unblockUI();
+                    },
+                    error: function (data) {
+                        $.unblockUI();
+                    }
+                });
+            },
+            $("#hfXmlToSign").val());
+    }
+    
+    $(document).ready(function () {
 
         $("#viewBtn").click(function() {
             $.ajax({
@@ -66,7 +97,8 @@
                 url: '@Url.Action("ExportFileTemplate", new { id = Model.Id })',
                 dataType: 'html',
                 cache: false,
-                success: function(data) {
+                success: function (data) {
+                    debugger;
                     showReport(data);
                 },
                 error: function(data) {
@@ -81,6 +113,7 @@
                 return;
             }
             var id = $("#modelId").val();
+            debugger;
             startSign('/SafetyAssessment/SignOperation', id);
         });
         $("#notSignBtn").click(function () {
@@ -109,6 +142,15 @@
             };
             showConfirmation("Подтверждение", "Вы уверены что хотите отправить без подписи?", success, cancel);
         });
+
+        $("#checkBtn").click(function() {
+            if (!checkDeclaraionValidation()) {
+                alert("Заполните обязательные поля");
+            } else {
+                alert("Заявка успешно заполнена");
+            };
+
+        });
     });
 </script>
 
@@ -119,20 +161,23 @@
     function checkDeclaraionValidation() {
         var validAttach = checkAttachFile();
         var validDeclaration = checkWrapping();
-        if (!validDeclaration) {
+        var validProducts = checkProductWrapping();
+        if (!validDeclaration || !validProducts) {
             $("#OBKSaDeclarationBtn").css({ 'color': '#a94442', 'background-color': '#f2dede' });
         } else {
             $("#OBKSaDeclarationBtn").css({ 'color': '#555', 'background-color': '#ffffff' });
         }
-        valid = validDeclaration && validAttach;
+        valid = validDeclaration && validAttach && validProducts;
         return valid;
     }
+
     function checkValueFromIsNull(value) {
         if (value == null || value.length === 0) {
             return true;
         }
         return false;
     }
+
     function setMarkValidation(control, value) {
         if (checkValueFromIsNull(value)) {
             $(control).addClass("pw-select-invalid");
@@ -143,6 +188,7 @@
         }
         return true;
     }
+
     function checkWrapping() {
         var validFile = true;
         var contract = $("#Contract_Id").val();
@@ -177,27 +223,39 @@
             if (cerCountry === "") {
                 $("#CertificateCountryLabelId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateCountryLabelId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateCountryLabelId").css({ 'color': '#555' });
+            }
             if (cerOrgan === "") {
                 $("#CertificateOrganizationLabelId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateOrganizationLabelId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateOrganizationLabelId").css({ 'color': '#555' });
+            }
             if (certNumber === "") {
                 $("#CertificateId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateId").css({ 'color': '#555' });
+            }
             if (certType === "") {
                 $("#CertificateTypeLableId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateTypeLableId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateTypeLableId").css({ 'color': '#555' });
+            }
             if (certStartDate === "") {
                 $("#CertificateStartDateId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateStartDateId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateStartDateId").css({ 'color': '#555' });
+            }
             if (certEndDate === "") {
                 $("#CertificateEndDateId").css({ 'color': '#a94442' });
                 validFile = false;
-            } else { $("#CertificateEndDateId").css({ 'color': '#555' }); }
+            } else {
+                $("#CertificateEndDateId").css({ 'color': '#555' });
+            }
         } else {
             $("#CertificateCountryLabelId").css({ 'color': '#555' });
             $("#CertificateOrganizationLabelId").css({ 'color': '#555' });
@@ -247,12 +305,49 @@
         }
         return validFile;
     }
+
+    function checkProductWrapping() {
+        debugger;
+        var validFile = true;
+        var data = $('#tableProducts').DataTable().data();
+        data.each(function(val) {
+            if (val.Price == null || val.Price === "") {
+                validFile = false;
+                $("#PriceLabel").css({ 'color': '#a94442' });
+            } else {
+                $("#PriceLabel").css({ 'color': '#555' });
+            }
+            if (val.CurrencyId == null || val.CurrencyId === "") {
+                validFile = false;
+                $("#CurrencyLabel").css({ 'color': '#a94442' });
+            } else {
+                $("#CurrencyLabel").css({ 'color': '#555' });
+            }
+        });
+        return validFile;
+    }
+
     function checkAttachFile() {
         var validFile = true;
         $('.file-validation').each(function () {
             var ct = $(this).attr('countFile');
             var attcode = $(this).attr('attcode');
+            var attId = $(this).attr('attId');
+            var dataq = $("#tableProducts").DataTable().data();
             var count = parseInt(ct, 10) || 0;
+
+            if (count === 0 && attcode === '@CodeConstManager.ATTACH_OPTIONAL_OBK_FILE_CODE' && (attId === '462110ce-fefd-451d-9c4c-ee05704ccfce' || attId === '7ed9da5a-45ec-4499-b713-2e503189db0b')) {
+                debugger;
+                dataq.each(function (val) {
+                    debugger;
+                    if (val.RegTypeId === 1 && attId === '462110ce-fefd-451d-9c4c-ee05704ccfce') {
+                        attcode = '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE';
+                    } if (val.RegTypeId === 2 && attId === '7ed9da5a-45ec-4499-b713-2e503189db0b') {
+                        attcode = '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE';
+                    }
+                });
+            }
+
             if (count === 0 && attcode === '@CodeConstManager.ATTACH_REQUIRED_OBK_FILE_CODE') {
                 $(this).text("Необходимо вложить файлы");
                 validFile = false;

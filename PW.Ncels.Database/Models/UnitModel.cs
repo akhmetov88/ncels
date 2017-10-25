@@ -25,6 +25,7 @@ namespace PW.Ncels.Database.Models
 			NameFull = LocalizationHelper.GetString(unit.Name, unit.NameKz);
 			PositionState = unit.PositionState;
 			Email = unit.Email;
+		    Bin = unit.Bin;
 			ParentId = unit.ParentId;
 			UnitTypeDictionaryId = DictionaryHelper.GetItems(unit.UnitTypeDictionaryId, unit.UnitTypeDictionaryValue);
 			BossId = DictionaryHelper.GetItems(unit.BossId, unit.BossValue);
@@ -49,6 +50,7 @@ namespace PW.Ncels.Database.Models
 			unit.PositionState = PositionState;
 			unit.Email = Email;
 			unit.Rank = Rank;
+		    unit.Bin = Bin;
 
 			unit.ParentId = ParentId;
 			unit.UnitTypeDictionaryId = DictionaryHelper.GetItemsId(UnitTypeDictionaryId);
@@ -80,8 +82,10 @@ namespace PW.Ncels.Database.Models
 		public string UnitTypeDictionaryValue { get; set; }
 		public List<Item> BossId { get; set; }
 		public int Rank { get; set; }
-	
-		public int PositionState { get; set; }
+        public string Bin { get; set; }
+
+
+	    public int PositionState { get; set; }
 		public int Type { get; set; }
 		public string Email { get; set; }
 
