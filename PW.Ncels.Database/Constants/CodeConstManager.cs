@@ -482,6 +482,8 @@ namespace PW.Ncels.Database.Constants
         /// </summary>
         public const int STATUS_OBK_PAYMENT_EXPIRED = 12;
 
+        public const int STATUS_OBK_INVOCE_GENERATING = 13;
+
         #endregion
 
         #region Настройка отображения типов ОБК
