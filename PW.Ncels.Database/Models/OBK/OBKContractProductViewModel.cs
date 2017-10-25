@@ -22,6 +22,15 @@ namespace PW.Ncels.Database.Models.OBK
         public string DrugFormBoxCount { get; set; }
         public string DrugFormFullName { get; set; }
         public string DrugFormFullNameKz { get; set; }
+
+        public int RegisterId { get; set; }
+        public string RegNumber { get; set; }
+        public string RegNumberKz { get; set; }
+        public DateTime RegDate { get; set; }
+        public string NdName { get; set; }
+        public string NdNumber { get; set; }
+        public DateTime? ExpirationDate { get; set; }
+
         public List<OBKContractSeriesViewModel> Series { get; set; }
         public List<OBKContractMtPartViewModel> MtParts { get; set; }
     }

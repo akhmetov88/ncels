@@ -10,6 +10,7 @@ namespace PW.Ncels.Database.Models.OBK
     {
         public int ProductId;
         public string RegNumber;
+        public string RegNumberKz;
         public string Name;
         public string NameKz;
         public int RegTypeId;
@@ -25,5 +26,8 @@ namespace PW.Ncels.Database.Models.OBK
         public decimal? Price;
         public string Currency;
         public int? DegreeRiskId;
+        public string NdName;
+        public string NdNumber;
+        public int RegisterId;
     }
 }

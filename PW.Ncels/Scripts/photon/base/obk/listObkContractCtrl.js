@@ -90,6 +90,13 @@
             $scope.product.KpvedCode = row.entity.KpvedCode;
             $scope.product.Price = row.entity.Price;
             $scope.product.Currency = row.entity.Currency;
+            $scope.product.RegisterId = row.entity.RegisterId;
+            $scope.product.RegNumber = row.entity.RegNumber;
+            $scope.product.RegNumberKz = row.entity.RegNumberKz;
+            $scope.product.RegDate = row.entity.RegDate;
+            $scope.product.ExpirationDate = row.entity.ExpireDate;
+            $scope.product.NdName = row.entity.NdName;
+            $scope.product.NdNumber = row.entity.NdNumber;
 
             $scope.selectedMtParts.length = 0;
 
@@ -315,6 +322,7 @@
     $scope.gridOptions.columnDefs = [
     { name: 'ProductId', displayName: 'ProductId', visible: false },
     { name: 'RegNumber', displayName: 'Рег. номер' },
+    { name: 'RegNumberKz', displayName: 'Рег. номер - KZ', visible: false },
     { name: 'RegTypeName', displayName: 'Тип' },
     { name: 'RegTypeId', displayName: 'Тип - ИД', visible: false },
     { name: 'Name', displayName: 'Торговое название' },
@@ -329,7 +337,10 @@
     { name: 'KpvedCode', displayName: 'КП ВЭД', visible: false },
     { name: 'Price', displayName: 'Цена', visible: false },
     { name: 'Currency', displayName: 'Валюта', visible: false },
-    { name: 'DegreeRiskId', displayName: 'Класс ИМН', visible: false }
+    { name: 'DegreeRiskId', displayName: 'Класс ИМН', visible: false },
+    { name: 'NdName', displayName: 'NdName', visible: false },
+    { name: 'NdNumber', displayName: 'NdNumber', visible: false },
+    { name: 'RegisterId', displayName: 'RegisterId', visible: false }
     ];
 
     // gridSeries
@@ -543,6 +554,14 @@
             $scope.product.CountryNameKz = selectedObj.CountryNameKz;
             $scope.product.Price = selectedObj.Price;
             $scope.product.Currency = selectedObj.Currency;
+            $scope.product.RegisterId = selectedObj.RegisterId;
+            $scope.product.RegNumber = selectedObj.RegNumber;
+            $scope.product.RegNumberKz = selectedObj.RegNumberKz;
+            $scope.product.RegDate = selectedObj.RegDate;
+            $scope.product.ExpirationDate = selectedObj.ExpirationDate;
+            $scope.product.NdName = selectedObj.NdName;
+            $scope.product.NdNumber = selectedObj.NdNumber;
+
             $scope.product.DrugFormId = selectedObj.DrugFormId;
             $scope.product.DrugFormRegisterId = selectedObj.DrugFormRegisterId;
             $scope.product.DrugFormBoxCount = selectedObj.DrugFormBoxCount;
@@ -620,6 +639,13 @@
             $scope.product.CountryNameKz = selectedObj.CountryNameKz;
             $scope.product.Price = selectedObj.Price;
             $scope.product.Currency = selectedObj.Currency;
+            $scope.product.RegisterId = selectedObj.RegisterId;
+            $scope.product.RegNumber = selectedObj.RegNumber;
+            $scope.product.RegNumberKz = selectedObj.RegNumberKz;
+            $scope.product.RegDate = selectedObj.RegDate;
+            $scope.product.ExpirationDate = selectedObj.ExpirationDate;
+            $scope.product.NdName = selectedObj.NdName;
+            $scope.product.NdNumber = selectedObj.NdNumber;
             $scope.product.DrugFormId = selectedObj.DrugFormId;
             $scope.product.DrugFormRegisterId = selectedObj.DrugFormRegisterId;
             $scope.product.DrugFormBoxCount = selectedObj.DrugFormBoxCount;
@@ -714,6 +740,13 @@
                                     CountryNameKz: $scope.product.CountryNameKz,
                                     Price: $scope.product.Price,
                                     Currency: $scope.product.Currency,
+                                    RegisterId: $scope.product.RegisterId,
+                                    RegNumber: $scope.product.RegNumber,
+                                    RegNumberKz: $scope.product.RegNumberKz,
+                                    RegDate: $scope.product.RegDate,
+                                    ExpirationDate: $scope.product.ExpirationDate,
+                                    NdName: $scope.product.NdName,
+                                    NdNumber: $scope.product.NdNumber,
                                     DrugFormBoxCount: $scope.product.DrugFormBoxCount,
                                     DrugFormFullName: $scope.product.DrugFormFullName,
                                     DrugFormFullNameKz: $scope.product.DrugFormFullNameKz,
@@ -766,6 +799,13 @@
             selectedObj.CountryNameKz = $scope.product.CountryNameKz;
             selectedObj.Price = $scope.product.Price;
             selectedObj.Currency = $scope.product.Currency;
+            selectedObj.RegisterId = $scope.product.RegisterId;
+            selectedObj.RegNumber = $scope.product.RegNumber;
+            selectedObj.RegNumberKz = $scope.product.RegNumberKz;
+            selectedObj.RegDate = $scope.product.RegDate;
+            selectedObj.ExpirationDate = $scope.product.ExpirationDate;
+            selectedObj.NdName = $scope.product.NdName;
+            selectedObj.NdNumber = $scope.product.NdNumber;
             selectedObj.Series.length = 0;
             selectedObj.Series.push.apply(selectedObj.Series, $scope.productSeries);
 
@@ -921,6 +961,14 @@
         $scope.product.KpvedCode = null;
         $scope.product.Price = null;
         $scope.product.Currency = null;
+        $scope.product.RegisterId = null;
+        $scope.product.RegNumber = null;
+        $scope.product.RegNumberKz = null;
+        $scope.product.RegDate = null;
+        $scope.product.ExpirationDate = null;
+        $scope.product.NdName = null;
+        $scope.product.NdNumber = null;
+
         $scope.clearDrugFormComponents();
 
         $scope.object.seriesValue = null;

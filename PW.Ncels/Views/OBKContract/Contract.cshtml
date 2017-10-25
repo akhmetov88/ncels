@@ -1014,6 +1014,13 @@
                                                                                     <input id="ProductTypeId" name="ProductTypeId" type="hidden" ng-model="product.RegTypeId" />
                                                                                     <input id="DegreeRiskId" name="DegreeRiskId" type="hidden" ng-model="product.DegreeRiskId" />
                                                                                     @*<input id="NameRu" name="NameRu" type="text" class="form-control edit-control" text="" ng-model="product.NameRu" readonly>*@
+                                                                                    <input id="ProductRegisterId" name="ProductRegisterId" type="hidden" ng-model="product.RegisterId" />
+                                                                                    <input id="ProductRegNumber" name="ProductRegNumber" type="hidden" ng-model="product.RegNumber" />
+                                                                                    <input id="ProductRegNumberKz" name="ProductRegNumberKz" type="hidden" ng-model="product.RegNumberKz" />
+                                                                                    <input id="ProductRegDate" name="ProductRegDate" type="hidden" ng-model="product.RegDate" />
+                                                                                    <input id="ProductExpirationDate" name="ProductExpirationDate" type="hidden" ng-model="product.ExpirationDate" />
+                                                                                    <input id="ProductNdName" name="ProductNdName" type="hidden" ng-model="product.NdName" />
+                                                                                    <input id="ProductNdNumber" name="ProductNdNumber" type="hidden" ng-model="product.NdNumber" />
                                                                                     <textarea id="NameRu" name="NameRu" class="form-control edit-control" ng-model="product.NameRu" readonly></textarea>
                                                                                 </div>
                                                                             </div>
@@ -1453,10 +1460,10 @@
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMpde && object.Status != 8">
+                                                    <div ng-show="object.viewMpde && object.Status != 8 && object.Status != 13">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMpde && object.Status == 8">
+                                                    <div ng-show="object.viewMpde && (object.Status == 8 || object.Status == 13)">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_FILE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
@@ -1465,10 +1472,10 @@
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMpde && object.Status != 8">
+                                                    <div ng-show="object.viewMpde && object.Status != 8 && object.Status != 13">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMpde && object.Status == 8">
+                                                    <div ng-show="object.viewMpde && (object.Status == 8 || object.Status == 13)">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_FILE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>

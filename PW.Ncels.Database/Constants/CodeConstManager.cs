@@ -481,7 +481,9 @@ namespace PW.Ncels.Database.Constants
         ///Время для оплаты истекло
         /// </summary>
         public const int STATUS_OBK_PAYMENT_EXPIRED = 12;
-
+        /// <summary>
+        /// На формировании счета на оплату
+        /// </summary>
         public const int STATUS_OBK_INVOCE_GENERATING = 13;
 
         #endregion

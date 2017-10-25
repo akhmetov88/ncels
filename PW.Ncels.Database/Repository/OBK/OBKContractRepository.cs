@@ -47,6 +47,8 @@ namespace PW.Ncels.Database.Repository.OBK
                                             .Where(p => p.register_id == register.id)
                                             .OrderBy(p => p.id)
                                             .FirstOrDefault()
+                         join srrdr in AppContext.sr_register_drugs on register.id equals srrdr.id into srregisterdrugsTable
+                         from srregisterdrugs in srregisterdrugsTable.DefaultIfEmpty()
                          join srrmt in AppContext.sr_register_mt on register.id equals srrmt.id into srregistermtTable
                          from srregistermt in srregistermtTable.DefaultIfEmpty()
                          join srregprod in AppContext.sr_register_producers on register.id equals srregprod.register_id into srregisterproducersTable
@@ -68,6 +70,7 @@ namespace PW.Ncels.Database.Repository.OBK
                          {
                              ProductId = register.id,
                              RegNumber = register.reg_number,
+                             RegNumberKz = register.reg_number_kz,
                              Name = register.name,
                              NameKz = register.name_kz,
                              RegTypeId = register.sr_reg_types.id,
@@ -80,7 +83,10 @@ namespace PW.Ncels.Database.Repository.OBK
                              CountryNameKz = srcountries.name_kz,
                              TnvedCode = obkProduct.tnved_code,
                              KpvedCode = obkProduct.kpved_code,
-                             DegreeRiskId = srregistermt.degree_risk_id
+                             DegreeRiskId = srregistermt.degree_risk_id,
+                             NdName = srregisterdrugs.nd_name,
+                             NdNumber = srregisterdrugs.nd_number,
+                             RegisterId = register.id
                          };
 
             if (reestr != null)
@@ -588,6 +594,13 @@ namespace PW.Ncels.Database.Repository.OBK
             productInfo.DrugFormBoxCount = product.DrugFormBoxCount;
             productInfo.DrugFormFullName = product.DrugFormFullName;
             productInfo.DrugFormFullNameKz = product.DrugFormFullNameKz;
+            productInfo.RegisterId = product.RegisterId;
+            productInfo.RegNumber = product.RegNumber;
+            productInfo.RegNumberKz = product.RegNumberKz;
+            productInfo.RegDate = product.RegDate;
+            productInfo.ExpirationDate = product.ExpirationDate;
+            productInfo.NdName = product.NdName;
+            productInfo.NdNumber = product.NdNumber;
         }
 
         public List<OBKContractServiceViewModel> GetContractPrices(Guid contractId)

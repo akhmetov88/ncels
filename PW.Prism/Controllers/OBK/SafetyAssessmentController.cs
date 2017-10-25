@@ -199,6 +199,12 @@ namespace PW.Prism.Controllers.OBK
                 prod.CurrencyId = product.CurrencyId;
                 prod.Price = product.Price;
                 prod.RegTypeId = product.RegTypeId;
+                prod.RegNumber = product.RegNumber;
+                prod.RegNumberKz = product.RegNumberKz;
+                prod.RegDate = product.RegDate;
+                prod.ExpirationDate = product.ExpirationDate;
+                prod.NdName = product.NdName;
+                prod.NdNumber = product.NdNumber;
                 foreach (var productSeries in product.OBK_Procunts_Series)
                 {
                     var prodSeries = new OBK_Procunts_Series();

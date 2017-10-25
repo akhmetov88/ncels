@@ -64,6 +64,40 @@
                     <div class="row" style="margin-bottom: 10px">
                         <div class="col-sm-12">
                             <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="input-group">
+                                            <label>№ рег. удостоверения</label>
+                                            <input id="RegNumber" name="RegNumber" type="text" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="input-group">
+                                            <label>Дата регистрации</label>
+                                            <input id="RegDate" name="RegDate" type="text" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="input-group">
+                                            <label>Дата истечения</label>
+                                            <input id="ExpirationDate" name="ExpirationDate" type="text" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="input-group">
+                                            <label>Тип НД</label>
+                                            <input id="NdName" name="NdName" type="text" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="input-group">
+                                            <label>Номер НД</label>
+                                            <input id="NdNumber" name="NdNumber" type="text" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-lg-6">
                                     <div class="input-group">
                                         <label>Наименование*</label>
@@ -227,10 +261,10 @@
                                     {
                                         @: ,
                                         @: {
-                                                        @:"render": function(data, type, full, meta) {
-                                                                        @:        return '<span class="input-group-addon"><a productId="' + full.Id + '" class="obkproductdialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>';
-                                                                        @:    }
-                                                            @: }
+                                                                @:"render": function(data, type, full, meta) {
+                                                                                        @:        return '<span class="input-group-addon"><a productId="' + full.Id + '" class="obkproductdialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>';
+                                                                                        @:    }
+                                                                    @: }
                                     }
                                  }
                             ]
@@ -402,6 +436,18 @@
     });
 
     function rowCallback(row) {
+        function dateformatHtml(data) {
+            if (data == null)
+                return '';
+            var d = new Date(parseInt(data.slice(6, -2)));
+
+            var yyyy = d.getFullYear();
+            var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+            var dd = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+
+            return dd + "." + mm + "." + yyyy;
+        }
+
         $('td', row).unbind('click');
         $('td', row).bind('click', function () {
             var tab = $(this.parentNode.parentNode.parentNode).DataTable();
@@ -414,6 +460,11 @@
             else
                 $("#mtPartsId").hide();
 
+            $("#RegNumber").val(mass.RegNumber);
+            $("#RegDate").val(dateformatHtml(mass.RegDate));
+            $("#ExpirationDate").val(dateformatHtml(mass.ExpirationDate));
+            $("#NdName").val(mass.NdName);
+            $("#NdNumber").val(mass.NdNumber);
             $("#NameRu").val(mass.NameRu);
             $("#NameKz").val(mass.NameKz);
             $("#ProducerNameRu").val(mass.ProducerNameRu);
@@ -442,10 +493,10 @@
                         {
                             @: ,
                             @: {
-                                        @:"render": function(data, type, full, meta) {
-                                            @:        return '<span class="input-group-addon"><a productSerieId="' + full.Id + '" class="obkproductseriedialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>';
-                                            @:    }
-                                    @: }
+                                                @:"render": function(data, type, full, meta) {
+                                                            @:        return '<span class="input-group-addon"><a productSerieId="' + full.Id + '" class="obkproductseriedialog" href="#"><i class="glyphicon glyphicon-info-sign"></i></a></span>';
+                                                            @:    }
+                                            @: }
                         }
                     }
                 ]
