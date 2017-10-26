@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -2127,6 +2128,57 @@ namespace PW.Ncels.Database.Repository.OBK
                 }).ToList();
 
             return list;
+        }
+
+        public List<OBK_Instruction> GetInstructions(int registerId)
+        {
+            List<OBK_Instruction> list = new List<OBK_Instruction>();
+            var queryString = "select * from register_instructions inner join instruction_types on instruction_types.id = register_instructions.instruction_type_id where register_id = @register_id";
+            var conString = GetConnectionString();
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand(queryString, con);
+                command.Parameters.AddWithValue("@register_id", registerId);
+                con.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    var id = (int)reader["id"];
+                    var name = reader["name"] != null ? reader["name"].ToString() : null;
+                    var name_kz = reader["name_kz"] != null ? reader["name_kz"].ToString() : null;
+                    var instruction = new OBK_Instruction { Id = id, Name = name, NameKz = name_kz };
+                    list.Add(instruction);
+                }
+                reader.Close();
+            }
+            return list;
+        }
+
+        public byte[] GetInstructionFile(int instructionid)
+        {
+            byte[] fileBytes = null;
+            var conString = GetConnectionString();
+            var queryString = "select * from register_instructions_files where id = @instructionid";
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand(queryString, con);
+                command.Parameters.AddWithValue("@instructionid", instructionid);
+                con.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    fileBytes = reader["file_rus"] != null ? (byte[])reader["file_rus"] : null;
+                    break;
+                }
+                reader.Close();
+            }
+            return fileBytes;
+        }
+
+        private string GetConnectionString()
+        {
+            var conString = ConfigurationManager.ConnectionStrings["register_portal"].ToString();
+            return conString;
         }
     }
 }

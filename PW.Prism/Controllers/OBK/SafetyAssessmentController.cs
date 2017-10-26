@@ -200,6 +200,7 @@ namespace PW.Prism.Controllers.OBK
                 prod.Price = product.Price;
                 prod.RegTypeId = product.RegTypeId;
                 prod.RegNumber = product.RegNumber;
+                prod.RegisterId = product.RegisterId;
                 prod.RegNumberKz = product.RegNumberKz;
                 prod.RegDate = product.RegDate;
                 prod.ExpirationDate = product.ExpirationDate;

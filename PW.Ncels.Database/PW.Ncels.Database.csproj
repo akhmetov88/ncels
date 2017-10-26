@@ -870,9 +870,6 @@
     <Compile Include="DataModel\I1c_primary_ObkApplications.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\I1c_primary_ObkPriceListElements.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataModel\I1c_primary_PriceListElements.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1024,6 +1021,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_MtPart.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_Organization.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
@@ -1788,9 +1788,6 @@
     <Compile Include="DataModel\sync_fr_sr_use_methods_tracking.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\sysdiagram.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataModel\Task.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2089,6 +2086,7 @@
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBKPaymentSignData.cs" />
+    <Compile Include="Models\OBK\OBK_Instruction.cs" />
     <Compile Include="Models\OBK\OBK_Procunts_Series.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Nomenclature.cs" />

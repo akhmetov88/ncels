@@ -927,5 +927,19 @@ namespace PW.Prism.Controllers.OBKContract
             var query = obkRepo.GetHistory(contractId);
             return Json(query.ToDataSourceResult(request));
         }
+
+        [HttpPost]
+        public ActionResult GetInstuctions(int registerId)
+        {
+            var instructions = obkRepo.GetInstructions(registerId);
+            return Json(instructions, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetInstruction(int registerId)
+        {
+            var name = "doc_" + registerId + ".zip";
+            var file = obkRepo.GetInstructionFile(registerId);
+            return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, name);
+        }
     }
 }
