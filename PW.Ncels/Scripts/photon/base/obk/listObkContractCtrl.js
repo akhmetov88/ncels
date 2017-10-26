@@ -1,4 +1,5 @@
 ﻿function obkContractForm($scope, $http, $interval, $uibModal, $window) {
+    $scope.flag = false;
     // Patterns start
     $scope.emailPattern = ".+@.+\\..+";
     //$scope.iikPattern = "/^[a-z0-9]+$/i";
@@ -1544,7 +1545,8 @@
         $scope.clearContactData();
     }
 
-    $scope.editDeclarant = function () {
+    $scope.editDeclarant = function ($event) {
+        
         if ($scope.object.Id) {
             $http({
                 url: '/OBKContract/ContractDeclarantSave',
@@ -1556,10 +1558,62 @@
                 }
                 else {
                     if (response.IsResident) {
-                        alert("Заявитель с указанным ИИН/БИН уже существует!");
+                        var message = "Заявитель с указанным ИИН/БИН уже существует!";
+                        var title = "Сообщение";
+
+                        if ($scope.flag == true) {
+                            return;
+                        }
+
+                        $scope.flag = true;
+                        var title = "Сообщение";
+                        $('<div></div>').html(message).dialog({
+                            title: title,
+                            resizable: false,
+                            modal: true,
+                            buttons: {
+                                'Ok': function () {
+                                    $(this).dialog('close');
+                                    $scope.flag = false;
+                                }
+                            },
+                            close: function () {
+                                $scope.flag = false;
+                            },
+                            dialogClass: 'no-close alert-dialog'
+                        });
                     }
                     else {
-                        alert("Заявитель с указанной страной и наименованием уже существует!");
+                        var message = "Заявитель с указанной страной и наименованием уже существует!";
+                       
+                        //if ($event) {
+                        //    message = "$event.target = " + $event.target.id;
+                        //}
+                        //else {
+                        //    message = "$event is undefined";
+                        //}
+                       
+                        if ($scope.flag == true) {
+                            return;
+                        }
+
+                        $scope.flag = true;
+                        var title = "Сообщение";
+                        $('<div></div>').html(message).dialog({
+                            title: title,
+                            resizable: false,
+                            modal: true,
+                            buttons: {
+                                'Ok': function () {
+                                    $(this).dialog('close');
+                                    $scope.flag = false;
+                                }
+                            },
+                            close: function () {
+                                $scope.flag = false;
+                            },
+                            dialogClass: 'no-close alert-dialog'
+                        });
                     }
                 }
             });
@@ -1709,7 +1763,7 @@
         }, 500, 10);
     }
 
-    $scope.viewInvoicePayment = function(id) {
+    $scope.viewInvoicePayment = function (id) {
         debugger;
         var modalInstance = $uibModal.open({
             templateUrl: '/OBKContract/ContractTemplate?Id=' + id + "&Url=" + "GetPaymentTemplatePdf",

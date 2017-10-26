@@ -72,6 +72,14 @@
         white-space: normal !important;
     }
 
+    .alert-dialog.ui-dialog .ui-dialog-titlebar-close {
+        display: none;
+    }
+
+    .alert-dialog.ui-dialog .ui-dialog-buttonpane button {
+        background-color: #ededed;
+        color: #2b2b2b;
+    }
 </style>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
@@ -309,7 +317,7 @@
                                                         <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                             <label>Наименование на русском языке *</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="declarantNameRu" ng-model="declarant.NameRu" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameRu" required ng-disabled="!enableCompanyData || object.viewMpde" ng-blur="editDeclarant();">
+                                                                <input id="declarantNameRu" ng-model="declarant.NameRu" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameRu" required ng-disabled="!enableCompanyData || object.viewMpde" ng-blur="editDeclarant($event);">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
