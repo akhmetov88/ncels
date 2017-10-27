@@ -9,7 +9,7 @@
     $scope.bankBikMinLength = 8;
     $scope.bankBikMaxLength = 11;
     //$scope.phonePattern = "/^[0-9 ()+-]+$/";
-    $scope.phonePattern = "[0-9 ()+-]+";
+    $scope.phonePattern = "[0-9 ()+,]+";
     //$scope.iinPattern = "/^[0-9]+$/";
     $scope.iinPattern = "[0-9]+";
     $scope.iinMinLength = 12;
@@ -1546,7 +1546,7 @@
     }
 
     $scope.editDeclarant = function ($event) {
-        
+
         if ($scope.object.Id) {
             $http({
                 url: '/OBKContract/ContractDeclarantSave',
@@ -1585,14 +1585,14 @@
                     }
                     else {
                         var message = "Заявитель с указанной страной и наименованием уже существует!";
-                       
+
                         //if ($event) {
                         //    message = "$event.target = " + $event.target.id;
                         //}
                         //else {
                         //    message = "$event is undefined";
                         //}
-                       
+
                         if ($scope.flag == true) {
                             return;
                         }
@@ -1770,6 +1770,90 @@
             controller: ModalRegisterInstanceCtrl
         });
     };
+
+    $scope.validatePhone = function () {
+        if (!$scope.contractCreateForm.Phone.$valid && $scope.object.Phone && $scope.object.Phone.length > 0) {
+            var message = "Поле должно содержать числовое значение и знаки \"+\", \",\", \"(\", \")\"";
+
+            if ($scope.flag == true) {
+                return;
+            }
+
+            $scope.flag = true;
+            var title = "Предупреждение";
+            $('<div></div>').html(message).dialog({
+                title: title,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    'Ok': function () {
+                        $(this).dialog('close');
+                        $scope.flag = false;
+                    }
+                },
+                close: function () {
+                    $scope.flag = false;
+                },
+                dialogClass: 'no-close alert-dialog'
+            });
+        }
+    }
+
+    $scope.validateBik = function () {
+        if (!$scope.contractCreateForm.BankBik.$valid && $scope.object.BankBik && $scope.object.BankBik.length > 0) {
+            var message = "Поле должно содержать только латинские буквы и цифры. Длина поля должна быть от 8 до 11 символов";
+
+            if ($scope.flag == true) {
+                return;
+            }
+
+            $scope.flag = true;
+            var title = "Предупреждение";
+            $('<div></div>').html(message).dialog({
+                title: title,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    'Ok': function () {
+                        $(this).dialog('close');
+                        $scope.flag = false;
+                    }
+                },
+                close: function () {
+                    $scope.flag = false;
+                },
+                dialogClass: 'no-close alert-dialog'
+            });
+        }
+    }
+
+    $scope.validateIik = function () {
+        if (!$scope.contractCreateForm.BankIik.$valid && $scope.object.BankIik && $scope.object.BankIik.length > 0) {
+            var message = "Поле должно содержать только латинские буквы и цифры";
+
+            if ($scope.flag == true) {
+                return;
+            }
+
+            $scope.flag = true;
+            var title = "Предупреждение";
+            $('<div></div>').html(message).dialog({
+                title: title,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    'Ok': function () {
+                        $(this).dialog('close');
+                        $scope.flag = false;
+                    }
+                },
+                close: function () {
+                    $scope.flag = false;
+                },
+                dialogClass: 'no-close alert-dialog'
+            });
+        }
+    }
 }
 
 function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {

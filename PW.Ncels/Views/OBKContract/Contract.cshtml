@@ -392,7 +392,7 @@
                                                         <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                             <label>Номер телефона * </label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="Phone" ng-model="object.Phone" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="Phone" ng-disabled="object.viewMpde" required ng-blur="editProject();" ng-pattern="phonePattern">
+                                                                <input id="Phone" ng-model="object.Phone" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="Phone" ng-disabled="object.viewMpde" required ng-blur="validatePhone(); editProject();" ng-pattern="phonePattern" ng-model-options="{ allowInvalid: true}">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -725,7 +725,7 @@
                                                         <div class="form-group">
                                                             <label>ИИК (р/с) *</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="BankIik" ng-model="object.BankIik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankIik" ng-disabled="object.viewMpde" ng-pattern="iikPattern" required ng-blur="editProject();">
+                                                                <input id="BankIik" ng-model="object.BankIik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankIik" ng-disabled="object.viewMpde" ng-pattern="iikPattern" required ng-blur="validateIik(); editProject();" ng-model-options="{ allowInvalid: true}">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -738,7 +738,7 @@
                                                         <div class="form-group">
                                                             <label>БИК *</label>
                                                             <div ng-class="{'input-group': showComments}">
-                                                                <input id="BankBik" ng-model="object.BankBik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankBik" ng-disabled="object.viewMpde" required ng-blur="editProject();" ng-pattern="bankBikPattern" ng-minlength="bankBikMinLength" ng-maxlength="bankBikMaxLength">
+                                                                <input id="BankBik" ng-model="object.BankBik" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="BankBik" ng-disabled="object.viewMpde" required ng-blur="validateBik(); editProject();" ng-pattern="bankBikPattern" ng-minlength="bankBikMinLength" ng-maxlength="bankBikMaxLength" ng-model-options="{ allowInvalid: true}">
                                                                 <span class="input-group-addon" ng-show="showComments">
                                                                     <a class="obkcontractdialog" href="#">
                                                                         <i class="glyphicon glyphicon-info-sign"></i>
