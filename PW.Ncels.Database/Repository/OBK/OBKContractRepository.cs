@@ -4,6 +4,7 @@ using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models;
 using PW.Ncels.Database.Models.OBK;
+using PW.Ncels.Database.Notifications;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Dictionary;
 using System;
@@ -1024,6 +1025,8 @@ namespace PW.Ncels.Database.Repository.OBK
 
                 AppContext.OBK_ContractStageExecutors.Add(stageExecutorCoz);
 
+                SendNotificationToCozBoss(contract, bossCozGuid);
+
                 if (addDigitalSign)
                 {
                     OBK_ContractStageExecutors stageSignerCoz = new OBK_ContractStageExecutors()
@@ -1064,6 +1067,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 AppContext.OBK_ContractStage.Add(obkContractStageUOBK);
 
                 AppContext.OBK_ContractStageExecutors.Add(stageExecutorUOBK);
+
+                SendNotificationToUobkBoss(contract, bossUobkGuid);
 
                 if (!addDigitalSign)
                 {
@@ -1131,6 +1136,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 AddExtHistoryInprocessing(contractId);
 
                 AppContext.SaveChanges();
+
+                SendNotificationToExecutorsFixedErrors(contract);
             }
 
             return contract.Status;
@@ -1330,6 +1337,8 @@ namespace PW.Ncels.Database.Repository.OBK
             AddHistorySentToWork(contract.Id);
 
             AppContext.SaveChanges();
+
+            SendNotificationToExecutorWork(executorId, contract);
         }
 
         public string GetContractTemplatePath(Guid contractId)
@@ -1387,11 +1396,8 @@ namespace PW.Ncels.Database.Repository.OBK
             var contractViews = AppContext.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId).ToList();
             foreach (var contractView in contractViews)
             {
-                //var stageStatusCompleted = GetStageStatusByCode(OBK_Ref_StageStatus.Completed);
                 var stage = AppContext.OBK_ContractStage.Where(x => x.Id == contractView.ContractStageId).FirstOrDefault();
                 stage.ResultId = CodeConstManager.OBK_RESULT_ID_MEETS_REQUIREMENTS;
-                //stage.StageStatusId = stageStatusCompleted.Id;
-
                 if (stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
                 {
                     CreateStageDef(contractId, stage);
@@ -1401,6 +1407,9 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             AddHistoryMeetsRequirements(contractId);
             AppContext.SaveChanges();
+
+            SendNotificationToCozExecutor(contractViews);
+
             return true;
         }
 
@@ -1411,11 +1420,8 @@ namespace PW.Ncels.Database.Repository.OBK
             var contractViews = AppContext.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId).ToList();
             foreach (var contractView in contractViews)
             {
-                //var stageStatusCompleted = GetStageStatusByCode(OBK_Ref_StageStatus.Completed);
                 var stage = AppContext.OBK_ContractStage.Where(x => x.Id == contractView.ContractStageId).FirstOrDefault();
                 stage.ResultId = CodeConstManager.OBK_RESULT_ID_DOES_NOT_MEET_REQUIREMENTS;
-                //stage.StageStatusId = stageStatusCompleted.Id;
-
                 if (stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
                 {
                     CreateStageDef(contractId, stage);
@@ -1425,6 +1431,9 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             AddHistoryDoesNotMeetRequirements(contractId);
             AppContext.SaveChanges();
+
+            SendNotificationToCozExecutor(contractViews);
+
             return true;
         }
 
@@ -1461,6 +1470,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 AppContext.OBK_ContractStage.Add(stageDef);
 
                 AppContext.OBK_ContractStageExecutors.Add(stageExecutor);
+
+                SendNotificationToDefExecutorNew(contractId, bossDefGuid);
             }
             else
             {
@@ -1483,6 +1494,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 };
 
                 AppContext.OBK_ContractStageExecutors.Add(stageExecutor);
+
+                SendNotificationToDefExecutorFixedErrors(contractId, bossDefGuid);
             }
         }
 
@@ -1503,6 +1516,8 @@ namespace PW.Ncels.Database.Repository.OBK
             AddExtHistoryOncorrection(contractId);
 
             AppContext.SaveChanges();
+
+            SendNotificationToApplicantReturned(contract);
 
             return true;
         }
@@ -1543,6 +1558,15 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             AddHistoryApproved(contractId);
             AppContext.SaveChanges();
+            SendNotificationToCozExecutorApproved(contractId);
+            if (digitalSign == null)
+            {
+                SendNotificationToApplicantApproved(contractId);
+            }
+            else
+            {
+                SendNotificationToSignerApproved(contractId);
+            }
             return true;
         }
 
@@ -1624,6 +1648,8 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             AddHistoryRegistered(contractId);
             AppContext.SaveChanges();
+            SendNotificationToApplicantRegistered(contract);
+            SendNotificationToAccountantRegistered(contract);
             return contract.Number;
         }
 
@@ -1772,6 +1798,7 @@ namespace PW.Ncels.Database.Repository.OBK
             AddHistoryAttached(contractId);
             AddExtHistoryActive(contractId);
             AppContext.SaveChanges();
+            SendNotificationToApplicantUploaded(contract);
             return true;
         }
 
@@ -1909,6 +1936,9 @@ namespace PW.Ncels.Database.Repository.OBK
             }
             AddHistorySigned(contractId);
             AppContext.SaveChanges();
+
+            SendNotificationToCozExecutorSigned(contractId);
+
             return true;
         }
 
@@ -2180,5 +2210,238 @@ namespace PW.Ncels.Database.Repository.OBK
             var conString = ConfigurationManager.ConnectionStrings["register_portal"].ToString();
             return conString;
         }
+
+        #region Notifications
+        private void SendNotificationToUobkBoss(OBK_Contract contract, Guid bossUobkGuid)
+        {
+            string organizationForm = "", orgName = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            orgName = contract.OBK_Declarant?.NameRu;
+            var message = string.Format("Поступил новый договор от {0} \"{1}\"", organizationForm, orgName);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, bossUobkGuid);
+        }
+
+        private void SendNotificationToCozBoss(OBK_Contract contract, Guid bossCozGuid)
+        {
+            string organizationForm = "", orgName = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            orgName = contract.OBK_Declarant?.NameRu;
+            var message = string.Format("Поступил новый договор от {0} \"{1}\"", organizationForm, orgName);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, bossCozGuid);
+        }
+
+        private void SendNotificationToExecutorWork(Guid executorId, OBK_Contract contract)
+        {
+            string organizationForm = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            var orgName = contract.OBK_Declarant?.NameRu;
+            var message = string.Format("Поступил новый договор от {0} \"{1}\"", organizationForm, orgName);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, executorId);
+        }
+
+        private void SendNotificationToDefExecutorNew(Guid contractId, Guid bossDefGuid)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            string organizationForm = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            var orgName = contract.OBK_Declarant?.NameRu;
+
+            var message = string.Format("Поступил новый договор от {0} \"{1}\"", organizationForm, orgName);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractId, bossDefGuid);
+        }
+
+        private void SendNotificationToCozExecutor(List<OBK_ContractRegisterView> contractViews)
+        {
+            foreach (var contractView in contractViews)
+            {
+                var stage = AppContext.OBK_ContractStage.Where(x => x.Id == contractView.ContractStageId).FirstOrDefault();
+                if (stage.StageId != CodeConstManager.STAGE_OBK_COZ)
+                {
+                    string nameStage = "";
+                    if (stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
+                    {
+                        nameStage = "УОБК";
+                    }
+                    else if (stage.StageId == CodeConstManager.STAGE_OBK_DEF)
+                    {
+                        nameStage = "ДЭФ";
+                    }
+
+                    var contract = AppContext.OBK_Contract.Where(x => x.Id == contractView.ContractId).FirstOrDefault();
+                    string organizationForm = "";
+                    if (contract.OBK_Declarant.OrganizationFormId != null)
+                    {
+                        var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                        organizationForm = orgForm.Name;
+                    }
+                    var orgName = contract.OBK_Declarant?.NameRu;
+                    var stageCoz = AppContext.OBK_ContractStage.Where(x => x.ContractId == stage.ContractId && x.StageId == CodeConstManager.STAGE_OBK_COZ).FirstOrDefault();
+                    var stageCozExecutor = AppContext.OBK_ContractStageExecutors.Where(x => x.ContractStageId == stageCoz.Id && x.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR).FirstOrDefault();
+
+                    var message = string.Format("Договор от {0} \"{1}\" обработан специалистом {2}", organizationForm, orgName, nameStage);
+                    new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractView.ContractId, stageCozExecutor.ExecutorId);
+                }
+            }
+        }
+
+        private void SendNotificationToApplicantReturned(OBK_Contract contract)
+        {
+            string type = contract.OBK_Ref_Type.NameRu;
+            string message = string.Format("Договор с типом {0} возвращен на доработку", type);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, contract.EmployeeId.Value);
+        }
+
+        private void SendNotificationToExecutorsFixedErrors(OBK_Contract contract)
+        {
+            string organizationForm = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            var orgName = contract.OBK_Declarant?.NameRu;
+
+            var message = string.Format("Договор от {0} \"{1}\" исправлен заявителем", organizationForm, orgName);
+
+            var stages = AppContext.OBK_ContractStage.Where(x => x.ContractId == contract.Id).ToList();
+
+            foreach (var stage in stages)
+            {
+                if (stage.StageId == CodeConstManager.STAGE_OBK_COZ)
+                {
+                    foreach (var executor in stage.OBK_ContractStageExecutors.ToList())
+                    {
+                        if (executor.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR)
+                        {
+                            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, executor.ExecutorId);
+                        }
+                    }
+                }
+                else if (stage.StageId == CodeConstManager.STAGE_OBK_UOBK)
+                {
+                    foreach (var executor in stage.OBK_ContractStageExecutors.ToList())
+                    {
+                        if (executor.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR)
+                        {
+                            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, executor.ExecutorId);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SendNotificationToDefExecutorFixedErrors(Guid contractId, Guid bossDefGuid)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            string organizationForm = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            var orgName = contract.OBK_Declarant?.NameRu;
+
+            var message = string.Format("Договор от {0} \"{1}\" исправлен заявителем", organizationForm, orgName);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractId, bossDefGuid);
+        }
+
+        private void SendNotificationToCozExecutorApproved(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            string organizationForm = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            var orgName = contract.OBK_Declarant?.NameRu;
+            var message = string.Format("Договор от {0} \"{1}\" согласован Руководителем ЦОЗ", organizationForm, orgName);
+
+            var stageCoz = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId && x.StageId == CodeConstManager.STAGE_OBK_COZ).FirstOrDefault();
+            foreach (var executor in stageCoz.OBK_ContractStageExecutors)
+            {
+                if (executor.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR)
+                {
+                    new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractId, executor.ExecutorId);
+                }
+            }
+        }
+
+        private void SendNotificationToApplicantApproved(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            string type = contract.OBK_Ref_Type.NameRu;
+            var message = string.Format("Договор с типом {0} согласован. Необходимо предоставить договор с подписью в ЦОЗ", type);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractId, contract.EmployeeId.Value);
+        }
+
+        private void SendNotificationToSignerApproved(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            var orgName = contract.OBK_Declarant?.NameRu;
+            var message = string.Format("Вам поступил договор от {0} на подписание", orgName);
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractId, contract.Signer.Value);
+        }
+
+        private void SendNotificationToCozExecutorSigned(Guid contractId)
+        {
+            var contract = AppContext.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+            string organizationForm = "";
+            if (contract.OBK_Declarant.OrganizationFormId != null)
+            {
+                var orgForm = AppContext.Dictionaries.Where(x => x.Id == contract.OBK_Declarant.OrganizationFormId.Value).FirstOrDefault();
+                organizationForm = orgForm.Name;
+            }
+            var orgName = contract.OBK_Declarant?.NameRu;
+            var message = string.Format("Договор от {0} \"{1}\" подписан и требует регистрации", organizationForm, orgName);
+            var stageCoz = AppContext.OBK_ContractStage.Where(x => x.ContractId == contractId && x.StageId == CodeConstManager.STAGE_OBK_COZ).FirstOrDefault();
+            foreach (var executor in stageCoz.OBK_ContractStageExecutors)
+            {
+                if (executor.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR)
+                {
+                    new NotificationManager().SendNotification(message, ObjectType.ObkContract, contractId, executor.ExecutorId);
+                }
+            }
+        }
+
+        private void SendNotificationToApplicantRegistered(OBK_Contract contract)
+        {
+            var message = string.Format("Договор зарегистрирован. № {0}, дата начала действия {1}. Необходимо произвести оплату работ по предоставленному счету на оплату", contract.Number,  contract.StartDate?.ToString("dd.MM.yyyy"));
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, contract.EmployeeId.Value);
+        }
+
+        private void SendNotificationToApplicantUploaded(OBK_Contract contract)
+        {
+            var message = string.Format("Договор зарегистрирован. № {0}, дата начала действия {1}. Договор можно просмотреть во вложениях", contract.Number, contract.StartDate?.ToString("dd.MM.yyyy"));
+            new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, contract.EmployeeId.Value);
+        }
+
+        private void SendNotificationToAccountantRegistered(OBK_Contract contract)
+        {
+            /* 
+             *  КОД ЗАКОММЕНТИРОВАН ТАК КАК ПОКА НЕ ИЗВЕСТНО КАК ОПРЕДЕЛЯТЬ БУХГАЛТЕРА
+            */
+            //var accountantId = Guid.Empty;
+            //var orgName = contract.OBK_Declarant?.NameRu;
+            //var message = string.Format("Зарегистрирован новый договор под № {0}, заявитель \"{1}\"", contract.Number, orgName);
+            //new NotificationManager().SendNotification(message, ObjectType.ObkContract, contract.Id, accountantId);
+        }
+        #endregion
     }
 }
