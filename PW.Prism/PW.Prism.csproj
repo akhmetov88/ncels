@@ -993,6 +993,7 @@
     <Content Include="Scripts\crypto\eds.js" />
     <Content Include="Scripts\crypto\jquery.blockUI.js" />
     <Content Include="Scripts\crypto\loading.gif" />
+    <Content Include="Scripts\crypto\obk\obk_eds.js" />
     <Content Include="Scripts\datatable.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

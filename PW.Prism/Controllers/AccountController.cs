@@ -142,6 +142,20 @@ namespace PW.Prism.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+        public ActionResult GetIinOfUser()
+        {
+            string iin = null;
+            Employee employee = UserHelper.GetCurrentEmployee();
+            if (employee != null)
+            {
+                iin = employee.Iin;
+            }
+            return Json(iin != null ? iin : "", JsonRequestBehavior.AllowGet);
+        }
 
-	}
+        public ActionResult GetDateTime()
+        {
+            return Json(DateTime.Now, JsonRequestBehavior.AllowGet);
+        }
+    }
 }
