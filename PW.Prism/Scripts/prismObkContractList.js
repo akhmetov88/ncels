@@ -415,6 +415,25 @@ function initFilterOBKContract(uiId) {
         }
     });
 
+    $("#findTypeActiveBtn" + uiId).click(function () {
+        var findType = $("#findTypeActiveContract" + uiId).val();
+        if (findType != '') {
+            $filter = new Array();
+            if (findType == 0) {
+                $filter.push({ field: "StageStatusCode", operator: "eq", value: "active" });
+            }
+            else {
+                $filter.push({ field: "StageStatusCode", operator: "eq", value: "active" });
+                $filter.push({ field: "ContractStatusId", operator: "eq", value: findType });
+            }
+            var grid = $("#gridContractAll" + uiId).data("kendoGrid");
+            grid.dataSource.filter({
+                logic: "and",
+                filters: $filter
+            });
+        }
+    });
+
     setToWorkBtnVisibility(uiId);
 
     setFindAreaVisibility(uiId);
@@ -437,15 +456,39 @@ function setFindAreaVisibility(uiId) {
     if (links.length > 0) {
         if (links.eq(0).attr("itemid") == "inWork") {
             $('div[id="lblStateBlock' + uiId + '"]').show();
+            $('button[id="find' + uiId + '"]').show();
             $('button[id="find' + uiId + '"]').parent().show();
+            $("#findType" + uiId).data("kendoDropDownList").wrapper.show();
             $("#findType" + uiId).data("kendoDropDownList").wrapper.parent().show();
+            $("#findType" + uiId).data("kendoDropDownList").select(0);
+
+            $('button[id="findTypeActiveBtn' + uiId + '"]').hide();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").wrapper.hide();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").select(0);
+        }
+        else if ((links.eq(0).attr("itemid") == "active")) {
+            $('div[id="lblStateBlock' + uiId + '"]').show();
+            $('button[id="findTypeActiveBtn' + uiId + '"]').show();
+            $('button[id="findTypeActiveBtn' + uiId + '"]').parent().show();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").wrapper.show();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").wrapper.parent().show();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").select(0);
+
+            $('button[id="find' + uiId + '"]').hide();
+            $("#findType" + uiId).data("kendoDropDownList").wrapper.hide();
             $("#findType" + uiId).data("kendoDropDownList").select(0);
         }
         else {
             $('div[id="lblStateBlock' + uiId + '"]').hide();
+            $('button[id="find' + uiId + '"]').hide();
             $('button[id="find' + uiId + '"]').parent().hide();
+            $("#findType" + uiId).data("kendoDropDownList").wrapper.hide();
             $("#findType" + uiId).data("kendoDropDownList").wrapper.parent().hide();
             $("#findType" + uiId).data("kendoDropDownList").select(0);
+
+            $('button[id="findTypeActiveBtn' + uiId + '"]').hide();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").wrapper.hide();
+            $("#findTypeActiveContract" + uiId).data("kendoDropDownList").select(0);
         }
     }
 }
