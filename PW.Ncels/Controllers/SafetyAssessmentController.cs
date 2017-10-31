@@ -144,9 +144,6 @@ namespace PW.Ncels.Controllers
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
             Stream stream = new MemoryStream();
-            report.ExportDocument(StiExportFormat.Word2007, stream);
-            stream.Position = 0;
-            
             var assessmentDeclaration = db.OBK_AssessmentDeclaration.FirstOrDefault(dd => dd.Id == id);
             var assessmentDeclarationHistory = assessmentDeclaration.OBK_AssessmentDeclarationHistory.Where(dh => dh.XmlSign != null)
                 .OrderByDescending(dh => dh.DateCreate).FirstOrDefault();
@@ -154,8 +151,10 @@ namespace PW.Ncels.Controllers
             {
                 try
                 {
+                    report.ExportDocument(StiExportFormat.Word2007, stream);
+                    stream.Position = 0;
                     Aspose.Words.Document doc = new Aspose.Words.Document(stream);
-                    doc.InserQrCodes("ExecutorSign", assessmentDeclarationHistory.XmlSign);
+                    doc.InserQrCodesToEnd("ExecutorSign", assessmentDeclarationHistory.XmlSign);
                     var pdfFile = new MemoryStream();
                     doc.Save(pdfFile, Aspose.Words.SaveFormat.Pdf);
                     pdfFile.Position = 0;
@@ -168,6 +167,8 @@ namespace PW.Ncels.Controllers
                     Console.WriteLine(e);
                 }
             }
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");
         }
 
@@ -201,8 +202,8 @@ namespace PW.Ncels.Controllers
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
                     CertificateDate = DateTime.Now,
                     Contract_Id = contract.Id,
-                    IsDeleted = false
-                    //CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
+                    IsDeleted = false,
+                    CertificateGMPCheck = contract.OBK_Ref_Type.Code == CodeConstManager.OBK_SA_DECLARATION
                 };
                 repository.SaveAssessmentDeclaration(model);
             }

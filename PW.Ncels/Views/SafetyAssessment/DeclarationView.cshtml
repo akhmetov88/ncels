@@ -60,6 +60,11 @@
         line-height: 1.5;
         border-radius: 3px;
     }
+
+    .control-good {
+        border: #bd0707 !important;
+        background-color: #fd9775 !important;
+    }
     /* Меню */
 
     #OBKmenuConteiner {
@@ -81,6 +86,7 @@
 
 <input type="hidden" value="@Model.ObjectId" id="modelId" />
 <input type="hidden" value="@Model.Type_Id" id="typeId" />
+<input type="hidden" value="@Model.StatusId" id="statusId" />
 @Html.HiddenFor(model => model.EmployeeId)
 
 @foreach (var comment in Model.OBK_AssessmentDeclarationCom)
@@ -288,24 +294,25 @@
             },
             dataType: 'json',
             cache: false,
-            success: function (data) {
+            success: function(data) {
                 if (modelId === null) {
                     $("#modelId").val(data.modelId);
                     $("#loading").hide();
                 }
                 if (data.recordId > 0) {
                     var tabData = $('#tableProducts').DataTable().rows().data();
-                    $.each(tabData, function(i, val) {
-                        if (val.Id === recordId) {
-                            if (fieldName === "Price") 
-                                val.Price = fieldValue;
-                            if (fieldName === "CurrencyId")
-                                val.CurrencyId = fieldValue;
-                        }
-                    });
+                    $.each(tabData,
+                        function(i, val) {
+                            if (val.Id === recordId) {
+                                if (fieldName === "Price")
+                                    val.Price = fieldValue;
+                                if (fieldName === "CurrencyId")
+                                    val.CurrencyId = fieldValue;
+                            }
+                        });
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 alert("1Error" + data);
             }
         });
@@ -327,10 +334,19 @@
         }
     }
 
-    $(document).ready(function () {
-        $("#HideInform").click(function () {
+    function showHidenContractList() {
+        debugger;
+        var status = $("#statusId").val();
+        if (status === '@CodeConstManager.STATUS_REJECT_ID') {
+            $("#Contract_Id").attr('disabled', 'disabled');
+        }
+    }
+
+    $(document).ready(function() {
+        $("#HideInform").click(function() {
             showHidenCommentBtn();
         });
+        showHidenContractList();
         $("div.chzn-select select").chosen({ width: '100%' });
     });
 

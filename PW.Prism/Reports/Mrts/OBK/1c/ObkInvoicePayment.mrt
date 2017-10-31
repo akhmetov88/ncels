@@ -300,11 +300,11 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
       <Components isList="true" count="7">
         <DataBand1 Ref="12" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0.4,19,4.4</ClientRectangle>
+          <ClientRectangle>0,0.4,19,2.6</ClientRectangle>
           <Components isList="true" count="1">
             <Text1 Ref="13" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>4.8,1.8,13.8,2</ClientRectangle>
+              <ClientRectangle>4.8,0.4,13.8,2</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,8</Font>
               <HorAlignment>Center</HorAlignment>
@@ -331,7 +331,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand1>
         <DataBand2 Ref="14" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,5.6,19,4.2</ClientRectangle>
+          <ClientRectangle>0,3.8,19,4.2</ClientRectangle>
           <Components isList="true" count="13">
             <Text2 Ref="15" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -560,7 +560,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand2>
         <DataBand3 Ref="28" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,10.6,19,4.6</ClientRectangle>
+          <ClientRectangle>0,8.8,19,4.6</ClientRectangle>
           <Components isList="true" count="8">
             <Text15 Ref="29" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -694,7 +694,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand3>
         <HeaderBand1 Ref="37" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,16,19,0.6</ClientRectangle>
+          <ClientRectangle>0,14.2,19,0.6</ClientRectangle>
           <Components isList="true" count="7">
             <Text23 Ref="38" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
@@ -824,7 +824,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         <DataBand4 Ref="45" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,17.4,19,1.2</ClientRectangle>
+          <ClientRectangle>0,15.6,19,1.2</ClientRectangle>
           <Components isList="true" count="7">
             <Text30 Ref="46" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
@@ -975,7 +975,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </DataBand4>
         <FooterBand1 Ref="55" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,19.4,19,3</ClientRectangle>
+          <ClientRectangle>0,17.6,19,3</ClientRectangle>
           <Components isList="true" count="7">
             <Text37 Ref="56" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -1090,7 +1090,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
         </FooterBand1>
         <DataBand5 Ref="63" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,23.2,19,3.6</ClientRectangle>
+          <ClientRectangle>0,21.4,19,3</ClientRectangle>
           <Components isList="true" count="5">
             <Text44 Ref="64" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -1152,7 +1152,7 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
             </Text47>
             <Text48 Ref="68" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>0.2,2.6,18.6,0.8</ClientRectangle>
+              <ClientRectangle>0.2,2,18.6,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Times New Roman,9</Font>
               <Guid>fd45a41a69fe424a9236d91658eee136</Guid>
@@ -1200,10 +1200,10 @@ where UnitsId in(select ExpertOrganization from OBK_Contract where Id=@ContractI
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>10/20/2017 12:52:38 PM</ReportChanged>
+  <ReportChanged>10/25/2017 10:03:02 AM</ReportChanged>
   <ReportCreated>10/11/2017 6:18:11 PM</ReportCreated>
-  <ReportFile>F:\Projects\ncels\PW.Prism\Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt</ReportFile>
-  <ReportGuid>15243dfc90b04e92a44c4f8f5469d44b</ReportGuid>
+  <ReportFile>F:\Projects\ncels\PW.Ncels\Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt</ReportFile>
+  <ReportGuid>3a611a157e524960ae747119647e9787</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
