@@ -475,7 +475,7 @@ function checkIinCallback(result) {
                 success: function (data) {
                     // start temp code
                     // Для того чтобы отключить проверку ИИН нужно раскомменировать код ниже
-                    //data = iinCertificate;
+                    data = iinCertificate;
                     // end temp code
                     if (data == "") {
                         alert("В Вашем профиле не указан ИИН. Нужно указать ИИН. Обратитесь к администратору.");

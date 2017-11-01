@@ -298,7 +298,7 @@ namespace PW.Ncels.Database.Repository.OBK
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
                     CertificateDate = DateTime.Now,
                     IsDeleted = false,
-                    //CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
+                    CertificateGMPCheck = GetObkRefTypes(typeId.ToString()).Code == CodeConstManager.OBK_SA_DECLARATION
                 };
                 isNew = true;
             }

@@ -106,9 +106,37 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                        })
                                        .SelectedIndex(0)
                     )
+                    @(Html.Kendo().DropDownList().Name("findTypeActiveContract" + Model).HtmlAttributes(new { @class = "pwWidth100" })
+                                       .DataTextField("Text")
+                                       .DataValueField("Value")
+                                       .BindTo(new List<SelectListItem>() {
+                                           new SelectListItem() {
+                                               Text = "Все", Value = "0"
+                                           },
+                                           new SelectListItem() {
+                                               Text = "На формировании счета", Value = PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_INVOCE_GENERATING.ToString()
+                                           },
+                                           new SelectListItem() {
+                                               Text = "Ожидает оплаты", Value = PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_EXPECTED_PAYMENT.ToString()
+                                           },
+                                           new SelectListItem() {
+                                               Text = "Оплачен", Value = PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_ACTIVE.ToString()
+                                           },
+                                           new SelectListItem() {
+                                               Text = "Оплачен не полностью", Value = PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_NOT_FULL_PAYMENT.ToString()
+                                           },
+                                           new SelectListItem() {
+                                               Text = "Срок оплаты истек", Value =  PW.Ncels.Database.Constants.CodeConstManager.STATUS_OBK_PAYMENT_EXPIRED.ToString()
+                                           }
+                                       })
+                                       .SelectedIndex(0)
+                    )
                 </div>
             <div id="pwThree">
                     @(Html.Kendo().Button().Name("find" + Model).HtmlAttributes(new { @class = "pwWidth100" })
+                                       .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
+                                       .ImageUrl("/Content/images/find.png"))
+                @(Html.Kendo().Button().Name("findTypeActiveBtn" + Model).HtmlAttributes(new { @class = "pwWidth100" })
                                        .Content(PW.Ncels.Database.Recources.Messages.Property_Найти_372__00)
                                        .ImageUrl("/Content/images/find.png"))
                 </div>

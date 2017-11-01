@@ -96,7 +96,7 @@ namespace PW.Ncels.Controllers
             var names = db.OBK_Ref_PriceList.Where(x =>
             x.TypeId == type &&
             (x.ServiceTypeId == productTypeGuid || productTypeGuid == Guid.Empty) &&
-            (x.DegreeRiskId == degreeRiskGuid || degreeRiskGuid == Guid.Empty)
+            (x.DegreeRiskId == degreeRiskGuid || degreeRiskGuid == Guid.Empty || x.DegreeRiskId == null)
             ).Select(x => new { x.Id, Name = x.NameRu });
             return Json(names, JsonRequestBehavior.AllowGet);
         }

@@ -20,8 +20,8 @@ namespace PW.Ncels.Database.DataModel
         public System.Guid ContractId { get; set; }
         public Nullable<System.Guid> EmployeeId { get; set; }
     
-        public virtual Employee Employee { get; set; }
         public virtual OBK_Contract OBK_Contract { get; set; }
         public virtual OBK_Ref_ContractExtHistoryStatus OBK_Ref_ContractExtHistoryStatus { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }
