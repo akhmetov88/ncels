@@ -972,6 +972,9 @@
     <Compile Include="DataModel\OBK_ContractExtHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_ContractFactory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\OBK_ContractHistory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2078,6 +2081,7 @@
     <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
     <Compile Include="Models\OBK\OBKEntityTemplate.cs" />
+    <Compile Include="Models\OBK\OBKFactoryViewModel.cs" />
     <Compile Include="Models\OBK\OBKMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />

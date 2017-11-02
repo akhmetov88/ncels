@@ -7,7 +7,6 @@
 }
 @Html.Partial("~/Views/Home/OBK_SignView.cshtml")
 
-
 @{
     var GeneratedGuid = Guid.NewGuid().ToString();
     var ModelGuid = "";
@@ -52,7 +51,6 @@
         height: 200px;
     }
 
-
     #gridOptionsCalculator .ui-grid-viewport .ui-grid-cell-contents {
         word-wrap: break-word;
         white-space: normal !important;
@@ -62,12 +60,31 @@
         height: auto !important;
     }
 
-        #gridOptionsCalculator .ui-grid-row div[role=row] {
-            display: flex;
-            align-content: stretch;
-        }
+    #gridOptionsCalculator .ui-grid-row div[role=row] {
+        display: flex;
+        align-content: stretch;
+    }
 
     #gridOptionsCalculator .ui-grid-header .ui-grid-cell-contents {
+        word-wrap: break-word;
+        white-space: normal !important;
+    }
+
+     #gridOptionsCalculatorAdditional .ui-grid-viewport .ui-grid-cell-contents {
+        word-wrap: break-word;
+        white-space: normal !important;
+    }
+
+    #gridOptionsCalculatorAdditional .ui-grid-row, .ui-grid-cell {
+        height: auto !important;
+    }
+
+    #gridOptionsCalculatorAdditional .ui-grid-row div[role=row] {
+        display: flex;
+        align-content: stretch;
+    }
+
+    #gridOptionsCalculatorAdditional .ui-grid-header .ui-grid-cell-contents {
         word-wrap: break-word;
         white-space: normal !important;
     }
@@ -117,7 +134,6 @@
                             <i class="fa fa-save"></i>
                             Сохранить
                         </button>
-                        @*<button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMpde">Подписать ЭЦП</button>*@
                         <button class="btn btn-default btn-sm" type="button" ng-click="sendWithDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Подписать ЭЦП и отправить в ЦОЗ</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="sendWithoutDigitalSign();" check-validate ng-disabled="object.viewMpde"><i class="fa fa-send-o"></i> Отправить в ЦОЗ без подписи</button>
                         <button class="btn btn-default btn-sm" type="button" ng-click="viewContract('@ModelGuid')"><i class="fa fa-eye"></i> Просмотр</button>
@@ -285,7 +301,6 @@
                                                         </div>
                                                         <div class="form-group" ng-show="object.Type != null && showContactInformation">
                                                             <h4>&nbsp;</h4>
-                                                            @*declarant.Id = {{declarant.Id}} <br />*@
                                                             <input type="hidden" ng-model="declarant.Id" />
                                                             <label>Организационная форма</label>
                                                             <div ng-class="{'input-group': showComments}">
@@ -583,13 +598,11 @@
                                                         <h4>Подписывающее лицо</h4>
                                                     </div>
                                                     <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
-                                                        @*<div class="col-lg-3">*@
                                                         <div class="form-group">
                                                             <div class="checkbox">
                                                                 <label><input type="checkbox" value="" ng-model="object.SignerIsBoss" ng-change="signerIsLeaderCheckBoxChanged();" ng-disabled="object.viewMpde">Является руководителем</label>
                                                             </div>
                                                         </div>
-                                                        @*</div>*@
                                                     </div>
                                                     <div class="col-lg-12" ng-show="object.Type != null && showContactInformation" style="display: none">
                                                         <div class="row">
@@ -810,67 +823,10 @@
 
                                                 <div class="row">
 
-                                                    <!--
-                                                    <table class="table table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Наименование</th>
-                                                                <th>Производитель</th>
-                                                                <th>Страна-производитель</th>
-                                                                <th>ТН ВЭД</th>
-                                                                <th>КП ВЭД</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>2</td>
-                                                                <td>3</td>
-                                                                <td>4</td>
-                                                            </tr>
-                                                            @*<tr ng-repeat="item in listDrugs.items">
-                                                                    <td>{{item.name}}</td>
-                                                                    <td>{{item.manufacturer}}</td>
-                                                                    <td>{{item.country}}</td>
-                                                                    <td>{{item.tnved}}</td>
-                                                                    <td>{{item.kpved}}</td>
-                                                                </tr>*@
-                                                        </tbody>
-                                                    </table>  -->
                                                     <div id="gridOptionsProducts" ui-grid="gridOptionsProducts" ui-grid-selection class="grid-products"></div>
                                                     <br />
 
                                                 </div>
-
-
-
-
-                                                @*<button id="btnAddDrug" class="btn btn-sm btn-success" type="button" ng-click="addDrug()" ng-disabled="showAddEditDrugBlock">Добавить</button>
-                                                        <button id="btnEditDrug" class="btn btn-sm btn-success" type="button" ng-cl
-                                                                <div id="gridOptionsProducts" ui-grid="gridOptionsProducts" ui-grid-selection class="grid-products"></div>
-                                                                <br />
-
-                                                    </div>*@
-
-
-
-
-                                                @*<button id="btnAddDrug" class="btn btn-sm btn-success" type="button" ng-click="addDrug()" ng-disabled="showAddEditDrugBlock"></button>
-                                                    <button id="btnEditDrug" class="btn btn-sm btn-success" type="button" ng-click
-
-
-                                                                <div id="gridOptionsProducts" ui-grid="gridOptionsProducts" ui-grid-selection class="grid-products"></div>
-                                                        @*<button id="btnAddDrug" class="btn btn-sm btn-success" type="button" ng-click="addDrug()" ng-disabled="showAddEditDrugBlock"></button>
-                                                            <button id="btnEditDrug" class="btn btn-sm btn-success" type="button" ng-click
-
-
-                                                                        <div id="gridOptionsProducts" ui-grid="gridOptionsProducts" ui-grid-selection class="grid-products"></div>
-                                                                        <br />
-
-                                                                        </div>*@
-
-
-
 
                                                 <button id="btnAddDrug" class="btn btn-sm btn-success" type="button" ng-click="addDrug()" ng-disabled="showAddEditDrugBlock || object.viewMpde">Добавить</button>
                                                 <button id="btnEditDrug" class="btn btn-sm btn-success" type="button" ng-click="editDrug()" ng-disabled="addedProducts == null || addedProducts.length == 0 || showAddEditDrugBlock || object.viewMpde">Изменить</button>
@@ -878,7 +834,6 @@
                                                 <button id="btnDisplayDrug" class="btn btn-sm btn-success" type="button" ng-click="displayDrug()" ng-disabled="addedProducts == null || addedProducts.length == 0 || showAddEditDrugBlock" ng-show="object.viewMpde">Просмотр</button>
 
                                                 <div style="height: 10px;">&nbsp;</div>
-
 
                                                 <div class="row" ng-show="showAddEditDrugBlock && showSearchDrugInReestr">
                                                     <div class="col-lg-12">
@@ -947,39 +902,7 @@
                                                                 Результаты поиска
                                                             </div>
                                                             <div class="panel-body">
-                                                                @*<table class="table table-bordered">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Рег. номер</th>
-                                                                                <th>Тип</th>
-                                                                                <th>Торговое название</th>
-                                                                                <th>Дата регистрации</th>
-                                                                                <th>Дата истечения</th>
-                                                                                <th>Производитель</th>
-                                                                                <th>Страна</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr ng-repeat="item in searchResults">
-                                                                                <td>{{item.RegNumber}}</td>
-                                                                                <td>{{item.RegTypeName}}</td>
-                                                                                <td>{{item.Name}}</td>
-                                                                                <td>{{item.RegDate}}</td>
-                                                                                <td>{{item.ExpireDate}}</td>
-                                                                                <td>{{item.ProducerName}}</td>
-                                                                                <td>{{item.CountryName}}</td>
-                                                                            </tr>
-                                                                            <tr ng-show="searchResults == null || searchResults.length == 0">
-                                                                                <td colspan="7">
-                                                                                    По вашему запросу ничего не найдено!
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>*@
-
-
                                                                 <div id="gridOptions" ui-grid="gridOptions" ui-grid-selection class="grid"></div>
-
                                                                 <div class="form-group">
                                                                 </div>
                                                                 <div class="form-group">
@@ -996,9 +919,6 @@
                                                                 <div class="form-group" ng-show="searchViewMode == 'mtpart'">
                                                                     <div id="gridOptionsMtPart" ui-grid="gridOptionsMtPart" class="grid"></div>
                                                                 </div>
-                                                                @*<br />
-                                                                    CheckBox:
-                                                                    <input type="checkbox" ng-model="mdlcbx" ng-change='cBoxChange();' />*@
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1021,7 +941,6 @@
                                                                                     <input id="ProductIdReestr" name="ProductIdReestr" type="hidden" ng-model="product.productId" />
                                                                                     <input id="ProductTypeId" name="ProductTypeId" type="hidden" ng-model="product.RegTypeId" />
                                                                                     <input id="DegreeRiskId" name="DegreeRiskId" type="hidden" ng-model="product.DegreeRiskId" />
-                                                                                    @*<input id="NameRu" name="NameRu" type="text" class="form-control edit-control" text="" ng-model="product.NameRu" readonly>*@
                                                                                     <input id="ProductRegisterId" name="ProductRegisterId" type="hidden" ng-model="product.RegisterId" />
                                                                                     <input id="ProductRegNumber" name="ProductRegNumber" type="hidden" ng-model="product.RegNumber" />
                                                                                     <input id="ProductRegNumberKz" name="ProductRegNumberKz" type="hidden" ng-model="product.RegNumberKz" />
@@ -1035,7 +954,6 @@
                                                                             <div class="col-lg-6">
                                                                                 <div class="">
                                                                                     <label>Наименование на казахском</label>
-                                                                                    @*<input id="NameKz" name="NameKz" type="text" class="form-control edit-control" text="" ng-model="product.NameKz" readonly>*@
                                                                                     <textarea id="NameKz" name="NameKz" class="form-control edit-control" ng-model="product.NameKz" readonly></textarea>
                                                                                 </div>
                                                                             </div>
@@ -1044,14 +962,12 @@
                                                                             <div class="col-lg-6">
                                                                                 <div class="">
                                                                                     <label>Наименование производителя</label>
-                                                                                    @*<input id="ProducerNameRu" name="producerNameRu" type="text" class="form-control edit-control" text="" ng-model="product.ProducerNameRu" readonly>*@
                                                                                     <textarea id="ProducerNameRu" name="producerNameRu" class="form-control edit-control" ng-model="product.ProducerNameRu" readonly></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6">
                                                                                 <div class="">
                                                                                     <label>Наименование производителя на казахском</label>
-                                                                                    @*<input id="ProducerNameKz" name="ProducerNameKz" type="text" class="form-control edit-control" text="" ng-model="product.ProducerNameKz" readonly>*@
                                                                                     <textarea id="ProducerNameKz" name="ProducerNameKz" class="form-control edit-control" ng-model="product.ProducerNameKz" readonly></textarea>
                                                                                 </div>
                                                                             </div>
@@ -1060,14 +976,12 @@
                                                                             <div class="col-lg-6">
                                                                                 <div class="">
                                                                                     <label>Страна</label>
-                                                                                    @*<input id="CountryNameRu" name="CountryNameRu" type="text" class="form-control edit-control" text="" ng-model="product.CountryNameRu" readonly>*@
                                                                                     <textarea id="CountryNameRu" name="CountryNameRu" class="form-control edit-control" ng-model="product.CountryNameRu" readonly></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6">
                                                                                 <div class="">
                                                                                     <label>Страна на казахском</label>
-                                                                                    @*<input id="CountryNameKz" name="CountryNameKz" type="text" class="form-control edit-control" text="" ng-model="product.CountryNameKz" readonly>*@
                                                                                     <textarea id="CountryNameKz" name="CountryNameKz" class="form-control edit-control" ng-model="product.CountryNameKz" readonly></textarea>
                                                                                 </div>
                                                                             </div>
@@ -1126,7 +1040,6 @@
                                                                                     <div class="col-lg-6">
                                                                                         <div>
                                                                                             <label>Полное наименование</label>
-                                                                                            @*<input type="text" class="form-control edit-control" ng-model="product.DrugFormFullName" />*@
                                                                                             <textarea class="form-control edit-control" ng-model="product.DrugFormFullName" readonly></textarea>
                                                                                         </div>
                                                                                     </div>
@@ -1147,6 +1060,22 @@
                                                                         <div class="form-group" ng-show="product.RegTypeId == 2">
                                                                             <div class="col-lg-12">
                                                                                 <div id="gridOptionsSelectedMtPart" ui-grid="gridOptionsSelectedMtPart" ui-grid-selection class="grid"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-lg-12">
+                                                                                <br />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-lg-12">
+                                                                                <label>Тип услуги</label>
+                                                                                <ui-select ng-model="product.ServiceName" theme="bootstrap">
+                                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                                    <ui-select-choices repeat="item.Id as item in productServiceNames | filter: $select.search">
+                                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                                    </ui-select-choices>
+                                                                                </ui-select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -1233,93 +1162,6 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-lg-12">
-                                                                                        <div class="panel panel-default">
-                                                                                            <div class="panel-heading">
-                                                                                                Стоимость работ
-                                                                                            </div>
-                                                                                            <div class="panel-body">
-                                                                                                <div class="row">
-                                                                                                    <div id="gridOptionsProductServices" ui-grid="gridOptionsProductServices" ui-grid-selection class="grid-product-services"></div>
-                                                                                                </div>
-
-                                                                                                <div style="height: 20px;"></div>
-
-                                                                                                <button id="btnAddProductService" class="btn btn-sm btn-success" type="button" ng-click="addProductService()" ng-disabled="showAddEditProductServiceBlock" ng-show="!object.viewMpde">Добавить</button>
-                                                                                                <button id="btnEditProductService" class="btn btn-sm btn-success" type="button" ng-click="editProductService()" ng-disabled="addedProductServices == null || addedProductServices.length == 0 || showAddEditProductServiceBlock" ng-show="!object.viewMpde">Изменить</button>
-                                                                                                <button id="btnDeleteProductService" class="btn btn-sm btn-danger" type="button" ng-click="deleteProductService()" ng-disabled="addedProductServices == null || addedProductServices.length == 0 || showAddEditProductServiceBlock" ng-show="!object.viewMpde">Удалить</button>
-
-                                                                                                <div style="height: 20px;"></div>
-
-                                                                                                <div ng-show="showAddEditProductServiceBlock">
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-11">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>Тип услуги</label>
-                                                                                                                <ui-select ng-model="object.ProductServiceName" theme="bootstrap" ng-change="productServiceTypeChange();">
-                                                                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                                                                    <ui-select-choices repeat="item as item in productServiceNames | filter: $select.search">
-                                                                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                                                                    </ui-select-choices>
-                                                                                                                </ui-select>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-3">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>Единица измерения</label>
-                                                                                                                <input ng-model="object.ProductServiceUnitOfMeasurementName" class="form-control" type="text" ui-select-selected name="ProductServiceUnitOfMeasurementName" readonly>
-                                                                                                                <input ng-model="object.ProductServiceUnitOfMeasurementId" type="hidden" />
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-3">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>Цена за тенге, без НДС</label>
-                                                                                                                <input ng-model="object.ProductServicePriceWithoutTax" class="form-control" type="text" ui-select-selected name="ProductServicePriceWithoutTax" readonly>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-3">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>Количество услуг (работ)</label>
-                                                                                                                <input ng-model="object.ProductServiceCountServices" class="form-control" type="number" min="1" ui-select-selected name="ProductServiceCountServices" ng-change="productServiceCountServiceChange();">
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-3">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>Итоговая стоимость услуги, в тенге без НДС</label>
-                                                                                                                <input ng-model="object.ProductServiceResultPriceWithoutTax" class="form-control" type="text" ui-select-selected name="ProductServiceResultPriceWithoutTax" readonly>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-3">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>Итоговая стоимость услуги, в тенге с НДС</label>
-                                                                                                                <input ng-model="object.ProductServiceResultPriceWithTax" class="form-control" type="text" ui-select-selected name="ProductServiceResultPriceWithTax" readonly>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-lg-3">
-                                                                                                            <button id="btnSaveService" class="btn btn-sm btn-success" type="button" ng-click="saveProductService();">Сохранить</button>
-                                                                                                            <button type="button" class="btn btn-success btn-sm add-btn-from4" ng-click="cancelSaveProductService();">
-                                                                                                                Отменить
-                                                                                                            </button>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -1342,11 +1184,55 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="row" ng-show="object.Type == 1">
+                                                    <div class="col-lg-12">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                Информация о цехе
+                                                            </div>
+                                                            <div class="panel-body">
 
-
-
-
-
+                                                                <div class="row" style="margin-bottom: 10px">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <div class="col-lg-3">
+                                                                                <div class="input-group">
+                                                                                    <label>Наименование цеха</label>
+                                                                                    <input type="text" class="form-control edit-control" text="" ng-model="factory.Name">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-3">
+                                                                                <div class="input-group">
+                                                                                    <label>Месторасположение цеха</label>
+                                                                                    <input type="text" class="form-control edit-control" text="" ng-model="factory.Location">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 10px">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <div class="col-lg-3">
+                                                                                <button type="button" class="btn btn-success btn-sm add-btn-from4" ng-click="addFactory();">
+                                                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-sm btn-danger" id="deleteProductSeries" ng-click="deleteFactory();" ng-disabled="factories == null || factories.length == 0">
+                                                                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Удалить
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div id="gridOptionsFactories" ui-grid="gridOptionsFactories" ui-grid-selection class="gridSeries"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="tab-3" class="tab-pane">
@@ -1365,99 +1251,32 @@
                                                     <div class="col-lg-12">
                                                         <div id="gridOptionsCalculator" ui-grid="gridOptionsCalculator" ui-grid-selection class="grid-calculator"></div>
                                                     </div>
-
                                                 </div>
-
-                                                <div style="height: 20px;"></div>
-
-                                                <button id="btnAddService" class="btn btn-sm btn-success" type="button" ng-click="addService()" ng-disabled="showAddEditServiceBlock || object.viewMpde">Добавить</button>
-                                                <button id="btnEditService" class="btn btn-sm btn-success" type="button" ng-click="editService()" ng-disabled="addedServices == null || addedServices.length == 0 || showAddEditServiceBlock || object.viewMpde">Изменить</button>
-                                                <button id="btnDeleteService" class="btn btn-sm btn-danger" type="button" ng-click="deleteService()" ng-disabled="addedServices == null || addedServices.length == 0 || showAddEditServiceBlock || object.viewMpde">Удалить</button>
-
-                                                <div style="height: 20px;"></div>
-
-                                                <div ng-show="showAddEditServiceBlock">
+                                                <div ng-show="object.Type == 1">
                                                     <div class="row">
-                                                        <div class="col-lg-11">
-                                                            <div class="form-group">
-                                                                <label>Тип услуги</label>
-                                                                <ui-select ng-model="object.ServiceName" theme="bootstrap" ng-change="serviceTypeChange();">
-                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="item as item in serviceNames | filter: $select.search">
-                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                    </ui-select-choices>
-                                                                </ui-select>
-                                                            </div>
+                                                        <div class="col-lg-12">
+                                                            &nbsp;
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label>Единица измерения</label>
-                                                                <input ng-model="object.UnitOfMeasurementName" class="form-control" type="text" ui-select-selected name="UnitOfMeasurementName" readonly>
-                                                                <input ng-model="object.UnitOfMeasurementId" type="hidden" />
-                                                            </div>
+                                                        <div class="col-lg-12">
+                                                            <strong>Дополнительные услуги</strong>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label>Цена за тенге, без НДС</label>
-                                                                <input ng-model="object.PriceWithoutTax" class="form-control" type="text" ui-select-selected name="PriceWithoutTax" readonly>
-                                                            </div>
+                                                        <div class="col-lg-12">
+                                                            &nbsp;
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label>Количество услуг (работ)</label>
-                                                                <input ng-model="object.CountServices" class="form-control" type="number" min="1" ui-select-selected name="CountServices" ng-change="countServiceChange();">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label>Итоговая стоимость услуги, в тенге без НДС</label>
-                                                                <input ng-model="object.ResultPriceWithoutTax" class="form-control" type="text" ui-select-selected name="ResultPriceWithoutTax" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label>Итоговая стоимость услуги, в тенге с НДС</label>
-                                                                <input ng-model="object.ResultPriceWithTax" class="form-control" type="text" ui-select-selected name="ResultPriceWithTax" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <button id="btnSaveService" class="btn btn-sm btn-success" type="button" ng-click="saveService();">Сохранить</button>
-                                                            <button type="button" class="btn btn-success btn-sm add-btn-from4" ng-click="cancelSaveService();">
-                                                                Отменить
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-                                                <br /><br /><br />
-                                                <div class="row" style="display: none">
-                                                    <div class="col-lg-12">
-                                                        <div id="gridOptionsExample" ui-grid="gridOptionsExample" ui-grid-edit ui-grid-cellnav ui-grid-selection class="grid-example">
+                                                        <div class="col-lg-12">
+                                                            <div id="gridOptionsCalculatorAdditional" ui-grid="gridOptionsCalculatorAdditional" ui-grid-selection class="grid-calculator"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="tab-4" class="tab-pane">
-                                            @*<div class="panel-body">
-                                                    <div class="row">
-                                                        Вложения
-                                                    </div>
-                                                </div>*@
                                             <div class="panel-body">
                                                 <h3 class="m-t-none m-b">Вложения</h3>
                                                 <div ng-show="declarant.Id == null" id="filesWarning">
@@ -1490,7 +1309,7 @@
                                             </div>
                                         </div>
                                         <div id="tab-5" class="tab-pane">
-                                           @Html.Partial("~/Views/OBKContract/HistoriesView.cshtml", @Model)
+                                            @Html.Partial("~/Views/OBKContract/HistoriesView.cshtml", @Model)
                                         </div>
                                     </div>
                                 </div>

@@ -41,7 +41,6 @@ namespace PW.Ncels.Controllers
 
         public ActionResult Contract(Guid? id, string listAction)
         {
-            //ViewBag.ListAction = listAction;
             ViewBag.ListAction = "Index";
             return View(id);
         }
@@ -82,49 +81,6 @@ namespace PW.Ncels.Controllers
             {
                 declarantJson = GetDeclarantJson(organization);
             }
-
-            //var declarantContact = organization.OBK_DeclarantContact.OrderByDescending(x => x.CreateDate).FirstOrDefault();
-
-            //var declarantJson = new
-            //{
-            //    organization.OrganizationFormId,
-            //    organization.IsResident,
-            //    organization.NameKz,
-            //    organization.NameRu,
-            //    organization.NameEn,
-            //    organization.CountryId,
-            //    declarantContact.AddressLegalRu,
-            //    declarantContact.AddressLegalKz,
-            //    declarantContact.AddressFact,
-            //    declarantContact.Phone,
-            //    declarantContact.Email,
-            //    declarantContact.BossLastName,
-            //    declarantContact.BossFirstName,
-            //    declarantContact.BossMiddleName,
-            //    declarantContact.BossPosition,
-            //    declarantContact.BossDocType,
-            //    declarantContact.IsHasBossDocNumber,
-            //    declarantContact.BossDocNumber,
-            //    declarantContact.BossDocCreatedDate,
-            //    declarantContact.BossDocEndDate,
-            //    declarantContact.BossDocUnlimited,
-            //    declarantContact.SignLastName,
-            //    declarantContact.SignFirstName,
-            //    declarantContact.SignMiddleName,
-            //    declarantContact.SignPosition,
-            //    declarantContact.SignDocType,
-            //    declarantContact.IsHasSignDocNumber,
-            //    declarantContact.SignDocNumber,
-            //    declarantContact.SignDocCreatedDate,
-            //    declarantContact.SignDocEndDate,
-            //    declarantContact.SignDocUnlimited,
-            //    declarantContact.BankIik,
-            //    declarantContact.BankBik,
-            //    declarantContact.CurrencyId,
-            //    declarantContact.BankNameRu,
-            //    declarantContact.BankNameKz
-            //};
-
             return Json(declarantJson, JsonRequestBehavior.AllowGet);
         }
 
@@ -344,7 +300,7 @@ namespace PW.Ncels.Controllers
             StiReport report = new StiReport();
             try
             {
-                report.Load(obkRepo.GetContractTemplatePath(id));//(Server.MapPath("~/Reports/Mrts/OBK/ObkContractDec.mrt"));
+                report.Load(obkRepo.GetContractTemplatePath(id));
                 foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
                 {
                     data.ConnectionString = UserHelper.GetCnString();
@@ -534,6 +490,41 @@ namespace PW.Ncels.Controllers
             var result = obkRepo.GetExtHistory(modelId);
 
             return Json(new { isSuccess = true, result });
+        }
+
+        [HttpGet]
+        public ActionResult GetFactories(Guid contractId)
+        {
+            var list = obkRepo.GetFactories(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddFactory(Guid contractId, OBKFactoryViewModel factory)
+        {
+            var addedFactoryGuid = obkRepo.AddFactory(contractId, factory);
+            return Json(addedFactoryGuid);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFactory(Guid contractId, OBKFactoryViewModel factory)
+        {
+            var result = obkRepo.DeleteFactory(factory);
+            return Json(result);
+        }
+
+        [HttpGet]
+        public ActionResult GetContractPricesAdditional(Guid contractId)
+        {
+            var list = obkRepo.GetContractPricesAdditional(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetContractPricesSum(Guid contractId)
+        {
+            var sum = obkRepo.GetContractPricesSum(contractId);
+            return Json(sum, JsonRequestBehavior.AllowGet);
         }
     }
 }
