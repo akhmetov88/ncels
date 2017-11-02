@@ -24,6 +24,15 @@ namespace PW.Ncels.Database.DataModel
             this.OBK_AssessmentStage = new HashSet<OBK_AssessmentStage>();
             this.OBK_AssessmentDeclarationComRecord = new HashSet<OBK_AssessmentDeclarationComRecord>();
             this.OBK_AssessmentDeclarationFieldHistory = new HashSet<OBK_AssessmentDeclarationFieldHistory>();
+            this.OBK_Contract = new HashSet<OBK_Contract>();
+            this.OBK_ContractComRecord = new HashSet<OBK_ContractComRecord>();
+            this.OBK_ContractPriceComRecord = new HashSet<OBK_ContractPriceComRecord>();
+            this.OBK_Products_SeriesComRecord = new HashSet<OBK_Products_SeriesComRecord>();
+            this.OBK_RS_ProductsComRecord = new HashSet<OBK_RS_ProductsComRecord>();
+            this.OBK_ContractHistory = new HashSet<OBK_ContractHistory>();
+            this.OBK_ContractStageExecutors = new HashSet<OBK_ContractStageExecutors>();
+            this.OBK_DirectionToPayments = new HashSet<OBK_DirectionToPayments>();
+            this.OBK_ContractExtHistory = new HashSet<OBK_ContractExtHistory>();
         }
     
         public System.Guid Id { get; set; }
@@ -119,5 +128,14 @@ namespace PW.Ncels.Database.DataModel
         public virtual ICollection<OBK_AssessmentStage> OBK_AssessmentStage { get; set; }
         public virtual ICollection<OBK_AssessmentDeclarationComRecord> OBK_AssessmentDeclarationComRecord { get; set; }
         public virtual ICollection<OBK_AssessmentDeclarationFieldHistory> OBK_AssessmentDeclarationFieldHistory { get; set; }
+        public virtual ICollection<OBK_Contract> OBK_Contract { get; set; }
+        public virtual ICollection<OBK_ContractComRecord> OBK_ContractComRecord { get; set; }
+        public virtual ICollection<OBK_ContractPriceComRecord> OBK_ContractPriceComRecord { get; set; }
+        public virtual ICollection<OBK_Products_SeriesComRecord> OBK_Products_SeriesComRecord { get; set; }
+        public virtual ICollection<OBK_RS_ProductsComRecord> OBK_RS_ProductsComRecord { get; set; }
+        public virtual ICollection<OBK_ContractHistory> OBK_ContractHistory { get; set; }
+        public virtual ICollection<OBK_ContractStageExecutors> OBK_ContractStageExecutors { get; set; }
+        public virtual ICollection<OBK_DirectionToPayments> OBK_DirectionToPayments { get; set; }
+        public virtual ICollection<OBK_ContractExtHistory> OBK_ContractExtHistory { get; set; }
     }
 }

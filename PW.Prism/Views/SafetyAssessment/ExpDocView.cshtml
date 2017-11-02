@@ -1,7 +1,4 @@
-﻿@using Kendo.Mvc.Extensions
-@using Microsoft.Ajax.Utilities
-@using PW.Ncels.Database.Constants
-@using Quartz.Util
+﻿@using PW.Ncels.Database.Constants
 @model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 @{
@@ -12,8 +9,8 @@
     var @invoiceKz = @Model.InvoiceKz ?? " ";
     var @invoiceDate = @Model.InvoiceDate != null ? @Model.InvoiceDate.ToString() : " ";
     var @typeCode = @Model.OBK_Ref_Type.Code;
-    var @certNameRu = @Model.CertificateGMPCheck != null && @Model.CertificateGMPCheck == true ? "сертификат " + @Model.OBK_Ref_CertificateType.NameRu + " №" + @Model.CertificateNumber + " от " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateStartDate) + " г., действителен до " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateDate) + " г. выдан организацией " + @Model.CertificateOrganization + ", " + @Model.Dictionary.Name : "";
-    var @certNameKz = @Model.CertificateGMPCheck != null && @Model.CertificateGMPCheck == true ? @Model.OBK_Ref_CertificateType.NameKz + " сертификаты №" + @Model.CertificateNumber + " " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateStartDate) + " ж. бастап, " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateDate) + " ж. дейін жарамды, " + @Model.CertificateOrganization + ", " + @Model.Dictionary.NameKz + " ұйымымен берілген." : "";
+    var @certNameRu = @Model.CertificateGMPCheck != null && @Model.CertificateGMPCheck == true ? "сертификат " + @Model.OBK_Ref_CertificateType.NameRu + " №" + @Model.CertificateGMP + " от " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateStartDate) + " г., действителен до " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateDate) + " г. выдан организацией " + @Model.CertificateOrganization : "";
+    var @certNameKz = @Model.CertificateGMPCheck != null && @Model.CertificateGMPCheck == true ? @Model.OBK_Ref_CertificateType.NameKz + " сертификаты №" + @Model.CertificateGMP + " " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateStartDate) + " ж. бастап, " + string.Format("{0:dd.MM.yyyy}", @Model.CertificateDate) + " ж. дейін жарамды, " + @Model.CertificateOrganization + " ұйымымен берілген." : "";
 }
 
 
@@ -428,24 +425,6 @@
                 if (result.isSuccess) {
                     alert("OK!");
                     getContract();
-                    @*var tabData = $('#tableExpertiseProducts_@modelId').DataTable().rows().data();
-
-                    $.each(tabData,
-                        function(i, tabProduct) {
-                            $.each(tabProduct.OBK_Procunts_Series,
-                                function(y, val) {
-                                    if (val.Id === productSeriesId) {
-                                        debugger;
-                                        val.ProductSeriesId = productSeriesId;
-                                        val.ExpResultTitle = "Соотвествует требованиям";
-                                        val.ExpResult = expData.ExpResult;
-                                        val.ExpReasonNameRu = expData.ExpReasonNameRu;
-                                        val.ExpReasonNameKz = $("#expReasonNameKz").val();
-                                        val.ExpProductNameRu = $("#expProNameRu").val();
-                                        $('#tableExpertiseProductSeries_@modelId').DataTable().ajax.reload();
-                                    }
-                                });
-                        });*@
                 } else { alert("Error!"); }
             },
             error: function() {

@@ -13,7 +13,7 @@
                 <div class="@className" role="alert" style="text-align: left">
                     <p>@entity.Note </p>
                     <p><b>@ResourceSetting.sFieldValue:</b> @entity.DisplayField</p>
-                    <p style="text-align: right;font-size: 12px"><b>@ResourceSetting.RegDate:</b> @(entity.CreateDate.ToString("dd/MM/yyyy HH:mm")) <b>@ResourceSetting.Autor:</b>@(entity.Employee?.DisplayName)</p>
+                    <p style="text-align: right;font-size: 12px"><b>@ResourceSetting.RegDate:</b> @(entity.CreateDate.ToString("dd/MM/yyyy HH:mm")) </p> @*<b>@ResourceSetting.Autor:</b>@(entity.Employee?.DisplayName)*@
 
                 </div>
             }

@@ -223,6 +223,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\CommissionController.cs" />
     <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
+    <Compile Include="Controllers\OBKExpDocument\OBKExpDocumentController.cs" />
     <Compile Include="Controllers\OBKPayment\OBKPaymentController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
@@ -2294,9 +2295,6 @@
     <Content Include="Views\SafetyAssessment\SetExecuter.cshtml" />
     <Content Include="Views\SafetyAssessment\ConfirmeRefuseSafety.cshtml" />
     <Content Include="Views\SafetyAssessment\DocumentReview.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpDocView.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpDocResponseView.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpDocDecResponseView.cshtml" />
     <Content Include="Views\OBKContract\Contract.cshtml" />
     <Content Include="Views\OBKContract\Index.cshtml" />
     <Content Include="Views\OBKContract\ShowComment.cshtml" />
@@ -2315,6 +2313,9 @@
     <Content Include="Views\OBKContract\UploadContract.cshtml" />
     <Content Include="Views\OBKPayment\Index.cshtml" />
     <Content Include="Views\OBKPayment\Edit.cshtml" />
+    <Content Include="Views\OBKPayment\SetChiefAccountant.cshtml" />
+    <Content Include="Views\OBKExpDocument\ExpDocumentView.cshtml" />
+    <Content Include="Views\OBKExpDocument\ExpDocumentDeclarationResponse.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -870,6 +870,9 @@
     <Compile Include="DataModel\I1c_primary_ObkApplications.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_primary_ObkPriceListElements.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_primary_PriceListElements.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1026,9 +1029,6 @@
     <Compile Include="DataModel\OBK_MtPart.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\OBK_Organization.cs">
-      <DependentUpon>EntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataModel\OBK_Procunts_Series.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -1099,6 +1099,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_StageExpDocument.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_StageExpDocumentResult.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\Organization.cs">
@@ -1791,6 +1794,9 @@
     <Compile Include="DataModel\sync_fr_sr_use_methods_tracking.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\sysdiagram.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\Task.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2080,6 +2086,7 @@
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
     <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
+    <Compile Include="Models\OBK\OBKEntityPayment.cs" />
     <Compile Include="Models\OBK\OBKEntityTemplate.cs" />
     <Compile Include="Models\OBK\OBKFactoryViewModel.cs" />
     <Compile Include="Models\OBK\OBKMtPartViewModel.cs" />
@@ -2203,6 +2210,7 @@
     <Compile Include="Repository\Lims\TmcRepository.cs" />
     <Compile Include="Repository\OBK\AssessmentStageRepository.cs" />
     <Compile Include="Repository\OBK\OBKContractRepository.cs" />
+    <Compile Include="Repository\OBK\OBKExpDocumentRepository.cs" />
     <Compile Include="Repository\OBK\OBKPaymentRepository.cs" />
     <Compile Include="Repository\OBK\SafetyAssessmentRepository.cs" />
     <Compile Include="Repository\Price\PriceProjectRepository.cs" />
@@ -2222,7 +2230,9 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DataModel\EntitiesModel.edmx.diagram">
       <DependentUpon>EntitiesModel.edmx</DependentUpon>
     </None>

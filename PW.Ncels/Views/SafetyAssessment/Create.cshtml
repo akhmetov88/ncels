@@ -199,6 +199,7 @@
         var position = $("#InvoiceAgentPositionName").val();
         var cerCountry = $("#CertificateCountryId option:selected").val();
         var cerOrgan = $("#CertificateOrganization").val();
+        var cerManufactir = $("#CertificateManufacturName").val();
         var certType = $("#CertificateTypeId").val();
         var certStartDate = $("#CertificateStartDate").val();
         var certEndDate = $("#CertificateDate").val();
@@ -231,6 +232,12 @@
                 validFile = false;
             } else {
                 $("#CertificateOrganizationLabelId").css({ 'color': '#555' });
+            }
+            if (cerManufactir === "") {
+                $("#CertificateManufacturNameLabelId").css({ 'color': '#a94442' });
+                validFile = false;
+            } else {
+                $("#CertificateManufacturNameLabelId").css({ 'color': '#555' });
             }
             if (certNumber === "") {
                 $("#CertificateId").css({ 'color': '#a94442' });

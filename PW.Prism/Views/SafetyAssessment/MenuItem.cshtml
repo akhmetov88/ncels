@@ -72,20 +72,58 @@
         });*@
     }
 
-    function showExpDoc(event) {
+    @*function showExpDoc(event) {
         var itemId = '@Model.Id';
         window.Showbusy(event);
         $.ajax({
             url: "/SafetyAssessment/ExpDocView?Id=" + itemId,
-            success: function (result) {
+            success: function(result) {
                 $("#page" + '@Model.Id').html(result);
                 $("#loading").hide();
             },
-            error: function () {
+            error: function() {
                 $("#loading").hide();
                 ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
             }
         });
+    }*@
+
+    function showExpDocument() {
+        var itemId = '@Model.Id';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/OBKExpDocument/ExpDocumentView?Id=" + itemId,
+            success: function(result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            },
+            error: function() {
+                $("#loading").hide();
+                ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
+            }
+        });
+    }
+
+    function showExpDocDeclarationResponse() {
+        var itemId = '@Model.Id';
+        debugger;
+        var expResult = '@Model.OBK_AssessmentDeclaration.OBK_StageExpDocumentResult.Count';
+        if (expResult > 0) {
+            window.Showbusy(event);
+            $.ajax({
+                url: "/OBKExpDocument/ExpDocumentDeclarationResponse?Id=" + itemId,
+                success: function(result) {
+                    $("#page" + '@Model.Id').html(result);
+                    $("#loading").hide();
+                },
+                error: function() {
+                    $("#loading").hide();
+                    ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
+                }
+            });
+        } else {
+            alert('Необходимо выбрать результат в вкладке "Экспертиза документов"');
+        }
     }
 </script>
 
@@ -95,7 +133,12 @@
         <a href="#" onclick="showAttachFile(event)" class="list-group-item"><span class="glyphicon glyphicon-folder-open"></span> Перечень документов</a>
         @if (Model.StageId == CodeConstManager.STAGE_OBK_EXPERTISE_DOC)
         {
-            <a href="#" onclick="showExpDoc(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>
+            @*<a href="#" onclick="showExpDoc(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>*@
+            <a href="#" onclick="showExpDocument(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>
+            if (Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code == CodeConstManager.OBK_SA_DECLARATION)
+            {
+                <a href="#" onclick="showExpDocDeclarationResponse(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов результат</a>
+            }
         }
         @if(@Model.OBK_AssessmentDeclaration.OBK_Ref_Type.Code != CodeConstManager.OBK_SA_DECLARATION) {
             <a href="#" onclick="showMaterial(event)" class="list-group-item"><span class="glyphicon glyphicon-briefcase"></span> Образцы</a>

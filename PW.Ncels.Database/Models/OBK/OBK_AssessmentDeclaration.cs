@@ -58,6 +58,12 @@ namespace PW.Ncels.Database.DataModel
 
         #endregion
 
+        #region expDocumentResult
+
+        public bool ExpDocumentResult { get; set; }
+
+        #endregion
+
         public Employee Applicant { get; set; }
         public OBK_Contract ObkContracts { get; set; }
         public List<OBK_RS_Products> ObkRsProductses { get; set; }

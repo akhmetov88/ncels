@@ -141,8 +141,19 @@ namespace PW.Ncels.Database.Repository.OBK
 
         public Employee GetExecutorByDicStageId(int stageId)
         {
-            var organization = AppContext.Units.FirstOrDefault(e => e.Id == new Guid("BBF0867E-E3EC-4B02-8B7D-B08FE96A893B"));
-            return AppContext.Employees.FirstOrDefault(x => x.Id == new Guid(organization.BossId));
+            //цоз
+            if (stageId == 1)
+            {
+                var organization = AppContext.Units.FirstOrDefault(e => e.Id == new Guid("BBF0867E-E3EC-4B02-8B7D-B08FE96A893B"));
+                return AppContext.Employees.FirstOrDefault(x => x.Id == new Guid(organization.BossId));
+            }
+            // уобк
+            if (stageId == 2)
+            {
+                return AppContext.Employees.FirstOrDefault(
+                    e => e.Id == new Guid("14D1A1F0-9501-4232-9C29-E9C394D88784"));
+            }
+            return null;
         }
     }
 }
