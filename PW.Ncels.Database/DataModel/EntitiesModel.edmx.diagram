@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="65">
+      <Diagram DiagramId="945f9b41d7094f09af13958a9f67b113" Name="Diagram1" ZoomLevel="22">
         <EntityTypeShape EntityType="ncelsModel.AccessDocument" Width="1.5" PointX="10.25" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.AccessTask" Width="1.5" PointX="14.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ncelsModel.Activity" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
@@ -754,6 +754,67 @@
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_Dictionaries" />
         <AssociationConnector Association="ncelsModel.FK_OBK_AssessmentDeclaration_OBK_Ref_CertificateType" />
         <AssociationConnector Association="ncelsModel.FK_OBK_MtPart_ProductId_OBK_RS_Products_Id" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ObkApplicationNotFullPaymentState" Width="1.5" PointX="0.75" PointY="73.25" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ObkApplicationPaymentState" Width="1.5" PointX="73.75" PointY="1.25" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ObkApplications" Width="1.5" PointX="31.75" PointY="74.25" />
+        <EntityTypeShape EntityType="ncelsModel.I1c_primary_ObkPriceListElements" Width="1.5" PointX="37.75" PointY="74.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractCom" Width="1.5" PointX="81.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractComRecord" Width="1.5" PointX="91.625" PointY="15.625" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractExtHistory" Width="1.5" PointX="86.375" PointY="19.625" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractHistory" Width="1.5" PointX="10" PointY="74.375" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractPriceCom" Width="1.5" PointX="94" PointY="11.375" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractPriceComRecord" Width="1.5" PointX="99.25" PointY="11.625" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractSignedDatas" Width="1.5" PointX="81.375" PointY="23.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractStage" Width="1.5" PointX="86.375" PointY="14.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractStageExecutors" Width="1.5" PointX="95.625" PointY="8" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_DirectionSignData" Width="1.5" PointX="94.125" PointY="21.625" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_DirectionToPayments" Width="1.5" PointX="91.875" PointY="19.75" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Products_SeriesCom" Width="1.5" PointX="92.5" PointY="7.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Products_SeriesComRecord" Width="1.5" PointX="96.75" PointY="11.625" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ContractExtHistoryStatus" Width="1.5" PointX="84.125" PointY="28.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_ContractHistoryStatus" Width="1.5" PointX="7.75" PointY="74.375" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_Ref_PaymentStatus" Width="1.5" PointX="73.75" PointY="12.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_RS_ProductsCom" Width="1.5" PointX="88.75" PointY="19.5" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_RS_ProductsComRecord" Width="1.5" PointX="94" PointY="14.625" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_StageExpDocumentResult" Width="1.5" PointX="79.375" PointY="33.75" />
+        <EntityTypeShape EntityType="ncelsModel.sysdiagram" Width="1.5" PointX="73.75" PointY="50.25" />
+        <EntityTypeShape EntityType="ncelsModel.UnitsAddress" Width="1.5" PointX="73.75" PointY="53.25" />
+        <EntityTypeShape EntityType="ncelsModel.UnitsBank" Width="1.5" PointX="73.75" PointY="57.25" />
+        <EntityTypeShape EntityType="ncelsModel.UnitSigner" Width="1.5" PointX="60.75" PointY="74.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractHistoryView" Width="1.5" PointX="73.75" PointY="63.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_ContractRegisterView" Width="1.5" PointX="73.75" PointY="68.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBK_DirectionToPaymentsView" Width="1.5" PointX="2.75" PointY="75.25" />
+        <EntityTypeShape EntityType="ncelsModel.OBKContractProductsView" Width="1.5" PointX="4.75" PointY="75.25" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Contract_Signer_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractComRecord_UserId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractExtHistory_EmployeeId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractPriceComRecord_UserId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractStageExecutors_ExecutorId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_DirectionToPayments_Employees" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Products_SeriesComRecord_UserId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.OBK_RS_ProductsComRecord_UserId_Employees_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_StageExpDocumentResult_OBK_AssessmentDeclaration" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Contract_ExpertOrganization_Units_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractCom_ContractId_OBK_Contract_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractExtHistory_ContractId_OBK_Contract_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractSignedDatas_ContractId_OBK_Contract_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractStage_ContractId_OBK_Contract_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_DirectionToPayments_OBK_Contract" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractComRecord_CommentId_OBK_ContractCom_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractExtHistory_StatusId_OBK_Ref_ContractExtHistoryStatus_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractHistory_StatusId_OBK_Ref_ContractHistoryStatus_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractPriceCom_OBK_ContractPrice_ContractPriceId" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractPriceComRecord_CommentId_OBK_ContractPriceCom_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractStage_ParentStageId_OBK_ContractStage_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractStage_StageId_OBK_Ref_Stage_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractStage_StageStatusId_OBK_Ref_StageStatus_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_ContractStageExecutors_ContractStageId_OBK_ContractStage_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_DirectionToPayments_OBK_Declarant" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_DirectionSignData_DirectionToPaymentId_OBK_DirectionToPayments_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Products_SeriesCom_OBK_Procunts_Series_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_Products_SeriesComRecord_CommentId_OBK_Products_SeriesCom_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_RS_ProductsCom_OBK_RS_Products_Id" />
+        <AssociationConnector Association="ncelsModel.FK_OBK_RS_ProductsComRecord_CommentId_OBK_RS_ProductsCom_Id" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

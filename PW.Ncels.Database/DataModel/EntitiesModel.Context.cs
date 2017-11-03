@@ -15,6 +15,7 @@ namespace PW.Ncels.Database.DataModel
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     using System.Data.Objects.DataClasses;
+
     public partial class ncelsEntities : DbContext
     {
         public ncelsEntities()
@@ -456,6 +457,37 @@ namespace PW.Ncels.Database.DataModel
         public DbSet<OBK_Ref_CertificateType> OBK_Ref_CertificateType { get; set; }
         public DbSet<OBK_MtPart> OBK_MtPart { get; set; }
         public DbSet<OBK_Ref_ContractDocumentType> OBK_Ref_ContractDocumentType { get; set; }
+        public DbSet<I1c_primary_ObkApplicationNotFullPaymentState> I1c_primary_ObkApplicationNotFullPaymentState { get; set; }
+        public DbSet<I1c_primary_ObkApplicationPaymentState> I1c_primary_ObkApplicationPaymentState { get; set; }
+        public DbSet<I1c_primary_ObkApplications> I1c_primary_ObkApplications { get; set; }
+        public DbSet<I1c_primary_ObkPriceListElements> I1c_primary_ObkPriceListElements { get; set; }
+        public DbSet<OBK_ContractCom> OBK_ContractCom { get; set; }
+        public DbSet<OBK_ContractComRecord> OBK_ContractComRecord { get; set; }
+        public DbSet<OBK_ContractExtHistory> OBK_ContractExtHistory { get; set; }
+        public DbSet<OBK_ContractHistory> OBK_ContractHistory { get; set; }
+        public DbSet<OBK_ContractPriceCom> OBK_ContractPriceCom { get; set; }
+        public DbSet<OBK_ContractPriceComRecord> OBK_ContractPriceComRecord { get; set; }
+        public DbSet<OBK_ContractSignedDatas> OBK_ContractSignedDatas { get; set; }
+        public DbSet<OBK_ContractStage> OBK_ContractStage { get; set; }
+        public DbSet<OBK_ContractStageExecutors> OBK_ContractStageExecutors { get; set; }
+        public DbSet<OBK_DirectionSignData> OBK_DirectionSignData { get; set; }
+        public DbSet<OBK_DirectionToPayments> OBK_DirectionToPayments { get; set; }
+        public DbSet<OBK_Products_SeriesCom> OBK_Products_SeriesCom { get; set; }
+        public DbSet<OBK_Products_SeriesComRecord> OBK_Products_SeriesComRecord { get; set; }
+        public DbSet<OBK_Ref_ContractExtHistoryStatus> OBK_Ref_ContractExtHistoryStatus { get; set; }
+        public DbSet<OBK_Ref_ContractHistoryStatus> OBK_Ref_ContractHistoryStatus { get; set; }
+        public DbSet<OBK_Ref_PaymentStatus> OBK_Ref_PaymentStatus { get; set; }
+        public DbSet<OBK_RS_ProductsCom> OBK_RS_ProductsCom { get; set; }
+        public DbSet<OBK_RS_ProductsComRecord> OBK_RS_ProductsComRecord { get; set; }
+        public DbSet<OBK_StageExpDocumentResult> OBK_StageExpDocumentResult { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<UnitsAddress> UnitsAddresses { get; set; }
+        public DbSet<UnitsBank> UnitsBanks { get; set; }
+        public DbSet<UnitSigner> UnitSigners { get; set; }
+        public DbSet<OBK_ContractHistoryView> OBK_ContractHistoryView { get; set; }
+        public DbSet<OBK_ContractRegisterView> OBK_ContractRegisterView { get; set; }
+        public DbSet<OBK_DirectionToPaymentsView> OBK_DirectionToPaymentsView { get; set; }
+        public DbSet<OBKContractProductsView> OBKContractProductsViews { get; set; }
     
         public virtual int CloseTask(Nullable<System.Guid> id, string note, string modifiedUser)
         {
