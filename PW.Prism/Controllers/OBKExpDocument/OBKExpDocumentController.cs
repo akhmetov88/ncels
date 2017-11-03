@@ -4,7 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
+using Aspose.Cells;
+using Aspose.Cells.Rendering;
 using Ncels.Helpers;
+using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Repository.Common;
@@ -145,6 +149,51 @@ namespace PW.Prism.Controllers.OBKExpDocument
         {
             var signData = expRepo.GetSignData(id);
             return Json(new { data = signData }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SaveSignedExpDocument(Guid id, string signedData)
+        {
+            var message = expRepo.SaveSignExpDoc(id, signedData);
+            return Json(new { message });
+        }
+
+        public ActionResult ReturnToExecutor(Guid id)
+        {
+            var result = expRepo.GetReturnToExecutor(id, CodeConstManager.STAGE_OBK_EXPERTISE_DOC);
+            return Json(new { result }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ActExportFilePdf(Guid id)
+        {
+            string name = "Акт выполненных работ.pdf";
+
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(Server.MapPath("~/Reports/Mrts/OBK/1c/ObkCertificateOfCompletion.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["AssessmentDeclarationId"].ValueObject = id;
+                report.Dictionary.Variables["ContractId"].ValueObject = expRepo.GetAssessmentDeclaration(id).Contract_Id;
+                report.Dictionary.Variables["ValueAddedTax"].ValueObject = expRepo.GetValueAddedTax();
+                var totalCount = expRepo.GetContractPrice(expRepo.GetAssessmentDeclaration(id).Contract_Id);
+                report.Dictionary.Variables["TotalCount"].ValueObject = totalCount;
+                var priceText = RuDateAndMoneyConverter.CurrencyToTxtTenge(Convert.ToDouble(totalCount), false);
+                report.Dictionary.Variables["TotalCountText"].ValueObject = priceText;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            var stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+            return File(stream, "application/pdf", name);
         }
     }
 }

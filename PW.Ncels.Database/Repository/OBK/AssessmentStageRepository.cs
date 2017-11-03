@@ -95,7 +95,15 @@ namespace PW.Ncels.Database.Repository.OBK
                     EndDate = daysOnStage != null ? (DateTime?)startDate.AddDays(daysOnStage) : null
                 };
                 //todo брать руководителя цоз из настроек
-                newStage.Employees.Add(GetExecutorByDicStageId(nextStageId));
+
+                var newStageExecutor = new OBK_AssessmentStageExecutors
+                {
+                    AssessmentStageId = newStage.Id,
+                    ExecutorId = GetExecutorByDicStageId(nextStageId).Id,
+                    ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_ASSIGNING
+                };
+
+                newStage.OBK_AssessmentStageExecutors.Add(newStageExecutor);
                 AppContext.OBK_AssessmentStage.Add(newStage);
                 //if (nextStageId == CodeConstManager.STAGE_ANALITIC)
                 //{

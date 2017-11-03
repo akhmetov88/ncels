@@ -300,7 +300,7 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
             actions: ["Close"]
         });
 
-        window.data("kendoWindow").title('Отправить на первичную документов');
+        window.data("kendoWindow").title('Отправить на экспертизу документов');
         window.data("kendoWindow").setOptions({
             width: 550,
             height: 'auto'

@@ -623,14 +623,24 @@ namespace PW.Ncels.Database.Repository.OBK
         /// <param name="executorIds"></param>
         public void SendToWork(Guid[] stageIds, Guid[] executorIds)
         {
-            var stages = AppContext.OBK_AssessmentStage.Include(e => e.Employees).Where(e => stageIds.Contains(e.Id)).ToList();
+            var stages = AppContext.OBK_AssessmentStage.Where(e => stageIds.Contains(e.Id)).ToList();
             var executors = AppContext.Employees.Where(e => executorIds.Contains(e.Id)).ToList();
+
             foreach (var stage in stages)
             {
-                stage.Employees.AddRange(executors);
-                stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+                foreach (var executor in executors)
+                {
+                    var stageExecutor = new OBK_AssessmentStageExecutors
+                    {
+                        AssessmentStageId = stage.Id,
+                        ExecutorId = executor.Id,
+                        ExecutorType = CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_EXECUTOR
+                    };
+                    stage.StageStatusId = GetStageStatusByCode(OBK_Ref_StageStatus.InWork).Id;
+                    AppContext.OBK_AssessmentStageExecutors.AddOrUpdate(stageExecutor);
+                    AppContext.SaveChanges();
+                }
             }
-            AppContext.SaveChanges();
         }
         public OBK_Ref_StageStatus GetStageStatusByCode(string code)
         {

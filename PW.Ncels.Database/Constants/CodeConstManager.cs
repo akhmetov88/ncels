@@ -421,6 +421,20 @@ namespace PW.Ncels.Database.Constants
 
         #endregion
 
+        #region Результаты этапов
+
+        /// <summary>
+        /// Этап завершен положительно
+        /// </summary>
+        public const int STAGE_OBK_COMPLETED_POSITIVE = 1;
+
+        /// <summary>
+        /// Этап завершен отрицательно
+        /// </summary>
+        public const int STAGE_OBK_COMPLETED_NEGATIVE = 2;
+
+        #endregion
+
         #region Статусы
 
         /// <summary>
