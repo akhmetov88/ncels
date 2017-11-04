@@ -238,7 +238,8 @@ namespace PW.Ncels.Database.Repository.OBK
                     Type = x.OBK_Ref_Type.NameRu,
                     TypeKz = x.OBK_Ref_Type.NameKz,
                     x.StartDate,
-                    x.EndDate
+                    x.EndDate,
+                    x.ParentId
                 }
                 );
                 return
@@ -2530,5 +2531,215 @@ namespace PW.Ncels.Database.Repository.OBK
             }
         }
         #endregion
+
+        public object GetActiveContracts()
+        {
+            var employeeId = UserHelper.GetCurrentEmployee().Id;
+            var list = AppContext.OBK_Contract.Where(x => x.EmployeeId == employeeId && x.Status == CodeConstManager.STATUS_OBK_ACTIVE).Select(x => new { Id = x.Id, Name = x.Number }).ToList();
+            return list;
+        }
+
+        public OBKContractAdditionViewModel SaveContractAddition(Guid guid, OBKContractViewModel contractViewModel, OBKContractAdditionViewModel contractAdditionVideModel)
+        {
+            var obkContract = AppContext.OBK_Contract.Where(o => o.Id == contractAdditionVideModel.Id).FirstOrDefault();
+            if (obkContract != null)
+            {
+                FillContractAddition(obkContract, contractViewModel, contractAdditionVideModel);
+                AppContext.SaveChanges();
+            }
+            else
+            {
+                OBK_Contract contractAddition = new OBK_Contract();
+                contractAddition.Id = guid;
+                contractAddition.CreatedDate = DateTime.Now;
+                contractAddition.Number = CodeConstManager.OBK_CONTRACT_NO_NUMBER;
+                contractAddition.Status = CodeConstManager.STATUS_OBK_DRAFT_ID;
+
+                var employeeId = UserHelper.GetCurrentEmployee().Id;
+                contractAddition.EmployeeId = employeeId;
+
+                FillContractAddition(contractAddition, contractViewModel, contractAdditionVideModel);
+
+                AppContext.OBK_Contract.Add(contractAddition);
+                AppContext.SaveChanges();
+                contractAdditionVideModel.Id = contractAddition.Id;
+            }
+            return contractAdditionVideModel;
+        }
+
+        public object GetContractAddition(Guid id)
+        {
+            var contractAddition = AppContext.OBK_Contract.Where(x => x.Id == id).FirstOrDefault();
+            if (contractAddition != null)
+            {
+                OBKContractAdditionViewModel contractAdditionViewModel = new OBKContractAdditionViewModel();
+                contractAdditionViewModel.Id = contractAddition.Id;
+                contractAdditionViewModel.ContractAdditionTypeId = contractAddition.ContractAdditionType;
+                contractAdditionViewModel.ContractId = contractAddition.ParentId;
+
+                OBKContractViewModel contractViewModel = new OBKContractViewModel();
+                contractViewModel.Id = contractAddition.Id;
+                contractViewModel.Type = contractAddition.Type;
+                contractViewModel.ExpertOrganization = contractAddition.ExpertOrganization;
+                contractViewModel.Signer = contractAddition.Signer;
+                contractViewModel.Status = contractAddition.Status;
+                contractViewModel.Number = contractAddition.Number;
+
+                if (contractAddition.DeclarantContactId != null)
+                {
+                    contractViewModel.AddressLegalRu = contractAddition.OBK_DeclarantContact.AddressLegalRu;
+                    contractViewModel.AddressLegalKz = contractAddition.OBK_DeclarantContact.AddressLegalKz;
+                    contractViewModel.AddressFact = contractAddition.OBK_DeclarantContact.AddressFact;
+                    contractViewModel.Phone = contractAddition.OBK_DeclarantContact.Phone;
+                    contractViewModel.Email = contractAddition.OBK_DeclarantContact.Email;
+                    contractViewModel.BossLastName = contractAddition.OBK_DeclarantContact.BossLastName;
+                    contractViewModel.BossFirstName = contractAddition.OBK_DeclarantContact.BossFirstName;
+                    contractViewModel.BossMiddleName = contractAddition.OBK_DeclarantContact.BossMiddleName;
+                    contractViewModel.BossPosition = contractAddition.OBK_DeclarantContact.BossPosition;
+                    contractViewModel.BossPositionKz = contractAddition.OBK_DeclarantContact.BossPositionKz;
+                    contractViewModel.BossDocType = contractAddition.OBK_DeclarantContact.BossDocType;
+                    contractViewModel.IsHasBossDocNumber = contractAddition.OBK_DeclarantContact.IsHasBossDocNumber;
+                    contractViewModel.BossDocNumber = contractAddition.OBK_DeclarantContact.BossDocNumber;
+                    contractViewModel.BossDocCreatedDate = contractAddition.OBK_DeclarantContact.BossDocCreatedDate;
+                    contractViewModel.BossDocEndDate = contractAddition.OBK_DeclarantContact.BossDocEndDate;
+                    contractViewModel.BossDocUnlimited = contractAddition.OBK_DeclarantContact.BossDocUnlimited;
+                    contractViewModel.SignerIsBoss = contractAddition.OBK_DeclarantContact.SignerIsBoss;
+                    contractViewModel.SignLastName = contractAddition.OBK_DeclarantContact.SignLastName;
+                    contractViewModel.SignFirstName = contractAddition.OBK_DeclarantContact.SignFirstName;
+                    contractViewModel.SignMiddleName = contractAddition.OBK_DeclarantContact.SignMiddleName;
+                    contractViewModel.SignPosition = contractAddition.OBK_DeclarantContact.SignPosition;
+                    contractViewModel.SignPositionKz = contractAddition.OBK_DeclarantContact.SignPositionKz;
+                    contractViewModel.SignDocType = contractAddition.OBK_DeclarantContact.SignDocType;
+                    contractViewModel.IsHasSignDocNumber = contractAddition.OBK_DeclarantContact.IsHasSignDocNumber;
+                    contractViewModel.SignDocNumber = contractAddition.OBK_DeclarantContact.SignDocNumber;
+                    contractViewModel.SignDocCreatedDate = contractAddition.OBK_DeclarantContact.SignDocCreatedDate;
+                    contractViewModel.SignDocEndDate = contractAddition.OBK_DeclarantContact.SignDocEndDate;
+                    contractViewModel.SignDocUnlimited = contractAddition.OBK_DeclarantContact.SignDocUnlimited;
+                    contractViewModel.BankIik = contractAddition.OBK_DeclarantContact.BankIik;
+                    contractViewModel.BankBik = contractAddition.OBK_DeclarantContact.BankBik;
+                    contractViewModel.CurrencyId = contractAddition.OBK_DeclarantContact.CurrencyId;
+                    contractViewModel.BankNameRu = contractAddition.OBK_DeclarantContact.BankNameRu;
+                    contractViewModel.BankNameKz = contractAddition.OBK_DeclarantContact.BankNameKz;
+                }
+
+                return new { contractAddition = contractAdditionViewModel, contract = contractViewModel };
+            }
+            return null;
+        }
+
+        private void FillContractAddition(OBK_Contract contractAddition, OBKContractViewModel contractViewModel, OBKContractAdditionViewModel contractAdditionVideModel)
+        {
+            contractAddition.ContractAdditionType = contractAdditionVideModel.ContractAdditionTypeId;
+            contractAddition.ParentId = contractAdditionVideModel.ContractId;
+
+            if (contractAdditionVideModel.ContractId != null)
+            {
+                var parentContract = AppContext.OBK_Contract.Where(x => x.Id == contractAdditionVideModel.ContractId).FirstOrDefault();
+                contractAddition.Type = parentContract.Type;
+                contractAddition.ExpertOrganization = parentContract.ExpertOrganization;
+                contractAddition.Signer = parentContract.Signer;
+
+                contractAddition.DeclarantId = parentContract.DeclarantId;
+                if (contractAddition.OBK_DeclarantContact == null)
+                {
+                    contractAddition.OBK_DeclarantContact = new OBK_DeclarantContact();
+                    contractAddition.OBK_DeclarantContact.Id = Guid.NewGuid();
+                }
+                FillContactData(contractAddition, parentContract);
+                if (contractAdditionVideModel.ContractAdditionTypeId != null)
+                {
+                    var contractAdditionType = AppContext.Dictionaries.Where(x => x.Id == contractAdditionVideModel.ContractAdditionTypeId).FirstOrDefault();
+                    if (contractAdditionType != null)
+                    {
+                        switch (contractAdditionType.Code)
+                        {
+                            case "1":
+                                FillContactDataAddress(contractAddition.OBK_DeclarantContact, contractViewModel);
+                                break;
+                            case "2":
+                                FillContactDataBoss(contractAddition.OBK_DeclarantContact, contractViewModel);
+                                break;
+                            case "3":
+                                FillContactDataBank(contractAddition.OBK_DeclarantContact, contractViewModel);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void FillContactData(OBK_Contract contractAddition, OBK_Contract parentContract)
+        {
+            contractAddition.OBK_DeclarantContact.DeclarantId = parentContract.OBK_DeclarantContact.DeclarantId;
+            contractAddition.OBK_DeclarantContact.AddressLegalRu = parentContract.OBK_DeclarantContact.AddressLegalRu;
+            contractAddition.OBK_DeclarantContact.AddressLegalKz = parentContract.OBK_DeclarantContact.AddressLegalKz;
+            contractAddition.OBK_DeclarantContact.AddressFact = parentContract.OBK_DeclarantContact.AddressFact;
+            contractAddition.OBK_DeclarantContact.Phone = parentContract.OBK_DeclarantContact.Phone;
+            contractAddition.OBK_DeclarantContact.Email = parentContract.OBK_DeclarantContact.Email;
+            contractAddition.OBK_DeclarantContact.BankNameRu = parentContract.OBK_DeclarantContact.BankNameRu;
+            contractAddition.OBK_DeclarantContact.BankNameKz = parentContract.OBK_DeclarantContact.BankNameKz;
+            contractAddition.OBK_DeclarantContact.BankIik = parentContract.OBK_DeclarantContact.BankIik;
+            contractAddition.OBK_DeclarantContact.BankBik = parentContract.OBK_DeclarantContact.BankBik;
+            contractAddition.OBK_DeclarantContact.CurrencyId = parentContract.OBK_DeclarantContact.CurrencyId;
+            contractAddition.OBK_DeclarantContact.BossFio = parentContract.OBK_DeclarantContact.BossFio;
+            contractAddition.OBK_DeclarantContact.BossPosition = parentContract.OBK_DeclarantContact.BossPosition;
+            contractAddition.OBK_DeclarantContact.BossLastName = parentContract.OBK_DeclarantContact.BossLastName;
+            contractAddition.OBK_DeclarantContact.BossFirstName = parentContract.OBK_DeclarantContact.BossFirstName;
+            contractAddition.OBK_DeclarantContact.BossMiddleName = parentContract.OBK_DeclarantContact.BossMiddleName;
+            contractAddition.OBK_DeclarantContact.BossDocNumber = parentContract.OBK_DeclarantContact.BossDocNumber;
+            contractAddition.OBK_DeclarantContact.BossDocType = parentContract.OBK_DeclarantContact.BossDocType;
+            contractAddition.OBK_DeclarantContact.IsHasBossDocNumber = parentContract.OBK_DeclarantContact.IsHasBossDocNumber;
+            contractAddition.OBK_DeclarantContact.BossDocCreatedDate = parentContract.OBK_DeclarantContact.BossDocCreatedDate;
+            contractAddition.OBK_DeclarantContact.SignType = parentContract.OBK_DeclarantContact.SignType;
+            contractAddition.OBK_DeclarantContact.SignLastName = parentContract.OBK_DeclarantContact.SignLastName;
+            contractAddition.OBK_DeclarantContact.SignFirstName = parentContract.OBK_DeclarantContact.SignFirstName;
+            contractAddition.OBK_DeclarantContact.SignMiddleName = parentContract.OBK_DeclarantContact.SignMiddleName;
+            contractAddition.OBK_DeclarantContact.SignPosition = parentContract.OBK_DeclarantContact.SignPosition;
+            contractAddition.OBK_DeclarantContact.SignDocType = parentContract.OBK_DeclarantContact.SignDocType;
+            contractAddition.OBK_DeclarantContact.IsHasSignDocNumber = parentContract.OBK_DeclarantContact.IsHasSignDocNumber;
+            contractAddition.OBK_DeclarantContact.SignDocNumber = parentContract.OBK_DeclarantContact.SignDocNumber;
+            contractAddition.OBK_DeclarantContact.SignDocCreatedDate = parentContract.OBK_DeclarantContact.SignDocCreatedDate;
+            contractAddition.OBK_DeclarantContact.CreateDate = parentContract.OBK_DeclarantContact.CreateDate;
+            contractAddition.OBK_DeclarantContact.SignDocEndDate = parentContract.OBK_DeclarantContact.SignDocEndDate;
+            contractAddition.OBK_DeclarantContact.SignDocUnlimited = parentContract.OBK_DeclarantContact.SignDocUnlimited;
+            contractAddition.OBK_DeclarantContact.BossDocEndDate = parentContract.OBK_DeclarantContact.BossDocEndDate;
+            contractAddition.OBK_DeclarantContact.BossDocUnlimited = parentContract.OBK_DeclarantContact.BossDocUnlimited;
+            contractAddition.OBK_DeclarantContact.SignerIsBoss = parentContract.OBK_DeclarantContact.SignerIsBoss;
+            contractAddition.OBK_DeclarantContact.SignPositionKz = parentContract.OBK_DeclarantContact.SignPositionKz;
+            contractAddition.OBK_DeclarantContact.BossPositionKz = parentContract.OBK_DeclarantContact.BossPositionKz;
+        }
+
+        private void FillContactDataAddress(OBK_DeclarantContact declarantContact, OBKContractViewModel contractViewModel)
+        {
+            declarantContact.AddressFact = contractViewModel.AddressFact;
+            declarantContact.AddressLegalKz = contractViewModel.AddressLegalKz;
+            declarantContact.AddressLegalRu = contractViewModel.AddressLegalRu;
+            declarantContact.Phone = contractViewModel.Phone;
+            declarantContact.Email = contractViewModel.Email;
+        }
+
+        private void FillContactDataBoss(OBK_DeclarantContact declarantContact, OBKContractViewModel contractViewModel)
+        {
+            declarantContact.BossLastName = contractViewModel.BossLastName;
+            declarantContact.BossFirstName = contractViewModel.BossFirstName;
+            declarantContact.BossMiddleName = contractViewModel.BossMiddleName;
+            declarantContact.BossPosition = contractViewModel.BossPosition;
+            declarantContact.BossPositionKz = contractViewModel.BossPositionKz;
+            declarantContact.BossDocType = contractViewModel.BossDocType;
+            declarantContact.BossDocUnlimited = contractViewModel.BossDocUnlimited;
+            declarantContact.IsHasBossDocNumber = contractViewModel.IsHasBossDocNumber;
+            declarantContact.BossDocNumber = contractViewModel.BossDocNumber;
+            declarantContact.BossDocCreatedDate = contractViewModel.BossDocCreatedDate;
+            declarantContact.BossDocEndDate = contractViewModel.BossDocEndDate;
+        }
+
+        private void FillContactDataBank(OBK_DeclarantContact declarantContact, OBKContractViewModel contractViewModel)
+        {
+            declarantContact.BankIik = contractViewModel.BankIik;
+            declarantContact.BankBik = contractViewModel.BankBik;
+            declarantContact.CurrencyId = contractViewModel.CurrencyId;
+            declarantContact.BankNameKz = contractViewModel.BankNameKz;
+            declarantContact.BankNameRu = contractViewModel.BankNameRu;
+        }
     }
 }

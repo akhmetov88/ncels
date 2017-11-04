@@ -34,9 +34,10 @@ namespace PW.Ncels.Controllers
             return View();
         }
 
-        public ActionResult ContractAddition()
+        public ActionResult ContractAddition(Guid? id)
         {
-            return View();
+            ViewBag.ListAction = "Index";
+            return View(id);
         }
 
         public ActionResult Contract(Guid? id, string listAction)
@@ -525,6 +526,27 @@ namespace PW.Ncels.Controllers
         {
             var sum = obkRepo.GetContractPricesSum(contractId);
             return Json(sum, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetActiveContracts()
+        {
+            var list = obkRepo.GetActiveContracts();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ContractAdditionSave(Guid Guid, OBKContractViewModel contractViewModel, OBKContractAdditionViewModel contractAddition)
+        {
+            OBKContractAdditionViewModel contractAdditionVideModel = obkRepo.SaveContractAddition(Guid, contractViewModel, contractAddition);
+            return Json(contractAdditionVideModel);
+        }
+
+        [HttpGet]
+        public ActionResult ContractAdditionGet(Guid id)
+        {
+            var obj = obkRepo.GetContractAddition(id);
+            return Json(obj, JsonRequestBehavior.AllowGet);
         }
     }
 }
