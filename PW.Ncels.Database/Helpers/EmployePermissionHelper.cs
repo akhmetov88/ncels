@@ -167,6 +167,7 @@ namespace PW.Ncels.Database.Helpers
             AddPermission("IsMenuSafetyAssessmentVisibility", @"Модуль 'ОБК'", "Вкладка 'ОБК Заявления' главная", "Доступ в главном меню ОБК");
             AddPermission("CanSafetyAssessmentExecutorsAssignment", @"Модуль 'ОБК'", "Распределение заявлений", "Работа с заявлениями ОБК");
             AddPermission("CanSARejectAndReviewButton", @"Модуль 'ОБК'", "Функционал подверждения или отклонения заявки ЦОЗ", "Работа с заявлениями ОБК");
+            AddPermission("CanSafetyExpertiseDocumentList", @"Модуль 'ОБК'", "Экспертиза документов", "Работа с заявлениями ОБК");
 
             // Организационная стуктура
             AddPermission("CanChangeBankUnits", @"Модуль 'Организационная структура'", "Просмотр и добавление банковских реквизитов для организации", "Работа с организационной структурой");
@@ -888,6 +889,12 @@ namespace PW.Ncels.Database.Helpers
         /// ЦОЗ кнопки вернуть и следеющий этап в одельное право
         /// </summary>
         public static bool CanSARejectAndReviewButton { get { return IsVisibility("CanSARejectAndReviewButton"); } }
+
+        /// <summary>
+        /// Показывать кнопку Экспертиза документов в меню ОБК
+        /// </summary>
+        public static bool CanSafetyExpertiseDocumentList { get { return IsVisibility("CanSafetyExpertiseDocumentList"); } }
+
         #endregion
 
         #region Организационная структура настройки реквизитов

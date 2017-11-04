@@ -795,6 +795,9 @@
     <Compile Include="DataModel\I1c_act_Application_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_act_ObkApplication.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_exp_Contracts.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -955,6 +958,15 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_AssessmentStage.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStageExecutors.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStageSignData.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_CertificateOfCompletion.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\obk_certifications.cs">

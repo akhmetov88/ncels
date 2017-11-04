@@ -21,6 +21,7 @@ namespace PW.Ncels.Database.DataModel
             this.OBK_AssessmentDeclarationCom = new HashSet<OBK_AssessmentDeclarationCom>();
             this.OBK_AssessmentDeclarationFieldHistory = new HashSet<OBK_AssessmentDeclarationFieldHistory>();
             this.OBK_StageExpDocumentResult = new HashSet<OBK_StageExpDocumentResult>();
+            this.OBK_CertificateOfCompletion = new HashSet<OBK_CertificateOfCompletion>();
         }
     
         public System.Guid Id { get; set; }
@@ -70,5 +71,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual Dictionary Dictionary { get; set; }
         public virtual OBK_Ref_CertificateType OBK_Ref_CertificateType { get; set; }
         public virtual ICollection<OBK_StageExpDocumentResult> OBK_StageExpDocumentResult { get; set; }
+        public virtual ICollection<OBK_CertificateOfCompletion> OBK_CertificateOfCompletion { get; set; }
     }
 }

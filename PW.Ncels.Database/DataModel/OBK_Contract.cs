@@ -22,6 +22,7 @@ namespace PW.Ncels.Database.DataModel
             this.OBK_ContractExtHistory = new HashSet<OBK_ContractExtHistory>();
             this.OBK_ContractStage = new HashSet<OBK_ContractStage>();
             this.OBK_DirectionToPayments = new HashSet<OBK_DirectionToPayments>();
+            this.OBK_CertificateOfCompletion = new HashSet<OBK_CertificateOfCompletion>();
         }
     
         public System.Guid Id { get; set; }
@@ -53,5 +54,6 @@ namespace PW.Ncels.Database.DataModel
         public virtual OBK_ContractSignedDatas OBK_ContractSignedDatas { get; set; }
         public virtual ICollection<OBK_ContractStage> OBK_ContractStage { get; set; }
         public virtual ICollection<OBK_DirectionToPayments> OBK_DirectionToPayments { get; set; }
+        public virtual ICollection<OBK_CertificateOfCompletion> OBK_CertificateOfCompletion { get; set; }
     }
 }

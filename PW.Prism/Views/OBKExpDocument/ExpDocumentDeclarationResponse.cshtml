@@ -1,10 +1,13 @@
-﻿@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
+﻿@using PW.Ncels.Database.Constants
+@model PW.Ncels.Database.DataModel.OBK_AssessmentDeclaration
 
 
 @{
     var @modelId = Model.Id;
     var @expertiseStartDate = DateTime.Now.ToShortDateString();
     bool @expDocumentResult = @Model.ExpDocumentResult;
+
+    var @stageStatus = @Model.OBK_AssessmentStage.FirstOrDefault(e => e.StageId == CodeConstManager.STAGE_OBK_EXPERTISE_DOC)?.StageStatusId;
 
     var @invoiceContractRu = @Model.InvoiceContractRu ?? " ";
     var @invoiceContractKz = @Model.InvoiceContractKz ?? " ";
@@ -30,8 +33,10 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div>
+                    <button type="button" hidden="hidden" class="btn btn-default" id="returnBtn"><span class="pwToolbarButtonReturn"></span><span class="pwToolbarButtonTitle">Вернуть на доработку</span></button>
                     <button type="button" class="btn btn-default" id="signBtn"><span class="pwToolbarButtonReview"></span><span class="pwToolbarButtonTitle">Подписать</span></button>
                     <button type="button" disabled="disabled" class="btn btn-default" id="viewBtn"><span class="pwToolbarButtonPrint"></span><span class="pwToolbarButtonTitle">Печатная форма</span></button>
+                    @*<button type="button" id="act">Акт</button>*@
                 </div>
             </div>
             @if (Model.ExpDocumentResult)
@@ -192,9 +197,10 @@
 <script type="text/javascript">
     var productSeriesId = null;
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         setDateFormat(".date-control");
         getContract();
+        visibleReturnBtn();
         $('#tableExpertiseProductSeries_@modelId').DataTable({
             language: {
                 url: "/Content/json/Russian.json"
@@ -211,6 +217,16 @@
         });
     });
 
+    function visibleReturnBtn() {
+        debugger;
+        var stageStatus = '@stageStatus';
+        if (stageStatus === '9') {
+            $("#returnBtn").show();
+        } else {
+            $("#returnBtn").hide();
+        }
+    }
+
     function setDateFormat(control) {
         $(control).datepicker({
             dateFormat: 'dd.mm.yy',
@@ -221,45 +237,72 @@
 
     $("#signBtn").click(function() {
         debugger;
-        var exp = @expDocumentResult;
-        if (exp) {
+        var valid = true;
+        var exp = '@expDocumentResult';
+        var modelId = '@modelId';
+        if (exp === "True") {
             var data = $("#tableExpertiseProducts_@modelId").DataTable().data();
             $.each(data,
                 function(index, value) { $.each(value.OBK_Procunts_Series,
                         function(i, v) { if (v.ExpId == null) {
-                                alert("Необходимо сформировать ответ на серию №" + v.Series + " продукции '" + value.NameRu + "' ");
+                            alert("Необходимо сформировать ответ на серию №" + v.Series + " продукции '" + value.NameRu + "' ");
+                                valid = false;
                                 return false;
                             }
                         });
                 });
         }
-        $.ajax({
-            type: 'GET',
-            url: '/OBKExpDocument/GetSignExpDocument?id=' + '@modelId',
-            success: function (result) {
-                debugger;
-                startSign(result.data, id, saveSignedPayment);
-            }
-        });
-
-        function saveSignedPayment(signedData, paymentId) {
-            debugger;
-            var data1 = {
-                paymentId: paymentId,
-                signedData: signedData
-            };
-            var json = JSON.stringify(data1);
+        if (valid) {
             $.ajax({
-                type: 'POST',
-                url: '/OBKExpDocument/SaveSignedExpDocument',
-                contentType: 'application/json; charset=utf-8',
-                data: json,
+                type: 'GET',
+                url: '/OBKExpDocument/GetSignExpDocument?id=' + modelId,
                 success: function (result) {
                     debugger;
-                    alert(result.message);
+                    startSign(result.data, modelId, saveSignedPayment);
                 }
             });
+
+            function saveSignedPayment(signedData, id) {
+                debugger;
+                var data1 = {
+                    id: id,
+                    signedData: signedData
+                };
+                var json = JSON.stringify(data1);
+                $.ajax({
+                    type: 'POST',
+                    url: '/OBKExpDocument/SaveSignedExpDocument',
+                    contentType: 'application/json; charset=utf-8',
+                    data: json,
+                    success: function (result) {
+                        debugger;
+                        alert(result.message);
+                    }
+                });
+            }
         }
+    });
+
+    $("#returnBtn").click(function() {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ReturnToExecutor","OBKExpDocument")',
+            data: { id: '@Model.Id' },
+            success: function(result) {
+                debugger;
+                if(result.result)
+                    alert("Заявка отправлена на доработку исполнителю");
+                else
+                    alert("Ошибка при отправке");
+            }
+        });
+    });
+
+    $("#act").click(function() {
+        if (productSeriesId == null)
+            alert("Выберите серию из таблицы");
+        window.open('/OBKExpDocument/ActExportFilePdf?id=' + '@Model.Id');
     });
 
     $("#viewBtn").click(function () {
