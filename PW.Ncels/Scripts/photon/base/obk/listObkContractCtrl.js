@@ -36,6 +36,7 @@
     $scope.object = {};
 
     $scope.object.Status = 1;
+    $scope.object.Number = "б/н";
 
     $scope.searchDrugWorking = false;
 
@@ -1356,6 +1357,7 @@
                 $scope.object.ExpertOrganization = resp.data.ExpertOrganization;
                 $scope.object.Signer = resp.data.Signer;
                 $scope.object.Status = resp.data.Status;
+                $scope.object.Number = resp.data.Number;
                 $scope.changeViewMode();
 
 
