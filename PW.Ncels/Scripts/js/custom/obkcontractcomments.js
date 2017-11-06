@@ -1,4 +1,32 @@
 ﻿$(document).ready(function () {
+    $('.rating').each(function () {
+        var idcontrol = $(this).attr('idcontrol');
+        var control = document.getElementById(idcontrol);
+        if (control == null) {
+            return;
+        }
+        var iserror = $(this).attr('iserror');
+        if (iserror) {
+            control.className += " control-error";
+            if ($(control).is("input")) {
+                $(control).css("border-color", "red");
+            }
+            else if ($(control).is("span")) {
+                // ui-select
+                $(control).prev().find(".ui-select-toggle").css("border-color", "red");
+            }
+        } else {
+            control.className += " control-good";
+            if ($(control).is("input")) {
+                $(control).css("border-color", "green");
+            }
+            else if ($(control).is("span")) {
+                // ui-select
+                $(control).prev().find(".ui-select-toggle").css("border-color", "green");
+            }
+        }
+    });
+
     $('.obkcontractdialog').click(function () {
         var inputControl = $(this).parent().prev();
         var modelId = $("#projectId").val();

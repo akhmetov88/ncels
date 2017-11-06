@@ -1157,6 +1157,11 @@ namespace PW.Ncels.Database.Repository.OBK
                     e => e.ControlId == idControl && modelId == e.ContractId);
         }
 
+        public List<OBK_ContractCom> GetCommentsOfContract(Guid contractId)
+        {
+            return AppContext.OBK_ContractCom.Where(x => x.ContractId == contractId).ToList();
+        }
+
         public void SaveComment(string modelId, string idControl, bool isError, string comment, string fieldValue,
             string userId, string fieldDisplay)
         {

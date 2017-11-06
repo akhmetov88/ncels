@@ -12,6 +12,11 @@
 <script src="~/Scripts/js/custom/subform-comment.js"></script>
 <script src="~/Scripts/js/custom/atach-comment.js"></script>
 
+@foreach (var comment in ((PW.Ncels.Database.DataModel.OBK_Contract)ViewBag.Contract).OBK_ContractCom)
+{
+    <p class="rating" idcontrol="@comment.ControlId" iserror=@true></p>
+}
+
 <div id="@("contractLoader" + ViewBag.UiId)"></div>
 
 @(Html.Kendo().Splitter()

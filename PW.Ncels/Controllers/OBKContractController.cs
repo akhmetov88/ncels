@@ -43,6 +43,10 @@ namespace PW.Ncels.Controllers
         public ActionResult Contract(Guid? id, string listAction)
         {
             ViewBag.ListAction = "Index";
+            if (id != null)
+            {
+                ViewBag.Comments = obkRepo.GetCommentsOfContract(id.Value);
+            }
             return View(id);
         }
 

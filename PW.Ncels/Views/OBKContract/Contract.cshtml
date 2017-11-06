@@ -89,6 +89,14 @@
         white-space: normal !important;
     }
 </style>
+@if (ViewBag.Comments != null)
+{
+    foreach (var comment in ((List<OBK_ContractCom>)ViewBag.Comments))
+    {
+        <p class="rating" idcontrol="@comment.ControlId" iserror=@true></p>
+    }
+}
+
 <div ng-controller="obkContractForm">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
