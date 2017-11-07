@@ -23,8 +23,8 @@
           <value>StabilityCheck,System.Boolean</value>
           <value>PaymentCheck,System.Boolean</value>
           <value>EmployeeId,System.Int64</value>
-          <value>Type_Id,System.Int32</value>
-          <value>Contract_Id,System.Int64</value>
+          <value>TypeId,System.Int32</value>
+          <value>ContractId,System.Int64</value>
           <value>CertificateDate,System.DateTime</value>
           <value>DesignNote,System.String</value>
           <value>CertificateCountryId,System.Int64</value>
@@ -245,7 +245,7 @@ where sed.ProductSeriesId=@StageExpDocumentId</SqlCommand>
         <SqlCommand>select top 1 * from UnitsAddress ua 
 left join Units u on ua.UnitsId = u.Id
 inner join OBK_Contract c on c.ExpertOrganization = u.Id
-inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id
+inner join OBK_AssessmentDeclaration ad on ad.ContractId = c.Id
 where ad.Id = @AssessmentDeclarationId and ua.IsDeleted = 'false'</SqlCommand>
       </UnitsAddress>
       <Units Ref="10" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
@@ -297,7 +297,7 @@ where ad.Id = @AssessmentDeclarationId and ua.IsDeleted = 'false'</SqlCommand>
         </Parameters>
         <SqlCommand>select * from Units u 
 inner join OBK_Contract c on c.ExpertOrganization = u.Id
-inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id
+inner join OBK_AssessmentDeclaration ad on ad.ContractId = c.Id
 where ad.Id = @AssessmentDeclarationId</SqlCommand>
       </Units>
     </DataSources>
@@ -757,7 +757,7 @@ where ad.Id = @AssessmentDeclarationId</SqlCommand>
           <Name>Text37</Name>
           <Page isRef="11" />
           <Parent isRef="11" />
-          <Text>{IIF(OBK_AssessmentDeclaration.Type_Id == 3, "-", OBK_StageExpDocument.ExpNomenclatureRu)}</Text>
+          <Text>{IIF(OBK_AssessmentDeclaration.TypeId == 3, "-", OBK_StageExpDocument.ExpNomenclatureRu)}</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <TextQuality>Wysiwyg</TextQuality>
@@ -1644,7 +1644,7 @@ where ad.Id = @AssessmentDeclarationId</SqlCommand>
           <Name>Text68</Name>
           <Page isRef="54" />
           <Parent isRef="54" />
-          <Text>{IIF(OBK_AssessmentDeclaration.Type_Id == 3, "-", OBK_StageExpDocument.ExpNomenclatureKz)}</Text>
+          <Text>{IIF(OBK_AssessmentDeclaration.TypeId == 3, "-", OBK_StageExpDocument.ExpNomenclatureKz)}</Text>
           <TextBrush>Black</TextBrush>
           <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
           <TextQuality>Wysiwyg</TextQuality>

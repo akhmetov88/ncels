@@ -1,4 +1,5 @@
 ﻿@using PW.Ncels.Database.Constants
+@using PW.Ncels.Database.DataModel
 @using PW.Ncels.Database.Helpers
 @model PW.Ncels.Database.DataModel.OBK_AssessmentStage
 <link href="~/Content/css/custom/subform-comment-style.css" rel="stylesheet" type="text/css" />
@@ -45,10 +46,13 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" onclick="location.href = '@Url.Action("ExportFilePdf", "SafetyAssessment", new { id = Model.OBK_AssessmentDeclaration.Id })'"><span class="pwToolbarButtonPrint"></span><span class="pwToolbarButtonTitle">Печать формы заявки</span></button>
                     </div>
+                    if (Model.StageStatusId == 11)
+                    {
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" data-bind="click: outputResult" id="@("outputResult" + Model.OBK_AssessmentDeclaration.Id)"><span class="pwToolbarButtonExecute"></span><span class="pwToolbarButtonTitle">Выдать результат</span></button>  @*  onclick="'@Url.Action("OutputResult", "SafetyAssessment", new { id = Model.OBK_AssessmentDeclaration.Id })'"*@ 
+                        </div>
+                    }
                 }
-                @*<div class="btn-group">
-                    <button type="button" class="btn btn-default" id="@("stop" + Model.Id)"><span class="pwTaskButtonRej"></span><span class="pwToolbarButtonTitle">Отказать</span></button>
-                </div>*@
             </div>
         </div>
         <br/>

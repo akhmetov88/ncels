@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -109,6 +110,12 @@ namespace PW.Ncels.Database.Repository.OBK
         public OBK_DirectionToPayments GetDirectionToPayments(Guid contractId)
         {
             return AppContext.OBK_DirectionToPayments.FirstOrDefault(e => e.ContractId == contractId);
+        }
+
+        public Guid GetContractIdGuid(Guid id)
+        {
+            var declaration = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == id);
+            return declaration.Id;
         }
 
         public OBK_DirectionSignData GetDirectionSignData(Guid paymentId)
@@ -262,9 +269,10 @@ namespace PW.Ncels.Database.Repository.OBK
         public void SaveCertificateOfCompletion(Guid id)
         {
             var declaration = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == id);
-            var directToPay = AppContext.OBK_DirectionToPayments.FirstOrDefault(e => e.ContractId == declaration.Contract_Id);
-            var contractPrice = AppContext.OBK_ContractPrice.Where(e => e.ContractId == declaration.Contract_Id);
-            var totalPrice = Convert.ToDecimal(contractPrice.Sum(e => TaxHelper.GetCalculationTax(e.OBK_Ref_PriceList.Price) * e.Count));
+            var directToPay = AppContext.OBK_DirectionToPayments.FirstOrDefault(e => e.ContractId == declaration.ContractId);
+            var contractPrice = AppContext.OBK_ContractPrice.Where(e => e.ContractId == declaration.ContractId);
+            double taxValue = TaxHelper.GetNdsRef();
+            var totalPrice = Convert.ToDecimal(contractPrice.Sum(e => (e.OBK_Ref_PriceList.Price * taxValue + e.OBK_Ref_PriceList.Price) * e.Count));
 
             if (declaration != null)
             {
@@ -272,7 +280,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 {
                     Id = Guid.NewGuid(),
                     Number = declaration.Number,
-                    ContractId = (Guid)declaration.Contract_Id,
+                    ContractId = (Guid)declaration.ContractId,
                     AssessmentDeclarationId = id,
                     InvoiceNumber1C = directToPay?.InvoiceNumber1C,
                     InvoiceDatetime1C = directToPay?.InvoiceDatetime1C,
@@ -293,6 +301,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
 
         #region оплата Job
+        #region Счет на оплату
 
         public List<OBK_DirectionToPayments> GetDeclarantPaid()
         {
@@ -346,6 +355,22 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
         }
 
+        #endregion
+        #region акт выполненных работ
+
+        public List<OBK_CertificateOfCompletion> GetCertificateOfCompletions()
+        {
+            return AppContext.OBK_CertificateOfCompletion
+                .Where(e => e.ActNumber1C != null && e.SendNotification != true && e.ActReturnedBack != true)
+                .ToList();
+        }
+
+        public void UpdateNotificationToAct(OBK_CertificateOfCompletion act)
+        {
+            AppContext.SaveChangesAsync();
+        }
+
+        #endregion
         #endregion
     }
 }

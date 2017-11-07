@@ -85,7 +85,7 @@
 <link href="~/Content/css/custom/subform-comment-style.css" rel="stylesheet" type="text/css" />
 
 <input type="hidden" value="@Model.ObjectId" id="modelId" />
-<input type="hidden" value="@Model.Type_Id" id="typeId" />
+<input type="hidden" value="@Model.TypeId" id="typeId" />
 <input type="hidden" value="@Model.StatusId" id="statusId" />
 @Html.HiddenFor(model => model.EmployeeId)
 
@@ -138,15 +138,15 @@
             <h3 class="m-t-none m-b">3. Вложения</h3>
             <p class="text-bold">Прикрепите необходимые файлы ниже</p>
             <div id="attachDeclarationDiv">
-                @if (Model.Type_Id == Convert.ToInt32(@CodeConstManager.OBK_SA_SERIAL))
+                @if (Model.TypeId == Convert.ToInt32(@CodeConstManager.OBK_SA_SERIAL))
                 {
                     <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_SERIAL_SA_FILE_CODE" path="@Model.Id" />
                 }
-                @if (Model.Type_Id == Convert.ToInt32(@CodeConstManager.OBK_SA_PARTY))
+                @if (Model.TypeId == Convert.ToInt32(@CodeConstManager.OBK_SA_PARTY))
                 {
                     <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_PARTY_SA_FILE_CODE" path="@Model.Id" />
                 }
-                @if (Model.Type_Id == Convert.ToInt32(@CodeConstManager.OBK_SA_DECLARATION))
+                @if (Model.TypeId == Convert.ToInt32(@CodeConstManager.OBK_SA_DECLARATION))
                 {
                     <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_DECLARATION_SA_FILE_CODE" path="@Model.Id" />
                 }
@@ -338,7 +338,7 @@
         debugger;
         var status = $("#statusId").val();
         if (status === '@CodeConstManager.STATUS_REJECT_ID') {
-            $("#Contract_Id").attr('disabled', 'disabled');
+            $("#ContractId").attr('disabled', 'disabled');
         }
     }
 

@@ -987,6 +987,7 @@
     <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkCertificateOfCompletion.mrt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2316,6 +2317,7 @@
     <Content Include="Views\OBKPayment\SetChiefAccountant.cshtml" />
     <Content Include="Views\OBKExpDocument\ExpDocumentView.cshtml" />
     <Content Include="Views\OBKExpDocument\ExpDocumentDeclarationResponse.cshtml" />
+    <Content Include="Views\SafetyAssessment\OutputResultView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

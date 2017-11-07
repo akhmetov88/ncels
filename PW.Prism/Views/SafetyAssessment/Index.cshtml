@@ -79,6 +79,10 @@
                                                      {"ItemId", OBK_Ref_StageStatus.RequiresSigning}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "requiresSigning" + Model.Guid.ToString()}
                                                  });
                                              }
+                                         projects.Add().Text("На экспертизе документов").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_StageStatus.OnExpDocument}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "onExpDocument" + Model.Guid.ToString()}
+                                         });
                                          projects.Add().Text("На доработке").LinkHtmlAttributes(new Dictionary<string, object>()
                                          {
                                              {"ItemId", OBK_Ref_StageStatus.InReWork}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "inReWork" + Model.Guid.ToString()}

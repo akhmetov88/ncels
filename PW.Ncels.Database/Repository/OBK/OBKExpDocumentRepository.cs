@@ -119,6 +119,9 @@ namespace PW.Ncels.Database.Repository.OBK
             var stage = AppContext.OBK_AssessmentStage.FirstOrDefault(e =>
                 e.OBK_Ref_Stage.Code == CodeConstManager.STAGE_OBK_EXPERTISE_DOC.ToString()
                 && e.OBK_AssessmentDeclaration.Id == id);
+            var stageCoz = AppContext.OBK_AssessmentStage.FirstOrDefault(e =>
+                e.OBK_Ref_Stage.Code == CodeConstManager.STAGE_OBK_COZ.ToString()
+                && e.OBK_AssessmentDeclaration.Id == id);
 
             if (stage == null)
                 return "Ошибка этап не найден";
@@ -147,6 +150,8 @@ namespace PW.Ncels.Database.Repository.OBK
                             stage.StageStatusId = GetRefStageStatus(OBK_Ref_StageStatus.Completed).Id;
                             stage.ResultId = CodeConstManager.STAGE_OBK_COMPLETED_POSITIVE;
                             stage.OBK_AssessmentStageSignData.Add(stageSignData);
+
+                            stageCoz.StageStatusId = GetRefStageStatus(OBK_Ref_StageStatus.RequiresConclusion).Id;
                             AppContext.SaveChanges();
                         }
                         else
@@ -155,6 +160,8 @@ namespace PW.Ncels.Database.Repository.OBK
                             stageSign.SignDateTime = DateTime.Now;
                             stage.StageStatusId = GetRefStageStatus(OBK_Ref_StageStatus.Completed).Id;
                             stage.ResultId = CodeConstManager.STAGE_OBK_COMPLETED_POSITIVE;
+
+                            stageCoz.StageStatusId = GetRefStageStatus(OBK_Ref_StageStatus.RequiresConclusion).Id;
                             AppContext.SaveChanges();
                         }
                         //отправка акта выполненных работ в 1с

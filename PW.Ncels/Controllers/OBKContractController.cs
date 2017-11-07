@@ -384,6 +384,28 @@ namespace PW.Ncels.Controllers
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
             var stream = new MemoryStream();
+            var contractId = payRepo.GetContractIdGuid(id);
+            var directionToPayment = payRepo.GetDirectionToPayments(contractId);
+            var signPayment = payRepo.GetDirectionSignData(directionToPayment.Id);
+            if (signPayment.ChiefAccountantSign != null && signPayment.ExecutorSign != null)
+            {
+                try
+                {
+                    report.ExportDocument(StiExportFormat.Word2007, stream);
+                    stream.Position = 0;
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodesToEnd("ChiefAccountantSign", signPayment.ChiefAccountantSign);
+                    var pdfFile = new MemoryStream();
+                    doc.Save(pdfFile, SaveFormat.Pdf);
+                    pdfFile.Position = 0;
+                    stream.Close();
+                    return File(pdfFile, "application/pdf", name);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
             report.ExportDocument(StiExportFormat.Pdf, stream);
             stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");

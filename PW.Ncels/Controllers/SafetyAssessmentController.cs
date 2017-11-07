@@ -59,22 +59,22 @@ namespace PW.Ncels.Controllers
             if (type == CodeConstManager.OBK_SA_SERIAL)
             {
                 ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
-                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
+                    model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
             }
             if (type == CodeConstManager.OBK_SA_PARTY)
             {
                 ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
-                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
+                    model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
             }
             if (type == CodeConstManager.OBK_SA_DECLARATION)
             {
                 ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
-                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
+                    model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
             }
 
             ViewData["ContractList"] =
                 new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, safetyRepository.GetObkRefTypes(type).Id), "Id",
-                    "ContractInfo", model.Contract_Id);
+                    "ContractInfo", model.ContractId);
 
             var repository = new ReadOnlyDictionaryRepository();
 
@@ -111,9 +111,9 @@ namespace PW.Ncels.Controllers
             return View();
         }
 
-        public ActionResult ExportFileTemplate(Guid id)
+        public ActionResult ExportFileTemplate(Guid id, string url)
         {
-            return PartialView(id);
+            return PartialView(new OBKEntityTemplate { Id = id, Url = url });
         }
 
         /// <summary>
@@ -172,6 +172,45 @@ namespace PW.Ncels.Controllers
             return new FileStreamResult(stream, "application/pdf");
         }
 
+        /// <summary>
+        /// Акт выполненных работ
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CertOfComplectFilePdf(Guid id)
+        {
+            OBKExpDocumentRepository expRepo = new OBKExpDocumentRepository();
+            string name = "Акт выполненных работ.pdf";
+
+            StiReport report = new StiReport();
+            try
+            {
+                report.Load(Server.MapPath("~/Reports/Mrts/OBK/1c/ObkCertificateOfCompletion.mrt"));
+                foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
+                {
+                    data.ConnectionString = UserHelper.GetCnString();
+                }
+
+                report.Dictionary.Variables["AssessmentDeclarationId"].ValueObject = id;
+                report.Dictionary.Variables["ContractId"].ValueObject = expRepo.GetAssessmentDeclaration(id).ContractId;
+                report.Dictionary.Variables["ValueAddedTax"].ValueObject = expRepo.GetValueAddedTax();
+                var totalCount = expRepo.GetContractPrice(expRepo.GetAssessmentDeclaration(id).ContractId);
+                report.Dictionary.Variables["TotalCount"].ValueObject = totalCount;
+                var priceText = RuDateAndMoneyConverter.CurrencyToTxtTenge(Convert.ToDouble(totalCount), false);
+                report.Dictionary.Variables["TotalCountText"].ValueObject = priceText;
+
+                report.Render(false);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
+            }
+            var stream = new MemoryStream();
+            report.ExportDocument(StiExportFormat.Pdf, stream);
+            stream.Position = 0;
+            return new FileStreamResult(stream, "application/pdf");
+            //return File(stream, "application/pdf", name);
+        }
+
 
         public ActionResult DublicateDrug(string id)
         {
@@ -196,12 +235,12 @@ namespace PW.Ncels.Controllers
             if (model == null) {
                 model = new OBK_AssessmentDeclaration {
                     EmployeeId = UserHelper.GetCurrentEmployee().Id,
-                    Type_Id = contract.OBK_Ref_Type.Id,
+                    TypeId = contract.OBK_Ref_Type.Id,
                     Id = Guid.NewGuid(),
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
                     CertificateDate = DateTime.Now,
-                    Contract_Id = contract.Id,
+                    ContractId = contract.Id,
                     IsDeleted = false,
                     CertificateGMPCheck = contract.OBK_Ref_Type.Code == CodeConstManager.OBK_SA_DECLARATION
                 };
@@ -229,22 +268,22 @@ namespace PW.Ncels.Controllers
         {
             var safetyRepository = new SafetyAssessmentRepository();
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.Type_Id), "Id",
-                    "ContractInfo", model.Contract_Id);
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.TypeId), "Id",
+                    "ContractInfo", model.ContractId);
 
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL)) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_SERIAL)) {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_DECLARATION)) {
-                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_DECLARATION)) {
+                ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu", model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
             }
 
-            if (model.Contract_Id != null)
+            if (model.ContractId != null)
             {
-                var contract = safetyRepository.GetContractById(model.Contract_Id);
+                var contract = safetyRepository.GetContractById(model.ContractId);
                 var declarant = safetyRepository.GetDeclarantById(contract.DeclarantId);
                 var declarantContact = safetyRepository.GetDeclarantContactById(contract.DeclarantContactId);
                 var products = safetyRepository.GetRsProductsAndSeries(contract.Id);

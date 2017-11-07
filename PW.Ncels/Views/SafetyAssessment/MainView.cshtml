@@ -38,7 +38,7 @@
                             <div class="col-lg-6">
                                 <label for="name" id="ContractIdLabel" class="col-lg-6" style="margin-top: 5px">Договор:</label>
                                 <div class="input-group">
-                                    @Html.DropDownList("Contract_Id", (IEnumerable<SelectListItem>)(ViewData["ContractList"]),
+                                    @Html.DropDownList("ContractId", (IEnumerable<SelectListItem>)(ViewData["ContractList"]),
                                         String.Empty,
                                         new
                                         {
@@ -440,7 +440,7 @@
 
         function checkCert() {
             var cerGMPCheck = null;
-            if(@Model.Type_Id === 3) {
+            if(@Model.TypeId === 3) {
                 cerGMPCheck = $("#CertificateGMPCheck").val("True");
                 cerGMPCheck = "True";
                 $("#CertificateGMPCheck").attr("readonly", true).attr("disabled", true);
@@ -499,7 +499,7 @@
             });
         });
 
-        $("#Contract_Id").change(function () {
+        $("#ContractId").change(function () {
             var val = $(this).val();
             if (val == null || val.length === 0) {
                 //перечислить поля
