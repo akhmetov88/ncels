@@ -19,7 +19,7 @@ namespace PW.Ncels.Database.Recources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
@@ -268,6 +268,24 @@ namespace PW.Ncels.Database.Recources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Уровень риска.
+        /// </summary>
+        public static string DegreeRisk {
+            get {
+                return ResourceManager.GetString("DegreeRisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Словарь.
+        /// </summary>
+        public static string Dictionary {
+            get {
+                return ResourceManager.GetString("Dictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый.
         /// </summary>
         public static string DocumentState0 {
@@ -417,6 +435,60 @@ namespace PW.Ncels.Database.Recources {
         public static string Msg_Необходимо_заполнить {
             get {
                 return ResourceManager.GetString("Msg_Необходимо_заполнить", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование на казахском в род. падеже.
+        /// </summary>
+        public static string NameGenitiveKz {
+            get {
+                return ResourceManager.GetString("NameGenitiveKz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование на русском в род. падеже.
+        /// </summary>
+        public static string NameGenitiveRu {
+            get {
+                return ResourceManager.GetString("NameGenitiveRu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование на казахском.
+        /// </summary>
+        public static string NameKz {
+            get {
+                return ResourceManager.GetString("NameKz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование решения на казахском.
+        /// </summary>
+        public static string NameOfSolutionKz {
+            get {
+                return ResourceManager.GetString("NameOfSolutionKz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование решения на русском.
+        /// </summary>
+        public static string NameOfSolutionRu {
+            get {
+                return ResourceManager.GetString("NameOfSolutionRu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование на русском.
+        /// </summary>
+        public static string NameRu {
+            get {
+                return ResourceManager.GetString("NameRu", resourceCulture);
             }
         }
         
@@ -858,6 +930,15 @@ namespace PW.Ncels.Database.Recources {
         public static string Ncels_ЭтапПроср_38 {
             get {
                 return ResourceManager.GetString("Ncels_ЭтапПроср_38", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение НДС.
+        /// </summary>
+        public static string NDS_Value {
+            get {
+                return ResourceManager.GetString("NDS_Value", resourceCulture);
             }
         }
         
@@ -5003,11 +5084,56 @@ namespace PW.Ncels.Database.Recources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Тип сервиса.
+        /// </summary>
+        public static string ServiceType {
+            get {
+                return ResourceManager.GetString("ServiceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вид решения.
+        /// </summary>
+        public static string SolutionView {
+            get {
+                return ResourceManager.GetString("SolutionView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to сумма.
+        /// </summary>
+        public static string sum {
+            get {
+                return ResourceManager.GetString("sum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Синий - новые, Оранжевый - в работе, Красный - просроченные, Зеленый - исполненные.
         /// </summary>
         public static string Tooltip {
             get {
                 return ResourceManager.GetString("Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Тип.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Год.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
         

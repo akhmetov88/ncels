@@ -2074,6 +2074,10 @@
     <Compile Include="Models\ModelRequest.cs" />
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
+    <Compile Include="Models\OBKReferenceNomenclatureModel.cs" />
+    <Compile Include="Models\OBKReferenceContractDocTypeModel.cs" />
+    <Compile Include="Models\OBKReferencePriceListModel.cs" />
+    <Compile Include="Models\OBKReferenceValAdTaxModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractProduct.cs" />
     <Compile Include="Models\OBK\OBKContractProductViewModel.cs" />
@@ -2109,6 +2113,7 @@
     <Compile Include="Models\Price\PriceProjectComRecord.cs" />
     <Compile Include="Models\Price\ProtocolPricesModel.cs" />
     <Compile Include="Models\Price\ProtocolRequester.cs" />
+    <Compile Include="Models\OBKReferenceReasonModel.cs" />
     <Compile Include="Models\ReferenceModel.cs" />
     <Compile Include="Models\RejectDialogViewModel.cs" />
     <Compile Include="Models\ReplaceItem.cs" />
