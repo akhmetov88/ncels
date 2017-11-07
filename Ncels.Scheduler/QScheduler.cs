@@ -83,9 +83,28 @@ namespace Ncels.Scheduler
                     .WithIntervalInSeconds(30)
                     .RepeatForever())
                 .Build();
-
-
             scheduler.ScheduleJob(diretionToPaymentJob, trigger1);
+
+
+            IJobDetail certificateOfComplection = JobBuilder.Create<OBKCertificateOfCompletion>().Build();
+            //ITrigger paymenTrigger = TriggerBuilder.Create()
+            //    .WithDailyTimeIntervalSchedule
+            //    (s =>
+            //        s.WithIntervalInHours(24)
+            //            .OnEveryDay()
+            //            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(3, 0))
+            //    )
+            //    .Build();
+
+
+            ITrigger trigger2 = TriggerBuilder.Create()
+                .WithIdentity("trigger2", "group2")
+                .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(30)
+                    .RepeatForever())
+                .Build();
+            scheduler.ScheduleJob(certificateOfComplection, trigger2);
         }
     }
 }

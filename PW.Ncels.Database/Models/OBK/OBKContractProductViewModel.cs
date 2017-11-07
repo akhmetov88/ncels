@@ -33,5 +33,7 @@ namespace PW.Ncels.Database.Models.OBK
 
         public List<OBKContractSeriesViewModel> Series { get; set; }
         public List<OBKContractMtPartViewModel> MtParts { get; set; }
+
+        public Guid ServiceName { get; set; }
     }
 }

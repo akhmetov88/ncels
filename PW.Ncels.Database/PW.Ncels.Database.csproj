@@ -795,6 +795,9 @@
     <Compile Include="DataModel\I1c_act_Application_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_act_ObkApplication.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_exp_Contracts.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -957,6 +960,15 @@
     <Compile Include="DataModel\OBK_AssessmentStage.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStageExecutors.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStageSignData.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_CertificateOfCompletion.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_certifications.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -973,6 +985,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractExtHistory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractFactory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractHistory.cs">
@@ -2074,10 +2089,7 @@
     <Compile Include="Models\ModelRequest.cs" />
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
-    <Compile Include="Models\OBKReferenceNomenclatureModel.cs" />
-    <Compile Include="Models\OBKReferenceContractDocTypeModel.cs" />
-    <Compile Include="Models\OBKReferencePriceListModel.cs" />
-    <Compile Include="Models\OBKReferenceValAdTaxModel.cs" />
+    <Compile Include="Models\OBK\OBKContractAdditionViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractProduct.cs" />
     <Compile Include="Models\OBK\OBKContractProductViewModel.cs" />
@@ -2089,6 +2101,7 @@
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
     <Compile Include="Models\OBK\OBKEntityPayment.cs" />
     <Compile Include="Models\OBK\OBKEntityTemplate.cs" />
+    <Compile Include="Models\OBK\OBKFactoryViewModel.cs" />
     <Compile Include="Models\OBK\OBKMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />
@@ -2113,7 +2126,6 @@
     <Compile Include="Models\Price\PriceProjectComRecord.cs" />
     <Compile Include="Models\Price\ProtocolPricesModel.cs" />
     <Compile Include="Models\Price\ProtocolRequester.cs" />
-    <Compile Include="Models\OBKReferenceReasonModel.cs" />
     <Compile Include="Models\ReferenceModel.cs" />
     <Compile Include="Models\RejectDialogViewModel.cs" />
     <Compile Include="Models\ReplaceItem.cs" />

@@ -69,28 +69,28 @@ namespace PW.Prism.Controllers.OBK
         {
             var safetyRepository = new SafetyAssessmentRepository();
             ViewData["ContractList"] =
-                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.Type_Id), "Id",
-                    "ContractInfo", model.Contract_Id);
+                new SelectList(safetyRepository.GetActiveContractListWithInfo(model.EmployeeId, model.TypeId), "Id",
+                    "ContractInfo", model.ContractId);
             
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_SERIAL))
             {
                 ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
-                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
+                    model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_SERIAL).Id);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_PARTY))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_PARTY))
             {
                 ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
-                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
+                    model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_PARTY).Id);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
             {
                 ViewData["TypeList"] = new SelectList(safetyRepository.GetObkRefTypes(), "Id", "NameRu",
-                    model.Type_Id = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
+                    model.TypeId = safetyRepository.GetObkRefTypes(CodeConstManager.OBK_SA_DECLARATION).Id);
             }
 
-            if (model.Contract_Id != null)
+            if (model.ContractId != null)
             {
-                var contract = safetyRepository.GetContractById(model.Contract_Id);
+                var contract = safetyRepository.GetContractById(model.ContractId);
                 var declarant = safetyRepository.GetDeclarantById(contract.DeclarantId);
                 var declarantContact = safetyRepository.GetDeclarantContactById(contract.DeclarantContactId);
                 var products = safetyRepository.GetRsProductsAndSeries(contract.Id);

@@ -26,7 +26,6 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
-    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -226,16 +225,10 @@
     <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
     <Compile Include="Controllers\OBKExpDocument\OBKExpDocumentController.cs" />
     <Compile Include="Controllers\OBKPayment\OBKPaymentController.cs" />
-    <Compile Include="Controllers\OBK_Ref_NomenclatureController.cs" />
-    <Compile Include="Controllers\OBK_Ref_ContractDocumentTypeController.cs" />
-    <Compile Include="Controllers\OBK_Ref_PriceListController.cs" />
-    <Compile Include="Controllers\OBK_Ref_ValueAddedTaxController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
     <Compile Include="Controllers\PriceProject\PriceProcessingController.cs" />
     <Compile Include="Controllers\PriceProject\ProtocolController.cs" />
-    <Compile Include="Controllers\OBKReferenceController.cs" />
-    <Compile Include="Controllers\OBK_Ref_ReasonController.cs" />
     <Compile Include="Controllers\VisitController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractDocController.cs" />
@@ -808,9 +801,6 @@
     <Content Include="Content\mobile\default.css" />
     <Content Include="Content\mobile\default.date.css" />
     <Content Include="Content\Projects\templates\readme.txt" />
-    <Content Include="Content\Xml\OBKDictionaries.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Content\Xml\ReportsDepartamentTMC.xml" />
     <Content Include="Content\Xml\ReportsExpertise.xml" />
     <Content Include="Content\Xml\ReportsOrg.xml">
@@ -997,6 +987,7 @@
     <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkCertificateOfCompletion.mrt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2326,17 +2317,7 @@
     <Content Include="Views\OBKPayment\SetChiefAccountant.cshtml" />
     <Content Include="Views\OBKExpDocument\ExpDocumentView.cshtml" />
     <Content Include="Views\OBKExpDocument\ExpDocumentDeclarationResponse.cshtml" />
-    <Content Include="Views\OBKReference\Index.cshtml" />
-    <Content Include="Views\OBK_Ref_Reason\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\OBKReferenceReasonModel.cshtml" />
-    <Content Include="Views\OBK_Ref_ValueAddedTax\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\OBKReferenceValAdTaxModel.cshtml" />
-    <Content Include="Views\OBK_Ref_Nomenclature\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\OBKReferenceNomenclatureModel.cshtml" />
-    <Content Include="Views\OBK_Ref_ContractDocumentType\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\OBKReferenceContractDocTypeModel.cshtml" />
-    <Content Include="Views\OBK_Ref_PriceList\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\OBKReferencePriceListModel.cshtml" />
+    <Content Include="Views\SafetyAssessment\OutputResultView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

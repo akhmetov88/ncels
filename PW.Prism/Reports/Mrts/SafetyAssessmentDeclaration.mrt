@@ -22,8 +22,8 @@
           <value>StabilityCheck,System.Boolean</value>
           <value>PaymentCheck,System.Boolean</value>
           <value>EmployeeId,System.Int64</value>
-          <value>Type_Id,System.Int32</value>
-          <value>Contract_Id,System.Int64</value>
+          <value>TypeId,System.Int32</value>
+          <value>ContractId,System.Int64</value>
           <value>CertificateDate,System.DateTime</value>
           <value>DesignDate,System.DateTime</value>
           <value>CertificateGMPCheck,System.Boolean</value>
@@ -53,7 +53,7 @@
   dc.BankNameRu, dc.BankIik, dc.BankBik, p.NameRu, p.ProducerNameRu,
   p.CountryNameRu, ps.Series, ps.SeriesEndDate, ps.SeriesParty, p.NameKz
 FROM OBK_AssessmentDeclaration ad INNER JOIN
-  OBK_Contract c ON ad.Contract_Id = c.Id INNER JOIN
+  OBK_Contract c ON ad.ContractId = c.Id INNER JOIN
   OBK_Declarant d ON d.Id = c.DeclarantId INNER JOIN
   OBK_DeclarantContact dc ON dc.Id = c.DeclarantContactId LEFT JOIN
   OBK_RS_Products p ON c.Id = p.ContractId LEFT JOIN
@@ -106,7 +106,7 @@ WHERE ad.Id = @AssessmentDeclarationId</SqlCommand>
         </Parameters>
         <SqlCommand>select d.NameRu, d.NameKz, d.Bin from OBK_Declarant d
 inner join OBK_Contract c on d.Id = c.DeclarantId
-inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id =@AssessmentDeclarationId</SqlCommand>
+inner join OBK_AssessmentDeclaration ad on ad.ContractId = c.Id where ad.Id =@AssessmentDeclarationId</SqlCommand>
       </OBK_Declarant>
       <OBK_DeclarantContact Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_DeclarantContact</Alias>
@@ -151,7 +151,7 @@ inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id =@A
         </Parameters>
         <SqlCommand>select dc.AddressLegalRu, dc.AddressFact, dc.Phone, dc.BankNameRu, dc.BankIik, dc.BankBik, dc.BossLastName, dc.BossFirstName, dc.BossMiddleName, dc.BossPosition from OBK_DeclarantContact dc 
 inner join OBK_Contract c on dc.Id = c.DeclarantContactId
-inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id = @AssessmentDeclarationId</SqlCommand>
+inner join OBK_AssessmentDeclaration ad on ad.ContractId = c.Id where ad.Id = @AssessmentDeclarationId</SqlCommand>
       </OBK_DeclarantContact>
       <OBK_Ref_Type Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_Ref_Type</Alias>
@@ -170,7 +170,7 @@ inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id = @
         <Parameters isList="true" count="1">
           <value>AssessmentDeclarationId,AssessmentDeclarationId,14,0</value>
         </Parameters>
-        <SqlCommand>select * from OBK_Ref_Type rt inner join OBK_AssessmentDeclaration ad on rt.Id = ad.Type_Id where ad.Id = @AssessmentDeclarationId</SqlCommand>
+        <SqlCommand>select * from OBK_Ref_Type rt inner join OBK_AssessmentDeclaration ad on rt.Id = ad.TypeId where ad.Id = @AssessmentDeclarationId</SqlCommand>
       </OBK_Ref_Type>
       <OBK_RS_Products Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>OBK_RS_Products</Alias>
@@ -198,7 +198,7 @@ inner join OBK_AssessmentDeclaration ad on ad.Contract_Id = c.Id where ad.Id = @
         <SqlCommand>select p.Id, ps.OBK_RS_ProductsId, ps.Id, p.NameRu, ps.Series, ps.SeriesEndDate, SeriesParty, p.CountryNameRu, p.ProducerNameRu, s.short_name
 	from OBK_RS_Products p inner join OBK_Procunts_Series ps on p.Id = ps.OBK_RS_ProductsId
 inner join OBK_Contract c on c.Id = p.ContractId
-inner join OBK_AssessmentDeclaration a on a.Contract_Id = c.Id
+inner join OBK_AssessmentDeclaration a on a.ContractId = c.Id
 inner join sr_measures s on ps.SeriesMeasureId = s.id
 where a.Id = @AssessmentDeclarationId</SqlCommand>
       </OBK_RS_Products>
@@ -721,7 +721,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
             <CheckBox1 Ref="40" type="CheckBox" isKey="true">
               <Border>None;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <Checked>{OBK_AssessmentDeclaration.Type_Id == 1}</Checked>
+              <Checked>{OBK_AssessmentDeclaration.TypeId == 1}</Checked>
               <CheckStyleForFalse>CrossRectangle</CheckStyleForFalse>
               <CheckStyleForTrue>CheckRectangle</CheckStyleForTrue>
               <ClientRectangle>17.6,6.2,1.4,0.6</ClientRectangle>
@@ -735,7 +735,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
             <CheckBox2 Ref="41" type="CheckBox" isKey="true">
               <Border>None;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <Checked>{OBK_AssessmentDeclaration.Type_Id == 2}</Checked>
+              <Checked>{OBK_AssessmentDeclaration.TypeId == 2}</Checked>
               <CheckStyleForFalse>CrossRectangle</CheckStyleForFalse>
               <CheckStyleForTrue>CheckRectangle</CheckStyleForTrue>
               <ClientRectangle>17.6,6.8,1.4,0.6</ClientRectangle>
@@ -750,7 +750,7 @@ where a.Id = @AssessmentDeclarationId</SqlCommand>
             <CheckBox3 Ref="42" type="CheckBox" isKey="true">
               <Border>None;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <Checked>{OBK_AssessmentDeclaration.Type_Id == 3}</Checked>
+              <Checked>{OBK_AssessmentDeclaration.TypeId == 3}</Checked>
               <CheckStyleForFalse>CrossRectangle</CheckStyleForFalse>
               <CheckStyleForTrue>CheckRectangle</CheckStyleForTrue>
               <ClientRectangle>17.6,7.4,1.4,0.6</ClientRectangle>

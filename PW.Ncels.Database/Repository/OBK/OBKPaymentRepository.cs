@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -111,6 +112,12 @@ namespace PW.Ncels.Database.Repository.OBK
             return AppContext.OBK_DirectionToPayments.FirstOrDefault(e => e.ContractId == contractId);
         }
 
+        public Guid GetContractIdGuid(Guid id)
+        {
+            var declaration = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == id);
+            return declaration.Id;
+        }
+
         public OBK_DirectionSignData GetDirectionSignData(Guid paymentId)
         {
             return AppContext.OBK_DirectionSignData.FirstOrDefault(e => e.DirectionToPaymentId == paymentId);
@@ -171,58 +178,58 @@ namespace PW.Ncels.Database.Repository.OBK
             var contract = AppContext.OBK_Contract.FirstOrDefault(e => e.Id == payment.ContractId);
             var unitsBank = AppContext.UnitsBanks.FirstOrDefault(e => e.UnitsId == contract.ExpertOrganization);
 
-            if (payment?.OBK_DirectionSignData.ExecutorSign != null)
-            {
-                var xmlData = SerializeHelper.SerializeDataContract(payment.OBK_DirectionSignData.ExecutorSign);
-                return xmlData.Replace("utf-16", "utf-8");
-            }
-            else
-            {
-                List<ContractPriceSignData> contractPriceSign = AppContext.OBK_ContractPrice
-                    .Where(e => e.ContractId == contract.Id)
-                    .Select(e => new ContractPriceSignData()
-                    {
-                        ContractPriceName = e.OBK_RS_Products.NameRu,
-                        ContractPriceDicName = e.OBK_Ref_PriceList.NameRu,
-                        ContractPrice = e.OBK_Ref_PriceList.Price * 1.12,
-                        ContractPriceCount = e.Count,
-                        ContractPriceTotal = e.OBK_Ref_PriceList.Price * 1.12 * e.Count,
-                    })
-                    .ToList();
-                var result = new OBKPaymentSignData
+            //if (payment?.OBK_DirectionSignData.ExecutorSign != null)
+            //{
+            //    var xmlData = SerializeHelper.SerializeDataContract(payment.OBK_DirectionSignData.ExecutorSign);
+            //    return xmlData.Replace("utf-16", "utf-8");
+            //}
+            //else
+            //{
+            //}
+            List<ContractPriceSignData> contractPriceSign = AppContext.OBK_ContractPrice
+                .Where(e => e.ContractId == contract.Id)
+                .Select(e => new ContractPriceSignData
                 {
-                    Id = id,
-                    ContractId = payment?.ContractId,
-                    ContactNumber = contract?.Number,
-                    ContactStartDate = contract?.StartDate,
-                    ContactTypeName = contract?.OBK_Ref_Type.NameRu,
-                    UnitsName = contract?.Unit.Name,
-                    UnitsAddress = contract?.Unit.LegalAddress,
-                    UnitsPhone = contract?.Unit.Phone,
-                    UnitsBin = contract?.Unit.Bin,
-                    UnitsIIk = unitsBank?.IIK,
-                    UnitsKbe = unitsBank?.KBE,
-                    UnitsBankName = unitsBank?.BankNameRu,
-                    UnitsBankSwift = unitsBank?.SWIFT,
-                    UnitsBankCode = unitsBank?.Code,
-                    InvoiceNuber1C = payment?.InvoiceNumber1C,
-                    InvoiceDate1C = payment?.InvoiceDatetime1C,
-                    DeclarantBin = contract?.OBK_Declarant.Bin,
-                    DeclarantOrgName = GetDictionary(contract?.OBK_Declarant.OrganizationFormId).Name,
-                    DeclarantName = contract?.OBK_Declarant.NameRu,
-                    DeclarantCountryName = GetDictionary(contract?.OBK_DeclarantContact.CurrencyId).Name,
-                    DeclarantAddressLegal = contract?.OBK_DeclarantContact.AddressLegalRu,
-                    ContractPriceNds = GetTotalPriceCount(payment.ContractId),
-                    ContractPriceTotalText =
-                        RuDateAndMoneyConverter.CurrencyToTxtTenge(
-                            Convert.ToDouble(GetTotalPriceCount(payment.ContractId)), false),
-                    ChiefAccountant = null,//GetEmpoloyee(Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4"))?.ShortName,
-                    Executor = null,//GetEmpoloyee(Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1"))?.ShortName,
-                    ContractPriceSignDatas = contractPriceSign
-                };
-                var xmlData = SerializeHelper.SerializeDataContract(result);
-                return xmlData.Replace("utf-16", "utf-8");
-            }
+                    ContractPriceName = e.OBK_RS_Products.NameRu,
+                    ContractPriceDicName = e.OBK_Ref_PriceList.NameRu,
+                    ContractPrice = e.OBK_Ref_PriceList.Price * TaxHelper.GetNdsRef() + e.OBK_Ref_PriceList.Price,
+                    ContractPriceCount = e.Count,
+                    ContractPriceTotal = (e.OBK_Ref_PriceList.Price * TaxHelper.GetNdsRef() + e.OBK_Ref_PriceList.Price) * e.Count
+                })
+                .ToList();
+            var result = new OBKPaymentSignData
+            {
+                Id = id,
+                ContractId = payment?.ContractId,
+                ContactNumber = contract?.Number,
+                //ContactStartDate = contract?.StartDate,
+                //ContactTypeName = contract?.OBK_Ref_Type.NameRu,
+                //UnitsName = contract?.Unit.Name,
+                //UnitsAddress = contract?.Unit.LegalAddress,
+                //UnitsPhone = contract?.Unit.Phone,
+                //UnitsBin = contract?.Unit.Bin,
+                //UnitsIIk = unitsBank?.IIK,
+                //UnitsKbe = unitsBank?.KBE,
+                //UnitsBankName = unitsBank?.BankNameRu,
+                //UnitsBankSwift = unitsBank?.SWIFT,
+                //UnitsBankCode = unitsBank?.Code,
+                //InvoiceNuber1C = payment?.InvoiceNumber1C,
+                //InvoiceDate1C = payment?.InvoiceDatetime1C,
+                //DeclarantBin = contract?.OBK_Declarant.Bin,
+                //DeclarantOrgName = GetDictionary(contract?.OBK_Declarant.OrganizationFormId).Name,
+                //DeclarantName = contract?.OBK_Declarant.NameRu,
+                //DeclarantCountryName = GetDictionary(contract?.OBK_DeclarantContact.CurrencyId).Name,
+                //DeclarantAddressLegal = contract?.OBK_DeclarantContact.AddressLegalRu,
+                //ContractPriceNds = GetTotalPriceCount(payment.ContractId),
+                //ContractPriceTotalText =
+                //    RuDateAndMoneyConverter.CurrencyToTxtTenge(
+                //        Convert.ToDouble(GetTotalPriceCount(payment.ContractId)), false),
+                //ChiefAccountant = null,//GetEmpoloyee(Guid.Parse("E1EE3658-0C35-41EB-99FD-FDDC4D07CEC4"))?.ShortName,
+                //Executor = null,//GetEmpoloyee(Guid.Parse("55377FAC-A5F0-4093-BBB6-18BD28E53BE1"))?.ShortName,
+                //ContractPriceSignDatas = contractPriceSign
+            };
+            var xmlData = SerializeHelper.SerializeDataContract(result);
+            return xmlData.Replace("utf-16", "utf-8");
         }
 
         public string SaveSignPay(Guid paymentId, string signedData)
@@ -257,7 +264,44 @@ namespace PW.Ncels.Database.Repository.OBK
         }
 
 
+        #region Акт выполненых работ
+
+        public void SaveCertificateOfCompletion(Guid id)
+        {
+            var declaration = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == id);
+            var directToPay = AppContext.OBK_DirectionToPayments.FirstOrDefault(e => e.ContractId == declaration.ContractId);
+            var contractPrice = AppContext.OBK_ContractPrice.Where(e => e.ContractId == declaration.ContractId);
+            double taxValue = TaxHelper.GetNdsRef();
+            var totalPrice = Convert.ToDecimal(contractPrice.Sum(e => (e.OBK_Ref_PriceList.Price * taxValue + e.OBK_Ref_PriceList.Price) * e.Count));
+
+            if (declaration != null)
+            {
+                OBK_CertificateOfCompletion act = new OBK_CertificateOfCompletion
+                {
+                    Id = Guid.NewGuid(),
+                    Number = declaration.Number,
+                    ContractId = (Guid)declaration.ContractId,
+                    AssessmentDeclarationId = id,
+                    InvoiceNumber1C = directToPay?.InvoiceNumber1C,
+                    InvoiceDatetime1C = directToPay?.InvoiceDatetime1C,
+                    TotalPrice = totalPrice,
+                    CreateDate = DateTime.Now,
+                    SendDate = DateTime.Now,
+                    ActNumber1C = null,
+                    ActDate1C = null,
+                    ActReturnedBack = false,
+                    SendNotification = false
+                };
+                AppContext.OBK_CertificateOfCompletion.Add(act);
+                AppContext.SaveChanges();
+            }
+        }
+
+        #endregion
+
+
         #region оплата Job
+        #region Счет на оплату
 
         public List<OBK_DirectionToPayments> GetDeclarantPaid()
         {
@@ -311,6 +355,22 @@ namespace PW.Ncels.Database.Repository.OBK
             AppContext.SaveChanges();
         }
 
+        #endregion
+        #region акт выполненных работ
+
+        public List<OBK_CertificateOfCompletion> GetCertificateOfCompletions()
+        {
+            return AppContext.OBK_CertificateOfCompletion
+                .Where(e => e.ActNumber1C != null && e.SendNotification != true && e.ActReturnedBack != true)
+                .ToList();
+        }
+
+        public void UpdateNotificationToAct(OBK_CertificateOfCompletion act)
+        {
+            AppContext.SaveChangesAsync();
+        }
+
+        #endregion
         #endregion
     }
 }

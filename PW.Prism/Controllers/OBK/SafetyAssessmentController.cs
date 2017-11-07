@@ -110,34 +110,6 @@ namespace PW.Prism.Controllers.OBK
             return File(stream, "application/pdf", name);
         }
 
-        //public ActionResult ExpDocumentExportFilePdf(string productSeriesId, Guid id)
-        //{
-        //    var db = new ncelsEntities();
-        //    string name = "Заключение о безопасности и качества.pdf";
-        //    StiReport report = new StiReport();
-        //    try
-        //    {
-        //        report.Load(Server.MapPath("~/Reports/Mrts/OBKExpDocument.mrt"));
-        //        foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
-        //        {
-        //            data.ConnectionString = UserHelper.GetCnString();
-        //        }
-
-        //        report.Dictionary.Variables["StageExpDocumentId"].ValueObject = Convert.ToInt32(productSeriesId);
-        //        report.Dictionary.Variables["AssessmentDeclarationId"].ValueObject = id;
-
-        //        report.Render(false);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
-        //    }
-        //    var stream = new MemoryStream();
-        //    report.ExportDocument(StiExportFormat.Pdf, stream);
-        //    stream.Position = 0;
-        //    return File(stream, "application/pdf", name);
-        //}
-
         /// <summary>
         /// прикрепленные файлы
         /// </summary>
@@ -147,18 +119,18 @@ namespace PW.Prism.Controllers.OBK
         {
             var model = GetAssessmentDeclaration(id.ToString());
 
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_SERIAL))
             {
                 var repository = new UploadRepository();
                 var list = repository.GetAttachListEdit(id, CodeConstManager.ATTACH_SERIAL_SA_FILE_CODE);
                 return PartialView(list);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
                 var repository = new UploadRepository();
                 var list = repository.GetAttachListEdit(id, CodeConstManager.ATTACH_PARTY_SA_FILE_CODE);
                 return PartialView(list);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
             {
                 var repository = new UploadRepository();
                 var list = repository.GetAttachListEdit(id, CodeConstManager.ATTACH_DECLARATION_SA_FILE_CODE);
@@ -351,7 +323,7 @@ namespace PW.Prism.Controllers.OBK
         {
             if (id == null) return Json("Ok!", JsonRequestBehavior.AllowGet);
             var expertise = GetAssessmentStage(id);
-            expertise.StageStatusId = new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.Completed).Id;
+            expertise.StageStatusId = new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.OnExpDocument).Id;
             expertise.FactEndDate = DateTime.Now;
             new SafetyAssessmentRepository().SaveStage(expertise);
             var model = expertise.OBK_AssessmentDeclaration;
@@ -374,74 +346,17 @@ namespace PW.Prism.Controllers.OBK
             return Json("Ok!", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ExpDocView(Guid id)
+        public ActionResult OutputResultView(Guid id)
         {
-            var stage = GetAssessmentStage(id);
-            var model = stage.OBK_AssessmentDeclaration;
-
-            //Результат
-            var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
-            ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
-            // номерклатура
-            var nomeclature = new AssessmentStageRepository().GetRefNomenclature();
-            ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id", "Name");
-            //основание
-            var reasons = new SafetyAssessmentRepository().GetRefReasons();
-            ViewData["UObkReasons"] = new SelectList(reasons, "ExpertiseResult", "Name");
-
-            return PartialView(model);
+            return PartialView(id);
         }
 
-        //public ActionResult GetSaveExpDoc(OBK_StageExpDocument expData)
-        //{
-        //    var series = new SafetyAssessmentRepository().GetStageExpDocument(expData.ProductSeriesId);
-        //    if (series != null)
-        //    {
-        //        series.ProductSeriesId = expData.ProductSeriesId;
-        //        series.ExpResult = expData.ExpResult;
-        //        series.ExpStartDate = expData.ExpStartDate;
-        //        series.ExpEndDate = expData.ExpEndDate;
-        //        series.ExpReasonNameRu = expData.ExpReasonNameRu;
-        //        series.ExpReasonNameKz = expData.ExpReasonNameKz;
-        //        series.ExpProductNameRu = expData.ExpProductNameRu;
-        //        series.ExpProductNameKz = expData.ExpProductNameKz;
-        //        series.ExpNomenclatureRu = expData.ExpNomenclatureRu;
-        //        series.ExpNomenclatureKz = expData.ExpNomenclatureKz;
-        //        series.ExpAddInfoRu = expData.ExpAddInfoRu;
-        //        series.ExpAddInfoKz = expData.ExpAddInfoKz;
-        //        series.ExpConclusionNumber = expData.ExpConclusionNumber;
-        //        series.ExpBlankNumber = expData.ExpBlankNumber;
-        //        series.ExpApplicationNumber = expData.ExpApplicationNumber;
-        //        series.ExecutorId = UserHelper.GetCurrentEmployee().Id;
-        //        series.ExpApplication = true;
-        //        new SafetyAssessmentRepository().SaveExpDocument(series);
-        //    }
-        //    else
-        //    {
-        //        var expDoc = new OBK_StageExpDocument()
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            ProductSeriesId = expData.ProductSeriesId,
-        //            ExpResult = expData.ExpResult,
-        //            ExpStartDate = expData.ExpStartDate,
-        //            ExpEndDate = expData.ExpEndDate,
-        //            ExpReasonNameRu = expData.ExpReasonNameRu,
-        //            ExpReasonNameKz = expData.ExpReasonNameKz,
-        //            ExpProductNameRu = expData.ExpProductNameRu,
-        //            ExpProductNameKz = expData.ExpProductNameKz,
-        //            ExpNomenclatureRu = expData.ExpNomenclatureRu,
-        //            ExpNomenclatureKz = expData.ExpNomenclatureKz,
-        //            ExpAddInfoRu = expData.ExpAddInfoRu,
-        //            ExpAddInfoKz = expData.ExpAddInfoKz,
-        //            ExpConclusionNumber = expData.ExpConclusionNumber,
-        //            ExpBlankNumber = expData.ExpBlankNumber,
-        //            ExpApplicationNumber = expData.ExpApplicationNumber,
-        //            ExecutorId = UserHelper.GetCurrentEmployee().Id,
-        //            ExpApplication = true
-        //        };
-        //        new SafetyAssessmentRepository().SaveExpDocument(expDoc);
-        //    }
-        //    return Json(new {isSuccess = true });
-        //}
+        public ActionResult OutputResult(Guid id)
+        {
+            var okbRepo = new SafetyAssessmentRepository();
+            okbRepo.SendOutputResult(id);
+            return Json("Ok!", JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

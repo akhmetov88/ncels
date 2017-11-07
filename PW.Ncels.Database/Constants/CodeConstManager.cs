@@ -218,6 +218,10 @@ namespace PW.Ncels.Database.Constants
         public const string ATTACH_CONTRACT_FILE_RESIDENT = "sysAttachOBKContractResident";
         public const string ATTACH_CONTRACT_FILE_NON_RESIDENT = "sysAttachOBKContractNonResident";
 
+        public const string ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE = "sysAttachOBKContractAdditionBankInfoChange";
+        public const string ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT = "sysAttachOBKContractAdditionAddressChangeResident";
+        public const string ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT = "sysAttachOBKContractAdditionAddressChangeNonResident";
+        public const string ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE = "sysAttachOBKContractAdditionManagerChange";
 
         #region Вид файлов
         public const string FILE_INSTRUCTION_CODE = "4"; //Инструкция
@@ -421,6 +425,20 @@ namespace PW.Ncels.Database.Constants
 
         #endregion
 
+        #region Результаты этапов
+
+        /// <summary>
+        /// Этап завершен положительно
+        /// </summary>
+        public const int STAGE_OBK_COMPLETED_POSITIVE = 1;
+
+        /// <summary>
+        /// Этап завершен отрицательно
+        /// </summary>
+        public const int STAGE_OBK_COMPLETED_NEGATIVE = 2;
+
+        #endregion
+
         #region Статусы
 
         /// <summary>
@@ -485,6 +503,19 @@ namespace PW.Ncels.Database.Constants
         /// На формировании счета на оплату
         /// </summary>
         public const int STATUS_OBK_INVOCE_GENERATING = 13;
+        /// <summary>
+        /// Заключение выдано
+        /// </summary>
+        public const int STATUS_OBK_CONCLUSION_ISSUE = 14;
+        /// <summary>
+        /// Решение об отказе выдано
+        /// </summary>
+        public const int STATUS_OBK_REFUSAL_ISSUE = 15;
+        /// <summary>
+        /// На подписании акта выполненных работ
+        /// </summary>
+        public const int STATUS_OBK_SIGN_ACT = 16;
+
 
         #endregion
 

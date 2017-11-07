@@ -16,7 +16,8 @@ namespace PW.Ncels.Database.DataModel
     {
         public OBK_AssessmentStage()
         {
-            this.Employees = new HashSet<Employee>();
+            this.OBK_AssessmentStageSignData = new HashSet<OBK_AssessmentStageSignData>();
+            this.OBK_AssessmentStageExecutors = new HashSet<OBK_AssessmentStageExecutors>();
         }
     
         public System.Guid Id { get; set; }
@@ -37,6 +38,7 @@ namespace PW.Ncels.Database.DataModel
         public virtual OBK_AssessmentDeclaration OBK_AssessmentDeclaration { get; set; }
         public virtual OBK_Ref_Stage OBK_Ref_Stage { get; set; }
         public virtual OBK_Ref_StageStatus OBK_Ref_StageStatus { get; set; }
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<OBK_AssessmentStageSignData> OBK_AssessmentStageSignData { get; set; }
+        public virtual ICollection<OBK_AssessmentStageExecutors> OBK_AssessmentStageExecutors { get; set; }
     }
 }

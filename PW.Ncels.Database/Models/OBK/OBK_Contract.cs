@@ -18,5 +18,6 @@ namespace PW.Ncels.Database.DataModel
         public string ContractInfo { get; set; }
 
         public int ObkRsProductCount { get; set; }
+
     }
 }
