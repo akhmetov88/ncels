@@ -238,6 +238,10 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
         function () {
             reviewData();
         });
+    $("#outputResult" + name).on("click",
+        function() {
+            outputResultData();
+        });
     var viewModel = kendo.observable({
         document: {},
         change: function () {
@@ -290,6 +294,28 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
         });
     }
 
+    function outputResultData() {
+        debugger;
+        var window = $("#TaskCommandWindow");
+        window.kendoWindow({
+            width: "550px",
+            height: "auto",
+            modal: true, resizable: false,
+            close: onCloseCommandWindow,
+            actions: ["Close"]
+        });
+
+        window.data("kendoWindow").title('Выдать результат');
+        window.data("kendoWindow").setOptions({
+            width: 550,
+            height: 'auto'
+        });
+        window.data("kendoWindow").refresh('/SafetyAssessment/OutputResultView?id=' + name);
+
+        window.data("kendoWindow").center();
+        window.data("kendoWindow").open();
+    }
+
     function reviewData() {
         var window = $("#TaskCommandWindow");
         window.kendoWindow({
@@ -300,7 +326,7 @@ function InitializeOBKDataDeclaraion(name, repeatId, status, stage, stageId) {
             actions: ["Close"]
         });
 
-        window.data("kendoWindow").title('Отправить на первичную документов');
+        window.data("kendoWindow").title('Отправить на экспертизу документов');
         window.data("kendoWindow").setOptions({
             width: 550,
             height: 'auto'

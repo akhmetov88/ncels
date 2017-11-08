@@ -15,7 +15,7 @@
                         <div class="col-lg-8">
                             <label>Способ проведения*</label>
                             <div class="input-group" id="typeIds">
-                                @Html.DropDownList("Type_Id", (IEnumerable<SelectListItem>)(ViewData["TypeList"]),String.Empty, new { @class = "form-control edit-control main-control", @disabled=true})
+                                @Html.DropDownList("TypeId", (IEnumerable<SelectListItem>)(ViewData["TypeList"]),String.Empty, new { @class = "form-control edit-control main-control", @disabled=true})
                                 <span class="input-group-addon">
                                     <a class="OBKcommentDialog" href="#">
                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -169,7 +169,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        var type = $("#Type_Id").val();
+        var type = $("#TypeId").val();
         if (type === "1") {
             document.getElementById('invoiceAgentDiv').style.display = "none";
         }

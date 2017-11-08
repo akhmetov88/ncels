@@ -11,6 +11,10 @@ namespace Ncels.Scheduler.Jobs
 {
     public class OBKDirectionToPaymentJob : IJob
     {
+        /// <summary>
+        /// Счет на оплыту
+        /// </summary>
+        /// <param name="context"></param>
         public void Execute(IJobExecutionContext context)
         {
             OBKPaymentRepository repo = new OBKPaymentRepository();
@@ -23,7 +27,7 @@ namespace Ncels.Scheduler.Jobs
                 if (dPaid.IsPaid && !dPaid.IsNotFullPaid)
                 {
                     //отправка уведоления
-                    new NotificationManager().SendNotificationAnonymous(
+                    new NotificationManager().SendNotificationFromCompany(
                         string.Format("Оплата по счету {0} получена. Теперь Вы можете отправлять на рассмотрение заявку для проведения оценки безопасности качества", dPaid.InvoiceNumber1C),
                         ObjectType.Unknown, dPaid.OBK_Contract.Id.ToString(), (Guid)dPaid.OBK_Contract.EmployeeId);
                     repo.UpdateNotificationToPayment(dPaid, true);
@@ -38,8 +42,8 @@ namespace Ncels.Scheduler.Jobs
                 {
                     var pay = Math.Round((decimal)(dNotFullPaid.PaymentBill - dNotFullPaid.PaymentValue), 2);
                     //отправка уведоления
-                    new NotificationManager().SendNotificationAnonymous(
-                        string.Format("«Оплата по счету {0} получена не в полном размере. Просим оплатить остаток суммы {1} для дальнейшей подачи заявки.", dNotFullPaid.InvoiceNumber1C, pay),
+                    new NotificationManager().SendNotificationFromCompany(
+                        string.Format("Оплата по счету {0} получена не в полном размере. Просим оплатить остаток суммы {1} для дальнейшей подачи заявки", dNotFullPaid.InvoiceNumber1C, pay),
                         ObjectType.Unknown, dNotFullPaid.OBK_Contract.Id.ToString(), (Guid)dNotFullPaid.OBK_Contract.EmployeeId);
                     repo.UpdateNotificationToPayment(dNotFullPaid, false);
                 }

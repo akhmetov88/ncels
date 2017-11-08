@@ -34,15 +34,19 @@ namespace PW.Ncels.Controllers
             return View();
         }
 
-        public ActionResult ContractAddition()
+        public ActionResult ContractAddition(Guid? id)
         {
-            return View();
+            ViewBag.ListAction = "Index";
+            return View(id);
         }
 
         public ActionResult Contract(Guid? id, string listAction)
         {
-            //ViewBag.ListAction = listAction;
             ViewBag.ListAction = "Index";
+            if (id != null)
+            {
+                ViewBag.Comments = obkRepo.GetCommentsOfContract(id.Value);
+            }
             return View(id);
         }
 
@@ -82,49 +86,6 @@ namespace PW.Ncels.Controllers
             {
                 declarantJson = GetDeclarantJson(organization);
             }
-
-            //var declarantContact = organization.OBK_DeclarantContact.OrderByDescending(x => x.CreateDate).FirstOrDefault();
-
-            //var declarantJson = new
-            //{
-            //    organization.OrganizationFormId,
-            //    organization.IsResident,
-            //    organization.NameKz,
-            //    organization.NameRu,
-            //    organization.NameEn,
-            //    organization.CountryId,
-            //    declarantContact.AddressLegalRu,
-            //    declarantContact.AddressLegalKz,
-            //    declarantContact.AddressFact,
-            //    declarantContact.Phone,
-            //    declarantContact.Email,
-            //    declarantContact.BossLastName,
-            //    declarantContact.BossFirstName,
-            //    declarantContact.BossMiddleName,
-            //    declarantContact.BossPosition,
-            //    declarantContact.BossDocType,
-            //    declarantContact.IsHasBossDocNumber,
-            //    declarantContact.BossDocNumber,
-            //    declarantContact.BossDocCreatedDate,
-            //    declarantContact.BossDocEndDate,
-            //    declarantContact.BossDocUnlimited,
-            //    declarantContact.SignLastName,
-            //    declarantContact.SignFirstName,
-            //    declarantContact.SignMiddleName,
-            //    declarantContact.SignPosition,
-            //    declarantContact.SignDocType,
-            //    declarantContact.IsHasSignDocNumber,
-            //    declarantContact.SignDocNumber,
-            //    declarantContact.SignDocCreatedDate,
-            //    declarantContact.SignDocEndDate,
-            //    declarantContact.SignDocUnlimited,
-            //    declarantContact.BankIik,
-            //    declarantContact.BankBik,
-            //    declarantContact.CurrencyId,
-            //    declarantContact.BankNameRu,
-            //    declarantContact.BankNameKz
-            //};
-
             return Json(declarantJson, JsonRequestBehavior.AllowGet);
         }
 
@@ -344,7 +305,7 @@ namespace PW.Ncels.Controllers
             StiReport report = new StiReport();
             try
             {
-                report.Load(obkRepo.GetContractTemplatePath(id));//(Server.MapPath("~/Reports/Mrts/OBK/ObkContractDec.mrt"));
+                report.Load(obkRepo.GetContractTemplatePath(id));
                 foreach (var data in report.Dictionary.Databases.Items.OfType<StiSqlDatabase>())
                 {
                     data.ConnectionString = UserHelper.GetCnString();
@@ -423,6 +384,28 @@ namespace PW.Ncels.Controllers
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
             var stream = new MemoryStream();
+            var contractId = payRepo.GetContractIdGuid(id);
+            var directionToPayment = payRepo.GetDirectionToPayments(contractId);
+            var signPayment = payRepo.GetDirectionSignData(directionToPayment.Id);
+            if (signPayment.ChiefAccountantSign != null && signPayment.ExecutorSign != null)
+            {
+                try
+                {
+                    report.ExportDocument(StiExportFormat.Word2007, stream);
+                    stream.Position = 0;
+                    Aspose.Words.Document doc = new Aspose.Words.Document(stream);
+                    doc.InserQrCodesToEnd("ChiefAccountantSign", signPayment.ChiefAccountantSign);
+                    var pdfFile = new MemoryStream();
+                    doc.Save(pdfFile, SaveFormat.Pdf);
+                    pdfFile.Position = 0;
+                    stream.Close();
+                    return File(pdfFile, "application/pdf", name);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
             report.ExportDocument(StiExportFormat.Pdf, stream);
             stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");
@@ -534,6 +517,62 @@ namespace PW.Ncels.Controllers
             var result = obkRepo.GetExtHistory(modelId);
 
             return Json(new { isSuccess = true, result });
+        }
+
+        [HttpGet]
+        public ActionResult GetFactories(Guid contractId)
+        {
+            var list = obkRepo.GetFactories(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddFactory(Guid contractId, OBKFactoryViewModel factory)
+        {
+            var addedFactoryGuid = obkRepo.AddFactory(contractId, factory);
+            return Json(addedFactoryGuid);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFactory(Guid contractId, OBKFactoryViewModel factory)
+        {
+            var result = obkRepo.DeleteFactory(factory);
+            return Json(result);
+        }
+
+        [HttpGet]
+        public ActionResult GetContractPricesAdditional(Guid contractId)
+        {
+            var list = obkRepo.GetContractPricesAdditional(contractId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetContractPricesSum(Guid contractId)
+        {
+            var sum = obkRepo.GetContractPricesSum(contractId);
+            return Json(sum, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetActiveContracts()
+        {
+            var list = obkRepo.GetActiveContracts();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ContractAdditionSave(Guid Guid, OBKContractViewModel contractViewModel, OBKContractAdditionViewModel contractAddition)
+        {
+            OBKContractAdditionViewModel contractAdditionVideModel = obkRepo.SaveContractAddition(Guid, contractViewModel, contractAddition);
+            return Json(contractAdditionVideModel);
+        }
+
+        [HttpGet]
+        public ActionResult ContractAdditionGet(Guid id)
+        {
+            var obj = obkRepo.GetContractAddition(id);
+            return Json(obj, JsonRequestBehavior.AllowGet);
         }
     }
 }

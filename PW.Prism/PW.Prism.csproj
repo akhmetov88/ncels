@@ -223,6 +223,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\CommissionController.cs" />
     <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
+    <Compile Include="Controllers\OBKExpDocument\OBKExpDocumentController.cs" />
     <Compile Include="Controllers\OBKPayment\OBKPaymentController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
@@ -986,6 +987,7 @@
     <Content Include="Reports\Mrts\OBK\ObkContractDeclaration.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractParty.mrt" />
     <Content Include="Reports\Mrts\OBK\ObkContractSerial.mrt" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkCertificateOfCompletion.mrt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -993,6 +995,7 @@
     <Content Include="Scripts\crypto\eds.js" />
     <Content Include="Scripts\crypto\jquery.blockUI.js" />
     <Content Include="Scripts\crypto\loading.gif" />
+    <Content Include="Scripts\crypto\obk\obk_eds.js" />
     <Content Include="Scripts\datatable.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2293,9 +2296,6 @@
     <Content Include="Views\SafetyAssessment\SetExecuter.cshtml" />
     <Content Include="Views\SafetyAssessment\ConfirmeRefuseSafety.cshtml" />
     <Content Include="Views\SafetyAssessment\DocumentReview.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpDocView.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpDocResponseView.cshtml" />
-    <Content Include="Views\SafetyAssessment\ExpDocDecResponseView.cshtml" />
     <Content Include="Views\OBKContract\Contract.cshtml" />
     <Content Include="Views\OBKContract\Index.cshtml" />
     <Content Include="Views\OBKContract\ShowComment.cshtml" />
@@ -2314,6 +2314,10 @@
     <Content Include="Views\OBKContract\UploadContract.cshtml" />
     <Content Include="Views\OBKPayment\Index.cshtml" />
     <Content Include="Views\OBKPayment\Edit.cshtml" />
+    <Content Include="Views\OBKPayment\SetChiefAccountant.cshtml" />
+    <Content Include="Views\OBKExpDocument\ExpDocumentView.cshtml" />
+    <Content Include="Views\OBKExpDocument\ExpDocumentDeclarationResponse.cshtml" />
+    <Content Include="Views\SafetyAssessment\OutputResultView.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

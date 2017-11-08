@@ -1,4 +1,5 @@
-﻿@using PW.Ncels.Database.DataModel
+﻿@using PW.Ncels.Database.Constants
+@using PW.Ncels.Database.DataModel
 @using PW.Ncels.Database.Helpers
 @model PW.Prism.ViewModels.OBK.OBKEntity
 @{
@@ -68,12 +69,31 @@
                                          {
                                              {"ItemId", OBK_Ref_StageStatus.InWork}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "inWork" + Model.Guid.ToString()}
                                          }).Selected(!EmployePermissionHelper.CanSafetyAssessmentExecutorsAssignment);
-
+                                         //для экспертизы документов
+                                         //todo надо добавить тип декларирования
+                                         if (EmployePermissionHelper.CanSafetyAssessmentExecutorsAssignment)
+                                             if (Model.DicStageId == CodeConstManager.STAGE_OBK_EXPERTISE_DOC)
+                                             {
+                                                 projects.Add().Text("Требует подписания").LinkHtmlAttributes(new Dictionary<string, object>()
+                                                 {
+                                                     {"ItemId", OBK_Ref_StageStatus.RequiresSigning}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "requiresSigning" + Model.Guid.ToString()}
+                                                 });
+                                             }
+                                         projects.Add().Text("На экспертизе документов").LinkHtmlAttributes(new Dictionary<string, object>()
+                                         {
+                                             {"ItemId", OBK_Ref_StageStatus.OnExpDocument}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "onExpDocument" + Model.Guid.ToString()}
+                                         });
                                          projects.Add().Text("На доработке").LinkHtmlAttributes(new Dictionary<string, object>()
                                          {
                                              {"ItemId", OBK_Ref_StageStatus.InReWork}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "inReWork" + Model.Guid.ToString()}
                                          });
-
+                                         if (Model.DicStageId == CodeConstManager.STAGE_OBK_COZ)
+                                         {
+                                             projects.Add().Text("Требует заключения").LinkHtmlAttributes(new Dictionary<string, object>()
+                                             {
+                                                 {"ItemId", OBK_Ref_StageStatus.RequiresConclusion}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "requiresConclusion" + Model.Guid.ToString()}
+                                             });
+                                         }
                                          projects.Add().Text("Выполненные").LinkHtmlAttributes(new Dictionary<string, object>()
                                          {
                                              {"ItemId", OBK_Ref_StageStatus.Completed}, {"ItemType", "StageStatusCode"}, {"ModelId", Model.Guid.ToString()}, {"id", "completed" + Model.Guid.ToString()}
@@ -86,7 +106,7 @@
 
           panes.Add().Scrollable(false).Size("100%").Content(
               @<div class="pwPanelBar">
-                  <div class="pwBlockAdd k-block">
+                  @*<div class="pwBlockAdd k-block">
                       <div id="pwOne">
 
                       </div>
@@ -98,7 +118,7 @@
                                  .Content(PW.Ncels.Database.Recources.Messages.Property_Экспорт_335__00)
                                  .ImageUrl("/Content/images/export.png").Events(e => e.Click("onExportInDoc")))
                       </div>
-                  </div>
+                  </div>*@
                   @( Html.Kendo().Grid<OBK_AssessmentDeclarationRegisterView>()
                          .Name("gridAssessmentDecalaration" + Model.Guid)
                          .Columns(columns =>

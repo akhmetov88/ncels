@@ -1,5 +1,10 @@
 ﻿function actionsObkContractListHtmlAction(data, type, full, meta, $scope) {
-    return '<a  class="pw-task-link" href="/OBKContract/Contract?id=' + full.Id + '" >' + data + '</a>';
+    if (full.ParentId) {
+        return '<a  class="pw-task-link" href="/OBKContract/ContractAddition?id=' + full.Id + '" >' + data + '</a>';
+    }
+    else {
+        return '<a  class="pw-task-link" href="/OBKContract/Contract?id=' + full.Id + '" >' + data + '</a>';
+    }
 }
 
 function dateformatHtml(data, type, full, meta) {

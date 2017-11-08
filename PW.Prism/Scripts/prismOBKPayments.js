@@ -16,12 +16,19 @@ function panelDirectionPaymentSelect(e) {
         if (selectValue === 'reqSign') {
             $("#generateDoc" + gridId).show();
             $("#sendToDeclarant" + gridId).show();
-            $("#signDocument" + gridId).show();
-        } else {
+            $("#signObkPayDocument" + gridId).show();
+            $("#toSignChiefAccountant" + gridId).show();
+        }
+        else {
             $("#generateDoc" + gridId).hide();
             $("#sendToDeclarant" + gridId).hide();
-            $("#signDocument" + gridId).hide();
+            $("#signObkPayDocument" + gridId).hide();
+            $("#toSignChiefAccountant" + gridId).hide();
         }
+        if (selectValue === 'sendToPayment') {
+            $("#generateDoc" + gridId).show();
+        }
+        
 
         if (selectValue === '') {
             grid.dataSource.filter([]);
@@ -37,21 +44,47 @@ function panelDirectionPaymentSelect(e) {
 function gridSelectRow(e) {
     debugger;
     var data = this.dataItem(this.select());
-    $.ajax({
-        type: 'GET',
-        url: '/OBKPayment/GetEmployee',
-        success: function (result) {
-            debugger;
-            var gridId = $(e.item).find("> .k-link").attr('ModelId');
-            if (result.Id === data.ExecutorId && data.ExecutorSign === "False" ||
-                result.Id === data.ChiefAccountantId && data.ChiefAccountantSign === "False") {
-                
-            } else {
-                
-            }
-        }
-    });
+    var modelId = $("#modelId").val();
+    var employeeId = $("#employeeId").val();
+
+    //if (data.ExecutorSign === "False" && data.ChiefAccountantId == null && data.ChiefAccountantSign === "False") {
+    //    $("#signObkPayDocument" + modelId).prop('disabled', false);
+    //    $("#toSignChiefAccountant" + modelId).attr('disabled', 'disabled');
+    //} 
+    //if (data.ExecutorSign === "True" && data.ChiefAccountantId == null && data.ChiefAccountantSign === "False") {
+    //    $("#signObkPayDocument" + modelId).attr('disabled', 'disabled');
+    //    $("#toSignChiefAccountant" + modelId).prop('disabled', false);
+    //}
+    //if (data.ExecutorSign === "True" && employeeId === data.ChiefAccountantId && data.ChiefAccountantSign === "False") {
+    //    $("#signObkPayDocument" + modelId).prop('disabled', false);
+    //    $("#toSignChiefAccountant" + modelId).attr('disabled', 'disabled');
+    //}
 }
+
+
+function toSignChiefAccountant(id) {
+    var window = $("#TaskCommandWindow");
+    window.kendoWindow({
+        width: "550px",
+        height: "auto",
+        modal: true, resizable: false,
+        close: onCloseCommandWindow,
+        actions: ["Close"]
+    });
+    window.data("kendoWindow").dialogCallback = function () {
+        grid.dataSource.read();
+    };
+    window.data("kendoWindow").gridSelectedIds = id;
+    window.data("kendoWindow").title('Отправить на подпись руководителю');
+    window.data("kendoWindow").setOptions({
+        width: 550,
+        height: 'auto'
+    });
+    window.data("kendoWindow").refresh('/OBKPayment/SetChiefAccountant');
+    window.data("kendoWindow").center();
+    window.data("kendoWindow").open();
+}
+
 
 function signPayment(id) {
     debugger;
@@ -80,14 +113,14 @@ function signPayment(id) {
             url: '/OBKPayment/SaveSignedPayment',
             contentType: 'application/json; charset=utf-8',
             data: json,
-            success: function(result) {
+            success: function (result) {
                 debugger;
-                alert("Счет на оплату подписан");
+                alert(result.message);
             },
-            complete: function() {
+            complete: function(e) {
                 debugger;
-                var gridId = $(e.item).find("> .k-link").attr('ModelId');
-                var grid = $("#gridOBKPayment" + gridId).data("kendoGrid");
+                var modelId = $("#modelId").val();
+                var grid = $("#gridOBKPayment" + modelId).data("kendoGrid");
                 grid.dataSource.read();
             }
         });

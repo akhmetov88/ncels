@@ -48,5 +48,13 @@ namespace PW.Ncels.Database.DataModel
         /// Активный
         /// </summary>
         public const string Active = "active";
+        /// <summary>
+        /// Требует заключения
+        /// </summary>
+        public const string RequiresConclusion = "requiresConclusion";
+        /// <summary>
+        /// На Экспертихе документов
+        /// </summary>
+        public const string OnExpDocument = "onExpDocument";
     }
 }

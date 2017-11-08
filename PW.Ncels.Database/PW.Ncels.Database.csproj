@@ -795,6 +795,9 @@
     <Compile Include="DataModel\I1c_act_Application_selectchanges_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\I1c_act_ObkApplication.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\I1c_exp_Contracts.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -957,6 +960,15 @@
     <Compile Include="DataModel\OBK_AssessmentStage.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStageExecutors.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_AssessmentStageSignData.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_CertificateOfCompletion.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\obk_certifications.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -973,6 +985,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractExtHistory.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_ContractFactory.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_ContractHistory.cs">
@@ -1096,6 +1111,9 @@
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\OBK_StageExpDocument.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\OBK_StageExpDocumentResult.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel\Organization.cs">
@@ -2071,6 +2089,7 @@
     <Compile Include="Models\ModelRequest.cs" />
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
+    <Compile Include="Models\OBK\OBKContractAdditionViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractProduct.cs" />
     <Compile Include="Models\OBK\OBKContractProductViewModel.cs" />
@@ -2080,7 +2099,9 @@
     <Compile Include="Models\OBK\OBKContractViewModel.cs" />
     <Compile Include="Models\OBK\OBKDeclarantViewModel.cs" />
     <Compile Include="Models\OBK\OBKDrugFormViewModel.cs" />
+    <Compile Include="Models\OBK\OBKEntityPayment.cs" />
     <Compile Include="Models\OBK\OBKEntityTemplate.cs" />
+    <Compile Include="Models\OBK\OBKFactoryViewModel.cs" />
     <Compile Include="Models\OBK\OBKMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationCom.cs" />
     <Compile Include="Models\OBK\OBK_AssessmentDeclarationComRecord.cs" />
@@ -2089,6 +2110,7 @@
     <Compile Include="Models\OBK\OBK_AssessmentDeclaration.cs" />
     <Compile Include="Models\OBK\OBK_DeclarationHistory.cs" />
     <Compile Include="Models\OBK\OBKPaymentSignData.cs" />
+    <Compile Include="Models\OBK\OBK_Instruction.cs" />
     <Compile Include="Models\OBK\OBK_Procunts_Series.cs" />
     <Compile Include="Models\OBK\OBK_ProductInfo.cs" />
     <Compile Include="Models\OBK\OBK_Ref_Nomenclature.cs" />
@@ -2201,6 +2223,7 @@
     <Compile Include="Repository\Lims\TmcRepository.cs" />
     <Compile Include="Repository\OBK\AssessmentStageRepository.cs" />
     <Compile Include="Repository\OBK\OBKContractRepository.cs" />
+    <Compile Include="Repository\OBK\OBKExpDocumentRepository.cs" />
     <Compile Include="Repository\OBK\OBKPaymentRepository.cs" />
     <Compile Include="Repository\OBK\SafetyAssessmentRepository.cs" />
     <Compile Include="Repository\Price\PriceProjectRepository.cs" />
@@ -2220,7 +2243,9 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DataModel\EntitiesModel.edmx.diagram">
       <DependentUpon>EntitiesModel.edmx</DependentUpon>
     </None>
