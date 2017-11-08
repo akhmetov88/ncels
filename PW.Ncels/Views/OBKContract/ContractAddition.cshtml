@@ -591,25 +591,7 @@
                                                 <div ng-show="contractAdditionTypeCode == null" id="filesWarning">
                                                     <p class="text-bold">Для загрузки вложений выберите тип доп. соглашения</p>
                                                 </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 1" id="filesAddress">
-                                                    <div ng-show="!object.viewMode">
-                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" path="@ModelGuid" />
-                                                    </div>
-                                                    <div ng-show="object.viewMode">
-                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" id="@ModelGuid" path="@ModelGuid" />
-                                                    </div>
-                                                </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 2" id="filesBank">
-                                                    <div ng-show="!object.viewMode">
-                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" path="@ModelGuid" />
-                                                    </div>
-                                                    <div ng-show="object.viewMode">
-                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" id="@ModelGuid" path="@ModelGuid" />
-                                                    </div>
-                                                </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 3 && declarant.Id != null && declarant.IsResident == true" id="filesManagerResident">
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 1 && declarant.Id != null && declarant.IsResident == true" id="filesAddressResident">
                                                     <div ng-show="!object.viewMode">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT" path="@ModelGuid" />
@@ -618,13 +600,31 @@
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 3 && declarant.Id != null && declarant.IsResident == false" id="filesManagerNonResident">
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 1 && declarant.Id != null && declarant.IsResident == false" id="filesAddressNonResident">
                                                     <div ng-show="!object.viewMode">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT" path="@ModelGuid" />
                                                     </div>
                                                     <div ng-show="object.viewMode">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                </div>
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 2" id="filesManager">
+                                                    <div ng-show="!object.viewMode">
+                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
+                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                </div>
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 3" id="filesBank">
+                                                    <div ng-show="!object.viewMode">
+                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
+                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
                                             </div>

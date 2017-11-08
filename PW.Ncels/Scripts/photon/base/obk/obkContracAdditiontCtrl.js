@@ -291,7 +291,7 @@
             });
         }
         else {
-            alert("Заполните обязательные поля!");
+            alert("Заполните обязательные поля и загрузите вложения!");
         }
     }
 
@@ -302,7 +302,7 @@
             $scope.doSign();
         }
         else {
-            alert("Заполните обязательные поля!");
+            alert("Заполните обязательные поля и загрузите вложения!");
         }
     }
 
@@ -318,17 +318,17 @@
 
         var containerName = "";
 
-        if ($scope.contractAdditionTypeCode == 1) {
-            containerName = "#filesAddress";
-        }
-        else if ($scope.contractAdditionTypeCode == 2) {
+        if ($scope.contractAdditionTypeCode == 3) {
             containerName = "#filesBank";
         }
-        else if ($scope.contractAdditionTypeCode == 3 && $scope.declarant.IsResident == true) {
-            containerName = "#filesManagerResident";
+        else if ($scope.contractAdditionTypeCode == 2) {
+            containerName = "#filesManager";
         }
-        else if ($scope.contractAdditionTypeCode == 3 && $scope.declarant.IsResident == false) {
-            containerName = "#filesManagerNonResident";
+        else if ($scope.contractAdditionTypeCode == 1 && $scope.declarant.IsResident == true) {
+            containerName = "#filesAddressResident";
+        }
+        else if ($scope.contractAdditionTypeCode == 1 && $scope.declarant.IsResident == false) {
+            containerName = "#filesAddressNonResident";
         }
 
         $(containerName + ' .file-validation').text("");
