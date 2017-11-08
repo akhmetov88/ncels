@@ -226,6 +226,7 @@
     <Compile Include="Controllers\OBKContract\OBKContractController.cs" />
     <Compile Include="Controllers\OBKExpDocument\OBKExpDocumentController.cs" />
     <Compile Include="Controllers\OBKPayment\OBKPaymentController.cs" />
+    <Compile Include="Controllers\OBKReferenceController.cs" />
     <Compile Include="Controllers\OBK\PrimsSafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK\SafetyAssessmentController.cs" />
     <Compile Include="Controllers\OBK_Ref_ContractDocumentTypeController.cs" />
@@ -807,6 +808,7 @@
     <Content Include="Content\mobile\default.css" />
     <Content Include="Content\mobile\default.date.css" />
     <Content Include="Content\Projects\templates\readme.txt" />
+    <Content Include="Content\Xml\OBKDictionaries.xml" />
     <Content Include="Content\Xml\ReportsDepartamentTMC.xml" />
     <Content Include="Content\Xml\ReportsExpertise.xml" />
     <Content Include="Content\Xml\ReportsOrg.xml">

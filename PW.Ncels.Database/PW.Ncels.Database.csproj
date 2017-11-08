@@ -1290,6 +1290,12 @@
     <Compile Include="DataModel\split2_Result.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModel\sp_helpdiagrams_Result.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\SrProducerView.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
@@ -2089,6 +2095,11 @@
     <Compile Include="Models\ModelRequest.cs" />
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
+    <Compile Include="Models\OBKReferenceContractDocTypeModel.cs" />
+    <Compile Include="Models\OBKReferenceNomenclatureModel.cs" />
+    <Compile Include="Models\OBKReferencePriceListModel.cs" />
+    <Compile Include="Models\OBKReferenceReasonModel.cs" />
+    <Compile Include="Models\OBKReferenceValAdTaxModel.cs" />
     <Compile Include="Models\OBK\OBKContractAdditionViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractProduct.cs" />
