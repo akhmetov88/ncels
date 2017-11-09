@@ -303,6 +303,7 @@
     <Compile Include="ViewModels\DrugDeclaration\DeclarationStepsViewModel.cs" />
     <Compile Include="ViewModels\DrugDeclaration\DeclarationStepsModel.cs" />
     <Compile Include="ViewModels\Expertise\ExpertiseEntity.cs" />
+    <Compile Include="ViewModels\OBK\OBKContractAddition.cs" />
     <Compile Include="ViewModels\OBK\OBKEntity.cs" />
     <Compile Include="ViewModels\PriceProject\PpHistoryViewModel.cs" />
     <Compile Include="ViewModels\PriceProject\ProtocolModel.cs" />
@@ -2316,6 +2317,9 @@
     <Content Include="Views\OBKPayment\SetChiefAccountant.cshtml" />
     <Content Include="Views\OBKExpDocument\ExpDocumentView.cshtml" />
     <Content Include="Views\OBKExpDocument\ExpDocumentDeclarationResponse.cshtml" />
+    <Content Include="Views\OBKContract\ContractAddition.cshtml" />
+    <Content Include="Views\OBKContract\RefuseReasonContractAdditionDlg.cshtml" />
+    <Content Include="Views\OBKContract\UploadContractAddition.cshtml" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

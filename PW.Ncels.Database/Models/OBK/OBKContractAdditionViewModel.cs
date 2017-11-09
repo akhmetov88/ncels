@@ -6,5 +6,6 @@ namespace PW.Ncels.Database.Models.OBK
         public Guid? Id { get; set; }
         public Guid? ContractId { get; set; }
         public Guid? ContractAdditionTypeId { get; set; }
+        public string TypeCode { get; set; }
     }
 }

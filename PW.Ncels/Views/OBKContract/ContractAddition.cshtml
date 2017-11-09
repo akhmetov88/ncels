@@ -1,8 +1,10 @@
 ﻿@using PW.Ncels.Database.Constants
+@using PW.Ncels.Database.DataModel
 @model Guid?
 @{
     Layout = "../Shared/_Layout.cshtml";
 }
+@Html.Partial("~/Views/Home/OBK_SignView.cshtml")
 
 @{
     var GeneratedGuid = Guid.NewGuid().ToString();
@@ -16,7 +18,13 @@
         ModelGuid = Model.ToString();
     }
 }
-
+@if (ViewBag.Comments != null)
+{
+    foreach (var comment in ((List<OBK_ContractCom>)ViewBag.Comments))
+    {
+        <p class="rating" idcontrol="@comment.ControlId" iserror=@true></p>
+    }
+}
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
         <h2>Новое дополнительное соглашение</h2>
@@ -52,7 +60,7 @@
                         <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMode" ng-click="saveBtnClick()"><i class="fa fa-save"></i> Сохранить</button>
                         <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMode" ng-click="sendWithDigitalSign();"><i class="fa fa-send-o"></i> Подписать ЭЦП и отправить в ЦОЗ</button>
                         <button class="btn btn-default btn-sm" type="button" check-validate ng-disabled="object.viewMode" ng-click="sendWithoutDigitalSign();"><i class="fa fa-send-o"></i> Отправить в ЦОЗ без подписи</button>
-                        <button class="btn btn-default btn-sm" type="button"><i class="fa fa-eye"></i> Просмотр</button>
+                        <button class="btn btn-default btn-sm" type="button" ng-click="viewContract('@ModelGuid')"><i class="fa fa-eye"></i> Просмотр</button>
                     </div>
                 </div>
                 <form name="contracAdditiontForm">
@@ -97,20 +105,12 @@
                                                     <div class="col-lg-6 b-r">
                                                         <div class="form-group">
                                                             <label>Тип договора *</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <ui-select ng-model="object.Type" theme="bootstrap" name="type" ui-select-selected required ng-disabled="true">
-                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="item.Id as item in ObkContractTypes | filter: $select.search">
-                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                    </ui-select-choices>
-                                                                </ui-select>
-                                                                <span id="ContractType" class="edit-control" style="display: none"></span>
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+                                                            <ui-select ng-model="object.Type" theme="bootstrap" name="type" ui-select-selected required ng-disabled="true">
+                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                <ui-select-choices repeat="item.Id as item in ObkContractTypes | filter: $select.search">
+                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                </ui-select-choices>
+                                                            </ui-select>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="radio-inline">
@@ -122,14 +122,9 @@
                                                         </div>
                                                         <div class="form-group" ng-show="declarant.IsResident === true">
                                                             <label>ИИН/БИН *</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <input maxlength="12" id="bin" ng-model="declarant.Bin" class="form-control edit-control" type="text" ui-select-selected name="bin" ng-disabled="true">
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+
+                                                            <input maxlength="12" id="bin" ng-model="declarant.Bin" class="form-control edit-control" type="text" ui-select-selected name="bin" ng-disabled="true">
+
                                                         </div>
                                                         <div class="form-group" ng-show="declarant.IsResident === false">
                                                             <label>Страна</label>
@@ -169,37 +164,25 @@
                                                     <div class="col-lg-6 b-l">
                                                         <div class="form-group">
                                                             <label>Экспертная организация *</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <ui-select ng-model="object.ExpertOrganization" ui-select-selected required theme="bootstrap" ng-disabled="true">
-                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
-                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                    </ui-select-choices>
-                                                                </ui-select>
-                                                                <span id="ExpertOrganization" class="edit-control" style="display: none"></span>
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+
+                                                            <ui-select ng-model="object.ExpertOrganization" ui-select-selected required theme="bootstrap" ng-disabled="true">
+                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                <ui-select-choices repeat="item.Id as item in ExpertOrganizations | filter: $select.search">
+                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Подписывающее лицо *</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <ui-select ng-model="object.Signer" ui-select-selected required theme="bootstrap" ng-change="editProject();" ng-disabled="!(contractAddition.ContractId) || object.viewMode">
-                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="item.Id as item in ContractSigners | filter: $select.search">
-                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                    </ui-select-choices>
-                                                                </ui-select>
-                                                                <span id="Signer" class="edit-control" style="display: none"></span>
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+
+                                                            <ui-select ng-model="object.Signer" ui-select-selected required theme="bootstrap" ng-change="editProject();" ng-disabled="!(contractAddition.ContractId) || object.viewMode">
+                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                <ui-select-choices repeat="item.Id as item in ContractSigners | filter: $select.search">
+                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -209,70 +192,33 @@
                                                             <h4>&nbsp;</h4>
                                                             <input type="hidden" ng-model="declarant.Id" />
                                                             <label>Организационная форма</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <ui-select ng-model="declarant.OrganizationFormId" theme="bootstrap" ui-select-selected name="organizationForm" required ng-disabled="true">
-                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="item.Id as item in OpfType | filter: $select.search">
-                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                    </ui-select-choices>
-                                                                </ui-select>
-                                                                <span id="OrganizationForm" class="edit-control" style="display: none"></span>
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+                                                            <ui-select ng-model="declarant.OrganizationFormId" theme="bootstrap" ui-select-selected name="organizationForm" required ng-disabled="true">
+                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                <ui-select-choices repeat="item.Id as item in OpfType | filter: $select.search">
+                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                </ui-select-choices>
+                                                            </ui-select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Наименование на государственном языке *</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <input id="declarantNameKz" ng-model="declarant.NameKz" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameKz" required ng-disabled="true">
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+                                                            <input id="declarantNameKz" ng-model="declarant.NameKz" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameKz" required ng-disabled="true">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Наименование на русском языке *</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <input id="declarantNameRu" ng-model="declarant.NameRu" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameRu" required ng-disabled="true">
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+                                                            <input id="declarantNameRu" ng-model="declarant.NameRu" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameRu" required ng-disabled="true">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Наименование на английском языке</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <input id="declarantNameEn" ng-model="declarant.NameEn" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameEn" required ng-disabled="true">
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+                                                            <input id="declarantNameEn" ng-model="declarant.NameEn" placeholder="Введите значение" class="form-control edit-control" type="text" ui-select-selected name="declarantNameEn" required ng-disabled="true">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Страна</label>
-                                                            <div ng-class="{'input-group': showComments}">
-                                                                <ui-select ng-model="declarant.CountryId" theme="bootstrap" ui-select-selected name="declarantCountryId" required ng-disabled="true">
-                                                                    <ui-select-match>{{$select.selected.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="item.Id as item in Country | filter: $select.search">
-                                                                        <div ng-bind-html="item.Name| highlight: $select.search"></div>
-                                                                    </ui-select-choices>
-                                                                </ui-select>
-                                                                <span id="Country" class="edit-control" style="display: none"></span>
-                                                                <span class="input-group-addon" ng-show="showComments">
-                                                                    <a class="obkcontractdialog" href="#">
-                                                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
+                                                            <ui-select ng-model="declarant.CountryId" theme="bootstrap" ui-select-selected name="declarantCountryId" required ng-disabled="true">
+                                                                <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                <ui-select-choices repeat="item.Id as item in Country | filter: $select.search">
+                                                                    <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                </ui-select-choices>
+                                                            </ui-select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 b-l">
@@ -591,40 +537,52 @@
                                                 <div ng-show="contractAdditionTypeCode == null" id="filesWarning">
                                                     <p class="text-bold">Для загрузки вложений выберите тип доп. соглашения</p>
                                                 </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 1" id="filesAddress">
-                                                    <div ng-show="!object.viewMode">
-                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" path="@ModelGuid" />
-                                                    </div>
-                                                    <div ng-show="object.viewMode">
-                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" id="@ModelGuid" path="@ModelGuid" />
-                                                    </div>
-                                                </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 2" id="filesBank">
-                                                    <div ng-show="!object.viewMode">
-                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
-                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" path="@ModelGuid" />
-                                                    </div>
-                                                    <div ng-show="object.viewMode">
-                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" id="@ModelGuid" path="@ModelGuid" />
-                                                    </div>
-                                                </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 3 && declarant.Id != null && declarant.IsResident == true" id="filesManagerResident">
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 1 && declarant.Id != null && declarant.IsResident == true" id="filesAddressResident">
                                                     <div ng-show="!object.viewMode">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMode">
+                                                    <div ng-show="object.viewMode && object.Status != @CodeConstManager.STATUS_OBK_ACTIVE">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
+                                                    <div ng-show="object.viewMode && object.Status == @CodeConstManager.STATUS_OBK_ACTIVE">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
                                                 </div>
-                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 3 && declarant.Id != null && declarant.IsResident == false" id="filesManagerNonResident">
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 1 && declarant.Id != null && declarant.IsResident == false" id="filesAddressNonResident">
                                                     <div ng-show="!object.viewMode">
                                                         <p class="text-bold">Прикрепите необходимые файлы ниже</p>
                                                         <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT" path="@ModelGuid" />
                                                     </div>
-                                                    <div ng-show="object.viewMode">
+                                                    <div ng-show="object.viewMode && object.Status != @CodeConstManager.STATUS_OBK_ACTIVE">
                                                         <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode && object.Status == @CodeConstManager.STATUS_OBK_ACTIVE">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                </div>
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 2" id="filesManager">
+                                                    <div ng-show="!object.viewMode">
+                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
+                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode && object.Status != @CodeConstManager.STATUS_OBK_ACTIVE">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode && object.Status == @CodeConstManager.STATUS_OBK_ACTIVE">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                </div>
+                                                <div ng-show="contractAdditionTypeCode != null && contractAdditionTypeCode == 3" id="filesBank">
+                                                    <div ng-show="!object.viewMode">
+                                                        <p class="text-bold">Прикрепите необходимые файлы ниже</p>
+                                                        <attach-edit metadata="true" showcomment="true" history="true" url="/Upload/GetAttachListEdit?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode && object.Status != @CodeConstManager.STATUS_OBK_ACTIVE">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList?excludeCodes=0" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" id="@ModelGuid" path="@ModelGuid" />
+                                                    </div>
+                                                    <div ng-show="object.viewMode && object.Status == @CodeConstManager.STATUS_OBK_ACTIVE">
+                                                        <attach-read metadata="true" history="true" url="/Upload/GetAttachList" type="@CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE" id="@ModelGuid" path="@ModelGuid" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -639,6 +597,9 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/js/custom/obkcontractcomments.js"></script>
+<script src="~/Scripts/js/custom/atach-comment.js"></script>
+<script src="~/Scripts/photon/crypto/obk/obk_eds.js"></script>
 <link href="~/Content/css/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     .ui-dialog {
@@ -665,7 +626,7 @@
         line-height: 1.5;
         border-radius: 3px;
     }
-    
+
     .alert-dialog.ui-dialog .ui-dialog-titlebar-close {
         display: none;
     }

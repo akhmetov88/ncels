@@ -166,11 +166,24 @@ panes.Add().Scrollable(false).Size("100%").Content(
                                    .Name("gridContractAll" + Model)
                            .Columns(columns =>
                            {
-                               columns.Bound(p => p.ContractNumber).Width(150).ClientTemplate(
-                                   "<div class=\"btn-group btn-group-xs\" style='height:14px;margin-top: -9px;'>" +
-                                        "<button type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getObkContractDetails('#=ContractId#', '#=ContractNumber#',);\"><span style=\"color:rgb(66,139,202);\">#=ContractNumber#</span></button>" +
-                                    "</div>"
+                               columns.Bound(p => p.ContractDisplayNumber).Width(150).ClientTemplate(
+                                    "# if (ContractParentId == null) { #" +
+                                        "<div class=\"btn-group btn-group-xs\" style='height:14px;margin-top: -9px;'>" +
+                                        "<button type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getObkContractDetails('#=ContractId#', '#=ContractDisplayNumber#',);\"><span style=\"color:rgb(66,139,202);\">#=ContractDisplayNumber#</span></button>" +
+                                        "</div>" + 
+                                    "# } else { #" +
+                                        "<div class=\"btn-group btn-group-xs\" style='height:14px;margin-top: -9px;'>" +
+                                        "<button type='button' style='width:90px;' class='btn btn-default btn-xs' onclick=\"getObkContractAdditionDetails('#=ContractId#', '#=ContractDisplayNumber#',);\"><span style=\"color:rgb(66,139,202);\">#=ContractDisplayNumber#</span></button>" +
+                                        "</div>" + 
+                                    "# } #"
                                    ).Title(PW.Ncels.Database.Recources.Messages.Property_Номер_373__00).ClientFooterTemplate(PW.Ncels.Database.Recources.Messages.Property_Всего_356__00 + "#=count#").Locked(true).Lockable(false);
+                               columns.Bound(p => p.ContractParentId).Title("Вид документа").ClientTemplate(
+                                   "# if (ContractParentId == null) { #" +
+                                        "Договор" +
+                                    "# } else { #" +
+                                        "Доп. соглашение" +
+                                    "# } #"
+                                   ).Width(150);
                                columns.Bound(p => p.ContractSendDate).Format("{0:dd.MM.yyyy}").Title("Дата отправки заявителем").Width(100);
                                columns.Bound(p => p.ContractStartDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Дата_начала_18).Width(100);
                                columns.Bound(p => p.ContractEndDate).Format("{0:dd.MM.yyyy}").Title(PW.Ncels.Database.Recources.Messages.Ncels_Датаокончания_101).Width(100);
@@ -218,7 +231,7 @@ panes.Add().Scrollable(false).Size("100%").Content(
                            .HtmlAttributes(new { @class = "pwGrid" })
                            .DataSource(dataSource => dataSource
                                .Ajax()
-                               .Aggregates(aggregates => { aggregates.Add(p => p.ContractNumber).Count(); })
+                               .Aggregates(aggregates => { aggregates.Add(p => p.ContractDisplayNumber).Count(); })
                                .Sort(sort => { sort.Add("ContractSendDate").Descending(); })
                                .PageSize(50)
                                .Read(read => read.Action("ListContract", "OBKContract"))

@@ -22,5 +22,13 @@
         /// Активный
         /// </summary>
         public const string Active = "active";
+        /// <summary>
+        /// В работе
+        /// </summary>
+        public const string WorkContractAddition = "workContractAddition";
+        /// <summary>
+        /// Активный
+        /// </summary>
+        public const string ActiveContractAddition = "activeContractAddition";
     }
 }

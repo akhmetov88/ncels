@@ -7,6 +7,7 @@ using PW.Ncels.Database.Helpers;
 using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.Common;
 using PW.Ncels.Database.Repository.OBK;
+using PW.Prism.ViewModels.OBK;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Dictionary;
 using System;
@@ -941,5 +942,404 @@ namespace PW.Prism.Controllers.OBKContract
             var file = obkRepo.GetInstructionFile(registerId);
             return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, name);
         }
+
+        public ActionResult ContractAddition(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.UiId = Guid.NewGuid().ToString();
+
+            var contractAddition = GetContractAddition(id.Value);
+            var declarant = obkRepo.GetDeclarant(id.Value);
+            GetAttachments(id, contractAddition, declarant);
+
+            var contracts = db.OBK_Contract.Where(x => x.Id == contractAddition.ContractAddition.ContractId).Select(o => new { Id = o.Id, Name = o.Number });
+            var contractAdditionTypes = db.Dictionaries.Where(x => x.Type == "OBKContractAddition").Select(o => new { Id = o.Id, Name = o.Name });
+            var contractTypes = db.OBK_Ref_Type.Where(x => x.ViewOption == CodeConstManager.OBK_VIEW_OPTION_SHOW_ON_CREATE).OrderBy(x => x.Id).Select(o => new { o.Id, Name = o.NameRu, o.Code, o.NameKz });
+            var expertOrganizations = obkRepo.GetExpertOrganizations();
+            var signers = obkRepo.GetSigners();
+            var countries = db.Dictionaries.Where(x => x.Type == "Country").ToList();
+            var organizationForms = db.Dictionaries.Where(x => x.Type == "OpfType").ToList();
+            var docTypes = db.Dictionaries.Where(x => x.Type == "OBKContractDocumentType").ToList();
+            var currencies = db.Dictionaries.Where(x => x.Type == "Currency").ToList();
+
+
+            // Select Lists
+            ViewBag.Contracts = new SelectList(contracts, "Id", "Name", contractAddition.ContractAddition.ContractId);
+            ViewBag.ContractAdditionTypes = new SelectList(contractAdditionTypes, "Id", "Name", contractAddition.ContractAddition.ContractAdditionTypeId);
+            ViewBag.ContractTypes = new SelectList(contractTypes, "Id", "Name", contractAddition.Contract.Type);
+            ViewBag.ExpertOrganizations = new SelectList(expertOrganizations, "Id", "Name", contractAddition.Contract.ExpertOrganization);
+            ViewBag.Signers = new SelectList(signers, "Id", "Name", contractAddition.Contract.Signer);
+            ViewBag.Countries = new SelectList(countries, "Id", "Name", declarant.CountryId);
+            ViewBag.OrganizationForms = new SelectList(organizationForms, "Id", "Name", declarant.OrganizationFormId);
+            Guid selectedNonResident = Guid.Empty;
+            if (declarant.IsConfirmed)
+            {
+                selectedNonResident = declarant.Id.Value;
+            }
+            ViewBag.NamesNonResidents = new SelectList((IEnumerable<object>)obkRepo.GetNamesNonResidents(declarant.CountryId), "Id", "Name", selectedNonResident);
+            ViewBag.DocTypes = new SelectList(docTypes, "Id", "Name", contractAddition.Contract.BossDocType);
+            ViewBag.BoolValues = new SelectList(new List<SelectListItem> {
+                new SelectListItem { Selected = false, Text="Нет", Value = false.ToString()},
+                new SelectListItem { Selected = false, Text="Да", Value = true.ToString()},
+            }, "Value", "Text", contractAddition.Contract.IsHasBossDocNumber.ToString());
+            ViewBag.Currencies = new SelectList(currencies, "Id", "Name", contractAddition.Contract.CurrencyId);
+
+
+
+
+            ViewBag.declarant = declarant;
+
+            ViewBag.Comments = obkRepo.GetCommentsOfContract(id.Value);
+
+            ViewBag.ShowReturnToApplicantBtn = IsShowReturnToApplicantBtnInContractAdditionAllowed(id.Value);
+            ViewBag.ShowDoApprovementAsLawyerBtn = IsShowDoApprovementAsLawyerBtnInContractAdditionAllowed(id.Value);
+            bool isShowDoApprovementBtnAndShowRefuseApprovementBtnAllowed = IsShowDoApprovementAsManagerBtnInContractAdditionAllowed(id.Value);
+            ViewBag.ShowDoApprovementAsManagerBtn = isShowDoApprovementBtnAndShowRefuseApprovementBtnAllowed;
+            ViewBag.ShowShowRefuseReasonBtn = IsShowRefuseReasonBtnInContractAdditionAllowed(id.Value);
+            ViewBag.ShowRefuseApprovementBtn = isShowDoApprovementBtnAndShowRefuseApprovementBtnAllowed;
+            ViewBag.ShowRegisterBtn = IsShowRegisterBtnInContractAdditionAllowed(id.Value);
+            ViewBag.ShowAttachContractBtn = IsAttachContractBtnInContractAdditionAllowed(id.Value);
+            ViewBag.ShowSignContractBtn = IsShowSignContractBtnInContractAdditionAllowed(id.Value);
+
+            return PartialView(contractAddition);
+        }
+
+        private void GetAttachments(Guid? id, OBKContractAddition contractAddition, OBKDeclarantViewModel declarant)
+        {
+            var contractAdditionType = db.Dictionaries.Where(x => x.Id == contractAddition.ContractAddition.ContractAdditionTypeId).FirstOrDefault();
+
+            string type = "";
+
+            switch (contractAdditionType.Code)
+            {
+                case "1":
+                    if (declarant.IsResident)
+                    {
+                        type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT;
+                    }
+                    else
+                    {
+                        type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT;
+                    }
+                    break;
+                case "2":
+                    type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE;
+                    break;
+                case "3":
+                    type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE;
+                    break;
+            }
+            var repository = new UploadRepository();
+            var list = repository.GetAttachListEdit(id, type);
+            ViewBag.ListAttachments = list;
+        }
+
+        private OBKContractAddition GetContractAddition(Guid id)
+        {
+            var contractAddition = db.OBK_Contract.Where(x => x.Id == id).FirstOrDefault();
+            if (contractAddition != null)
+            {
+                OBKContractAdditionViewModel contractAdditionViewModel = new OBKContractAdditionViewModel();
+                contractAdditionViewModel.Id = contractAddition.Id;
+                contractAdditionViewModel.ContractAdditionTypeId = contractAddition.ContractAdditionType;
+                contractAdditionViewModel.ContractId = contractAddition.ParentId;
+
+                OBKContractViewModel contractViewModel = new OBKContractViewModel();
+                contractViewModel.Id = contractAddition.Id;
+                contractViewModel.Type = contractAddition.Type;
+                contractViewModel.ExpertOrganization = contractAddition.ExpertOrganization;
+                contractViewModel.Signer = contractAddition.Signer;
+                contractViewModel.Status = contractAddition.Status;
+                contractViewModel.Number = contractAddition.Number;
+
+                if (contractAddition.DeclarantContactId != null)
+                {
+                    contractViewModel.AddressLegalRu = contractAddition.OBK_DeclarantContact.AddressLegalRu;
+                    contractViewModel.AddressLegalKz = contractAddition.OBK_DeclarantContact.AddressLegalKz;
+                    contractViewModel.AddressFact = contractAddition.OBK_DeclarantContact.AddressFact;
+                    contractViewModel.Phone = contractAddition.OBK_DeclarantContact.Phone;
+                    contractViewModel.Email = contractAddition.OBK_DeclarantContact.Email;
+                    contractViewModel.BossLastName = contractAddition.OBK_DeclarantContact.BossLastName;
+                    contractViewModel.BossFirstName = contractAddition.OBK_DeclarantContact.BossFirstName;
+                    contractViewModel.BossMiddleName = contractAddition.OBK_DeclarantContact.BossMiddleName;
+                    contractViewModel.BossPosition = contractAddition.OBK_DeclarantContact.BossPosition;
+                    contractViewModel.BossPositionKz = contractAddition.OBK_DeclarantContact.BossPositionKz;
+                    contractViewModel.BossDocType = contractAddition.OBK_DeclarantContact.BossDocType;
+                    contractViewModel.IsHasBossDocNumber = contractAddition.OBK_DeclarantContact.IsHasBossDocNumber;
+                    contractViewModel.BossDocNumber = contractAddition.OBK_DeclarantContact.BossDocNumber;
+                    contractViewModel.BossDocCreatedDate = contractAddition.OBK_DeclarantContact.BossDocCreatedDate;
+                    contractViewModel.BossDocEndDate = contractAddition.OBK_DeclarantContact.BossDocEndDate;
+                    contractViewModel.BossDocUnlimited = contractAddition.OBK_DeclarantContact.BossDocUnlimited;
+                    contractViewModel.SignerIsBoss = contractAddition.OBK_DeclarantContact.SignerIsBoss;
+                    contractViewModel.SignLastName = contractAddition.OBK_DeclarantContact.SignLastName;
+                    contractViewModel.SignFirstName = contractAddition.OBK_DeclarantContact.SignFirstName;
+                    contractViewModel.SignMiddleName = contractAddition.OBK_DeclarantContact.SignMiddleName;
+                    contractViewModel.SignPosition = contractAddition.OBK_DeclarantContact.SignPosition;
+                    contractViewModel.SignPositionKz = contractAddition.OBK_DeclarantContact.SignPositionKz;
+                    contractViewModel.SignDocType = contractAddition.OBK_DeclarantContact.SignDocType;
+                    contractViewModel.IsHasSignDocNumber = contractAddition.OBK_DeclarantContact.IsHasSignDocNumber;
+                    contractViewModel.SignDocNumber = contractAddition.OBK_DeclarantContact.SignDocNumber;
+                    contractViewModel.SignDocCreatedDate = contractAddition.OBK_DeclarantContact.SignDocCreatedDate;
+                    contractViewModel.SignDocEndDate = contractAddition.OBK_DeclarantContact.SignDocEndDate;
+                    contractViewModel.SignDocUnlimited = contractAddition.OBK_DeclarantContact.SignDocUnlimited;
+                    contractViewModel.BankIik = contractAddition.OBK_DeclarantContact.BankIik;
+                    contractViewModel.BankBik = contractAddition.OBK_DeclarantContact.BankBik;
+                    contractViewModel.CurrencyId = contractAddition.OBK_DeclarantContact.CurrencyId;
+                    contractViewModel.BankNameRu = contractAddition.OBK_DeclarantContact.BankNameRu;
+                    contractViewModel.BankNameKz = contractAddition.OBK_DeclarantContact.BankNameKz;
+                }
+
+                return new OBKContractAddition(contractViewModel, contractAdditionViewModel);
+            }
+            return null;
+        }
+
+        private bool IsShowReturnToApplicantBtnInContractAdditionAllowed(Guid contractAdditionId)
+        {
+            bool result = false;
+            if (EmployePermissionHelper.CanViewReturnToApplicantAndSendToBossForApproval)
+            {
+                var employee = UserHelper.GetCurrentEmployee();
+                var stage = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractAdditionId && x.ExecutorId == employee.Id && (x.StageStatusCode == OBK_Ref_StageStatus.InWork || x.StageStatusCode == OBK_Ref_StageStatus.NotAgreed)).FirstOrDefault();
+                if (stage != null)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private bool IsShowDoApprovementAsLawyerBtnInContractAdditionAllowed(Guid contractAdditionId)
+        {
+            bool result = false;
+            if (EmployePermissionHelper.CanViewReturnToApplicantAndSendToBossForApproval)
+            {
+                var employee = UserHelper.GetCurrentEmployee();
+                var stage = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractAdditionId && x.ExecutorId == employee.Id && x.StageStatusCode == OBK_Ref_StageStatus.InWork).FirstOrDefault();
+                if (stage != null)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private bool IsShowDoApprovementAsManagerBtnInContractAdditionAllowed(Guid contractAdditionId)
+        {
+            bool result = false;
+            if (EmployePermissionHelper.CanViewDoApprovementAndRefuseApprovement)
+            {
+                var employeeId = UserHelper.GetCurrentEmployee().Id;
+                var stage = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractAdditionId &&
+                                                                x.ExecutorId == employeeId &&
+                                                                x.StageStatusCode == OBK_Ref_StageStatus.OnAgreement &&
+                                                                x.ContractStageStageId == CodeConstManager.STAGE_OBK_COZ).FirstOrDefault();
+                if (stage != null)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private bool IsShowRegisterBtnInContractAdditionAllowed(Guid contractAdditionId)
+        {
+            bool result = false;
+            if (EmployePermissionHelper.CanViewRegisterAndAttachContract)
+            {
+                var employeeId = UserHelper.GetCurrentEmployee().Id;
+                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractAdditionId && x.ExecutorId == employeeId && x.StageStatusCode == OBK_Ref_StageStatus.RequiresRegistration && (x.ContractNumber == null || x.ContractNumber == CodeConstManager.OBK_CONTRACT_NO_NUMBER)).ToList();
+                if (stages.Count > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private bool IsShowSignContractBtnInContractAdditionAllowed(Guid contractAdditionId)
+        {
+            bool result = false;
+            var employeeId = UserHelper.GetCurrentEmployee().Id;
+            var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractAdditionId && x.ExecutorId == employeeId && x.ExecutorType == CodeConstManager.OBK_CONTRACT_STAGE_EXECUTOR_TYPE_SIGNER && x.StageStatusCode == OBK_Ref_StageStatus.RequiresSigning).ToList();
+            if (stages.Count > 0)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public ActionResult ReturnToApplicantContractAddition(Guid contractAdditionId)
+        {
+            obkRepo.ReturnToApplicantContractAddition(contractAdditionId);
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult DoApprovementAsLawyerContractAddition(Guid contractAdditionId)
+        {
+            obkRepo.ApproveContractAsLawyerContractAddition(contractAdditionId);
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult DoApprovementAsManagerContractAddition(Guid contractAdditionId)
+        {
+            obkRepo.ApproveContractAsManagerContractAddition(contractAdditionId);
+            return Json("OK");
+        }
+
+        [HttpGet]
+        public ActionResult RefuseReasonContractAdditionDlg()
+        {
+            return PartialView(Guid.NewGuid());
+        }
+
+        [HttpPost]
+        public ActionResult RefuseApprovementContractAddition(Guid contractAdditionId, string reason)
+        {
+            obkRepo.RefuseApprovementContractAddition(contractAdditionId, reason);
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult RegisterContractAddition(Guid contractAdditionId)
+        {
+            string regNumber = obkRepo.RegisterContractAddition(contractAdditionId);
+            return Json(regNumber);
+        }
+
+        [HttpGet]
+        public ActionResult SignDataContractAddition(Guid contractAdditionId)
+        {
+            var _data = obkRepo.GetDataForSignContractAddition(contractAdditionId);
+            return Json(new { data = _data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SaveSignedContractAddition(Guid contractAdditionId, string signedData)
+        {
+            obkRepo.SignContractAdditionCeo(contractAdditionId, signedData);
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult UploadContractAddition(Guid? contractId)
+        {
+            if (EmployePermissionHelper.CanViewRegisterAndAttachContract)
+            {
+                ViewBag.UiId = Guid.NewGuid().ToString();
+                ViewBag.ContractId = contractId;
+                return PartialView();
+            }
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        public ActionResult UploadContractAddition(Guid contractId)
+        {
+            if (EmployePermissionHelper.CanViewRegisterAndAttachContract)
+            {
+                string code = "";
+                var contract = db.OBK_Contract.Where(x => x.Id == contractId).FirstOrDefault();
+                string type = "";
+                var contractAdditionType = db.Dictionaries.Where(x => x.Id == contract.ContractAdditionType).FirstOrDefault();
+                switch (contractAdditionType.Code)
+                {
+                    case "1":
+                        if (contract.OBK_Declarant.IsResident)
+                        {
+                            type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_RESIDENT;
+                        }
+                        else
+                        {
+                            type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_ADDRESS_CHANGE_NON_RESIDENT;
+                        }
+                        break;
+                    case "2":
+                        type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_MANAGER_CHANGE;
+                        break;
+                    case "3":
+                        type = CodeConstManager.ATTACH_CONTRACT_ADDITION_FILE_BANK_INFO_CHANGE;
+                        break;
+                }
+
+                var codeId = db.Dictionaries.Where(x => x.Type == type && x.Code == "0").Select(x => x.Id).FirstOrDefault();
+                if (codeId == Guid.Empty)
+                {
+                    throw new Exception("CodeId cannot be found");
+                }
+                code = codeId.ToString();
+
+                string path = contractId.ToString();
+                bool saveMetadata = true;
+                string originField = null;
+
+                var list = FileHelper.GetAttachListByDoc(db, path, code);
+                foreach (var item in list)
+                {
+                    Type t = item.GetType();
+                    PropertyInfo p = t.GetProperty("AttachName");
+                    object attachName = p.GetValue(item, null);
+                    FileHelper.DeleteAttach(path, code, attachName.ToString());
+                }
+                FileHelper.SaveAttach(code, path, Request, saveMetadata, originField, db);
+                obkRepo.UploadContractAddition(contractId);
+                return Json("OK");
+            }
+            return HttpNotFound();
+        }
+
+        private bool IsAttachContractBtnInContractAdditionAllowed(Guid contractId)
+        {
+            bool result = false;
+            if (EmployePermissionHelper.CanViewRegisterAndAttachContract)
+            {
+                var digitalSign = db.OBK_ContractSignedDatas.Where(x => x.ContractId == contractId).FirstOrDefault();
+                if (digitalSign == null)
+                {
+                    var employeeId = UserHelper.GetCurrentEmployee().Id;
+                    var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && x.StageStatusCode == OBK_Ref_StageStatus.RequiresRegistration).ToList();
+                    if (stages.Count > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        private bool IsShowRefuseReasonBtnInContractAdditionAllowed(Guid contractId)
+        {
+            bool result = false;
+            if (EmployePermissionHelper.CanViewReturnToApplicantAndSendToBossForApproval)
+            {
+                var employeeId = UserHelper.GetCurrentEmployee().Id;
+
+                var stages = db.OBK_ContractRegisterView.Where(x => x.ContractId == contractId && x.ExecutorId == employeeId && x.StageStatusCode == OBK_Ref_StageStatus.NotAgreed);
+
+                Guid cozStageId = Guid.Empty;
+                foreach (var item in stages)
+                {
+                    if (item.ContractStageStageId == CodeConstManager.STAGE_OBK_COZ)
+                    {
+                        cozStageId = item.ContractStageId;
+                        break;
+                    }
+                }
+
+                if (cozStageId != Guid.Empty)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
     }
 }

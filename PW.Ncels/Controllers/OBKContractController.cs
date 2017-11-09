@@ -37,6 +37,10 @@ namespace PW.Ncels.Controllers
         public ActionResult ContractAddition(Guid? id)
         {
             ViewBag.ListAction = "Index";
+            if (id != null)
+            {
+                ViewBag.Comments = obkRepo.GetCommentsOfContract(id.Value);
+            }
             return View(id);
         }
 
@@ -483,6 +487,7 @@ namespace PW.Ncels.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult SignContract(Guid contractId, string signedData)
         {
             var status = obkRepo.SignContractApplicant(contractId, signedData);
@@ -551,6 +556,30 @@ namespace PW.Ncels.Controllers
         {
             var obj = obkRepo.GetContractAddition(id);
             return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult SendContractAdditionInProcessing(Guid contractId)
+        {
+            var state = obkRepo.SendContractAdditionInProcessing(contractId);
+            return Json(state);
+        }
+
+        [HttpPost]
+        public ActionResult SignContractAddition(Guid contractId, string signedData)
+        {
+            var status = obkRepo.SignContractAdditionApplicant(contractId, signedData);
+
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SignDataContractAddition(Guid id)
+        {
+            return Json(new
+            {
+                IsSuccess = true,
+                preambleXml = obkRepo.GetDataForSignContractAddition(id)
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

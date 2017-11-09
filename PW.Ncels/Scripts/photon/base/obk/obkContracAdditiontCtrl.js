@@ -167,6 +167,7 @@
         }).then(function (resp) {
             if (resp.data) {
                 $scope.contractAddition = resp.data.contractAddition;
+                $scope.contractAdditionTypeCode = resp.data.contractAddition.TypeCode;
                 $scope.object.Status = resp.data.contract.Status;
                 $scope.changeViewMode();
                 $scope.object.Type = resp.data.contract.Type;
@@ -238,15 +239,7 @@
                 $scope.object.BankBik = resp.data.contract.BankBik;
                 $scope.object.CurrencyId = resp.data.contract.CurrencyId;
                 $scope.object.BankNameRu = resp.data.contract.BankNameRu;
-                $scope.object.BankNameKz = resp.data.contract.BankNameKz;
-
-                for (var i = 0; i < $scope.OBKContractAddition.length; i++) {
-                    if ($scope.OBKContractAddition[i].Id == $scope.contractAddition.ContractAdditionTypeId) {
-                        $scope.contractAdditionTypeCode = $scope.OBKContractAddition[i].Code;
-                        break;
-                    }
-                }
-
+                $scope.object.BankNameKz = resp.data.contract.BankNameKz;        
             }
         }, function (response) {
 
@@ -291,7 +284,7 @@
             });
         }
         else {
-            alert("Заполните обязательные поля!");
+            alert("Заполните обязательные поля и загрузите вложения!");
         }
     }
 
@@ -302,7 +295,7 @@
             $scope.doSign();
         }
         else {
-            alert("Заполните обязательные поля!");
+            alert("Заполните обязательные поля и загрузите вложения!");
         }
     }
 
@@ -310,25 +303,56 @@
         var id = $scope.contractAddition.Id;
         if (id) {
 
+            var funcSign = function signData() {
+                debugger;
+                $.blockUI({ message: '<h1><img src="../../Content/css/plugins/slick/ajax-loader.gif"/> Выполняется подпись...</h1>', css: { opacity: 1 } });
+                signXmlCall(function () {
+                    $http({
+                        url: '/OBKContract/SignContractAddition',
+                        method: 'POST',
+                        data: JSON.stringify({ contractId: id, signedData: $("#Certificate").val() })
+                    }).success(function (response) {
+                        $scope.object.Status = response;
+                        $scope.changeViewMode();
+                        $window.location.href = '/OBKContract';
+                    }).error(function () {
+                        alert("error");
+                        $.unblockUI();
+                    });
+                });
+            };
+
+            startSign('/OBKContract/SignDataContractAddition', id, funcSign);
         }
     }
+
+    $scope.viewContract = function (id) {
+        if ($scope.object.Type == null) {
+            alert("Выберите тип договра");
+            return;
+        }
+        var modalInstance = $uibModal.open({
+            templateUrl: '/OBKContract/ContractTemplate?Id=' + id + "&Url=" + "GetContractTemplatePdf",
+            controller: ModalRegisterInstanceCtrl
+        });
+    };
 
     $scope.checkFileValidation = function () {
         var invalidFiles = 0;
 
         var containerName = "";
 
-        if ($scope.contractAdditionTypeCode == 1) {
-            containerName = "#filesAddress";
+        if ($scope.contractAdditionTypeCode == 1 && $scope.declarant.IsResident == true) {
+            containerName = "#filesAddressResident";
+        }
+        else if ($scope.contractAdditionTypeCode == 1 && $scope.declarant.IsResident == false) {
+            containerName = "#filesAddressNonResident";
         }
         else if ($scope.contractAdditionTypeCode == 2) {
+            containerName = "#filesManager";
+        }
+        else if ($scope.contractAdditionTypeCode == 3) {
             containerName = "#filesBank";
-        }
-        else if ($scope.contractAdditionTypeCode == 3 && $scope.declarant.IsResident == true) {
-            containerName = "#filesManagerResident";
-        }
-        else if ($scope.contractAdditionTypeCode == 3 && $scope.declarant.IsResident == false) {
-            containerName = "#filesManagerNonResident";
         }
 
         $(containerName + ' .file-validation').text("");
@@ -472,11 +496,31 @@ function modalSendContractAddition($scope, $http, $window, $uibModalInstance) {
     $scope.sendProject = function () {
         var projectId = $scope.contractAddition.Id;
         if (projectId) {
-
+            $http({
+                url: '/OBKContract/SendContractAdditionInProcessing',
+                method: 'POST',
+                data: { contractId: projectId }
+            }).success(function (response) {
+                $scope.object.Status = response;
+                $scope.changeViewMode();
+                $uibModalInstance.close();
+                $window.location.href = '/OBKContract';
+            });
         }
     };
 
     $scope.cancelSend = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+}
+
+function ModalRegisterInstanceCtrl($scope, $uibModalInstance) {
+    debugger;
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 }

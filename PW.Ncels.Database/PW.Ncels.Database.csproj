@@ -2092,6 +2092,7 @@
     <Compile Include="Models\ModelRequest.cs" />
     <Compile Include="Models\ModelResult.cs" />
     <Compile Include="Models\NomenclatureModel.cs" />
+    <Compile Include="Models\OBK\OBKContractAdditionSignData.cs" />
     <Compile Include="Models\OBK\OBKContractAdditionViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractMtPartViewModel.cs" />
     <Compile Include="Models\OBK\OBKContractProduct.cs" />
