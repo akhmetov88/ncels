@@ -2554,7 +2554,7 @@ namespace PW.Ncels.Database.Repository.OBK
         public object GetActiveContracts()
         {
             var employeeId = UserHelper.GetCurrentEmployee().Id;
-            var list = AppContext.OBK_Contract.Where(x => x.EmployeeId == employeeId && x.Status != CodeConstManager.STATUS_OBK_ONCORRECTION && x.Status != CodeConstManager.STATUS_OBK_WORK && x.Status != CodeConstManager.STATUS_OBK_INPROCESSING && x.Status != CodeConstManager.STATUS_OBK_DRAFT_ID).Select(x => new { Id = x.Id, Name = x.Number }).ToList();
+            var list = AppContext.OBK_Contract.Where(x => x.ParemtId == null && x.EmployeeId == employeeId && x.Status != CodeConstManager.STATUS_OBK_ONCORRECTION && x.Status != CodeConstManager.STATUS_OBK_WORK && x.Status != CodeConstManager.STATUS_OBK_INPROCESSING && x.Status != CodeConstManager.STATUS_OBK_DRAFT_ID).Select(x => new { Id = x.Id, Name = x.Number }).ToList();
             return list;
         }
 
