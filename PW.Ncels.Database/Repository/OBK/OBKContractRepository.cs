@@ -16,6 +16,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -210,7 +211,7 @@ namespace PW.Ncels.Database.Repository.OBK
             try
             {
                 var employeeId = UserHelper.GetCurrentEmployee().Id;
-                var v = AppContext.OBK_Contract.Where(x => x.EmployeeId == employeeId).AsQueryable();
+                var v = AppContext.OBK_Contract.Where(x => x.EmployeeId == employeeId).OrderByDescending(x => x.CreatedDate).AsQueryable();
 
                 //search
                 if (!string.IsNullOrEmpty(request.SearchValue))
@@ -220,11 +221,10 @@ namespace PW.Ncels.Database.Repository.OBK
                             a => a.Number.Contains(request.SearchValue));
                 }
 
-
                 //sort
                 if (!(string.IsNullOrEmpty(request.SortColumn) && string.IsNullOrEmpty(request.SortColumnDir)))
                 {
-                    v = v.OrderByDescending(x => x.CreatedDate);
+                    v = v.OrderBy(request.SortColumn + " " + request.SortColumnDir);
                 }
 
                 int recordsTotal = await v.CountAsync();
