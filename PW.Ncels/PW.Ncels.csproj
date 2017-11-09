@@ -2244,6 +2244,7 @@
     <Content Include="Views\OBKContract\ShowCommentProductsSerie.cshtml" />
     <Content Include="Reports\Mrts\OBK\1c\ObkInvoicePayment.mrt" />
     <Content Include="Views\OBKContract\HistoriesView.cshtml" />
+    <Content Include="Reports\Mrts\OBK\1c\ObkCertificateOfCompletion.mrt" />
     <None Include="Web.Debug.Alexandr.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

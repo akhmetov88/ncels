@@ -280,6 +280,8 @@
                   children.Add().Text("Счет на оплату").LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKPaymentList" } }).Visible(EmployePermissionHelper.CanOBKPayment);
               });
 
+          items.Add().Text("ОБК справочники").Visible(true).ImageUrl(Url.Content("~/Content/images/menuItem.png")).LinkHtmlAttributes(new Dictionary<string, object>() { { "ItemId", "OBKDic" } });
+
           items.Add().Text(UserHelper.GetCurrentName()).HtmlAttributes(new { @style = "float: right", @class = "sys-notification-menu-item" })
               .ImageUrl(Url.Content("~/Content/images/menuItem.png"))
               .Items(children =>

@@ -503,6 +503,19 @@ namespace PW.Ncels.Database.Constants
         /// На формировании счета на оплату
         /// </summary>
         public const int STATUS_OBK_INVOCE_GENERATING = 13;
+        /// <summary>
+        /// Заключение выдано
+        /// </summary>
+        public const int STATUS_OBK_CONCLUSION_ISSUE = 14;
+        /// <summary>
+        /// Решение об отказе выдано
+        /// </summary>
+        public const int STATUS_OBK_REFUSAL_ISSUE = 15;
+        /// <summary>
+        /// На подписании акта выполненных работ
+        /// </summary>
+        public const int STATUS_OBK_SIGN_ACT = 16;
+
 
         #endregion
 

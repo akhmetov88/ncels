@@ -213,7 +213,7 @@ namespace PW.Ncels.Database.Repository.OBK
 
         public OBK_AssessmentDeclaration FindDeclarationByContract(Guid contractId)
         {
-            var model = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Contract_Id == contractId);
+            var model = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.ContractId == contractId);
             return model;
         }
 
@@ -292,7 +292,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 model = new OBK_AssessmentDeclaration
                 {
                     EmployeeId = UserHelper.GetCurrentEmployee().Id,
-                    Type_Id = GetObkRefTypes(typeId.ToString()).Id,
+                    TypeId = GetObkRefTypes(typeId.ToString()).Id,
                     Id = new Guid(modelId),
                     CreatedDate = DateTime.Now,
                     StatusId = CodeConstManager.STATUS_DRAFT_ID,
@@ -459,8 +459,8 @@ namespace PW.Ncels.Database.Repository.OBK
                 OrderCheck = oldModel.OrderCheck,
                 StabilityCheck = oldModel.StabilityCheck,
                 PaymentCheck = oldModel.PaymentCheck,
-                Type_Id = oldModel.Type_Id,
-                Contract_Id = oldModel.Contract_Id,
+                TypeId = oldModel.TypeId,
+                ContractId = oldModel.ContractId,
                 CertificateDate = oldModel.CertificateDate,
                 CertificateGMPCheck = oldModel.CertificateGMPCheck,
                 InvoiceRu = oldModel.InvoiceRu,
@@ -729,7 +729,7 @@ namespace PW.Ncels.Database.Repository.OBK
         public IQueryable<Dictionary> GetAddRequeiredDocumentCode(IQueryable<Dictionary> dicListQuery, string id)
         {
             var request = GetById(id);
-            var contract = GetContractById(request.Contract_Id);
+            var contract = GetContractById(request.ContractId);
             if (contract?.OBK_RS_Products.Count >= 1)
             {
                 foreach (var product in contract.OBK_RS_Products)
@@ -789,6 +789,38 @@ namespace PW.Ncels.Database.Repository.OBK
         public OBK_StageExpDocument GetStageExpDocument(int? prodSerId)
         {
             return AppContext.OBK_StageExpDocument.FirstOrDefault(e => e.ProductSeriesId == prodSerId);
+        }
+
+        public void SendOutputResult(Guid id)
+        {
+            var stages = AppContext.OBK_AssessmentStage.Where(e => e.OBK_AssessmentDeclaration.Id == id);
+            var declarant = AppContext.OBK_AssessmentDeclaration.FirstOrDefault(e => e.Id == id);
+            if(declarant == null)
+                return;
+            foreach (var stage in stages)
+            {
+                switch (stage.StageId)
+                {
+                    case CodeConstManager.STAGE_OBK_COZ:
+                        var status = GetStageStatusByCode(OBK_Ref_StageStatus.Completed);
+                        stage.StageStatusId = status.Id;
+                        stage.ResultId = CodeConstManager.STAGE_OBK_COMPLETED_POSITIVE;
+                        break;
+
+                    case CodeConstManager.STAGE_OBK_EXPERTISE_DOC:
+                        switch (stage.ResultId)
+                        {
+                            case CodeConstManager.STAGE_OBK_COMPLETED_POSITIVE:
+                                declarant.StatusId = CodeConstManager.STATUS_OBK_CONCLUSION_ISSUE;
+                                break;
+                            case CodeConstManager.STAGE_OBK_COMPLETED_NEGATIVE:
+                                declarant.StatusId = CodeConstManager.STATUS_OBK_REFUSAL_ISSUE;
+                                break;
+                        }
+                        break;
+                }
+            }
+            AppContext.SaveChanges();
         }
 
         #endregion

@@ -52,5 +52,9 @@ namespace PW.Ncels.Database.DataModel
         /// Требует заключения
         /// </summary>
         public const string RequiresConclusion = "requiresConclusion";
+        /// <summary>
+        /// На Экспертихе документов
+        /// </summary>
+        public const string OnExpDocument = "onExpDocument";
     }
 }

@@ -39,6 +39,10 @@
                         </button>
                         <button class="btn btn-primary btn-sm" type="button" security bp-type="project" bp-action="edit" id="checkBtn"><i class="fa fa-check"></i> Проверить </button>
                         <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" id="viewBtn"><i class="fa fa-eye"></i> Просмотр </button>
+                        @if (Model.StatusId == CodeConstManager.STATUS_OBK_SIGN_ACT)
+                        {
+                            <button class="btn btn-default btn-sm" type="button" security bp-type="project" bp-action="edit" id="actBtn"> Акт выполненных работ </button>
+                        }
                         <div style="float: right">
                             <button class="btn btn-success btn-sm" type="button" security bp-type="project" style="background-color: #47a447" bp-action="edit" id="signBtn" ><i class="fa fa-send"></i> Подписать и отправить</button>
                             <button class="btn btn-warning btn-sm" type="button" security bp-type="project" bp-action="edit" id="notSignBtn"><i class="fa fa-send-o"></i> Отправить без подписи</button>
@@ -94,7 +98,7 @@
         $("#viewBtn").click(function() {
             $.ajax({
                 type: "GET",
-                url: '@Url.Action("ExportFileTemplate", new { id = Model.Id })',
+                url: '@Url.Action("ExportFileTemplate", new { id = Model.Id, url = "ExportFilePdf" })',
                 dataType: 'html',
                 cache: false,
                 success: function (data) {
@@ -106,6 +110,22 @@
                 }
             });
         });
+
+        $("#actBtn").click(function() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ExportFileTemplate", new { id = Model.Id, url = "CertOfComplectFilePdf" })',
+                dataType: 'html',
+                cache: false,
+                success: function (data) {
+                    debugger;
+                    showReport(data);
+                },
+                error: function (data) {
+                    alert("Ошибка");
+                }
+            });
+        })
 
         $("#signBtn").click(function () {
             if (!checkDeclaraionValidation()) {
@@ -191,7 +211,7 @@
 
     function checkWrapping() {
         var validFile = true;
-        var contract = $("#Contract_Id").val();
+        var contract = $("#ContractId").val();
         var cerGMPCheck = $("#CertificateGMPCheck").val();
         var certNumber = $("#CertificateGMP").val();
         var surname = $("#InvoiceAgentLastName").val();

@@ -57,6 +57,7 @@
     <Compile Include="Jobs\CommissionNotificationJob.cs" />
     <Compile Include="Jobs\DirectionToPayJob.cs" />
     <Compile Include="Jobs\OBKDirectionToPaymentJob.cs" />
+    <Compile Include="Jobs\OBKCertificateOfCompletion.cs" />
     <Compile Include="QScheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

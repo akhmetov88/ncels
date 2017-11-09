@@ -119,18 +119,18 @@ namespace PW.Prism.Controllers.OBK
         {
             var model = GetAssessmentDeclaration(id.ToString());
 
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_SERIAL))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_SERIAL))
             {
                 var repository = new UploadRepository();
                 var list = repository.GetAttachListEdit(id, CodeConstManager.ATTACH_SERIAL_SA_FILE_CODE);
                 return PartialView(list);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_PARTY)) {
                 var repository = new UploadRepository();
                 var list = repository.GetAttachListEdit(id, CodeConstManager.ATTACH_PARTY_SA_FILE_CODE);
                 return PartialView(list);
             }
-            if (model.Type_Id == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
+            if (model.TypeId == int.Parse(CodeConstManager.OBK_SA_DECLARATION))
             {
                 var repository = new UploadRepository();
                 var list = repository.GetAttachListEdit(id, CodeConstManager.ATTACH_DECLARATION_SA_FILE_CODE);
@@ -323,7 +323,7 @@ namespace PW.Prism.Controllers.OBK
         {
             if (id == null) return Json("Ok!", JsonRequestBehavior.AllowGet);
             var expertise = GetAssessmentStage(id);
-            expertise.StageStatusId = new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.RequiresConclusion).Id;
+            expertise.StageStatusId = new SafetyAssessmentRepository().GetStageStatusByCode(OBK_Ref_StageStatus.OnExpDocument).Id;
             expertise.FactEndDate = DateTime.Now;
             new SafetyAssessmentRepository().SaveStage(expertise);
             var model = expertise.OBK_AssessmentDeclaration;
@@ -346,22 +346,17 @@ namespace PW.Prism.Controllers.OBK
             return Json("Ok!", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ExpDocView(Guid id)
+        public ActionResult OutputResultView(Guid id)
         {
-            var stage = GetAssessmentStage(id);
-            var model = stage.OBK_AssessmentDeclaration;
-
-            //Результат
-            var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
-            ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
-            // номерклатура
-            var nomeclature = new AssessmentStageRepository().GetRefNomenclature();
-            ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id", "Name");
-            //основание
-            var reasons = new SafetyAssessmentRepository().GetRefReasons();
-            ViewData["UObkReasons"] = new SelectList(reasons, "ExpertiseResult", "Name");
-
-            return PartialView(model);
+            return PartialView(id);
         }
+
+        public ActionResult OutputResult(Guid id)
+        {
+            var okbRepo = new SafetyAssessmentRepository();
+            okbRepo.SendOutputResult(id);
+            return Json("Ok!", JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

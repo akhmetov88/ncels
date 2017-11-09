@@ -11,6 +11,10 @@ namespace Ncels.Scheduler.Jobs
 {
     public class OBKDirectionToPaymentJob : IJob
     {
+        /// <summary>
+        /// Счет на оплыту
+        /// </summary>
+        /// <param name="context"></param>
         public void Execute(IJobExecutionContext context)
         {
             OBKPaymentRepository repo = new OBKPaymentRepository();
