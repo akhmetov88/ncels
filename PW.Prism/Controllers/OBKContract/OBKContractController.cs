@@ -1341,5 +1341,15 @@ namespace PW.Prism.Controllers.OBKContract
             return result;
         }
 
+        public ActionResult GetEmployeeOfCurrentUserUnit()
+        {
+            var currentEmployeeId = UserHelper.GetCurrentEmployee().Id;
+
+            var currentUserUnit = db.Units.Where(x => x.EmployeeId == currentEmployeeId).FirstOrDefault();
+            var employeesUnits = db.Units.Where(x => x.ParentId == currentUserUnit.ParentId && x.Id != currentUserUnit.Id).Select(x => x.EmployeeId);
+            var employees = db.Employees.Where(x => employeesUnits.Contains(x.Id)).OrderBy(x => x.DisplayName).Select(x => new { x.Id, Name = x.DisplayName });
+
+            return Json(employees, JsonRequestBehavior.AllowGet);
+        }
     }
 }

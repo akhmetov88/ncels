@@ -45,7 +45,7 @@
                     <label class="col-lg-4 control-label">Сотрудник</label>
                     <div class="col-lg-8">
                         @(Html.Kendo().DropDownList().Name("executors" + (Model))
-                            .DataValueField("Id").DataTextField("Name").OptionLabel(" ").DataSource(cf => cf.Read("ListEmployeAll", "Reference"))
+                            .DataValueField("Id").DataTextField("Name").OptionLabel(" ").DataSource(cf => cf.Read("GetEmployeeOfCurrentUserUnit", "OBKContract"))
                             .HtmlAttributes(new { data_bind = "value: model.Executors", @class = "pwWidth100", required = "", validationMessage = "Обязательно для заполнения" })
                             )
                     </div>
