@@ -97,6 +97,7 @@
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#tab-1">Общие сведения</a></li>
                                         <li><a data-toggle="tab" href="#tab-2">Вложения</a></li>
+                                        <li style="display: none"><a data-toggle="tab" href="#tab-3">История</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="tab-1" class="tab-pane active">
@@ -586,6 +587,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div id="tab-3" class="tab-pane" style="display: none">
+                                            @Html.Partial("~/Views/OBKContract/HistoriesView.cshtml", @Model)
                                         </div>
                                     </div>
                                 </div>

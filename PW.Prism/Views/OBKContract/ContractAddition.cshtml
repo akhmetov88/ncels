@@ -36,6 +36,7 @@
                                                                    {
                                                                        projects.Add().Text("Карточка доп. соглашения").HtmlAttributes(new { TabId = "contractDataTab1" + ViewBag.UiId }).Selected(true);
                                                                        projects.Add().Text("Вложения").HtmlAttributes(new { TabId = "contractDataTab2" + ViewBag.UiId });
+                                                                       projects.Add().Text("История согласования").HtmlAttributes(new { TabId = "contractDataTab3" + ViewBag.UiId });
                                                                    });
 
                                })
@@ -557,6 +558,32 @@
                         <div id="@("contractDataTab2" + ViewBag.UiId)" class="row hidden">
                             @Html.Partial("~/Views/SafetyAssessment/AttachFileView.cshtml", (IEnumerable<PW.Ncels.Database.Models.Common.FileGroup>)ViewBag.ListAttachments)
                         </div>
+                         <div id="@("contractDataTab3" + ViewBag.UiId)" class="row hidden" style="height: 100%">
+                             <div class="row" style="height: 99%">
+                                 @(Html.Kendo().Grid<PW.Ncels.Database.DataModel.OBK_ContractHistoryView>()
+                      .Name("contracHistoryGrid" + (string)ViewBag.UiId)
+                      .Columns(columns =>
+                      {
+                          columns.Bound(p => p.StatusNameRu).Title("Статус").Width(100);
+                          columns.Bound(p => p.EmployeeShortName).Title("Исполнитель").Width(150);
+                          columns.Bound(p => p.UnitName).Title("Структурное подразделение").Width(150);
+                          columns.Bound(p => p.Created).Format("{0:dd.MM.yyyy HH:mm}").Title("Дата действия").Width(100);
+                      })
+                    .Reorderable(reorderable => reorderable.Columns(true))
+                    .Resizable(resizable => resizable.Columns(true))
+                    .Sortable(sortable => sortable.AllowUnsort(false))
+                    .Scrollable(scrollable => scrollable.Virtual(true))
+                    .Filterable()
+                    .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple))
+                    .HtmlAttributes(new { @class = "pwGrid" })
+                    .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Sort(sort => { sort.Add("Created").Ascending(); })
+                    .PageSize(1000)
+                    .Read(read => read.Action("ListHistory", "OBKContract", new { contractId = Model.ContractAddition.Id }))
+                    ))
+                             </div>
+                         </div>
                     </div>
                     );
             }))
