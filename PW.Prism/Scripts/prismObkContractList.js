@@ -434,6 +434,10 @@ function initFilterOBKContract(uiId) {
         }
     });
 
+    $("#WindowAlertNotAttachedFilesCancel" + uiId).click(function () {
+        $("#WindowAlertNotAttachedFiles" + uiId).data("kendoWindow").close();
+    });
+
     setToWorkBtnVisibility(uiId);
 
     setFindAreaVisibility(uiId);
@@ -489,6 +493,46 @@ function setFindAreaVisibility(uiId) {
             $('button[id="findTypeActiveBtn' + uiId + '"]').hide();
             $("#findTypeActiveContract" + uiId).data("kendoDropDownList").wrapper.hide();
             $("#findTypeActiveContract" + uiId).data("kendoDropDownList").select(0);
+        }
+
+        var showAlertMessageForContractsWithoutAttachments = true;
+
+        if (showAlertMessageForContractsWithoutAttachments && (links.eq(0).attr("itemid") == "requiresRegistration")) {
+            $.ajax({
+                type: 'GET',
+                url: '/OBKContract/GetContractWithoutAttachments',
+                success: function (result) {
+                    if (result && result.length > 0) {
+                        var numbers = "";
+                        for (var i = 0; i < result.length; i++) {
+                            numbers += "№ " + result[i].Number;
+                            if (i !== (length - 1)) {
+                                numbers += "<br/>";
+                            }
+                        }
+                        $("#listNumbers" + uiId).html(numbers);
+
+                        var window = $("#WindowAlertNotAttachedFiles" + uiId);
+                        window.kendoWindow({
+                            width: "400px",
+                            height: "auto",
+                            modal: true,
+                            resizable: false,
+                            actions: ["Close"]
+                        });
+                        window.data("kendoWindow").title('Сообщение');
+                        window.data("kendoWindow").setOptions({
+                            width: 400,
+                            height: 'auto'
+                        });
+                        window.data("kendoWindow").center();
+                        window.data("kendoWindow").open();
+                    }
+                },
+                complete: function () {
+
+                }
+            });
         }
     }
 }

@@ -260,6 +260,24 @@ panes.Add().Scrollable(false).Size("100%").Content(
              );
             }))
 
+<div id="@("WindowAlertNotAttachedFiles" + Model)" style="display: none">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                Не прикреплены скан. файлы по следующим договорам (доп. соглашениям):<br />
+                <span id="@("listNumbers" + Model)"></span>
+                Перейдите к договорам (доп. соглашениям) со статусом "На регистрации"
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-toolbar" role="toolbar" style="margin-top: 20px">
+            <div class="btn-group pull-right" role="group" style="margin-left: 10px">
+                <button type="button" class="k-button k-primary" id="@("WindowAlertNotAttachedFilesCancel" + Model)">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {

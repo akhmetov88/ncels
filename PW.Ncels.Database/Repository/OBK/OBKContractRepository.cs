@@ -3410,5 +3410,12 @@ namespace PW.Ncels.Database.Repository.OBK
             AddExtHistory(contractId, historyStatusCode);
         }
         #endregion
+
+        public object GetContractWithoutAttachments()
+        {
+            var currentEmployee = UserHelper.GetCurrentEmployee();
+            var list = AppContext.OBK_ContractWithoutAttachmentsView.OrderBy(x => x.Number).Where(x => x.ExecutorId == currentEmployee.Id).Select(x => new { x.Number });
+            return list;
+        } 
     }
 }

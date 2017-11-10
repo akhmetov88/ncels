@@ -1351,5 +1351,11 @@ namespace PW.Prism.Controllers.OBKContract
 
             return Json(employees, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetContractWithoutAttachments()
+        {
+            var list = obkRepo.GetContractWithoutAttachments();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }
