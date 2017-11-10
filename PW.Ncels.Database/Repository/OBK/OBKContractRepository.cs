@@ -211,7 +211,7 @@ namespace PW.Ncels.Database.Repository.OBK
             try
             {
                 var employeeId = UserHelper.GetCurrentEmployee().Id;
-                var v = AppContext.OBK_Contract.Where(x => x.EmployeeId == employeeId).OrderByDescending(x => x.CreatedDate).AsQueryable();
+                var v = AppContext.OBK_ContractView.Where(x => x.EmployeeId == employeeId).OrderByDescending(x => x.CreatedDate).AsQueryable();
 
                 //search
                 if (!string.IsNullOrEmpty(request.SearchValue))
@@ -231,15 +231,16 @@ namespace PW.Ncels.Database.Repository.OBK
                 var contractViews = v.Skip(request.Skip).Take(request.PageSize).Select(x => new
                 {
                     x.Id,
-                    Number = x.ParentId != null && x.Number != CodeConstManager.OBK_CONTRACT_NO_NUMBER ? AppContext.OBK_Contract.Where(y => y.Id == x.ParentId).Select(y => y.Number).FirstOrDefault() + "-" + x.Number : x.Number,
+                    x.Number,
                     x.CreatedDate,
-                    Status = x.OBK_Ref_Status.NameRu,
-                    DeclarantName = x.OBK_Declarant.NameRu,
-                    Type = x.OBK_Ref_Type.NameRu,
-                    TypeKz = x.OBK_Ref_Type.NameKz,
+                    x.StatusNameRu,
+                    x.DeclarantNameRu,
+                    x.Type,
+                    x.TypeKz,
                     x.StartDate,
                     x.EndDate,
-                    x.ParentId
+                    x.ParentId,
+                    x.DocType
                 }
                 );
                 return

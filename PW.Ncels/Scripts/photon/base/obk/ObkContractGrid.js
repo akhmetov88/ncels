@@ -28,8 +28,8 @@ function obkContractGrid($scope, $http, DTColumnBuilder) {
     $scope.dtColumns = [
         DTColumnBuilder.newColumn("Number", "№ договора/доп. согл-я").withOption('name', 'Number').renderWith(renderNumFunc),
         DTColumnBuilder.newColumn("CreatedDate", "Дата создания").withOption('name', 'CreatedDate').renderWith(dateformatHtml),
-        DTColumnBuilder.newColumn("Status", "Статус").withOption('name', 'Status'),
-        DTColumnBuilder.newColumn("DeclarantName", "Заявитель").withOption('name', 'DeclarantName'),
+        DTColumnBuilder.newColumn("StatusNameRu", "Статус").withOption('name', 'StatusNameRu'),
+        DTColumnBuilder.newColumn("DeclarantNameRu", "Заявитель").withOption('name', 'DeclarantNameRu'),
         DTColumnBuilder.newColumn("Type", "Тип договора").withOption('name', 'Type'),
         DTColumnBuilder.newColumn("StartDate", "Дата заключения/Дата начала действия договора").withOption('name', 'StartDate').renderWith(dateformatHtml),
         DTColumnBuilder.newColumn("EndDate", "Дата истечения договора").withOption('name', 'EndDate').renderWith(dateformatHtml)
