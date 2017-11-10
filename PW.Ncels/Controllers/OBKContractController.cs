@@ -232,13 +232,15 @@ namespace PW.Ncels.Controllers
         public ActionResult ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel)
         {
             bool exist;
+            bool nameRuMatch;
+            bool nameEnMatch;
             Guid? declarantId = null;
-            var declarant = obkRepo.ContractDeclarantSave(guid, declarantViewModel, out exist);
+            var declarant = obkRepo.ContractDeclarantSave(guid, declarantViewModel, out exist, out nameRuMatch, out nameEnMatch);
             if (declarant != null)
             {
                 declarantId = declarant.Id;
             }
-            object returnValue = new { Exist = exist, DeclarantId = declarantId, IsResident = declarantViewModel.IsResident };
+            object returnValue = new { Exist = exist, DeclarantId = declarantId, IsResident = declarantViewModel.IsResident, NameRuMatch = nameRuMatch, NameEnMatch = nameEnMatch };
             return Json(returnValue);
         }
 
@@ -260,6 +262,13 @@ namespace PW.Ncels.Controllers
         public ActionResult GetNamesNonResidents(Guid? countryId)
         {
             var list = obkRepo.GetNamesNonResidents(countryId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetNamesNonResidentsEn(Guid? countryId)
+        {
+            var list = obkRepo.GetNamesNonResidentsEn(countryId);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 

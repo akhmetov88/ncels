@@ -33,6 +33,7 @@
     var curDate = new Date();
     $scope.mode = 0; // 0 - unknown, 1 - add, 2 - edit
     $scope.declarant = {};
+    $scope.searchNonResidentRussian = true;
     $scope.object = {};
 
     $scope.object.Status = 1;
@@ -511,10 +512,40 @@
         });
     }
 
+    $scope.loadNamesNonResidentsEn = function () {
+        $scope.NamesNonResidentsEn = [];
+
+        $http({
+            method: 'GET',
+            url: '/OBKContract/GetNamesNonResidentsEn',
+            params: {
+                countryId: $scope.object.Country
+            }
+        }).then(function (resp) {
+            if (resp.data) {
+                $scope.NamesNonResidentsEn = resp.data;
+            }
+        });
+    }
+
     $scope.loadNamesNonResidents();
+    $scope.loadNamesNonResidentsEn();
 
     $scope.nonResidentCountryChange = function () {
         $scope.loadNamesNonResidents();
+        $scope.loadNamesNonResidentsEn();
+        $scope.object.NameNonResident = null;
+        $scope.declarantNotFound = false;
+        $scope.showContactInformation = false;
+
+        $scope.clearDeclarantForm();
+        $scope.removeDeclarantId();
+
+        $scope.clearContactForm();
+        $scope.clearContactData();
+    }
+
+    $scope.nonResidentSearchTypeChange = function () {
         $scope.object.NameNonResident = null;
         $scope.declarantNotFound = false;
         $scope.showContactInformation = false;
@@ -1401,6 +1432,7 @@
                             if (resp.data.IsConfirmed) {
                                 $scope.object.Country = $scope.declarant.CountryId;
                                 $scope.loadNamesNonResidents();
+                                $scope.loadNamesNonResidentsEn();
                                 $scope.object.NameNonResident = $scope.declarant.Id;
 
                                 $scope.addDeclarantDisabled = true;
@@ -1409,6 +1441,7 @@
                             else {
                                 $scope.object.Country = $scope.declarant.CountryId;
                                 $scope.loadNamesNonResidents();
+                                $scope.loadNamesNonResidentsEn();
                                 $scope.object.NameNonResident = "00000000-0000-0000-0000-000000000000";
                                 $scope.showContactInformation = true;
                                 $scope.enableCompanyData = true;
@@ -1682,8 +1715,17 @@
                         });
                     }
                     else {
-                        var message = "Заявитель с указанной страной и наименованием уже существует!";
-
+                        var message = "";
+                        if (response.NameRuMatch && response.NameEnMatch) {
+                            message = "Заявитель с указанной страной и наименованиями на русском и английском языках уже существует!";
+                        }
+                        else if (response.NameRuMatch) {
+                            message = "Заявитель с указанной страной и наименованием на русском языке уже существует!";
+                        }
+                        else if (response.NameEnMatch) {
+                            message = "Заявитель с указанной страной и наименованием на английском языке уже существует!";
+                        }
+                        
                         if ($scope.flag == true) {
                             return;
                         }

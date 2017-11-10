@@ -654,9 +654,11 @@ namespace PW.Ncels.Database.Repository.OBK
             return declarant;
         }
 
-        public OBK_Declarant ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel, out bool declarantAlreadyExist)
+        public OBK_Declarant ContractDeclarantSave(Guid guid, OBKDeclarantViewModel declarantViewModel, out bool declarantAlreadyExist, out bool nameRuMatch, out bool nameEnMatch)
         {
             declarantAlreadyExist = false;
+            nameRuMatch = false;
+            nameEnMatch = false;
 
             if (declarantViewModel.Id != null)
             {
@@ -669,7 +671,7 @@ namespace PW.Ncels.Database.Repository.OBK
                     }
                     else
                     {
-                        declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.CountryId);
+                        declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.NameEn, declarantViewModel.CountryId, out nameRuMatch, out nameEnMatch);
                     }
 
                     if (!declarantAlreadyExist)
@@ -702,7 +704,7 @@ namespace PW.Ncels.Database.Repository.OBK
                 }
                 else
                 {
-                    declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.CountryId);
+                    declarantAlreadyExist = DeclarantExist(declarantViewModel.Id, declarantViewModel.NameRu, declarantViewModel.NameEn, declarantViewModel.CountryId, out nameRuMatch, out nameEnMatch);
                 }
 
                 if (!declarantAlreadyExist)
@@ -771,15 +773,25 @@ namespace PW.Ncels.Database.Repository.OBK
             return exist;
         }
 
-        private bool DeclarantExist(Guid? id, string nameRu, Guid? countryId)
+        private bool DeclarantExist(Guid? id, string nameRu, string nameEn, Guid? countryId, out bool nameRuMatch, out bool nameEnMatch)
         {
+            nameRuMatch = false;
+            nameEnMatch = false;
             var exist = false;
             var declarant = id != null ?
-                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.IsResident == false && x.Id != id).FirstOrDefault()
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && (x.NameRu == nameRu || x.NameEn == nameEn) && x.CountryId == countryId && x.IsResident == false && x.Id != id).FirstOrDefault()
                 :
-                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && x.NameRu == nameRu && x.CountryId == countryId && x.IsResident == false).FirstOrDefault();
+                AppContext.OBK_Declarant.Where(x => x.IsConfirmed && (x.NameRu == nameRu || x.NameEn == nameEn) && x.CountryId == countryId && x.IsResident == false).FirstOrDefault();
             if (declarant != null)
             {
+                if (!string.IsNullOrEmpty(nameRu) && declarant.NameRu == nameRu)
+                {
+                    nameRuMatch = true;
+                }
+                if (!string.IsNullOrEmpty(nameEn) && declarant.NameEn == nameEn)
+                {
+                    nameEnMatch = true;
+                }
                 exist = true;
             }
             return exist;
@@ -877,6 +889,23 @@ namespace PW.Ncels.Database.Repository.OBK
                 return list;
             }
         }
+
+        public object GetNamesNonResidentsEn(Guid? countryId)
+        {
+            var noData = new { Id = Guid.Empty, Name = "Нет данных", NameKz = "Нет данных" };
+            if (countryId != null)
+            {
+                var obkDeclarants = AppContext.OBK_Declarant.Where(x => x.CountryId == countryId && x.IsConfirmed == true && x.IsResident == false).OrderBy(x => x.NameEn).Select(x => new { x.Id, Name = x.NameEn, x.NameKz }).ToList();
+                var list = new[] { noData }.ToList().Concat(obkDeclarants);
+                return list;
+            }
+            else
+            {
+                var list = new[] { noData }.ToList();
+                return list;
+            }
+        }
+
 
         public bool ClearContactData(Guid contractId)
         {

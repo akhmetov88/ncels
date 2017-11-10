@@ -227,6 +227,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" ng-show="declarant.IsResident == false">
+                                                                <div class="radio-inline">
+                                                                    <label><input type="radio" name="nonResidentSearchType" ng-model="searchNonResidentRussian" ng-value="true" ng-disabled="object.Country == null || object.viewMpde" ng-change="nonResidentSearchTypeChange();">Поиск на русском</label>
+                                                                </div>
+                                                                <div class="radio-inline">
+                                                                    <label><input type="radio" name="nonResidentSearchType" ng-model="searchNonResidentRussian" ng-value="false" ng-disabled="object.Country == null || object.viewMpde" ng-change="nonResidentSearchTypeChange();">Поиск на английском</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" ng-show="declarant.IsResident == false && searchNonResidentRussian == true">
                                                                 <label>Наименование на русском языке *</label>
                                                                 <div ng-class="{'input-group': showComments}">
                                                                     <ui-select ng-model="object.NameNonResident" theme="bootstrap" ui-select-selected ng-required="declarant.IsResident == false" ng-disabled="object.Country == null || object.viewMpde" ng-change="nameNonResidentChange();">
@@ -241,6 +249,17 @@
                                                                             <i class="glyphicon glyphicon-info-sign"></i>
                                                                         </a>
                                                                     </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" ng-show="declarant.IsResident == false && searchNonResidentRussian == false">
+                                                                <label>Наименование на английском языке *</label>
+                                                                <div>
+                                                                    <ui-select ng-model="object.NameNonResident" theme="bootstrap" ui-select-selected ng-required="declarant.IsResident == false" ng-disabled="object.Country == null || object.viewMpde" ng-change="nameNonResidentChange();">
+                                                                        <ui-select-match>{{$select.selected.Name}}</ui-select-match>
+                                                                        <ui-select-choices repeat="item.Id as item in NamesNonResidentsEn | filter: $select.search">
+                                                                            <div ng-bind-html="item.Name| highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" ng-show="declarantNotFound && declarant.IsResident == true">
