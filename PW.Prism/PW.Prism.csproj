@@ -312,6 +312,8 @@
     <Compile Include="ViewModels\Expertise\ExpertiseEntity.cs" />
     <Compile Include="ViewModels\OBK\OBKContractAddition.cs" />
     <Compile Include="ViewModels\OBK\OBKEntity.cs" />
+    <Compile Include="ViewModels\OBK\ObkExpProducts.cs" />
+    <Compile Include="ViewModels\OBK\ObkExpProductSeries.cs" />
     <Compile Include="ViewModels\PriceProject\PpHistoryViewModel.cs" />
     <Compile Include="ViewModels\PriceProject\ProtocolModel.cs" />
     <Compile Include="ViewModels\Tmc\AddOutTmcViewModel.cs" />
@@ -2338,6 +2340,8 @@
     <Content Include="Views\OBK_Ref_PriceList\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\OBKReferencePriceListModel.cshtml" />
     <Content Include="Views\SafetyAssessment\OutputResultView.cshtml" />
+    <Content Include="Views\OBKExpDocument\DeclarationResponse.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ObkExpProductSeries.cshtml" />
     <Content Include="Views\OBKContract\ContractAddition.cshtml" />
     <Content Include="Views\OBKContract\RefuseReasonContractAdditionDlg.cshtml" />
     <Content Include="Views\OBKContract\UploadContractAddition.cshtml" />

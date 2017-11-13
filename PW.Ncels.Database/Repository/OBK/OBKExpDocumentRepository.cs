@@ -14,6 +14,7 @@ using Kendo.Mvc.Extensions;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
+using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Notifications;
 
 namespace PW.Ncels.Database.Repository.OBK
@@ -221,6 +222,20 @@ namespace PW.Ncels.Database.Repository.OBK
         }
 
         #endregion
+
+
+        public List<OBK_RS_Products> GetProducts(Guid contractId)
+        {
+            var lists = AppContext.OBK_RS_Products.Where(e => e.ContractId == contractId).ToList();
+            return lists;
+        }
+
+        public List<OBK_Procunts_Series> GetProductSeries(int productId)
+        {
+            List<OBK_Procunts_Series> lists = AppContext.OBK_Procunts_Series.Where(e => e.OBK_RS_ProductsId == productId).ToList();
+            return lists;
+        }
+
 
 
 

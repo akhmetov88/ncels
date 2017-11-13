@@ -397,8 +397,7 @@ namespace PW.Ncels.Controllers
                 LogHelper.Log.Error("ex: " + ex.Message + " \r\nstack: " + ex.StackTrace);
             }
             var stream = new MemoryStream();
-            var contractId = payRepo.GetContractIdGuid(id);
-            var directionToPayment = payRepo.GetDirectionToPayments(contractId);
+            var directionToPayment = payRepo.GetDirectionToPayments(id);
             var signPayment = payRepo.GetDirectionSignData(directionToPayment.Id);
             if (signPayment.ChiefAccountantSign != null && signPayment.ExecutorSign != null)
             {
@@ -412,7 +411,7 @@ namespace PW.Ncels.Controllers
                     doc.Save(pdfFile, SaveFormat.Pdf);
                     pdfFile.Position = 0;
                     stream.Close();
-                    return File(pdfFile, "application/pdf", name);
+                    return new FileStreamResult(pdfFile, "application/pdf");
                 }
                 catch (Exception e)
                 {

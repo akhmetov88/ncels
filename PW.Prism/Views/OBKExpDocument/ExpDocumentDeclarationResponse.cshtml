@@ -43,8 +43,6 @@
                     {
                         <button type="button" class="btn btn-default" id="viewMotivRefusBtn"><span class="pwToolbarButtonPrint"></span><span class="pwToolbarButtonTitle">Печатная форма</span></button>
                     }
-
-                    @*<button type="button" id="act">Акт</button>*@
                 </div>
             </div>
             @if (Model.ExpDocumentResult)
@@ -312,12 +310,6 @@
                     alert("Ошибка при отправке");
             }
         });
-    });
-
-    $("#act").click(function() {
-        if (productSeriesId == null)
-            alert("Выберите серию из таблицы");
-        window.open('/OBKExpDocument/ActExportFilePdf?id=' + '@Model.Id');
     });
 
     $("#viewBtn").click(function () {

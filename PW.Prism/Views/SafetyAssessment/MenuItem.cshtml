@@ -120,12 +120,31 @@
             }
         });
     }
+
+
+
+    function showExpDocTest(event) {
+        var itemId = '@Model.Id';
+        window.Showbusy(event);
+        $.ajax({
+            url: "/OBKExpDocument/DeclarationResponse?Id=" + itemId,
+            success: function(result) {
+                $("#page" + '@Model.Id').html(result);
+                $("#loading").hide();
+            },
+            error: function() {
+                $("#loading").hide();
+                ShowAlert('Ошибка!', window.commonErrorMessage, window.AlertType.Error, 3000);
+            }
+        });
+    }
 </script>
 
 <div id="MainMenu" style="font-size: 14px; ">
     <div class="list-group panel">
         <a href="#" onclick="showDeclaration(event)" class="list-group-item"><span class="glyphicon glyphicon-file"></span> Заявление</a>
         <a href="#" onclick="showAttachFile(event)" class="list-group-item"><span class="glyphicon glyphicon-folder-open"></span> Перечень документов</a>
+        @*<a href="#" onclick="showExpDocTest(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов test</a>*@
         @if (Model.StageId == CodeConstManager.STAGE_OBK_EXPERTISE_DOC)
         {
             @*<a href="#" onclick="showExpDoc(event)" class="list-group-item"><span class="glyphicon glyphicon-star-empty"></span>Экспертиза документов</a>*@

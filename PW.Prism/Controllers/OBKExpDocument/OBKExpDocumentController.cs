@@ -7,13 +7,17 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using Aspose.Cells;
 using Aspose.Cells.Rendering;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Ncels.Helpers;
 using PW.Ncels.Database.Constants;
 using PW.Ncels.Database.DataModel;
 using PW.Ncels.Database.Helpers;
+using PW.Ncels.Database.Models.OBK;
 using PW.Ncels.Database.Repository.Common;
 using PW.Ncels.Database.Repository.OBK;
 using PW.Prism.Controllers.OBK;
+using PW.Prism.ViewModels.OBK;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Dictionary;
 
@@ -30,15 +34,18 @@ namespace PW.Prism.Controllers.OBKExpDocument
             var model = stage.OBK_AssessmentDeclaration;
 
             var expDocResult = expRepo.GetStageExpDocResult(model.Id);
-            if (expDocResult != null) {
+            if (expDocResult != null)
+            {
                 var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
-                ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name", expDocResult.ExpResult);
+                ViewData["UObkExpertiseResult"] =
+                    new SelectList(booleans, "ExpertiseResult", "Name", expDocResult.ExpResult);
             }
-            else {
+            else
+            {
                 var booleans = new ReadOnlyDictionaryRepository().GetUOBKCheck();
                 ViewData["UObkExpertiseResult"] = new SelectList(booleans, "ExpertiseResult", "Name");
             }
-            
+
             //// номерклатура
             //var nomeclature = new AssessmentStageRepository().GetRefNomenclature();
             //ViewData["UObkNomenclature"] = new SelectList(nomeclature, "Id", "Name");
@@ -65,7 +72,7 @@ namespace PW.Prism.Controllers.OBKExpDocument
         public ActionResult SaveExpDocument(bool expResult, Guid modelId)
         {
             expRepo.SaveExpDocumentResult(expResult, modelId);
-            return Json(new { isSuccess = true });
+            return Json(new {isSuccess = true});
         }
 
         public ActionResult GetSaveExpDoc(OBK_StageExpDocument expData)
@@ -119,7 +126,7 @@ namespace PW.Prism.Controllers.OBKExpDocument
                 };
                 new SafetyAssessmentRepository().SaveExpDocument(expDoc);
             }
-            return Json(new { isSuccess = true });
+            return Json(new {isSuccess = true});
         }
 
         public ActionResult ExpDocumentExportFilePdf(string productSeriesId, Guid id)
@@ -177,19 +184,19 @@ namespace PW.Prism.Controllers.OBKExpDocument
         public ActionResult GetSignExpDocument(Guid id)
         {
             var signData = expRepo.GetSignData(id);
-            return Json(new { data = signData }, JsonRequestBehavior.AllowGet);
+            return Json(new {data = signData}, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SaveSignedExpDocument(Guid id, string signedData)
         {
             var message = expRepo.SaveSignExpDoc(id, signedData);
-            return Json(new { message });
+            return Json(new {message});
         }
 
         public ActionResult ReturnToExecutor(Guid id)
         {
             var result = expRepo.GetReturnToExecutor(id, CodeConstManager.STAGE_OBK_EXPERTISE_DOC);
-            return Json(new { result }, JsonRequestBehavior.AllowGet);
+            return Json(new {result}, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ActExportFilePdf(Guid id)
@@ -224,5 +231,116 @@ namespace PW.Prism.Controllers.OBKExpDocument
             stream.Position = 0;
             return File(stream, "application/pdf", name);
         }
+
+
+
+
+
+
+
+
+
+        #region test
+
+        private ncelsEntities db = UserHelper.GetCn();
+
+        public ActionResult DeclarationResponse(Guid id)
+        {
+            var stage = expRepo.GetAssessmentStage(id);
+            return PartialView(stage);
+        }
+
+        public ActionResult GetProducts([DataSourceRequest] DataSourceRequest request, Guid contractId)
+        {
+            var lists = expRepo.GetProducts(contractId);
+            List<ObkExpProducts> products = new List<ObkExpProducts>();
+            foreach (var list in lists)
+            {
+                ObkExpProducts r = new ObkExpProducts();
+                r.ProductId = list.Id;
+                r.ProductNameRu = list.NameRu;
+                r.ProductCountryNameRu = list.CountryNameRu;
+                r.ProductProducerNameRu = list.ProducerNameRu;
+                products.Add(r);
+            }
+            var result = products.ToDataSourceResult(request);
+            return Json(result);
+        }
+
+        public ActionResult GetProductSeries([DataSourceRequest] DataSourceRequest request, int productId)
+        {
+            var lists = expRepo.GetProductSeries(productId);
+            List<ObkExpProductSeries> series = new List<ObkExpProductSeries>();
+            foreach (var list in lists)
+            {
+                var stage = list.OBK_StageExpDocument.FirstOrDefault(e => e.ProductSeriesId == list.Id);
+
+                ObkExpProductSeries s = new ObkExpProductSeries();
+                if (stage != null)
+                {
+                    s.ExpResult = stage.ExpResult;
+                    s.ExpStartDate = stage.ExpStartDate.ToString();
+                    s.ExpEndDate = stage.ExpEndDate.ToString();
+                    s.ExpReasonNameRu = stage.ExpReasonNameRu;
+                    s.ExpReasonNameKz = stage.ExpReasonNameKz;
+                    s.ExpProductNameRu = stage.ExpProductNameRu;
+                    s.ExpProductNameKz = stage.ExpProductNameKz;
+                    s.ExpAddInfoRu = stage.ExpAddInfoRu;
+                    s.ExpAddInfoKz = stage.ExpAddInfoKz;
+                    s.ExpConclusionNumber = stage.ExpConclusionNumber;
+                    s.ExpBlankNumber = stage.ExpBlankNumber;
+                    s.ExpApplicationNumber = stage.ExpApplicationNumber;
+                }
+                series.Add(s);
+                s.SeriesNameRu = list.Series;
+                s.SeriesResultText = stage.ExpResult ? "Соответсвует требованиям" : "Не соотвествует требованиям";
+            }
+            var result = series.ToDataSourceResult(request);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ExpDocumentUpdate([DataSourceRequest] DataSourceRequest request, ObkExpProductSeries productSeries)
+        {
+            if (productSeries != null && ModelState.IsValid)
+            {
+                var dbProcuntsSeries = db.OBK_StageExpDocument.SingleOrDefault(x => x.ProductSeriesId == productSeries.SeriesId);
+                if (dbProcuntsSeries != null)
+                {
+
+                }
+            }
+            return Json(new[] { productSeries }.ToDataSourceResult(request, ModelState));
+        }
+
+        public ActionResult ExpDocumentCreate([DataSourceRequest] DataSourceRequest request, ObkExpProductSeries productSeries)
+        {
+            if (productSeries != null && ModelState.IsValid)
+            {
+                var dbProcuntsSeries = db.OBK_StageExpDocument.SingleOrDefault(x => x.ProductSeriesId == productSeries.SeriesId);
+                if (dbProcuntsSeries != null)
+                {
+
+                }
+            }
+            return Json(new[] { productSeries }.ToDataSourceResult(request, ModelState));
+        }
+
+        public ActionResult ExpDocumentDestroy([DataSourceRequest] DataSourceRequest request, ObkExpProductSeries productSeries)
+        {
+            if (productSeries != null && ModelState.IsValid)
+            {
+                var dbProcuntsSeries = db.OBK_StageExpDocument.SingleOrDefault(x => x.ProductSeriesId == productSeries.SeriesId);
+                if (dbProcuntsSeries != null)
+                {
+
+                }
+            }
+            return Json(new[] { productSeries }.ToDataSourceResult(request, ModelState));
+        }
+
+        #endregion
+
+
+
     }
 }
